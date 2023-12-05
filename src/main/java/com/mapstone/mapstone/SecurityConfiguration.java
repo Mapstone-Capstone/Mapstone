@@ -1,6 +1,6 @@
-package com.mapshare.mapcollector;
+package com.mapstone.mapstone;
 
-import com.mapshare.mapcollector.services.UserDetailsLoader;
+import com.mapstone.mapstone.services.UserDetailsLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

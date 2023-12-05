@@ -1,6 +1,8 @@
-package com.mapshare.mapcollector.repositories;
+package com.mapstone.mapstone.repositories;
 
-import com.mapshare.mapcollector.models.Country;
+
+
+import com.mapstone.mapstone.models.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

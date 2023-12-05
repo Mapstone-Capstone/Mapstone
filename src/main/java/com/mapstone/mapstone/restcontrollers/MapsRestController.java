@@ -1,8 +1,8 @@
-package com.mapshare.mapcollector.restcontrollers;
+package com.mapstone.mapstone.restcontrollers;
 
 
-import com.mapshare.mapcollector.models.Map;
-import com.mapshare.mapcollector.repositories.MapRepository;
+import com.mapstone.mapstone.models.Map;
+import com.mapstone.mapstone.repositories.MapRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;

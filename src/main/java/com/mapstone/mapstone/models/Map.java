@@ -1,4 +1,4 @@
-package com.mapshare.mapcollector.models;
+package com.mapstone.mapstone.models;
 
 
 import jakarta.persistence.*;

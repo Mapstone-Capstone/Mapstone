@@ -1,6 +1,7 @@
-package com.mapshare.mapcollector.repositories;
+package com.mapstone.mapstone.repositories;
 
-import com.mapshare.mapcollector.models.Map;
+
+import com.mapstone.mapstone.models.Map;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MapRepository extends JpaRepository<Map, Long> {
