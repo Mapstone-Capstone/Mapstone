@@ -260,6 +260,8 @@ const onMapLoad = async () => {
                 //where the name is equal to the country name on the highlighted layer,set the opacity and color
                 "filter": ["==", "NAME", countryName]
             });
+
+            renderModal();
             //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
             // countryLayers.push(countryName);
         }
