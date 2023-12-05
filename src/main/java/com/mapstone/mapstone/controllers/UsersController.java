@@ -77,6 +77,7 @@ public class UsersController {
 
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
+        System.out.println(loggedInUser.getUsername());
         return "users/profile";
     }
 
