@@ -1,5 +1,6 @@
-import {MAP_BOX_TOKEN} from "./keys.js";
+import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
+
 let countriesVisited = [];
 let countryName;
 let countryId;
@@ -164,7 +165,7 @@ const renderModal = () => {
             </div>
             <div class="modal-body">
                 <button id="later-button">Not Right Now</button>
-                <button>Choose Photos</button>
+                 <input type="file" />
             </div>
         </div>
     `;
@@ -173,6 +174,31 @@ const renderModal = () => {
     laterButton.addEventListener("click", () => {
         modal.remove();
     });
+
+    const input = document.querySelector('input');
+
+    input.addEventListener("click", (e) => {
+
+        e.preventDefault();
+
+        const client = filestack.init(FILE_STACK_TOKEN);
+
+        input.addEventListener("change", (event) => {
+            event.preventDefault();
+
+            const files = event.target.files[0];
+
+
+            client.upload(files)
+                .then(response => {
+                    console.log('success: ', response)
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+        })
+
+    })
 
     document.body.appendChild(modal);
 };
@@ -263,6 +289,7 @@ const onMapLoad = async () => {
             //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
             // countryLayers.push(countryName);
         }
+        renderModal();
     });
 
 
@@ -306,10 +333,7 @@ const onMapLoad = async () => {
 
     addMarker(map);
 
-
 };
-
-
 
 export {
     onMapLoad
