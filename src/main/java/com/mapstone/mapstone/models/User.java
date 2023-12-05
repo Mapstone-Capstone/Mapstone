@@ -1,4 +1,4 @@
-package com.mapshare.mapcollector.models;
+package com.mapstone.mapstone.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;

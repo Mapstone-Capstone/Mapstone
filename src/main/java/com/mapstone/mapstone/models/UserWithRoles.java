@@ -1,4 +1,4 @@
-package com.mapshare.mapcollector.models;
+package com.mapstone.mapstone.models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;

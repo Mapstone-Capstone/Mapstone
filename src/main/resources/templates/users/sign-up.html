@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!--<head th:replace="~{partials/fragments :: head('Sign Up!', '/css/style.css')}"></head>-->
+<body>
+<!--<nav th:replace="~{partials/fragments :: nav}"></nav>-->
+<main>
+  <div class="page-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col d-flex flex-column justify-content-center form-wrapper w-100">
+          <form th:method="POST" th:action="@{/sign-up}" th:object="${user}" class="d-flex flex-column" id="register-form">
+            <div class="form-group d-flex flex-column gap-2">
+              <label for="username">Username
+                <input th:field="*{username}" name="username" class="form-control" id="username"
+                       placeholder="Enter username">
+              </label>
+              <label for="firstname">First Name
+                <input th:field="*{firstName}" name="firstname" class="form-control" id="firstname"
+                       placeholder="Your First Name">
+                <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="error"></p>
+              </label>
+
+              <label for="lastname">Last Name
+                <input type="text" th:field="*{lastName}" name="lastname" class="form-control" id="lastname"
+                       placeholder="Your Last Name">
+                <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="error"></p>
+              </label>
+
+              <label for="email">Email
+                <input type="text" th:field="*{email}" name="email" class="form-control" id="email"
+                       placeholder="Your email">
+                <!--  below: if the field has errors, display them -->
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error"></p>
+              </label>
+
+              <label for="country">Home Country
+                <input type="text" th:field="*{country}" name="country" class="form-control" id="country"
+                       placeholder="Select Country">
+                <!--  below: if the field has errors, display them -->
+                <p th:if="${#fields.hasErrors('country')}" th:errors="*{country}" th:errorclass="error"></p>
+              </label>
+
+              <label for="password">Password
+                <input type="password" th:field="*{password}" name="password" class="form-control" id="password"
+                       placeholder="Enter Password">
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></p>
+              </label>
+              <label for="password-confirm">Confirm Password
+                <input type="password" name="password-confirm" class="form-control" id="password-confirm"
+                       placeholder="Enter Password">
+              </label>
+              <p id="password-error"></p>
+              <input id="map" th:hidden="true">
+            </div>
+            <button id="register-button" type="submit" class="btn btn-primary">Register</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="/js/sign-up.js"></script>
+<!--<th:block th:replace="~{partials/fragments :: scripts('/js/sign-up.js')}"></th:block>-->
+</body>
+</html>
