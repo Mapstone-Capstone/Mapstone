@@ -1,5 +1,6 @@
 package com.mapstone.mapstone.controllers;
 
+import com.mapstone.mapstone.models.Country;
 import com.mapstone.mapstone.models.Map;
 import com.mapstone.mapstone.models.User;
 import com.mapstone.mapstone.repositories.CountryRepository;
@@ -39,7 +40,7 @@ public class UsersController {
     }
 
     @PostMapping("/sign-up")
-    public String createUser(@ModelAttribute @Valid User user, Model model, BindingResult result) {
+    public String createUser(@ModelAttribute @Valid User user, BindingResult result, Model model) {
 
         //check for validation errors
         if (result.hasErrors()) {
@@ -79,5 +80,7 @@ public class UsersController {
         model.addAttribute("map", userMap);
         return "users/profile";
     }
+
+
 
 }

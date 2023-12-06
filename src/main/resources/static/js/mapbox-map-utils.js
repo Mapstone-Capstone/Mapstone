@@ -129,7 +129,7 @@ function searchForCountry(map) {
 };
 
 
-function addMarker(map)  {
+function addMarker(map) {
     //user can add a marker to the map using the add marker button
     const addMarker = document.getElementById("add-marker");
     addMarker.addEventListener("click", function (e) {
@@ -197,7 +197,6 @@ const renderModal = () => {
 };
 
 
-
 const onMapLoad = async () => {
     let mapDetails = await getUserMapDetails(id);
     //returns a map object with styling, zoom, projection, and color
@@ -257,12 +256,15 @@ const onMapLoad = async () => {
             countryId = features[0].id;
             console.log("Clicked Country Name:", countryName);
             console.log("Clicked area info:", countryId);
-
+            //pushes the clicked country name to the countriesVisited array so that it can be used to add the country to the user_countries table
+            countriesVisited.push(countryName);
             let allLayers = map.getStyle().layers;
             for (let i = 0; i < allLayers.length; i++) {
-                //if the country is already filled (already clicked), remove the fill layer
+                //if the country is already filled (already clicked), and the user clicks it again, remove the fill layer
                 if (allLayers[i].id === countryName) {
                     map.removeLayer(countryName);
+                    //remove the country from the countriesVisited array
+                    countriesVisited.splice(countriesVisited.indexOf(countryName), 1);
                     return;
                 }
             }
@@ -279,29 +281,34 @@ const onMapLoad = async () => {
                 //where the name is equal to the country name on the highlighted layer,set the opacity and color
                 "filter": ["==", "NAME", countryName]
             });
-            //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
-            // countryLayers.push(countryName);
+
+            renderModal();
+
         }
         renderModal();
     });
 
 
     const updateMap = document.getElementById("update-map");
-//when update button is clicked, the countryLayers array is merged into one layer
-    updateMap.addEventListener("click", function (e) {
+    //when update button is clicked, the countryLayers array is merged into one layer
+    updateMap.addEventListener("click", async function (e) {
         e.preventDefault();
-        console.log("clicked");
 
         //get all the map layers, including default layers
         let allLayers = map.getStyle().layers;
         // gets only the layers that belong to the user
         //if the layer already exists, dont try to add it again
+        //REFACTORED: THIS IS THE GOOD CODE: MAKING NOTE IN CASE OF MERGE CONFLICT
+        let userLayers = [];
+        allLayers.forEach((layer) => {
+            if (layer.source === "world" && layer.id !== "world" && layer.id !== "highlighted") {
+                userLayers.push(layer);
+            }
+        });
 
-        let slicedLayers = allLayers.slice(52, allLayers.length);
-        console.log(slicedLayers);
 
         //stringify the layers so that it can be parsed and stored in the database
-        let stringifiedLayers = JSON.stringify(slicedLayers);
+        let stringifiedLayers = JSON.stringify(userLayers);
 
         let mapId = document.getElementById("map-id");
 
@@ -319,7 +326,16 @@ const onMapLoad = async () => {
             alert("Please fill out all fields.");
             return;
         }
+
+        //add the countries clicked on to the user_countries table by making a post request to /countries
+        // countriesVisited.forEach((country) => {
+        //     console.log(country);
+        //     postCountry(country);
+        // });
+
+
         updateMapForm.submit();
+
     });
 
     searchForCountry(map);
@@ -327,6 +343,23 @@ const onMapLoad = async () => {
     addMarker(map);
 
 };
+
+//TODO: GET A 403 ERROR WHEN MAKING A POST REQUEST TO THIS ENDPOINT, WHY???
+function postCountry(country) {
+    const url = `http://localhost:8080/api/country/add`;
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(country),
+    };
+    fetch(url, options)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+        });
+}
 
 export {
     onMapLoad
