@@ -165,7 +165,8 @@ const renderModal = () => {
             </div>
             <div class="modal-body">
                 <button id="later-button">Not Right Now</button>
-                 <input type="file" />
+                <button id="upload-button">Upload Photos</button>
+<!--                <input id="stashFilestackURL" name="stashFilestackURL" value="replaceme" th:field="*{img}" type="hidden">-->
             </div>
         </div>
     `;
@@ -175,28 +176,20 @@ const renderModal = () => {
         modal.remove();
     });
 
-    const input = document.querySelector('input');
+    const uploadBtn = modal.querySelector('#upload-button');
 
-    input.addEventListener("click", (e) => {
-
-        e.preventDefault();
+    uploadBtn.addEventListener("click", (e) => {
 
         const client = filestack.init(FILE_STACK_TOKEN);
+        const options = {
+            onUploadDone:
+                function (res){
+                    console.log(res.filesUploaded[0].url);
+                    alert("Log fired");
+                }
+        }
 
-        input.addEventListener("change", (event) => {
-            event.preventDefault();
-
-            const files = event.target.files[0];
-
-
-            client.upload(files)
-                .then(response => {
-                    console.log('success: ', response)
-                })
-                .catch(error => {
-                    console.log(error)
-                });
-        })
+        client.picker(options).open();
 
     })
 
