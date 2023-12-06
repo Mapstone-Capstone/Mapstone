@@ -202,6 +202,10 @@ public class User {
         return countries;
     }
 
+    public void setCountries(Country country) {
+        this.countries.add(country);
+    }
+
     public void setCountries(List<Country> countries) {
         this.countries = countries;
     }

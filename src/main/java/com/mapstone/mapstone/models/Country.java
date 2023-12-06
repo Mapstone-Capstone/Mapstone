@@ -15,15 +15,19 @@ public class Country {
     @Column(name = "country_name", length = 250)
     private String name;
 
+    @Column(name = "continent", length = 250)
+    private String continent;
+
     //a user can upload many images to one country
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private List<Image> images;
 
+    @ManyToMany(mappedBy = "countries")
+    private List<User> users;
+
     public Country() {
     }
 
-    @ManyToMany(mappedBy = "countries")
-    private List<User> users;
 
     public Country(long id, String name) {
         this.id = id;

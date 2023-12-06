@@ -13,7 +13,7 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
 
     Country getCountryByName(String name);
 
-
+    Country getCountryByNameLike(String name);
 
     List<Country> getAllByUsers_Id(long id);
 }
