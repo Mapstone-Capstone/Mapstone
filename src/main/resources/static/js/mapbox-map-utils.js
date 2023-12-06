@@ -178,6 +178,7 @@ const renderModal = () => {
 
     const uploadBtn = modal.querySelector('#upload-button');
 
+
     uploadBtn.addEventListener("click", (e) => {
 
         const client = filestack.init(FILE_STACK_TOKEN);
@@ -192,6 +193,7 @@ const renderModal = () => {
         client.picker(options).open();
 
     })
+
 
     document.body.appendChild(modal);
 };
@@ -282,7 +284,8 @@ const onMapLoad = async () => {
                 "filter": ["==", "NAME", countryName]
             });
 
-            renderModal();
+            //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
+            // countryLayers.push(countryName);
 
         }
         renderModal();
@@ -343,6 +346,7 @@ const onMapLoad = async () => {
     addMarker(map);
 
 };
+
 
 //TODO: GET A 403 ERROR WHEN MAKING A POST REQUEST TO THIS ENDPOINT, WHY???
 function postCountry(country) {

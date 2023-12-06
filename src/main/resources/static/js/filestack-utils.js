@@ -2,7 +2,7 @@ import { FILE_STACK_TOKEN } from "./keys.js";
 
 //initialize filestack with api key
 const client = filestack.init(FILE_STACK_TOKEN);
-client.picker().open();
+client.picker().open();  //made corrections
 
 
 //add event listener to file upload button, when a file is selected, upload it to filestack
@@ -22,6 +22,7 @@ client.picker().open();
 //         });
 //     });
 // }
+
 //
 // //initialize filestack with api key
 // const client = filestack.init(fsKey);

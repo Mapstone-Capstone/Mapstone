@@ -1,0 +1,112 @@
+body {
+
+    background: linear-gradient(300deg, #dee1df, #ccb6b6, #d8d8e1);
+    background-size: 800% 800%;
+    /*animation: gradient-animation 6s ease infinite;*/
+    height: 100%;
+}
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 50% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+}
+video {
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.video-wrapper {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -2;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.navbar-custom{
+    background-color: #06063d;
+}
+.container.hero {
+    width: 800px;
+}
+.container.hero h1 {
+    font-family: 'Kanit', sans-serif;
+    font-size: 77px;
+    font-weight: 400;
+    position: relative;
+    color: white;
+    text-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+.black-overlay{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.37);
+    z-index: -1;
+}
+input.btn , button.btn {
+    background-color: #06063d;
+    color: whitesmoke;
+}
+input.btn:hover, button.btn:hover{
+    background-color: #06063d;
+    color: whitesmoke;
+    transition: 0.3s;
+}
+
+h1, h3 {
+    color: whitesmoke;
+    margin: 10px;
+    padding: 10px;
+    /*text-shadow: 2px 2px 5px white;*/
+    z-index: 2;
+}
+
+.container.hero h1 {
+    font-size: 80px;
+}
+
+h3 {
+    font-size: 30px;
+    color: whitesmoke;
+}
+p {
+    font-size: 24px;
+}
+
+.container.hero p {
+    font-family: 'Padauk', sans-serif;
+    color: white;
+    font-size: 22px;
+}
+.container {
+    min-width: 1100px;
+}
+button a {
+    color: whitesmoke;
+}
+
+p.about{
+    text-shadow: 2px 2px 5px black;
+}
