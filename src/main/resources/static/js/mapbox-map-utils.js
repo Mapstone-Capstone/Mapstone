@@ -309,13 +309,13 @@ const onMapLoad = async () => {
         }
 
         //add the countries clicked on to the user_countries table by making a post request to /countries
-        countriesVisited.forEach((country) => {
-            console.log(country);
-            // postCountry(country);
-        });
+        // countriesVisited.forEach((country) => {
+        //     console.log(country);
+        //     postCountry(country);
+        // });
 
 
-        // updateMapForm.submit();
+        updateMapForm.submit();
 
     });
 
