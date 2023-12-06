@@ -1,4 +1,4 @@
-import {MAP_BOX_TOKEN} from "./keys.js";
+import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
 
 let countriesVisited = [];
@@ -165,7 +165,8 @@ const renderModal = () => {
             </div>
             <div class="modal-body">
                 <button id="later-button">Not Right Now</button>
-                <button>Choose Photos</button>
+                <button id="upload-button">Upload Photos</button>
+<!--                <input id="stashFilestackURL" name="stashFilestackURL" value="replaceme" th:field="*{img}" type="hidden">-->
             </div>
         </div>
     `;
@@ -174,6 +175,23 @@ const renderModal = () => {
     laterButton.addEventListener("click", () => {
         modal.remove();
     });
+
+    const uploadBtn = modal.querySelector('#upload-button');
+
+    uploadBtn.addEventListener("click", (e) => {
+
+        const client = filestack.init(FILE_STACK_TOKEN);
+        const options = {
+            onUploadDone:
+                function (res){
+                    console.log(res.filesUploaded[0].url);
+                    alert("Log fired");
+                }
+        }
+
+        client.picker(options).open();
+
+    })
 
     document.body.appendChild(modal);
 };
@@ -267,6 +285,7 @@ const onMapLoad = async () => {
             renderModal();
 
         }
+        renderModal();
     });
 
 
@@ -341,7 +360,6 @@ function postCountry(country) {
             console.log(data);
         });
 }
-
 
 export {
     onMapLoad
