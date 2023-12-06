@@ -1,5 +1,6 @@
 package com.mapstone.mapstone.controllers;
 
+import com.mapstone.mapstone.models.Country;
 import com.mapstone.mapstone.models.Map;
 import com.mapstone.mapstone.models.User;
 import com.mapstone.mapstone.repositories.CountryRepository;
@@ -13,7 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class UsersController {
@@ -77,8 +81,22 @@ public class UsersController {
 
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
-        System.out.println(loggedInUser.getUsername());
+
         return "users/profile";
     }
-
+    @GetMapping("/viewprofile/{id}")
+    public String viewGuestProfile(@PathVariable Long id, Model model){
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == null){
+            model.addAttribute("loggedIn",false);
+        }else {
+            model.addAttribute("loggedIn",true);
+        }
+        User chosen = userDao.getReferenceById(id);
+        model.addAttribute("user",chosen);
+        Map userMap = mapDao.getMapByUserId(chosen.getId());
+        List<Country> list = countryDao.getAllByUsers_Id(chosen.getId());
+        model.addAttribute("countries", list);
+        model.addAttribute("map", userMap);
+        return "users/viewprofile";
+    }
 }

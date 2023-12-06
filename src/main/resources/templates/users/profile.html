@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!--<head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}"></head>-->
 <body>
-<!--<nav th:replace="~{partials/fragments :: nav}"></nav>-->
+<nav th:replace="~{partials/fragments :: nav}"></nav>
 <main class="page-wrapper">
 
 
@@ -10,8 +10,7 @@
 <!--<div sec:authentication="isAuthenticated()">-->
 <!--  <h3>Hello <span th:text="${#authentication.principal.username}"></span>!</h3>-->
 <!--</div>-->
-
-<div id="map" style="width: 50dvw; height: 70dvh;">
+  <div id="map" style="width: 50dvw; height: 70dvh;">
 
 </div>
 
@@ -81,7 +80,7 @@
       <button>Reset Map</button>
     </form>
   </div>
-
+  <footer th:replace="~{partials/fragments :: footer}"></footer>
 </main>
 <script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 <!--    MapBox API JS-->
