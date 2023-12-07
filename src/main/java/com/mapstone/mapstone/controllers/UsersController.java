@@ -16,7 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class UsersController {
@@ -85,9 +88,31 @@ public class UsersController {
 
         model.addAttribute("image", new Image());
 
+        model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
+
+        model.addAttribute("image", new Image());
+
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
+
         return "users/profile";
+    }
+    @GetMapping("/viewprofile/{id}")
+    public String viewGuestProfile(@PathVariable Long id, Model model){
+        //Checks if user is logged in
+        //When not logged in a user, it will be called an anonymousUser
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal()!="anonymousUser"){
+            model.addAttribute("loggedIn",true);
+        }else {
+            model.addAttribute("loggedIn",false);
+        }
+        User chosen = userDao.getReferenceById(id);
+        model.addAttribute("user",chosen);
+        Map userMap = mapDao.getMapByUserId(chosen.getId());
+        List<Country> list = countryDao.getAllByUsers_Id(chosen.getId());
+        model.addAttribute("countries", list);
+        model.addAttribute("map", userMap);
+        return "users/viewprofile";
     }
 
 @PostMapping("/profile-picture")
@@ -100,12 +125,8 @@ public class UsersController {
         //save the user object to the database
         userDao.save(userFromDb);
 
+
         return "redirect:/profile";
     }
-
-
-
-
-
-
 }
+

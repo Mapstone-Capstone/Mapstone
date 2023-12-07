@@ -3,8 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-keys1.js
-/js/keys1.js
+keys.js
+/js/keys.js
 
 ### STS ###
 .apt_generated

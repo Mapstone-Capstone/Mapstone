@@ -33,4 +33,6 @@ public class ImageController {
 
         return "redirect:profile";
     }
+
 }
+

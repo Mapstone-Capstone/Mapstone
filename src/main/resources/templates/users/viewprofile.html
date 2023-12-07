@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--<head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}"></head>-->
+<!-- TODO make mapboxgl-control-container class hidden -->
+<body>
+<nav th:replace="~{partials/fragments :: nav}"></nav>
+<main class="page-wrapper">
+
+
+
+    <!--<div sec:authentication="isAuthenticated()">-->
+    <!--  <h3>Hello <span th:text="${#authentication.principal.username}"></span>!</h3>-->
+    <!--</div>-->
+
+    <div id="map" style="width: 50dvw; height: 70dvh;">
+
+    </div>
+<!--    Comments that show when loggedIn flag is true (UserController)-->
+    <div th:if="${loggedIn}">
+        <h1>Hello</h1>
+    </div>
+    <div>
+        <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">
+            <input id="map-id" th:hidden="true" th:field="*{id}"/>
+            <input id = "user-id" th:hidden="true" th:field="*{user}"/>
+            <input id="updated-data" value="" th:hidden="true" th:field="*{data}">
+
+
+        </form>
+    </div>
+
+<!--    <div>-->
+<!--        <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">-->
+<!--            <input th:hidden="true" th:field="*{id}"/>-->
+<!--            <button>Reset Map</button>-->
+<!--        </form>-->
+<!--    </div>-->
+
+</main>
+<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+<!--    MapBox API JS-->
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+<!--    Mapbox map utils-->
+<script type="module" src="/js/viewprofile.js"></script>
+<script type="module" src="/js/viewProfileMain.js"></script>
+<footer th:replace="~{partials/fragments :: footer}"></footer>
+</body>
+</html>

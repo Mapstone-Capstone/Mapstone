@@ -4,7 +4,9 @@ package com.mapstone.mapstone.repositories;
 import com.mapstone.mapstone.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.List;
 
+public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
+    List<User> findAllByUsernameContainsIgnoreCase(String search);
 }

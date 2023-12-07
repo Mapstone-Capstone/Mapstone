@@ -45,14 +45,19 @@ public class SecurityConfiguration {
                         .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*", "/profile-picture", "url-images").authenticated()
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/login", "/sign-up", "/profile", "/api/**", "/country" ).permitAll()
-                        // allow loading of static resources
+                        .requestMatchers("/", "/login", "/sign-up", "/api/**", "/about-us/**").permitAll()
 
-                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**").permitAll()
+                        .requestMatchers("/", "/login", "/sign-up","viewprofile/*","viewprofile/**","/search","/api/**", "/country").permitAll()
+
+
+                        // allow loading of static resources
+                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**", "/images/*").permitAll()
 
                 )
                 /* Login configuration */
                 .formLogin((login) -> login.loginPage("/login").defaultSuccessUrl("/profile"))
+//                TODO GENERATE LOGIN FROM REGISTRATION PAGE
+//                .formLogin((login) -> login.loginPage("/sign-up").defaultSuccessUrl("/welcome"))
                 /* Logout configuration */
                 .logout((logout) -> logout.logoutSuccessUrl("/"))
                 .httpBasic(withDefaults());

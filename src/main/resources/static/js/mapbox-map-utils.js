@@ -155,6 +155,7 @@ function addMarker(map) {
 
 
 //Thymeleaf will not work with dynamically created html
+
 const renderModal = () => {
 
     // const laterButton = document.querySelector("#later-button");
@@ -179,7 +180,6 @@ const renderModal = () => {
         client.picker(options).open();
     })
 };
-
 
 
 const onMapLoad = async () => {
@@ -287,7 +287,6 @@ const onMapLoad = async () => {
             });
             //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
             // countryLayers.push(countryName);
-
         }
         renderModal();
     });
