@@ -17,7 +17,14 @@
     </div>
 <!--    Comments that show when loggedIn flag is true (UserController)-->
     <div th:if="${loggedIn}">
-        <h1>Hello</h1>
+        <form th:action="@{/viewprofile/{id} (id = ${user.id})}" th:method="post" th:object="${comment}">
+            Comment:
+            <input th:field="*{comment}"/>
+<!--            TODO PUT path id into form-->
+            <input th:type="hidden" th:field="*{user}">
+            <br />
+            <input type="submit" />
+        </form>
     </div>
     <div>
         <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">
