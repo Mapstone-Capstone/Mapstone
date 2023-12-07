@@ -109,7 +109,7 @@ async function addUserLayers(map, mapDetails, id) {
             });
         }
     }
-};
+}
 
 
 function searchForCountry(map) {
@@ -155,57 +155,30 @@ function addMarker(map) {
 
 
 //Thymeleaf will not work with dynamically created html
-function renderModal()  {
-    console.log("rendermodal click");
-    const modal = document.createElement("div");
-    modal.classList.add("modal");
-    modal.innerHTML = `
-        <div class="modal-bg"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title"</h2>
-            </div>
-            <div class="modal-body">
-                    <button id="later-button">Not Right Now</button>
-                    <button id="upload-button">Upload Photos</button>
-                <form id="img-form" action="@{/url-images}" method="POST">
-<!--                    <button id="confirm">Confirm Photo</button>-->
-<!--                    <input id="user-id"  type="hidden"/>-->
-<!--                    <input id = "country-id"  type="hidden"/>-->
-                    <input id="image-url" name="image-url" value="" type="hidden"/>
-                    <button type="submit">Confirm Photo</button>
-                </form>
-            </div>
-        </div>
-    `;
 
-    const laterButton = modal.querySelector("#later-button");
-    // event listener for close button
-    laterButton.addEventListener("click", () => {
-        modal.remove();
-    });
+const renderModal = () => {
 
-    // const confirmBtn = modal.querySelector('#confirm');
-    // const uploadBtn = modal.querySelector('#upload-button');
-    // const imgForm = modal.querySelector('#img-form');
-    // const input = modal.querySelector('#image-url');
+    // const laterButton = document.querySelector("#later-button");
+    const confirmBtn = document.querySelector('#confirm');
+    const uploadBtn = document.querySelector('#upload-button');
+    const imgForm = document.querySelector('#img-form');
+    const input = document.querySelector('#url-for-image');
 
+    // event for image upload
+    uploadBtn.addEventListener("click", (e) => {
 
-    // uploadBtn.addEventListener("click", (e) => {
-    //
-    //     e.preventDefault();
-    //
-    //     const client = filestack.init(FILE_STACK_TOKEN);
-    //     const options = {
-    //         onUploadDone:
-    //             function (response){
-    //                 input.value = response.filesUploaded[0].url;
-    //             }
-    //     }
-    //
-    //     client.picker(options).open();
-    // })
-    document.body.appendChild(modal);
+        e.preventDefault();
+
+        const client = filestack.init(FILE_STACK_TOKEN);
+        const options = {
+            onUploadDone:
+                function (response){
+                    input.value = response.filesUploaded[0].url;
+                }
+        }
+
+        client.picker(options).open();
+    })
 };
 
 
@@ -214,6 +187,8 @@ const onMapLoad = async () => {
     //returns a map object with styling, zoom, projection, and color
     let map = await generateUserMap(mapDetails);
     //returns user map details so we can access the color
+
+
 
     map.on("load", async function () {
         //adds the default layers to the map
@@ -252,11 +227,27 @@ const onMapLoad = async () => {
             }
             hoveredPolygonId = null;
         });
+
     });
 
 
     //when a country is clicked, fill the country with the color selected by the user
     map.on("click", function (e) {
+
+        //add a dynamic button to pop up modal
+        const modal = document.getElementById('exampleModal');
+        modal.style.display = 'block';
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-hidden', 'false');
+
+        // let classList = ['modal', 'fade', 'show'];
+        // modal.setAttribute('class', classList.forEach(function (element) {
+        //
+        //     return element;
+        // }))
+
+
 
         // Get features at the clicked point
         let features = map.queryRenderedFeatures(e.point);
@@ -292,6 +283,7 @@ const onMapLoad = async () => {
                 },
                 //where the name is equal to the country name on the highlighted layer,set the opacity and color
                 "filter": ["==", "NAME", countryName]
+
             });
             //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
             // countryLayers.push(countryName);

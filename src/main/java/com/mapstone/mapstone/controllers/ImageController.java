@@ -6,6 +6,7 @@ import com.mapstone.mapstone.repositories.ImageRepository;
 import com.mapstone.mapstone.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,12 +27,10 @@ public class ImageController {
     }
 
     @PostMapping("/url-images")
-    public String updateImages(@RequestParam(name = "image-url") String image, Model model) {
+    public String updateImages(@ModelAttribute Image image) {
 
-        System.out.println("This is the image url: " + image);
+        imageDao.save(image);
 
-//        imageDao.save(image);
-//        model.addAttribute("image", image);
         return "redirect:profile";
     }
 

@@ -86,8 +86,6 @@ public class UsersController {
         //TODO:get the users list of countries visited
 //        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
 
-        model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
-
         model.addAttribute("image", new Image());
 
         model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
