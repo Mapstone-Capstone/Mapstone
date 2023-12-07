@@ -28,6 +28,7 @@
       <section class="col">
 
 
+
         <div>
           <input id="username" th:hidden="true" th:value="${#authentication.principal.username}"/>
           <input id="password" th:hidden="true" th:value="${#authentication.principal.password}"/>
@@ -97,20 +98,13 @@
           <button type="button" id="update-map">Update Map</button>
         </div>
 
-        <div>
-          <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
-            <input th:hidden="true" th:field="*{id}"/>
-            <button>Reset Map</button>
-          </form>
-        </div>
-
-        <form id="add-country" th:action="@{/country}" th:method="POST">
-          <input name="countryName" id="country-names" value="">
-        </form>
-        <button id="add-countries">Test add countries</button>
-      </section>
-    </div>
+  <div>
+    <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
+      <input th:hidden="true" th:field="*{id}"/>
+      <button>Reset Map</button>
+    </form>
   </div>
+  <footer th:replace="~{partials/fragments :: footer}"></footer>
 </main>
 <th:block
 </body>
