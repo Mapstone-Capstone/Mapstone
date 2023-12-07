@@ -155,7 +155,8 @@ function addMarker(map) {
 
 
 //Thymeleaf will not work with dynamically created html
-const renderModal = () => {
+function renderModal()  {
+    console.log("rendermodal click");
     const modal = document.createElement("div");
     modal.classList.add("modal");
     modal.innerHTML = `
@@ -184,26 +185,26 @@ const renderModal = () => {
         modal.remove();
     });
 
-    const confirmBtn = modal.querySelector('#confirm');
-    const uploadBtn = modal.querySelector('#upload-button');
-    const imgForm = modal.querySelector('#img-form');
-    const input = modal.querySelector('#image-url');
+    // const confirmBtn = modal.querySelector('#confirm');
+    // const uploadBtn = modal.querySelector('#upload-button');
+    // const imgForm = modal.querySelector('#img-form');
+    // const input = modal.querySelector('#image-url');
 
 
-    uploadBtn.addEventListener("click", (e) => {
-
-        e.preventDefault();
-
-        const client = filestack.init(FILE_STACK_TOKEN);
-        const options = {
-            onUploadDone:
-                function (response){
-                    input.value = response.filesUploaded[0].url;
-                }
-        }
-
-        client.picker(options).open();
-    })
+    // uploadBtn.addEventListener("click", (e) => {
+    //
+    //     e.preventDefault();
+    //
+    //     const client = filestack.init(FILE_STACK_TOKEN);
+    //     const options = {
+    //         onUploadDone:
+    //             function (response){
+    //                 input.value = response.filesUploaded[0].url;
+    //             }
+    //     }
+    //
+    //     client.picker(options).open();
+    // })
     document.body.appendChild(modal);
 };
 
@@ -295,7 +296,6 @@ const onMapLoad = async () => {
             });
             //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
             // countryLayers.push(countryName);
-
         }
         renderModal();
     });
