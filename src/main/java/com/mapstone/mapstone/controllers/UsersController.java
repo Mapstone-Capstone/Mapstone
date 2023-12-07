@@ -1,9 +1,11 @@
 package com.mapstone.mapstone.controllers;
 
 import com.mapstone.mapstone.models.Country;
+import com.mapstone.mapstone.models.Image;
 import com.mapstone.mapstone.models.Map;
 import com.mapstone.mapstone.models.User;
 import com.mapstone.mapstone.repositories.CountryRepository;
+import com.mapstone.mapstone.repositories.ImageRepository;
 import com.mapstone.mapstone.repositories.MapRepository;
 import com.mapstone.mapstone.repositories.UserRepository;
 import jakarta.validation.Valid;
@@ -23,13 +25,16 @@ public class UsersController {
     private final MapRepository mapDao;
 
     private final CountryRepository countryDao;
+
+    private final ImageRepository imageDao;
     private PasswordEncoder passwordEncoder;
 
-    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao) {
+    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao) {
         this.userDao = userDao;
         this.mapDao = mapDao;
         this.passwordEncoder = passwordEncoder;
         this.countryDao = countryDao;
+        this.imageDao = imageDao;
     }
 
     @GetMapping("/sign-up")
@@ -75,6 +80,10 @@ public class UsersController {
 
         //TODO:get the users list of countries visited
         model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
+
+        model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
+
+        model.addAttribute("image", new Image());
 
         //send the user's map to the profile page
         model.addAttribute("map", userMap);

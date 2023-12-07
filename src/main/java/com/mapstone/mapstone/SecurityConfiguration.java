@@ -42,10 +42,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*").authenticated()
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/login", "/sign-up", "/api/**").permitAll()
+                        .requestMatchers("/", "/login", "/sign-up", "/api/**", "/about-us/**").permitAll()
                         // allow loading of static resources
-
-                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**").permitAll()
+                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**", "/images/*").permitAll()
 
                 )
                 /* Login configuration */

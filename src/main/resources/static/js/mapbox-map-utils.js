@@ -153,6 +153,7 @@ function addMarker(map) {
     });
 };
 
+//Thymeleaf will not work with dynamically created html
 const renderModal = () => {
     const modal = document.createElement("div");
     modal.classList.add("modal");
@@ -161,43 +162,48 @@ const renderModal = () => {
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title"</h2>
-            
             </div>
             <div class="modal-body">
-                <button id="later-button">Not Right Now</button>
-                <button id="upload-button">Upload Photos</button>
-<!--                <input id="stashFilestackURL" name="stashFilestackURL" value="replaceme" th:field="*{img}" type="hidden">-->
+                    <button id="later-button">Not Right Now</button>
+                    <button id="upload-button">Upload Photos</button>
+                <form id="img-form" action="@{/url-images}" method="POST">
+<!--                    <button id="confirm">Confirm Photo</button>-->
+<!--                    <input id="user-id"  type="hidden"/>-->
+<!--                    <input id = "country-id"  type="hidden"/>-->
+                    <input id="image-url" name="image-url" value="" type="hidden"/>
+                    <button type="submit">Confirm Photo</button>
+                </form>
             </div>
         </div>
     `;
+
     const laterButton = modal.querySelector("#later-button");
     // event listener for close button
     laterButton.addEventListener("click", () => {
         modal.remove();
     });
 
+    const confirmBtn = modal.querySelector('#confirm');
     const uploadBtn = modal.querySelector('#upload-button');
-
+    const imgForm = modal.querySelector('#img-form');
+    const input = modal.querySelector('#image-url');
 
     uploadBtn.addEventListener("click", (e) => {
+
+        e.preventDefault();
 
         const client = filestack.init(FILE_STACK_TOKEN);
         const options = {
             onUploadDone:
-                function (res){
-                    console.log(res.filesUploaded[0].url);
-                    alert("Log fired");
+                function (response){
+                    input.value = response.filesUploaded[0].url;
                 }
         }
 
         client.picker(options).open();
-
     })
-
-
     document.body.appendChild(modal);
 };
-
 
 const onMapLoad = async () => {
     let mapDetails = await getUserMapDetails(id);
