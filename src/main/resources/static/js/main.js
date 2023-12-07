@@ -1,7 +1,7 @@
 import {
     onMapLoad
 } from "./mapbox-map-utils.js";
-import {FILE_STACK_TOKEN} from "./keys1.js";
+import {FILE_STACK_TOKEN} from "./keys.js";
 
 //initialize filestack with api key
 const client = filestack.init(FILE_STACK_TOKEN);
