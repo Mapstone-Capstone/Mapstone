@@ -146,7 +146,6 @@
         </div>
       </section>
     </div>
-  </div>
 	
 	<!-- FileStack Upload Images -->
 	<form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
@@ -161,7 +160,7 @@
 	<div class="modal-footer">
 		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 	</div>
-	
+  
 </main>
 <footer th:replace="~{partials/fragments :: footer}"></footer>
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
