@@ -1,5 +1,6 @@
 package com.mapstone.mapstone.controllers;
 
+import com.mapstone.mapstone.models.Country;
 import com.mapstone.mapstone.models.Map;
 import com.mapstone.mapstone.models.User;
 import com.mapstone.mapstone.repositories.CountryRepository;
@@ -39,7 +40,7 @@ public class UsersController {
     }
 
     @PostMapping("/sign-up")
-    public String createUser(@ModelAttribute @Valid User user, Model model, BindingResult result) {
+    public String createUser(@ModelAttribute @Valid User user, BindingResult result, Model model) {
 
         //check for validation errors
         if (result.hasErrors()) {
@@ -72,12 +73,16 @@ public class UsersController {
         //get the user's map
         Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
 
+        model.addAttribute("country", new Country());
+
         //TODO:get the users list of countries visited
-        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
+//        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
 
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
         return "users/profile";
     }
+
+
 
 }

@@ -1,16 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet"/>
-<!--  <link href="/css/style.css" rel="stylesheet"/>-->
+<head th:replace="~{partials/fragments :: head('Home', '/css/home.css')}">
+
 </head>
 <body>
-<!--<nav th:replace="partials/fragments :: nav"></nav>-->
-<h1>Landing Page</h1>
+<nav th:replace="~{partials/fragments :: nav}"></nav>
+<div class="page-wrapper position-relative">
+    <div class="black-overlay"></div>
+    <div class="video-wrapper">
+        <video  autoplay loop muted playsinline class="back-video">
+            <source src="/media/planet1.mp4" type="video/mp4">
+        </video>
+    </div>
+<!--    <div th:replace="partials/nav :: nav"></div>-->
+    <div class="container flex-grow-1 d-flex flex-column justify-content-center hero">
+        <div class="row">
+            <div class="col d-flex flex-column align-items-center justify-content-start">
+                <h1>Map Explore Share</h1>
+                <h3>Where Creativity Meets Adventure</h3>
+                <p>Discover the world through your own lens with "Map Share" – your ultimate travel companion. Our platform empowers you to transform your journeys into personalized maps, capturing the essence of your adventures like never before.
+
+                    Sign up for an account and embark on a unique journey of mapping your travels. Our intuitive tools allow you to craft personalized maps, pinpointing each country you've visited. Add rich details, and highlight memorable moments through photos specific to each visited country.
+
+                    Dive into a world of exploration beyond your own adventures. Explore other users' profiles, browse their captivating maps, and delve into their travel tales. Engage with fellow travelers, leave comments, and gather inspiration from the diverse experiences shared across our vibrant community.</p>
+                <br>
+                <p>Join Map Explore Share today and embark on a journey of exploration, connection, and shared experiences. Start mapping your world, one adventure at a time. Sign up now and let your travels become your story!</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-
+<!--<footer th:replace="~{partials/fragments :: footer}"></footer>-->
 </body>
 </html>

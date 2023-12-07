@@ -7,9 +7,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -36,21 +38,24 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+
                 .authorizeHttpRequests((requests) -> requests
                         /* Pages that require authentication
                          * only authenticated users can create and edit ads */
-                        .requestMatchers( "/profile", "/update", "/update/*", "/reset", "/reset/*").authenticated()
+                        .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*").authenticated()
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/login", "/sign-up").permitAll()
+                        .requestMatchers("/", "/login", "/sign-up", "/profile", "/api/**", "/country" ).permitAll()
                         // allow loading of static resources
-                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**").permitAll()
+
+                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**").permitAll()
+
                 )
                 /* Login configuration */
                 .formLogin((login) -> login.loginPage("/login").defaultSuccessUrl("/profile"))
                 /* Logout configuration */
-                .logout((logout) -> logout.logoutSuccessUrl("/"));
-//                .httpBasic(withDefaults());
+                .logout((logout) -> logout.logoutSuccessUrl("/"))
+                .httpBasic(withDefaults());
         return http.build();
     }
 

@@ -1,5 +1,6 @@
 package com.mapstone.mapstone.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,11 +16,13 @@ public class Image {
     private String imageUrl;
 
     //a user can upload many images to one country
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     //a country can have many images
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;

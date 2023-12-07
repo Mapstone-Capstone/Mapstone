@@ -1,5 +1,6 @@
 package com.mapstone.mapstone.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -15,19 +16,41 @@ public class Country {
     @Column(name = "country_name", length = 250)
     private String name;
 
+    @Column(name = "continent", length = 250)
+    private String continent;
+
     //a user can upload many images to one country
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private List<Image> images;
+
+
+
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "countries")
+    private List<User> users;
 
     public Country() {
     }
 
-    @ManyToMany(mappedBy = "countries")
-    private List<User> users;
 
     public Country(long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Country(long id, String name, String continent, List<Image> images, List<User> users) {
+        this.id = id;
+        this.name = name;
+        this.continent = continent;
+        this.images = images;
+        this.users = users;
+    }
+
+    public Country(long id, String name, String continent) {
+        this.id = id;
+        this.name = name;
+        this.continent = continent;
     }
 
     public Country(String name) {
@@ -64,5 +87,13 @@ public class Country {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public String getContinent() {
+        return continent;
+    }
+
+    public void setContinent(String continent) {
+        this.continent = continent;
     }
 }
