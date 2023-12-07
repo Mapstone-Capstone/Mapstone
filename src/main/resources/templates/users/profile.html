@@ -120,6 +120,10 @@
             <button type="button" id="update-map">Update Map</button>
           </div>
 
+          <form id="add-country" th:action="@{/country}" th:method="POST">
+            <input name="country-name" id="country-name" type="hidden" value=""/>
+          </form>
+
           <div>
             <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
               <input th:hidden="true" th:field="*{id}"/>
@@ -147,41 +151,17 @@
       </section>
     </div>
   </div>
-  
-  	<!-- Button trigger modal -->
-<!--				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">-->
-<!--					Launch demo modal-->
-<!--				</button>-->
-<!--				-->
-<!--				<div id="dynamic-modal-btn"></div>-->
-				
-<!--				&lt;!&ndash; Modal &ndash;&gt;-->
-<!--				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--					<div class="modal-dialog">-->
-<!--						<div class="modal-content">-->
-<!--							<div class="modal-header">-->
-<!--								<h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>-->
-<!--								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--							</div>-->
-<!--							<div class="modal-body">-->
-<!--								-->
-								<!-- FileStack Upload Images -->
-								<form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
-									<input id="url-for-image" th:field="*{imageUrl}" value="" type="hidden"/>
-									<input type="hidden" th:field="*{user}"/>
-									<input type="hidden" th:field="*{country}"/>
-                  <input name="countryName" id="clicked-country" type="hidden" value=""/>
-									<button id="upload-button" type="button" class="btn btn-primary">Upload Photos</button>
-									<button id="confirm" type="submit" class="btn btn-primary">Save changes</button>
-								</form>
-								
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							</div>
-						</div>
-					</div>
-  </div>
+
+  <!-- FileStack Upload Images -->
+  <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
+    <input id="url-for-image" th:field="*{imageUrl}" value="" type="hidden"/>
+    <input type="hidden" th:field="*{user}"/>
+    <input type="hidden" th:field="*{country}"/>
+    <input name="countryName" id="clicked-country" type="hidden" value=""/>
+    <button id="upload-button" type="button" class="btn btn-primary">Upload Photos</button>
+    <button id="confirm" type="submit" class="btn btn-primary">Save changes</button>
+  </form>
+
 
 </main>
 <footer th:replace="~{partials/fragments :: footer}"></footer>

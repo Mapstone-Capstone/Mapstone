@@ -16,6 +16,6 @@ public class HomeController {
     }
     @GetMapping("/aboutUs")
     public String meetTheTeam(){
-        return "/team";
+        return "about-us";
     }
 }

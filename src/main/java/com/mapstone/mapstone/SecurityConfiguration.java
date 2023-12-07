@@ -45,7 +45,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*", "/profile-picture", "url-images").authenticated()
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/login", "/sign-up", "/api/**", "/about-us/**").permitAll()
+                        .requestMatchers("/", "/login", "/sign-up", "/api/**", "/about-us/**", "/aboutUs").permitAll()
 
                         .requestMatchers("/", "/login", "/sign-up","viewprofile/*","viewprofile/**","/search","/api/**", "/country").permitAll()
 
