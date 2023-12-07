@@ -178,12 +178,6 @@ const renderModal = () => {
 
         client.picker(options).open();
     })
-
-    //send image url to the controller
-    // confirmBtn.addEventListener('click', () => {
-    //     imgForm.submit();
-    // })
-
 };
 
 
@@ -242,10 +236,16 @@ const onMapLoad = async () => {
 
         //add a dynamic button to pop up modal
         const modal = document.getElementById('exampleModal');
-        const modalBtn = document.createElement('button');
-       modalBtn.setAttribute('class', 'btn btn-primary');
-       modalBtn.setAttribute('data-bs-toggle', 'modal');
-       modalBtn.setAttribute('data-bs-target', '#exampleModal');
+        modal.style.display = 'block';
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-hidden', 'false');
+
+        // let classList = ['modal', 'fade', 'show'];
+        // modal.setAttribute('class', classList.forEach(function (element) {
+        //
+        //     return element;
+        // }))
 
 
 
