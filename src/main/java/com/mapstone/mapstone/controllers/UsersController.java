@@ -1,9 +1,6 @@
 package com.mapstone.mapstone.controllers;
 
-import com.mapstone.mapstone.models.Country;
-import com.mapstone.mapstone.models.Image;
-import com.mapstone.mapstone.models.Map;
-import com.mapstone.mapstone.models.User;
+import com.mapstone.mapstone.models.*;
 import com.mapstone.mapstone.repositories.CountryRepository;
 import com.mapstone.mapstone.repositories.ImageRepository;
 import com.mapstone.mapstone.repositories.MapRepository;
@@ -96,6 +93,7 @@ public class UsersController {
     }
     @GetMapping("/viewprofile/{id}")
     public String viewGuestProfile(@PathVariable Long id, Model model){
+        model.addAttribute("comment", new Comment());
         //Checks if user is logged in
         //When not logged in a user, it will be called an anonymousUser
         if(SecurityContextHolder.getContext().getAuthentication().getPrincipal()!="anonymousUser"){
