@@ -86,10 +86,12 @@ public class UsersController {
     }
     @GetMapping("/viewprofile/{id}")
     public String viewGuestProfile(@PathVariable Long id, Model model){
-        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == null){
-            model.addAttribute("loggedIn",false);
-        }else {
+        //Checks if user is logged in
+        //When not logged in a user, it will be called an anonymousUser
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal()!="anonymousUser"){
             model.addAttribute("loggedIn",true);
+        }else {
+            model.addAttribute("loggedIn",false);
         }
         User chosen = userDao.getReferenceById(id);
         model.addAttribute("user",chosen);
