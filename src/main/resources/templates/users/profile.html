@@ -104,8 +104,16 @@
       <button>Reset Map</button>
     </form>
   </div>
-  <footer th:replace="~{partials/fragments :: footer}"></footer>
+      </section>
+    </div>
+    <footer th:replace="~{partials/fragments :: footer}"></footer>
+  </div>
 </main>
-<th:block
+<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+<!--    MapBox API JS-->
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+<!--    Mapbox map utils-->
+<script type="module" src="/js/mapbox-map-utils.js"></script>
+<script type="module" src="/js/main.js"></script>
 </body>
 </html>
