@@ -24,37 +24,38 @@ public class Comment {
     @JoinColumn(name = "map_id")
     private Map map;
 
-    String comment;
+    @Column
+    String content;
 
 
     public Comment() {
     }
 
-    public Comment(long id, User user, Map map, String comment) {
+    public Comment(long id, User user, Map map, String content) {
         this.id = id;
         this.user = user;
         this.map = map;
-        this.comment = comment;
+        this.content = content;
     }
 
-    public Comment(User user, Map map, String comment) {
+    public Comment(User user, Map map, String content) {
         this.user = user;
         this.map = map;
-        this.comment = comment;
+        this.content = content;
     }
 
-    public Comment(User user, String comment) {
+    public Comment(User user, String content) {
         this.user = user;
-        this.comment = comment;
+        this.content = content;
     }
 
-    public Comment(Map map, String comment) {
+    public Comment(Map map, String content) {
         this.map = map;
-        this.comment = comment;
+        this.content = content;
     }
 
-    public Comment(String comment) {
-        this.comment = comment;
+    public Comment(String content) {
+        this.content = content;
     }
 
     public long getId() {
@@ -82,10 +83,10 @@ public class Comment {
     }
 
     public String getComment() {
-        return comment;
+        return content;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComment(String content) {
+        this.content = content;
     }
 }
