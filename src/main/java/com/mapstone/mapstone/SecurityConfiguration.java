@@ -47,7 +47,8 @@ public class SecurityConfiguration {
                          * anyone can visit the home page, register, login, and view ads */
                         .requestMatchers("/", "/login", "/sign-up", "/profile", "/api/**", "/country" ).permitAll()
                         // allow loading of static resources
-                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**").permitAll()
+
+                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**").permitAll()
 
                 )
                 /* Login configuration */

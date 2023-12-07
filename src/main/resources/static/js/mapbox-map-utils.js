@@ -1,4 +1,4 @@
-import {MAP_BOX_TOKEN} from "./keys.js";
+import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
 
 let countriesVisited = [];
@@ -165,7 +165,8 @@ const renderModal = () => {
             </div>
             <div class="modal-body">
                 <button id="later-button">Not Right Now</button>
-                <button>Choose Photos</button>
+                <button id="upload-button">Upload Photos</button>
+<!--                <input id="stashFilestackURL" name="stashFilestackURL" value="replaceme" th:field="*{img}" type="hidden">-->
             </div>
         </div>
     `;
@@ -174,6 +175,25 @@ const renderModal = () => {
     laterButton.addEventListener("click", () => {
         modal.remove();
     });
+
+    const uploadBtn = modal.querySelector('#upload-button');
+
+
+    uploadBtn.addEventListener("click", (e) => {
+
+        const client = filestack.init(FILE_STACK_TOKEN);
+        const options = {
+            onUploadDone:
+                function (res){
+                    console.log(res.filesUploaded[0].url);
+                    alert("Log fired");
+                }
+        }
+
+        client.picker(options).open();
+
+    })
+
 
     document.body.appendChild(modal);
 };
@@ -264,9 +284,11 @@ const onMapLoad = async () => {
                 "filter": ["==", "NAME", countryName]
             });
 
-            renderModal();
+            //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
+            // countryLayers.push(countryName);
 
         }
+        renderModal();
     });
 
 
@@ -312,6 +334,7 @@ const onMapLoad = async () => {
 
     });
 
+  
     const addCountriesButton = document.getElementById("add-countries");
     addCountriesButton.addEventListener("click", (e)=> {
         e.preventDefault();
@@ -329,6 +352,7 @@ const onMapLoad = async () => {
 
 
 
+//this function updates the user_map table
 function postStringifiedCountryArray(countries) {
     const addCountriesForm = document.getElementById("add-country");
     const countryNamesInput = document.getElementById("country-names");
@@ -339,29 +363,6 @@ function postStringifiedCountryArray(countries) {
 }
 
 
-
-// TODO: GET A 403 ERROR WHEN MAKING A POST REQUEST TO THIS ENDPOINT, WHY???
-function postCountryToRestController(country) {
-    const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
-
-        let newCountry = {
-            "name": country
-        };
-        const url = `http://localhost:8080/api/country/add`;
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                 'X-XSRF-TOKEN': csrfToken
-            },
-            body: JSON.stringify(newCountry),
-        };
-        fetch(url, options)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-            });
-}
 
 
 
