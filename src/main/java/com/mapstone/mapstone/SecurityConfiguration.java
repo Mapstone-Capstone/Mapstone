@@ -40,15 +40,12 @@ public class SecurityConfiguration {
         http
 
                 .authorizeHttpRequests((requests) -> requests
-                        /* Pages that require authentication
-                         * only authenticated users can create and edit ads */
-                        .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*", "/profile-picture", "url-images").authenticated()
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/login", "/sign-up", "/api/**", "/about-us/**").permitAll()
-
-                        .requestMatchers("/", "/login", "/sign-up","viewprofile/*","viewprofile/**","/search","/api/**", "/country").permitAll()
-
+                        .requestMatchers("/", "/login", "/sign-up","/viewprofile/*","/viewprofile/**","/search","/api/**", "/country","/users/viewprofile/*").permitAll()
+                        /* Pages that require authentication
+                         * only authenticated users can create and edit ads */
+                        .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*", "/profile-picture","/viewprofile", "/test","/comment","url-images").authenticated()
 
                         // allow loading of static resources
                         .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**", "/images/*").permitAll()
@@ -59,8 +56,8 @@ public class SecurityConfiguration {
 //                TODO GENERATE LOGIN FROM REGISTRATION PAGE
 //                .formLogin((login) -> login.loginPage("/sign-up").defaultSuccessUrl("/welcome"))
                 /* Logout configuration */
-                .logout((logout) -> logout.logoutSuccessUrl("/"))
-                .httpBasic(withDefaults());
+                .logout((logout) -> logout.logoutSuccessUrl("/"));
+//                .httpBasic(withDefaults());
         return http.build();
     }
 
