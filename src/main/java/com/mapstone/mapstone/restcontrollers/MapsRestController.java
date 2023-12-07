@@ -43,18 +43,20 @@ public class MapsRestController {
 
     //post endpoint to add country to user_countries table
     @PostMapping("/api/country/add")
-    List<Country> addCountry(@RequestBody String countryName) {
-        System.out.println(countryName);
+    public void addCountry(@RequestBody Country country)  {
+        System.out.println("test");
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //get the country from the database
-        Country country = countryDao.getCountryByNameLike(countryName);
+
         //add the country to the user's list of countries
-       loggedInUser.setCountries(country);
+        User user = userDao.getOne(loggedInUser.getId());
+        user.getCountries().add(country);
+
         //save the user so the country is added to the user_countries table
         userDao.save(loggedInUser);
         //return the list of countries
-        return countryDao.getAllByUsers_Id(loggedInUser.getId());
+//        return countryDao.getAllByUsers_Id(loggedInUser.getId());
     }
 
 

@@ -1,6 +1,7 @@
 package com.mapstone.mapstone.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.lang.reflect.Array;
@@ -36,6 +37,7 @@ public class Map {
 
 
 
+    @JsonBackReference
     @OneToOne
     private User user;
 
@@ -142,4 +144,6 @@ public class Map {
     public void setUser(User user) {
         this.user = user;
     }
+
+
 }

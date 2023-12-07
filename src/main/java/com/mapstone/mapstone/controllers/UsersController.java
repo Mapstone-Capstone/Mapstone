@@ -16,7 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class UsersController {
@@ -78,8 +81,14 @@ public class UsersController {
         //get the user's map
         Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
 
+        model.addAttribute("country", new Country());
+
         //TODO:get the users list of countries visited
-        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
+//        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
+
+        model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
+
+        model.addAttribute("image", new Image());
 
         model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
 
@@ -87,9 +96,39 @@ public class UsersController {
 
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
+
         return "users/profile";
     }
+    @GetMapping("/viewprofile/{id}")
+    public String viewGuestProfile(@PathVariable Long id, Model model){
+        //Checks if user is logged in
+        //When not logged in a user, it will be called an anonymousUser
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal()!="anonymousUser"){
+            model.addAttribute("loggedIn",true);
+        }else {
+            model.addAttribute("loggedIn",false);
+        }
+        User chosen = userDao.getReferenceById(id);
+        model.addAttribute("user",chosen);
+        Map userMap = mapDao.getMapByUserId(chosen.getId());
+        List<Country> list = countryDao.getAllByUsers_Id(chosen.getId());
+        model.addAttribute("countries", list);
+        model.addAttribute("map", userMap);
+        return "users/viewprofile";
+    }
+
+@PostMapping("/profile-picture")
+    public String updateProfilePicture(@ModelAttribute User user) {
+        //get the logged-in user
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //set the logged-in user's profile picture to the new profile picture
+        User userFromDb = userDao.getOne(loggedInUser.getId());
+        userFromDb.setAvatar(user.getAvatar());
+        //save the user object to the database
+        userDao.save(userFromDb);
 
 
-
+        return "redirect:/profile";
+    }
 }
+

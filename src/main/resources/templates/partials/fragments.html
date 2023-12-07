@@ -8,20 +8,31 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet"/>
-<!--  <link rel="stylesheet" th:href="${stylesheet}">-->
-  <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
-
+  <link rel="stylesheet" type="text/css" th:href="@{/css/resets.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}">
+  <link rel="stylesheet" th:href="${stylesheet}">
 </head>
 <body>
 <!--NAV-->
 <nav th:fragment="nav" class="navbar navbar-expand-lg navbar-white bg-white border">
   <div class="container-fluid">
-    <a class="navbar-brand link-secondary" href="/index">Map Share</a>
+    <a class="navbar-brand link-secondary" th:href="@{/}">Map Share</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
+<!--      SEARCH BAR -->
+<!--      <form action="/search" method="post">-->
+<!--        <label for="searchBar"></label><input type="text" name="search" id="searchBar" class="field">-->
+<!--        <input type="submit"/>Search-->
+<!--      </form>-->
+
+      <form th:method="post" th:action="@{/search}">
+        <label for="search">Search Profiles</label><input type="text" name="search" id="search">
+        <button type="submit">Submit</button>
+      </form>
+
       <ul class="navbar-nav d-flex align-items-center w-100">
         <li class="nav-item ms-auto">
           <a class="nav-link" th:href="@{/sign-up}">Sign-up</a>
@@ -54,7 +65,7 @@
       </a>
 
       <ul class="nav col-md-4 justify-content-end">
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Meet The Team</a></li>
+        <li class="nav-item"><a th:href="@{/aboutUs}" class="nav-link px-2 text-body-secondary">Meet The Team</a></li>
       </ul>
     </footer>
 
@@ -65,7 +76,9 @@
           integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
           crossorigin="anonymous"></script>
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
-  <script th:src="${filepath}"></script>
+  <script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+  <script th:type="module" src="/js/mapbox-map-utils.js"></script>
+  <script th:type="module" th:src="${filepath}"></script>
 </th:block>
 </body>
 </html>
