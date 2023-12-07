@@ -151,12 +151,7 @@ function addMarker(map) {
             });
         });
     });
-};
-
-
-
-
-//Thymeleaf will not work with dynamically created html
+}
 
 const renderModal = (countryName) => {
     let country = countryName;
@@ -175,6 +170,7 @@ const renderModal = (countryName) => {
             onUploadDone:
                 function (response){
                     input.value = response.filesUploaded[0].url;
+                    imgForm.submit();
                 }
         }
         client.picker(options).open();
