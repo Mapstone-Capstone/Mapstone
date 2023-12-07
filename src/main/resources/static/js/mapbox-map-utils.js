@@ -1,4 +1,4 @@
-import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
+import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys1.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
 
 let countriesVisited = [];
