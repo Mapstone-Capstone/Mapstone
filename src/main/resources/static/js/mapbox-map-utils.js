@@ -113,6 +113,7 @@ async function addUserLayers(map, mapDetails, id) {
 
 
 function searchForCountry(map) {
+    console.log("clicked search");
     //get user search input and pass in through geocode function
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-button");
@@ -228,17 +229,14 @@ const onMapLoad = async () => {
 
     //when a country is clicked, fill the country with the color selected by the user
     map.on("click", function (e) {
-
+        e.preventDefault();
         // Get features at the clicked point
         let features = map.queryRenderedFeatures(e.point);
 
         // Log the name of the clicked layer to the console
         if (features.length > 0) {
-            console.log("Clicked Layer Name:", features[0].layer.id);
             countryName = features[0].properties.NAME;
             countryId = features[0].id;
-            console.log("Clicked Country Name:", countryName);
-            console.log("Clicked area info:", countryId);
             //pushes the clicked country name to the countriesVisited array so that it can be used to add the country to the user_countries table
             countriesVisited.push(countryName);
             let allLayers = map.getStyle().layers;
@@ -281,14 +279,12 @@ const onMapLoad = async () => {
         let allLayers = map.getStyle().layers;
         // gets only the layers that belong to the user
         //if the layer already exists, dont try to add it again
-        //REFACTORED: THIS IS THE GOOD CODE: MAKING NOTE IN CASE OF MERGE CONFLICT
         let userLayers = [];
         allLayers.forEach((layer) => {
             if (layer.source === "world" && layer.id !== "world" && layer.id !== "highlighted") {
                 userLayers.push(layer);
             }
         });
-
 
         //stringify the layers so that it can be parsed and stored in the database
         let stringifiedLayers = JSON.stringify(userLayers);
@@ -314,22 +310,10 @@ const onMapLoad = async () => {
 
     });
 
-  
-    const addCountriesButton = document.getElementById("add-countries");
-    addCountriesButton.addEventListener("click", (e)=> {
-        e.preventDefault();
-        postStringifiedCountryArray(countriesVisited);
-        });
-
-
-
     searchForCountry(map);
 
-    addMarker(map);
 
 };
-
-
 
 
 //this function updates the user_map table
@@ -339,14 +323,35 @@ function postStringifiedCountryArray(countries) {
     let joinedCountries = countries.join();
     countryNamesInput.value = joinedCountries;
     addCountriesForm.submit();
+}
 
+function postCountrytoDb(country) {
+    const addCountriesForm = document.getElementById("add-country");
+    const countryNamesInput = document.getElementById("country-name");
+    countryNamesInput.value = country;
+    // addCountriesForm.submit();
+}
+
+function openUpdateModal () {
+    const addMovieModalForm = document.createElement("div");
+    addMovieModalForm.classList.add("modal");
+    addMovieModalForm.innerHTML = `<div class="modal-bg"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">test</h2>
+                <span class="modal-close">&times;</span>
+            </div> 
+        <div class="modal-body">
+        test
+        </div>
+      </div>`;
+
+document.body.appendChild(addMovieModalForm);
 }
 
 
 
 
-
-
 export {
-    onMapLoad
+    onMapLoad, openUpdateModal
 };

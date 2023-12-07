@@ -42,6 +42,8 @@ public class MapsController {
         Map newMap = new Map("#0059ff", "light-v11", "naturalEarth", "1" );
         newMap.setUser(loggedInUser);
         mapDao.save(newMap);
+        //deletes all entries for this user in the user_country table
+        countryDao.deleteAll(loggedInUser.getCountries());
         model.addAttribute("map", newMap);
         return "redirect:/profile";
     }

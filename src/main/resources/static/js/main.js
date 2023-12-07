@@ -1,11 +1,12 @@
 import {
-    onMapLoad
+    onMapLoad, openUpdateModal
 } from "./mapbox-map-utils.js";
 import {FILE_STACK_TOKEN} from "./keys.js";
 
 //initialize filestack with api key
 const client = filestack.init(FILE_STACK_TOKEN);
 
+const openUpdateModalButton = document.getElementById("open-update-modal");
 const image = document.getElementById("temp-pic");
 const fileUpload = document.getElementById("file-upload");
 const imageInput = document.getElementById("image-url");
@@ -33,6 +34,8 @@ fileUpload.addEventListener("change", (event) => {
 (async function () {
 
 await onMapLoad();
+
+openUpdateModalButton.addEventListener("click", openUpdateModal);
 
 
 })();
