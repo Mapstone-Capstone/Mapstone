@@ -154,21 +154,22 @@ function addMarker(map) {
 };
 
 
+
+
 //Thymeleaf will not work with dynamically created html
 
-const renderModal = () => {
-
+const renderModal = (countryName) => {
+    let country = countryName;
+    console.log(country);
+    const clickedCountry = document.querySelector("#clicked-country");
+    clickedCountry.value = country;
+    console.log(clickedCountry.value + "this is the value of the hidden input");
     // const laterButton = document.querySelector("#later-button");
     const confirmBtn = document.querySelector('#confirm');
     const uploadBtn = document.querySelector('#upload-button');
     const imgForm = document.querySelector('#img-form');
     const input = document.querySelector('#url-for-image');
-
     // event for image upload
-    uploadBtn.addEventListener("click", (e) => {
-
-        e.preventDefault();
-
         const client = filestack.init(FILE_STACK_TOKEN);
         const options = {
             onUploadDone:
@@ -176,9 +177,7 @@ const renderModal = () => {
                     input.value = response.filesUploaded[0].url;
                 }
         }
-
         client.picker(options).open();
-    })
 };
 
 
@@ -188,13 +187,9 @@ const onMapLoad = async () => {
     let map = await generateUserMap(mapDetails);
     //returns user map details so we can access the color
 
-
-
     map.on("load", async function () {
         //adds the default layers to the map
         await addDefaultLayers(map, mapDetails);
-
-
         await addUserLayers(map, mapDetails, id);
         let allLayers = map.getStyle().layers;
         console.log(allLayers);
@@ -233,21 +228,6 @@ const onMapLoad = async () => {
 
     //when a country is clicked, fill the country with the color selected by the user
     map.on("click", function (e) {
-
-        //add a dynamic button to pop up modal
-        const modal = document.getElementById('exampleModal');
-        modal.style.display = 'block';
-        modal.setAttribute('aria-modal', 'true');
-        modal.setAttribute('role', 'dialog');
-        modal.setAttribute('aria-hidden', 'false');
-
-        // let classList = ['modal', 'fade', 'show'];
-        // modal.setAttribute('class', classList.forEach(function (element) {
-        //
-        //     return element;
-        // }))
-
-
 
         // Get features at the clicked point
         let features = map.queryRenderedFeatures(e.point);
@@ -288,7 +268,7 @@ const onMapLoad = async () => {
             //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
             // countryLayers.push(countryName);
         }
-        renderModal();
+        renderModal(countryName);
     });
 
 
