@@ -45,11 +45,13 @@ public class SecurityConfiguration {
                         .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*", "/profile-picture").authenticated()
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
+                        .requestMatchers("/", "/login", "/sign-up", "/api/**", "/about-us/**").permitAll()
+
                         .requestMatchers("/", "/login", "/sign-up","viewprofile/*","viewprofile/**","/search","/api/**", "/country").permitAll()
 
-                        // allow loading of static resources
 
-                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**").permitAll()
+                        // allow loading of static resources
+                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**", "/images/*").permitAll()
 
                 )
                 /* Login configuration */

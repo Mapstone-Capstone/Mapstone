@@ -208,7 +208,6 @@ const renderModal = () => {
 };
 
 
-
 const onMapLoad = async () => {
     let mapDetails = await getUserMapDetails(id);
     //returns a map object with styling, zoom, projection, and color

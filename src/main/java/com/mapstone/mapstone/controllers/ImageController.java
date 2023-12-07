@@ -34,4 +34,6 @@ public class ImageController {
 //        model.addAttribute("image", image);
         return "redirect:profile";
     }
+
 }
+

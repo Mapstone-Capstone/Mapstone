@@ -90,6 +90,10 @@ public class UsersController {
 
         model.addAttribute("image", new Image());
 
+        model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
+
+        model.addAttribute("image", new Image());
+
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
 
@@ -123,6 +127,8 @@ public class UsersController {
         //save the user object to the database
         userDao.save(userFromDb);
 
+
         return "redirect:/profile";
     }
 }
+
