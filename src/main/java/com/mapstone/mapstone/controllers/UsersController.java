@@ -11,10 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -125,6 +122,15 @@ public class UsersController {
 
 
         return "redirect:/profile";
+    }
+
+    @GetMapping("/view")
+    public String viewImages(@RequestParam(name = "viewImage") Model model){
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String image = imageDao.getImageByUser(loggedInUser).getImageUrl();
+        model.addAttribute("image", image);
+        return "/profile";
     }
 }
 
