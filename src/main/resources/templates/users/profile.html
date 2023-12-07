@@ -4,98 +4,114 @@
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <main class="page-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <section class="col-3 d-flex flex-column p-5">
+        <div class="user-info">
+          <h1>Welcome <span th:text="${#authentication.principal.username}"></span></h1>
+          <img th:if="${#authentication.principal.avatar == null}" src="/assets/default-profile.png"
+               name="avatar" alt="avatar"
+               class="avatar"
+               id="temp-pic">
+          <div th:if="${#authentication.principal.avatar == null}" class="image-upload-wrapper">
+            <label>Upload Profile Picture
+              <input type="file" id="file-upload">
+            </label>
+            <form id="image-form" th:method="post" th:action="@{/profile-picture}">
+              <input th:type="hidden" id="image-url" name="image" value="">
+              <input th:type="hidden" name="location" value="profile">
+            </form>
+          </div>
+        </div>
+
+      </section>
+      <section class="col">
 
 
+        <div>
+          <input id="username" th:hidden="true" th:value="${#authentication.principal.username}"/>
+          <input id="password" th:hidden="true" th:value="${#authentication.principal.password}"/>
+        </div>
 
-<div>
-  <input id="username" th:hidden="true" th:value="${#authentication.principal.username}"/>
-  <input id="password" th:hidden="true" th:value="${#authentication.principal.password}"/>
-</div>
+        <div id="map" style="width: 50dvw; height: 70dvh;">
 
-<div id="map" style="width: 50dvw; height: 70dvh;">
+        </div>
 
-</div>
+        <div>
+          <form>
+            <label for="search-input">Search:</label>
+            <input id="search-input" type="text" placeholder="Search for a place">
+            <button type="button" id="search-button">Search</button>
+          </form>
+        </div>
 
-<div>
-  <form>
-    <label for="search-input">Search:</label>
-    <input id="search-input" type="text" placeholder="Search for a place">
-    <button type="button" id="search-button">Search</button>
-  </form>
-</div>
+        <div>
+          <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">
+            <input id="map-id" th:hidden="true" th:field="*{id}"/>
+            <input id="user-id" th:hidden="true" th:field="*{user}"/>
+            <input id="updated-data" value="" th:hidden="true" th:field="*{data}">
+            <div class="form-group">
+              <label for="map-style-select">Style:</label>
+              <select id="map-style-select" th:field="*{style}">
+                <option th:value="${map.style}" th:text="${map.style}"
+                ></option>
+                <option th:value="streets-v11" th:selected="true">Streets</option>
+                <option th:value="dark-v11">Dark</option>
+                <option th:value="light-v11">Light</option>
+                <option th:value="outdoors-v12">Outdoors</option>
+                <option th:value="satellite-streets-v12">Satellite</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="map-color-select">Color:</label>
+              <input th:type="color" id="map-color-select" th:field="*{color}" th:value="${map.getColor()}">
+            </div>
+            <div class="form-group">
+              <label for="map-projection-select">Projection:</label>
+              <select id="map-projection-select" th:field="*{projection}">
+                <option th:value="${map.getProjection()}" selected></option>
+                <option th:value="globe">Globe</option>
+                <option th:value="equalEarth">Thematic Equal-area</option>
+                <option th:value="naturalEarth">Compromise</option>
+                <option th:value="albers">Conic Equal-area</option>
+                <option th:value="lambertConformalConic">Conformic</option>
+                <option th:value="equirectangular">Rectangular</option>
+                <option th:value="mercator">Mercador</option>
+              </select>
+            </div>
 
-<div>
-  <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">
-    <input id="map-id" th:hidden="true" th:field="*{id}"/>
-    <input id = "user-id" th:hidden="true" th:field="*{user}"/>
-    <input id="updated-data" value="" th:hidden="true" th:field="*{data}">
-    <div class="form-group">
-      <label for="map-style-select">Style:</label>
-      <select id="map-style-select" th:field="*{style}">
-        <option th:value="${map.style}" th:text="${map.style}"
-        ></option>
-        <option th:value="streets-v11" th:selected="true">Streets</option>
-        <option th:value="dark-v11">Dark</option>
-        <option th:value="light-v11">Light</option>
-        <option th:value="outdoors-v12">Outdoors</option>
-        <option th:value="satellite-streets-v12">Satellite</option>
-      </select>
+            <div class="form-group">
+              <label for="map-zoom-select">Zoom:</label>
+              <select id="map-zoom-select" th:field="*{zoom}">
+                <option th:value="${map.getZoom()}" selected></option>
+                <option th:value="0">0</option>
+                <option th:value="1">1</option>
+                <option th:value="6">6</option>
+                <option th:value="8">8</option>
+                <option th:value="10">10</option>
+                <option th:value="12">12</option>
+                <option th:value="15">15</option>
+              </select>
+            </div>
+          </form>
+          <button type="button" id="update-map">Update Map</button>
+        </div>
+
+        <div>
+          <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
+            <input th:hidden="true" th:field="*{id}"/>
+            <button>Reset Map</button>
+          </form>
+        </div>
+
+        <form id="add-country" th:action="@{/country}" th:method="POST">
+          <input name="countryName" id="country-names" value="">
+        </form>
+        <button id="add-countries">Test add countries</button>
+      </section>
     </div>
-    <div class="form-group">
-      <label for="map-color-select">Color:</label>
-      <input th:type="color" id="map-color-select" th:field="*{color}" th:value="${map.getColor()}">
-    </div>
-    <div class="form-group">
-      <label for="map-projection-select">Projection:</label>
-      <select id="map-projection-select" th:field="*{projection}">
-        <option th:value="${map.getProjection()}" selected></option>
-        <option th:value="globe">Globe</option>
-        <option th:value="equalEarth">Thematic Equal-area</option>
-        <option th:value="naturalEarth">Compromise</option>
-        <option th:value="albers">Conic Equal-area</option>
-        <option th:value="lambertConformalConic">Conformic</option>
-        <option th:value="equirectangular">Rectangular</option>
-        <option th:value="mercator">Mercador</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="map-zoom-select">Zoom:</label>
-      <select id="map-zoom-select" th:field="*{zoom}">
-        <option th:value="${map.getZoom()}" selected></option>
-        <option th:value="0">0</option>
-        <option th:value="1">1</option>
-        <option th:value="6">6</option>
-        <option th:value="8">8</option>
-        <option th:value="10">10</option>
-        <option th:value="12">12</option>
-        <option th:value="15">15</option>
-      </select>
-    </div>
-  </form>
-  <button type="button" id="update-map">Update Map</button>
-</div>
-
-  <div>
-    <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
-      <input th:hidden="true" th:field="*{id}"/>
-      <button>Reset Map</button>
-    </form>
   </div>
-
-  <form id="add-country" th:action="@{/country}"  th:method="POST" >
-    <input name="countryName" id="country-names" value="">
-  </form>
-  <button id="add-countries">Test add countries</button>
-
-
-
 </main>
-<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
-<!--    MapBox API JS-->
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
-<!--    Mapbox map utils-->
-<script type="module" src="/js/mapbox-map-utils.js"></script>
-<script type="module" src="/js/main.js"></script>
+<th:block
 </body>
 </html>

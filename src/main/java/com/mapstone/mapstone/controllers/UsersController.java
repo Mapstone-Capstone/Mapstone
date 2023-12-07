@@ -83,6 +83,22 @@ public class UsersController {
         return "users/profile";
     }
 
+@PostMapping("/profile-picture")
+    public String updateProfilePicture(@ModelAttribute User user) {
+        //get the logged-in user
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //set the logged-in user's profile picture to the new profile picture
+        User userFromDb = userDao.getOne(loggedInUser.getId());
+        userFromDb.setAvatar(user.getAvatar());
+        //save the user object to the database
+        userDao.save(userFromDb);
+
+        return "redirect:/profile";
+    }
+
+
+
+
 
 
 }
