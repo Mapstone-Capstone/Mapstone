@@ -1,9 +1,11 @@
 package com.mapstone.mapstone.controllers;
 
 import com.mapstone.mapstone.models.Country;
+import com.mapstone.mapstone.models.Image;
 import com.mapstone.mapstone.models.Map;
 import com.mapstone.mapstone.models.User;
 import com.mapstone.mapstone.repositories.CountryRepository;
+import com.mapstone.mapstone.repositories.ImageRepository;
 import com.mapstone.mapstone.repositories.MapRepository;
 import com.mapstone.mapstone.repositories.UserRepository;
 import jakarta.validation.Valid;
@@ -26,13 +28,16 @@ public class UsersController {
     private final MapRepository mapDao;
 
     private final CountryRepository countryDao;
+
+    private final ImageRepository imageDao;
     private PasswordEncoder passwordEncoder;
 
-    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao) {
+    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao) {
         this.userDao = userDao;
         this.mapDao = mapDao;
         this.passwordEncoder = passwordEncoder;
         this.countryDao = countryDao;
+        this.imageDao = imageDao;
     }
 
     @GetMapping("/sign-up")
@@ -43,7 +48,7 @@ public class UsersController {
     }
 
     @PostMapping("/sign-up")
-    public String createUser(@ModelAttribute @Valid User user, Model model, BindingResult result) {
+    public String createUser(@ModelAttribute @Valid User user, BindingResult result, Model model) {
 
         //check for validation errors
         if (result.hasErrors()) {
@@ -76,8 +81,14 @@ public class UsersController {
         //get the user's map
         Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
 
+        model.addAttribute("country", new Country());
+
         //TODO:get the users list of countries visited
-        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
+//        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
+
+        model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
+
+        model.addAttribute("image", new Image());
 
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
@@ -100,5 +111,18 @@ public class UsersController {
         model.addAttribute("countries", list);
         model.addAttribute("map", userMap);
         return "users/viewprofile";
+    }
+
+@PostMapping("/profile-picture")
+    public String updateProfilePicture(@ModelAttribute User user) {
+        //get the logged-in user
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //set the logged-in user's profile picture to the new profile picture
+        User userFromDb = userDao.getOne(loggedInUser.getId());
+        userFromDb.setAvatar(user.getAvatar());
+        //save the user object to the database
+        userDao.save(userFromDb);
+
+        return "redirect:/profile";
     }
 }

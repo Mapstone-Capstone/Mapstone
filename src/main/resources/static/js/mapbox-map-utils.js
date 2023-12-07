@@ -1,5 +1,6 @@
-import {MAP_BOX_TOKEN} from "./keys.js";
+import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys1.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
+
 let countriesVisited = [];
 let countryName;
 let countryId;
@@ -128,7 +129,7 @@ function searchForCountry(map) {
 };
 
 
-function addMarker(map)  {
+function addMarker(map) {
     //user can add a marker to the map using the add marker button
     const addMarker = document.getElementById("add-marker");
     addMarker.addEventListener("click", function (e) {
@@ -152,6 +153,8 @@ function addMarker(map)  {
     });
 };
 
+
+//Thymeleaf will not work with dynamically created html
 const renderModal = () => {
     const modal = document.createElement("div");
     modal.classList.add("modal");
@@ -160,20 +163,47 @@ const renderModal = () => {
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title"</h2>
-            
             </div>
             <div class="modal-body">
-                <button id="later-button">Not Right Now</button>
-                <button>Choose Photos</button>
+                    <button id="later-button">Not Right Now</button>
+                    <button id="upload-button">Upload Photos</button>
+                <form id="img-form" action="@{/url-images}" method="POST">
+<!--                    <button id="confirm">Confirm Photo</button>-->
+<!--                    <input id="user-id"  type="hidden"/>-->
+<!--                    <input id = "country-id"  type="hidden"/>-->
+                    <input id="image-url" name="image-url" value="" type="hidden"/>
+                    <button type="submit">Confirm Photo</button>
+                </form>
             </div>
         </div>
     `;
+
     const laterButton = modal.querySelector("#later-button");
     // event listener for close button
     laterButton.addEventListener("click", () => {
         modal.remove();
     });
 
+    const confirmBtn = modal.querySelector('#confirm');
+    const uploadBtn = modal.querySelector('#upload-button');
+    const imgForm = modal.querySelector('#img-form');
+    const input = modal.querySelector('#image-url');
+
+
+    uploadBtn.addEventListener("click", (e) => {
+
+        e.preventDefault();
+
+        const client = filestack.init(FILE_STACK_TOKEN);
+        const options = {
+            onUploadDone:
+                function (response){
+                    input.value = response.filesUploaded[0].url;
+                }
+        }
+
+        client.picker(options).open();
+    })
     document.body.appendChild(modal);
 };
 
@@ -238,12 +268,15 @@ const onMapLoad = async () => {
             countryId = features[0].id;
             console.log("Clicked Country Name:", countryName);
             console.log("Clicked area info:", countryId);
-
+            //pushes the clicked country name to the countriesVisited array so that it can be used to add the country to the user_countries table
+            countriesVisited.push(countryName);
             let allLayers = map.getStyle().layers;
             for (let i = 0; i < allLayers.length; i++) {
-                //if the country is already filled (already clicked), remove the fill layer
+                //if the country is already filled (already clicked), and the user clicks it again, remove the fill layer
                 if (allLayers[i].id === countryName) {
                     map.removeLayer(countryName);
+                    //remove the country from the countriesVisited array
+                    countriesVisited.splice(countriesVisited.indexOf(countryName), 1);
                     return;
                 }
             }
@@ -260,30 +293,34 @@ const onMapLoad = async () => {
                 //where the name is equal to the country name on the highlighted layer,set the opacity and color
                 "filter": ["==", "NAME", countryName]
             });
-
-            renderModal();
             //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
             // countryLayers.push(countryName);
+
         }
+        renderModal();
     });
 
 
     const updateMap = document.getElementById("update-map");
-//when update button is clicked, the countryLayers array is merged into one layer
-    updateMap.addEventListener("click", function (e) {
+    //when update button is clicked, the countryLayers array is merged into one layer
+    updateMap.addEventListener("click", async function (e) {
         e.preventDefault();
-        console.log("clicked");
 
         //get all the map layers, including default layers
         let allLayers = map.getStyle().layers;
         // gets only the layers that belong to the user
         //if the layer already exists, dont try to add it again
+        //REFACTORED: THIS IS THE GOOD CODE: MAKING NOTE IN CASE OF MERGE CONFLICT
+        let userLayers = [];
+        allLayers.forEach((layer) => {
+            if (layer.source === "world" && layer.id !== "world" && layer.id !== "highlighted") {
+                userLayers.push(layer);
+            }
+        });
 
-        let slicedLayers = allLayers.slice(52, allLayers.length);
-        console.log(slicedLayers);
 
         //stringify the layers so that it can be parsed and stored in the database
-        let stringifiedLayers = JSON.stringify(slicedLayers);
+        let stringifiedLayers = JSON.stringify(userLayers);
 
         let mapId = document.getElementById("map-id");
 
@@ -301,15 +338,41 @@ const onMapLoad = async () => {
             alert("Please fill out all fields.");
             return;
         }
+
         updateMapForm.submit();
+
     });
+
+  
+    const addCountriesButton = document.getElementById("add-countries");
+    addCountriesButton.addEventListener("click", (e)=> {
+        e.preventDefault();
+        postStringifiedCountryArray(countriesVisited);
+        });
+
+
 
     searchForCountry(map);
 
     addMarker(map);
 
-
 };
+
+
+
+
+//this function updates the user_map table
+function postStringifiedCountryArray(countries) {
+    const addCountriesForm = document.getElementById("add-country");
+    const countryNamesInput = document.getElementById("country-names");
+    let joinedCountries = countries.join();
+    countryNamesInput.value = joinedCountries;
+    addCountriesForm.submit();
+
+}
+
+
+
 
 
 
