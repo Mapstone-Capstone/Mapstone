@@ -7,9 +7,10 @@
 
 
 
-<!--<div sec:authentication="isAuthenticated()">-->
-<!--  <h3>Hello <span th:text="${#authentication.principal.username}"></span>!</h3>-->
-<!--</div>-->
+<div>
+  <input id="username" th:hidden="true" th:value="${#authentication.principal.username}"/>
+  <input id="password" th:hidden="true" th:value="${#authentication.principal.password}"/>
+</div>
 
 <div id="map" style="width: 50dvw; height: 70dvh;">
 
@@ -81,6 +82,13 @@
       <button>Reset Map</button>
     </form>
   </div>
+
+  <form id="add-country" th:action="@{/country}"  th:method="POST" >
+    <input name="countryName" id="country-names" value="">
+  </form>
+  <button id="add-countries">Test add countries</button>
+
+
 
 </main>
 <script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>

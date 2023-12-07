@@ -1,6 +1,7 @@
 package com.mapstone.mapstone.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,10 +13,13 @@ public class Comment {
     @Column(nullable = false)
     long id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "map_id")
     private Map map;

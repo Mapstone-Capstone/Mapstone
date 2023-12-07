@@ -73,8 +73,10 @@ public class UsersController {
         //get the user's map
         Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
 
+        model.addAttribute("country", new Country());
+
         //TODO:get the users list of countries visited
-        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
+//        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
 
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
