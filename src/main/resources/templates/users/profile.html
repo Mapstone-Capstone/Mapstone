@@ -68,6 +68,11 @@
             <button type="button" id="open-update-modal">Update Map</button>
           </div>
 
+	        <form method="post" action="/view" id="view">
+		        <img th:src="${images.getImageUrl()}" alt="coutry image">
+		        <button id="view-image" type="submit">View Images</button>
+	        </form>
+	        
           <div>
             <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">
               <input id="map-id" th:hidden="true" th:field="*{id}"/>

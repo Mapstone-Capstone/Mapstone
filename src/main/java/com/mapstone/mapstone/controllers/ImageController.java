@@ -44,7 +44,7 @@ public class ImageController {
         //now the image has a user and country, so save it to the db
         imageDao.save(image);
 
-        return "redirect:profile";
+        return "redirect:/profile";
     }
 
 }
