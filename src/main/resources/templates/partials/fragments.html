@@ -76,7 +76,9 @@
           integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
           crossorigin="anonymous"></script>
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
-  <script th:src="${filepath}"></script>
+  <script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+  <script th:type="module" src="/js/mapbox-map-utils.js"></script>
+  <script th:type="module" th:src="${filepath}"></script>
 </th:block>
 </body>
 </html>

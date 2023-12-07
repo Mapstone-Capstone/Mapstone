@@ -109,7 +109,7 @@ async function addUserLayers(map, mapDetails, id) {
             });
         }
     }
-};
+}
 
 
 function searchForCountry(map) {
@@ -154,46 +154,22 @@ function addMarker(map) {
 };
 
 
+
+
 //Thymeleaf will not work with dynamically created html
-const renderModal = () => {
-    const modal = document.createElement("div");
-    modal.classList.add("modal");
-    modal.innerHTML = `
-        <div class="modal-bg"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title"</h2>
-            </div>
-            <div class="modal-body">
-                    <button id="later-button">Not Right Now</button>
-                    <button id="upload-button">Upload Photos</button>
-                <form id="img-form" action="@{/url-images}" method="POST">
-<!--                    <button id="confirm">Confirm Photo</button>-->
-<!--                    <input id="user-id"  type="hidden"/>-->
-<!--                    <input id = "country-id"  type="hidden"/>-->
-                    <input id="image-url" name="image-url" value="" type="hidden"/>
-                    <button type="submit">Confirm Photo</button>
-                </form>
-            </div>
-        </div>
-    `;
 
-    const laterButton = modal.querySelector("#later-button");
-    // event listener for close button
-    laterButton.addEventListener("click", () => {
-        modal.remove();
-    });
-
-    const confirmBtn = modal.querySelector('#confirm');
-    const uploadBtn = modal.querySelector('#upload-button');
-    const imgForm = modal.querySelector('#img-form');
-    const input = modal.querySelector('#image-url');
-
-
-    uploadBtn.addEventListener("click", (e) => {
-
-        e.preventDefault();
-
+const renderModal = (countryName) => {
+    let country = countryName;
+    console.log(country);
+    const clickedCountry = document.querySelector("#clicked-country");
+    clickedCountry.value = country;
+    console.log(clickedCountry.value + "this is the value of the hidden input");
+    // const laterButton = document.querySelector("#later-button");
+    const confirmBtn = document.querySelector('#confirm');
+    const uploadBtn = document.querySelector('#upload-button');
+    const imgForm = document.querySelector('#img-form');
+    const input = document.querySelector('#url-for-image');
+    // event for image upload
         const client = filestack.init(FILE_STACK_TOKEN);
         const options = {
             onUploadDone:
@@ -201,12 +177,8 @@ const renderModal = () => {
                     input.value = response.filesUploaded[0].url;
                 }
         }
-
         client.picker(options).open();
-    })
-    document.body.appendChild(modal);
 };
-
 
 
 const onMapLoad = async () => {
@@ -218,8 +190,6 @@ const onMapLoad = async () => {
     map.on("load", async function () {
         //adds the default layers to the map
         await addDefaultLayers(map, mapDetails);
-
-
         await addUserLayers(map, mapDetails, id);
         let allLayers = map.getStyle().layers;
         console.log(allLayers);
@@ -252,6 +222,7 @@ const onMapLoad = async () => {
             }
             hoveredPolygonId = null;
         });
+
     });
 
 
@@ -292,12 +263,12 @@ const onMapLoad = async () => {
                 },
                 //where the name is equal to the country name on the highlighted layer,set the opacity and color
                 "filter": ["==", "NAME", countryName]
+
             });
             //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
             // countryLayers.push(countryName);
-
         }
-        renderModal();
+        renderModal(countryName);
     });
 
 

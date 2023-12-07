@@ -1,11 +1,15 @@
 package com.mapstone.mapstone.controllers;
 
+import com.mapstone.mapstone.models.Country;
 import com.mapstone.mapstone.models.Image;
+import com.mapstone.mapstone.models.User;
 import com.mapstone.mapstone.repositories.CountryRepository;
 import com.mapstone.mapstone.repositories.ImageRepository;
 import com.mapstone.mapstone.repositories.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,12 +30,22 @@ public class ImageController {
     }
 
     @PostMapping("/url-images")
-    public String updateImages(@RequestParam(name = "image-url") String image, Model model) {
+    public String updateImages(@ModelAttribute Image image, @RequestParam(name = "countryName") String countryName, Model model) {
+        //get the logged in user which is a copy of a user
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //use the copy to get the real user from the DB
+        User user = userDao.getOne(loggedInUser.getId());
+        //set that user as the owner of the image uploaded
+        image.setUser(user);
+        //get the country from the DB that has the same name as the country clicked on
+        Country country = countryDao.getCountryByName(countryName);
+        //make this image belong to that country
+        image.setCountry(country);
+        //now the image has a user and country, so save it to the db
+        imageDao.save(image);
 
-        System.out.println("This is the image url: " + image);
-
-//        imageDao.save(image);
-//        model.addAttribute("image", image);
         return "redirect:profile";
     }
+
 }
+

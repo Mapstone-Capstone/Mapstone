@@ -45,11 +45,10 @@ public class SecurityConfiguration {
                         .requestMatchers("/", "/login", "/sign-up","/viewprofile/*","/viewprofile/**","/search","/api/**", "/country","/users/viewprofile/*").permitAll()
                         /* Pages that require authentication
                          * only authenticated users can create and edit ads */
-                        .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*", "/profile-picture","/viewprofile", "/test","/comment").authenticated()
+                        .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*", "/profile-picture","/viewprofile", "/test","/comment","url-images").authenticated()
 
                         // allow loading of static resources
-
-                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**").permitAll()
+                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**", "/images/*").permitAll()
 
                 )
                 /* Login configuration */

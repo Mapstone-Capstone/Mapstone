@@ -83,6 +83,8 @@ public class UsersController {
         //TODO:get the users list of countries visited
 //        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
 
+        model.addAttribute("image", new Image());
+
         model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
 
         model.addAttribute("image", new Image());
@@ -121,6 +123,8 @@ public class UsersController {
         //save the user object to the database
         userDao.save(userFromDb);
 
+
         return "redirect:/profile";
     }
 }
+
