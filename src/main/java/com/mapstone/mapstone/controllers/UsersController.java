@@ -78,8 +78,10 @@ public class UsersController {
         //get the user's map
         Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
 
+        model.addAttribute("country", new Country());
+
         //TODO:get the users list of countries visited
-        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
+//        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
 
         model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
 
@@ -89,6 +91,22 @@ public class UsersController {
         model.addAttribute("map", userMap);
         return "users/profile";
     }
+
+@PostMapping("/profile-picture")
+    public String updateProfilePicture(@ModelAttribute User user) {
+        //get the logged-in user
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //set the logged-in user's profile picture to the new profile picture
+        User userFromDb = userDao.getOne(loggedInUser.getId());
+        userFromDb.setAvatar(user.getAvatar());
+        //save the user object to the database
+        userDao.save(userFromDb);
+
+        return "redirect:/profile";
+    }
+
+
+
 
 
 

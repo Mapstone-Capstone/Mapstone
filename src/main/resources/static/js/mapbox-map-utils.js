@@ -1,4 +1,4 @@
-import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
+import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys1.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
 
 let countriesVisited = [];
@@ -189,6 +189,7 @@ const renderModal = () => {
     const imgForm = modal.querySelector('#img-form');
     const input = modal.querySelector('#image-url');
 
+
     uploadBtn.addEventListener("click", (e) => {
 
         e.preventDefault();
@@ -292,6 +293,8 @@ const onMapLoad = async () => {
                 //where the name is equal to the country name on the highlighted layer,set the opacity and color
                 "filter": ["==", "NAME", countryName]
             });
+            //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
+            // countryLayers.push(countryName);
 
         }
         renderModal();
@@ -340,28 +343,38 @@ const onMapLoad = async () => {
 
     });
 
+  
+    const addCountriesButton = document.getElementById("add-countries");
+    addCountriesButton.addEventListener("click", (e)=> {
+        e.preventDefault();
+        postStringifiedCountryArray(countriesVisited);
+        });
+
+
+
     searchForCountry(map);
 
     addMarker(map);
 
 };
 
-//TODO: GET A 403 ERROR WHEN MAKING A POST REQUEST TO THIS ENDPOINT, WHY???
-function postCountry(country) {
-    const url = `http://localhost:8080/api/country/add`;
-    const options = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(country),
-    };
-    fetch(url, options)
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-        });
+
+
+
+//this function updates the user_map table
+function postStringifiedCountryArray(countries) {
+    const addCountriesForm = document.getElementById("add-country");
+    const countryNamesInput = document.getElementById("country-names");
+    let joinedCountries = countries.join();
+    countryNamesInput.value = joinedCountries;
+    addCountriesForm.submit();
+
 }
+
+
+
+
+
 
 export {
     onMapLoad

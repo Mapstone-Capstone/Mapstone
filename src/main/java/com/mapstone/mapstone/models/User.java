@@ -2,6 +2,7 @@ package com.mapstone.mapstone.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -46,13 +47,15 @@ public class User {
     @Column(name = "avatar", length = 500)
     private String avatar;
 
-    @OneToOne(mappedBy = "user")
     @JsonBackReference
+    @OneToOne(mappedBy = "user")
     private Map map;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Comment> comments;
 
+    @JsonManagedReference
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_countries",
@@ -61,6 +64,7 @@ public class User {
     )
     private List<Country> countries;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Image> images;
 
@@ -202,9 +206,9 @@ public class User {
         return countries;
     }
 
-    public void setCountries(Country country) {
-        this.countries.add(country);
-    }
+//    public void setCountries(Country country) {
+//        this.countries.add(country);
+//    }
 
     public void setCountries(List<Country> countries) {
         this.countries = countries;
@@ -217,4 +221,7 @@ public class User {
     public void setImages(List<Image> images) {
         this.images = images;
     }
+
+
+
 }
