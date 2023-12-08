@@ -28,7 +28,7 @@ public class Country {
 
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "countries")
+    @ManyToMany(mappedBy = "countries", fetch = FetchType.EAGER)
     private List<User> users;
 
     public Country() {

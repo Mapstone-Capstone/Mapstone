@@ -16,8 +16,8 @@
             <span>First Name: <span th:text="${#authentication.principal.firstName}"></span></span>
             <span>Last Name: <span th:text="${#authentication.principal.lastName}"></span></span>
             <span>Username: <span th:text="${#authentication.principal.username}"></span></span>
-            <span># of countries visited: </span>
-            <span>% of the world explored: </span>
+            <span># of countries visited: <span th:text="${#authentication.principal.countries.size()}"></span></span>
+            <span>% of the world explored: <span th:text="${#authentication.principal.countries.size() / 195 * 100}"></span></span>
           </p>
         </div>
 
@@ -51,7 +51,6 @@
             <div class="w-100" id="map">
             </div>
 
-
             <div class="update-search-wrapper w-100">
               <form class="geocode-search">
                 <label for="search-input">Search:</label>
@@ -59,7 +58,15 @@
                 <button type="button" id="search-button">Search</button>
               </form>
               <div>
-                <button type="button" id="open-update-modal">Update Map</button>
+                <!--  FROM SAVES THE CHANGES MADE TO LAYERS ON THE MAP    -->
+                <form id="save-changes-form" th:object="${map}" th:method="POST" th:action="@{/saveMap}">
+                  <input id="mapId" th:hidden="true" th:field="*{id}"/>
+                  <input id="updated-data" value="" th:hidden="true" th:field="*{data}">
+                </form>
+                <button type="button" id="save-changes">Save Changes</button>
+              </div>
+              <div>
+                <button type="button" id="open-update-modal">Edit Map Style</button>
               </div>
               <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
                 <input th:hidden="true" th:field="*{id}"/>
@@ -70,21 +77,18 @@
 
 
           <div>
-            <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">
+              <!--  FROM UPDATED MAP STYLE    -->
+            <form id="update-map-form" th:object="${map}">
               <input id="map-id" th:hidden="true" th:field="*{id}"/>
               <input id="user-id" th:hidden="true" th:field="*{user}"/>
-              <input id="updated-data" value="" th:hidden="true" th:field="*{data}">
-              <input id="map-style" value="" th:hidden="true" th:field="*{style}">
-              <input id="map-color" value="" th:hidden="true" th:field="*{color}">
-              <input id="map-projection" value="" th:hidden="true" th:field="*{projection}">
-              <input id="map-zoom" value="" th:hidden="true" th:field="*{zoom}">
+              <input  value="" th:hidden="true" th:field="*{data}">
+              <input id="current-style" value="" th:hidden="true" th:field="*{style}">
+              <input id="current-color"  value="" th:hidden="true" th:field="*{color}">
+              <input id="current-projection" value="" th:hidden="true" th:field="*{projection}">
+              <input id="current-zoom" value="$" th:hidden="true" th:field="*{zoom}">
             </form>
-            <!--            <button type="button" id="update-map">Update Map</button>-->
           </div>
 
-          <form id="add-country" th:action="@{/country}" th:method="POST">
-            <input name="country-name" id="country-name" type="hidden" value=""/>
-          </form>
         </div>
 
 

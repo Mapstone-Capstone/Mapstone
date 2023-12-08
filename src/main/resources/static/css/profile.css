@@ -185,8 +185,7 @@ button {
 
 .modal-content {
     position: relative;
-    width: 100%;
-    max-width: 100px;
+    max-width: 40dvw;
     padding: 30px;
     border-radius: 20px;
     color: black;

@@ -56,7 +56,8 @@ public class User {
     private List<Comment> comments;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_countries",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -82,6 +83,10 @@ public class User {
         country = copy.country;
         password = copy.password;
         avatar = copy.avatar;
+        map = copy.map;
+        comments = copy.comments;
+        countries = copy.countries;
+        images = copy.images;
     }
 
     public User(long id, String username, String firstName, String lastName, String email, String country, String password, String avatar) {
