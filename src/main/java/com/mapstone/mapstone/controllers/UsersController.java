@@ -82,10 +82,6 @@ public class UsersController {
 
         model.addAttribute("image", new Image());
 
-        model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
-
-        model.addAttribute("image", new Image());
-
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
 
