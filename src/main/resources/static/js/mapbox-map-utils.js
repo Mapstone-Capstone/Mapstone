@@ -166,6 +166,7 @@ const renderModal = (countryName) => {
     const imgForm = document.querySelector("#img-form");
     const input = document.querySelector("#url-for-image");
     // event for image upload
+
     const client = filestack.init(FILE_STACK_TOKEN);
     const options = {
         onUploadDone:
@@ -175,6 +176,7 @@ const renderModal = (countryName) => {
             }
     };
     client.picker(options).open();
+
 };
 
 
