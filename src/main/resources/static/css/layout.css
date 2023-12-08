@@ -1,0 +1,11 @@
+:root {
+    --white: white;
+    --dark-blue: #0D0149;
+    --button: #343CFF;
+}
+
+.page-wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
