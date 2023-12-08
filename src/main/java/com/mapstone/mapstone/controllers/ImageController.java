@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Controller
 public class ImageController {
 
@@ -30,21 +33,52 @@ public class ImageController {
     }
 
     @PostMapping("/url-images")
-    public String updateImages(@ModelAttribute Image image, @RequestParam(name = "countryName") String countryName, Model model) {
+    public String updateImages(@RequestParam(name = "countryName") String countryName, @RequestParam(name = "imageUrls") String[] urls, Model model) {
         //get the logged in user which is a copy of a user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //use the copy to get the real user from the DB
         User user = userDao.getOne(loggedInUser.getId());
-        //set that user as the owner of the image uploaded
-        image.setUser(user);
+
+
         //get the country from the DB that has the same name as the country clicked on
         Country country = countryDao.getCountryByName(countryName);
-        //make this image belong to that country
-        image.setCountry(country);
-        //now the image has a user and country, so save it to the db
-        imageDao.save(image);
+        System.out.println(Arrays.toString(urls));
 
-        return "redirect:profile";
+
+        for (String url:urls) {
+            Image image = new Image();
+
+            image.setImageUrl(url);
+            //set that user as the owner of the image uploaded
+            image.setUser(user);
+
+            //make this image belong to that country
+            image.setCountry(country);
+            //now the image has a user and country, so save it to the db
+
+            System.out.println(image.getImageUrl());
+
+//            images.add(image);
+//            country.setImages(images);
+
+            imageDao.save(image);
+
+        }
+
+//        //get the logged in user which is a copy of a user
+//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        //use the copy to get the real user from the DB
+//        User user = userDao.getOne(loggedInUser.getId());
+//        //set that user as the owner of the image uploaded
+//        image.setUser(user);
+//        //get the country from the DB that has the same name as the country clicked on
+//        Country country = countryDao.getCountryByName(countryName);
+//        //make this image belong to that country
+//        image.setCountry(country);
+//        //now the image has a user and country, so save it to the db
+////        imageDao.save(image);
+
+        return "redirect:/profile";
     }
 
 }

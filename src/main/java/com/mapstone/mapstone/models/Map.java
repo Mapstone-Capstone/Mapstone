@@ -37,7 +37,7 @@ public class Map {
 
 
 
-    @JsonBackReference
+    @JsonBackReference(value="user-map")
     @OneToOne
     private User user;
 

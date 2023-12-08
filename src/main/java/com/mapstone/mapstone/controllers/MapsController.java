@@ -26,11 +26,26 @@ public class MapsController {
         this.countryDao = countryDao;
     }
 
+    //updates the map style
     @PostMapping("/update")
     public String updateMap(@ModelAttribute("map") Map map, Model model) {
+        Map mapToSave = mapDao.getMapById(map.getId());
+        mapToSave.setStyle(map.getStyle());
+        mapToSave.setColor(map.getColor());
+        mapToSave.setZoom(map.getZoom());
+        mapToSave.setProjection(map.getProjection());
+        mapDao.save(mapToSave);
+        model.addAttribute("map", mapToSave);
+        return "redirect:/profile";
+    }
 
-        mapDao.save(map);
-        model.addAttribute("map", map);
+    //updates the map data
+    @PostMapping("/saveMap")
+    public String saveMap(@ModelAttribute("map") Map map, Model model) {
+        Map mapToSave = mapDao.getMapById(map.getId());
+        mapToSave.setData(map.getData());
+        mapDao.save(mapToSave);
+        model.addAttribute("map", mapToSave);
         return "redirect:/profile";
     }
 

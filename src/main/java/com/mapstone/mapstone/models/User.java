@@ -53,16 +53,17 @@ public class User {
     @Column(name = "avatar", length = 500)
     private String avatar;
 
-    @JsonBackReference
+    @JsonBackReference(value = "user-map")
     @OneToOne(mappedBy = "user")
     private Map map;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "user-comment")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Comment> comments;
 
-    @JsonManagedReference
-    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_countries",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -70,7 +71,7 @@ public class User {
     )
     private List<Country> countries;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Image> images;
 
@@ -88,6 +89,10 @@ public class User {
         country = copy.country;
         password = copy.password;
         avatar = copy.avatar;
+        map = copy.map;
+        comments = copy.comments;
+        countries = copy.countries;
+        images = copy.images;
     }
 
     public User(long id, String username, String firstName, String lastName, String email, String country, String password, String avatar) {
