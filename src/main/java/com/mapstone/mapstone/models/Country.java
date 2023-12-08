@@ -1,5 +1,6 @@
 package com.mapstone.mapstone.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -20,13 +21,13 @@ public class Country {
     private String continent;
 
     //a user can upload many images to one country
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private List<Image> images;
 
 
 
-    @JsonManagedReference
+    @JsonIgnore
     @ManyToMany(mappedBy = "countries")
     private List<User> users;
 

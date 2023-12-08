@@ -47,15 +47,15 @@ public class User {
     @Column(name = "avatar", length = 500)
     private String avatar;
 
-    @JsonBackReference
+    @JsonBackReference(value = "user-map")
     @OneToOne(mappedBy = "user")
     private Map map;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "user-comment")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Comment> comments;
 
-    @JsonManagedReference
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_countries",
@@ -64,7 +64,7 @@ public class User {
     )
     private List<Country> countries;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Image> images;
 

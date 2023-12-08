@@ -55,13 +55,18 @@ aside {
     flex-wrap: wrap;
 }
 
-.geocode-search {
+.update-search-wrapper {
     display: flex;
     gap: 10px;
     padding: 10px;
-    border-radius: 5px;
-    background: var(--white);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+
+
+    & .geocode-search {
+        display: flex;
+        gap: 10px;
+    }
 
     & input {
         padding: 5px;
@@ -96,6 +101,52 @@ button {
         background: var(--white);
         color: var(--dark-blue);
         border: 1px solid var(--button);
+    }
+}
+
+.country-images-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background: var(--white);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    & .country-images-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    & .country-images-body {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        & .country-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            height: auto;
+            padding: 10px;
+            background: var(--white);
+
+            & .country-image {
+                flex-wrap: wrap;
+                width: 250px;
+                height: auto;
+                object-fit: cover;
+                border-radius: 5px;
+
+                & img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 5px;
+                }
+            }
+        }
     }
 }
 

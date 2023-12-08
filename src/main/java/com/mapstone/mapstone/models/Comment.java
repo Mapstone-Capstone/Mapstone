@@ -13,13 +13,13 @@ public class Comment {
     @Column(nullable = false)
     long id;
 
-    @JsonBackReference
+    @JsonBackReference(value = "user-comment")
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
 
-    @JsonBackReference
+    @JsonBackReference(value = "map-comment")
     @OneToOne
     @JoinColumn(name = "map_id")
     private Map map;

@@ -52,7 +52,6 @@ const generateUserMap = async (mapDetails) => {
 };
 
 async function addDefaultLayers(map, mapDetails) {
-
     //adds the custom geojson source to the map
     map.addSource("world", {
         "type": "geojson",
@@ -89,12 +88,16 @@ async function addDefaultLayers(map, mapDetails) {
 };
 
 async function addUserLayers(map, mapDetails, id) {
+    // Retrieve user-specific map layers
     let userMapLayers = await getUserMapLayers(id);
-    if (userMapLayers === null || userMapLayers.length === 0 || userMapLayers === "") {
+
+    // Check if there are no user map layers
+    if (!userMapLayers || userMapLayers.length === 0 || userMapLayers === "") {
         return;
     } else {
-        //loop through the layers that belong to users map, and all them to this map
+        // Loop through the layers belonging to the user's map and add them to the current map
         for (let i = 0; i < userMapLayers.length; i++) {
+            // Add a layer for each user map layer
             map.addLayer({
                 "id": `${userMapLayers[i].id}`,
                 "type": "fill",
@@ -104,7 +107,7 @@ async function addUserLayers(map, mapDetails, id) {
                     "fill-color": mapDetails.color,
                     "fill-opacity": opacity
                 },
-                //where the name is equal to the country name on the highlighted layer, the opacity is set to 1
+                // Set the opacity to 1 where the name is equal to the country name on the highlighted layer
                 "filter": ["==", "NAME", `${userMapLayers[i].id}`]
             });
         }
@@ -155,8 +158,6 @@ function addMarker(map) {
 };
 
 
-
-
 //Thymeleaf will not work with dynamically created html
 
 const renderModal = (countryName) => {
@@ -166,19 +167,25 @@ const renderModal = (countryName) => {
     clickedCountry.value = country;
     console.log(clickedCountry.value + "this is the value of the hidden input");
     // const laterButton = document.querySelector("#later-button");
-    const confirmBtn = document.querySelector('#confirm');
-    const uploadBtn = document.querySelector('#upload-button');
-    const imgForm = document.querySelector('#img-form');
-    const input = document.querySelector('#url-for-image');
+    const confirmBtn = document.querySelector("#confirm");
+    const uploadBtn = document.querySelector("#upload-button");
+    const imgForm = document.querySelector("#img-form");
+    const input = document.querySelector("#url-for-image");
     // event for image upload
-        const client = filestack.init(FILE_STACK_TOKEN);
-        const options = {
-            onUploadDone:
-                function (response){
-                    input.value = response.filesUploaded[0].url;
-                }
-        }
-        client.picker(options).open();
+    const client = filestack.init(FILE_STACK_TOKEN);
+    const options = {
+        maxFiles: 10,
+        onUploadDone:
+            function (response) {
+                // input.value = response.filesUploaded[0].url;
+                console.log(response);
+                response.filesUploaded.forEach((file) => {
+                    console.log(file.url);
+
+                });
+            }
+    };
+    client.picker(options).open();
 };
 
 
@@ -193,7 +200,7 @@ const onMapLoad = async () => {
         await addDefaultLayers(map, mapDetails);
         await addUserLayers(map, mapDetails, id);
         let allLayers = map.getStyle().layers;
-        console.log(allLayers);
+
 
         //reveals the highlighted layer when the user hovers over a country
         let hoveredPolygonId = null;
@@ -266,52 +273,51 @@ const onMapLoad = async () => {
             //pushes the clicked country name to the countryLayers array so that it can be used to create the merged layer
             // countryLayers.push(countryName);
         }
+        console.log(typeof countriesVisited);
         renderModal(countryName);
     });
 
 
-    const updateMap = document.getElementById("update-map");
-    //when update button is clicked, the countryLayers array is merged into one layer
-    updateMap.addEventListener("click", async function (e) {
-        e.preventDefault();
-
-        //get all the map layers, including default layers
-        let allLayers = map.getStyle().layers;
-        // gets only the layers that belong to the user
-        //if the layer already exists, dont try to add it again
-        let userLayers = [];
-        allLayers.forEach((layer) => {
-            if (layer.source === "world" && layer.id !== "world" && layer.id !== "highlighted") {
-                userLayers.push(layer);
-            }
-        });
-
-        //stringify the layers so that it can be parsed and stored in the database
-        let stringifiedLayers = JSON.stringify(userLayers);
-
-        let mapId = document.getElementById("map-id");
-
-        mapId.value = id;
-
-        let updatedMapData = document.getElementById("updated-data");
-        updatedMapData.value = stringifiedLayers;
-        const updateMapForm = document.getElementById("update-map-form");
-        const mapStyle = document.getElementById("map-style-select");
-        const mapColor = document.getElementById("map-color-select");
-        const mapProjection = document.getElementById("map-projection-select");
-        const mapZoom = document.getElementById("map-zoom-select");
-        //if any fields are empty, don't submit the form
-        if (mapStyle.value === "" || mapColor.value === "" || mapProjection.value === "" || mapZoom.value === "") {
-            alert("Please fill out all fields.");
-            return;
-        }
-
-        updateMapForm.submit();
-
-    });
+    // const updateMap = document.getElementById("update-map");
+    // //when update button is clicked, the countryLayers array is merged into one layer
+    // updateMap.addEventListener("click", async function (e) {
+    //     e.preventDefault();
+    //     //get all the map layers, including default layers
+    //     let allLayers = map.getStyle().layers;
+    //     // gets only the layers that belong to the user
+    //     //if the layer already exists, dont try to add it again
+    //     let userLayers = [];
+    //     allLayers.forEach((layer) => {
+    //         if (layer.source === "world" && layer.id !== "world" && layer.id !== "highlighted") {
+    //             userLayers.push(layer);
+    //         }
+    //     });
+    //
+    //     //stringify the layers so that it can be parsed and stored in the database
+    //     let stringifiedLayers = JSON.stringify(userLayers);
+    //
+    //     let mapId = document.getElementById("map-id");
+    //
+    //     mapId.value = id;
+    //
+    //     let updatedMapData = document.getElementById("updated-data");
+    //     updatedMapData.value = stringifiedLayers;
+    //     const updateMapForm = document.getElementById("update-map-form");
+    //     const mapStyle = document.getElementById("map-style-select");
+    //     const mapColor = document.getElementById("map-color-select");
+    //     const mapProjection = document.getElementById("map-projection-select");
+    //     const mapZoom = document.getElementById("map-zoom-select");
+    //     //if any fields are empty, don't submit the form
+    //     if (mapStyle.value === "" || mapColor.value === "" || mapProjection.value === "" || mapZoom.value === "") {
+    //         alert("Please fill out all fields.");
+    //         return;
+    //     }
+    //
+    //     updateMapForm.submit();
+    //
+    // });
 
     searchForCountry(map);
-
 
 };
 
@@ -332,24 +338,126 @@ function postCountrytoDb(country) {
     // addCountriesForm.submit();
 }
 
-function openUpdateModal () {
+function openUpdateModal(countriesVisited) {
+
     const addMovieModalForm = document.createElement("div");
     addMovieModalForm.classList.add("modal");
     addMovieModalForm.innerHTML = `<div class="modal-bg"></div>
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">test</h2>
+                <h2 class="modal-title">Edit Map Style</h2>
                 <span class="modal-close">&times;</span>
             </div> 
         <div class="modal-body">
-        test
+        
+              <input id="map-id" hidden="true"/>
+              <input id="user-id" hidden="true"/>
+              <input id="updated-data" value="" hidden="true">
+              <div class="form-group">
+                <label for="map-style-select">Style:</label>
+                <select id="map-style-select">
+                  <option value="streets-v11" th:selected="true">Streets</option>
+                  <option value="dark-v11">Dark</option>
+                  <option value="light-v11">Light</option>
+                  <option value="outdoors-v12">Outdoors</option>
+                  <option value="satellite-streets-v12">Satellite</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="map-color-select">Color:</label>
+                <input type="color" id="map-color-select"">
+              </div>
+              <div class="form-group">
+                <label for="map-projection-select">Projection:</label>
+                <select id="map-projection-select">
+                  <option value="globe">Globe</option>
+                  <option value="equalEarth">Thematic Equal-area</option>
+                  <option value="naturalEarth">Compromise</option>
+                  <option value="albers">Conic Equal-area</option>
+                  <option value="lambertConformalConic">Conformic</option>
+                  <option value="equirectangular">Rectangular</option>
+                  <option value="mercator">Mercador</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="map-zoom-select">Zoom:</label>
+                <select id="map-zoom-select">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="6">6</option>
+                  <option value="8">8</option>
+                  <option value="10">10</option>
+                  <option value="12">12</option>
+                  <option value="15">15</option>
+                </select>
+              </div>
+            
+            <button type="button" id="update-map">Update Map</button>
         </div>
       </div>`;
 
-document.body.appendChild(addMovieModalForm);
+    //nodes from the modal for event listeners
+    const modalClose = addMovieModalForm.querySelector(".modal-close");
+    const modalBackground = addMovieModalForm.querySelector(".modal-bg");
+    const modalFormSave = addMovieModalForm.querySelector("[data-action='save']");
+
+
+    // event listener for close button
+    modalClose.addEventListener("click", () => {
+        addMovieModalForm.remove();
+    });
+
+    //event listener for modal background, allows user to click anywhere on background to close modal
+    modalBackground.addEventListener("click", () => {
+        addMovieModalForm.remove();
+    });
+
+    document.body.appendChild(addMovieModalForm);
 }
 
 
+// Function to send countries to the backend
+async function sendCountriesToBackend(countryClicked) {
+    const csrfToken = document.querySelector("meta[name='_csrf']").content;
+    console.log("CSRF token:", csrfToken);
+    const country =
+        {
+            name: countryClicked,
+        }
+    ;
+
+    const backendEndpoint = "http://localhost:8080/api/country/add";
+
+    try {
+        const response = await fetch(backendEndpoint, {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json",
+                'X-CSRF-TOKEN': csrfToken,
+            },
+            body: JSON.stringify(country),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to send countries to the backend");
+        }
+
+        const responseData = await response.json();
+        console.log("Countries successfully sent to the backend:", responseData);
+    } catch (error) {
+        console.error("Error sending countries to the backend:", error.message);
+    }
+}
+
+
+const openUpdateModalButton = document.getElementById("open-update-modal");
+openUpdateModalButton.addEventListener("click", async function (e) {
+    e.preventDefault();
+    await sendCountriesToBackend("United States");
+    // openUpdateModal(countriesVisited);
+
+});
 
 
 export {
