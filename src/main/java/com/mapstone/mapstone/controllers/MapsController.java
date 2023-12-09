@@ -48,34 +48,23 @@ public class MapsController {
         return "redirect:/profile";
     }
 
-    //updates the map data
-    @PostMapping("/saveMap")
-    public String saveMap(@ModelAttribute("map") Map map, Model model) {
-        Map mapToSave = mapDao.getMapById(map.getId());
-        mapToSave.setData(map.getData());
-        mapDao.save(mapToSave);
-        model.addAttribute("map", mapToSave);
-        return "redirect:/profile";
-    }
-
 
     @PostMapping("/reset")
     public String resetMap(@ModelAttribute("map") Map map, Model model) {
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userDao.getById(loggedInUser.getId());
-        //delete the layers that belong to the user
+        //delete the layers that belong to the map
         if (map.getLayers() != null) {
            map.getLayers().clear();
             mapDao.save(map);
         }
+        //delete the countries that belong to the user
          if(user.getCountries() != null) {
              user.getCountries().clear();
              userDao.save(user);
          }
-
-
-        //delete the map, create a new map with the same user
+        //now delete the map, then create a new default map and set it to the user, then save the user
         mapDao.delete(map);
         Map newMap = new Map("#0059ff", "light-v11", "naturalEarth", "1" );
         newMap.setUser(loggedInUser);
