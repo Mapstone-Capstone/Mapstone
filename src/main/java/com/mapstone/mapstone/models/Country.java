@@ -25,8 +25,6 @@ public class Country {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private List<Image> images;
 
-
-
     @JsonIgnore
     @ManyToMany(mappedBy = "countries", fetch = FetchType.EAGER)
     private List<User> users;

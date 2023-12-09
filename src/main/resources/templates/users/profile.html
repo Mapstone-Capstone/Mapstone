@@ -57,14 +57,14 @@
                 <input id="search-input" type="text" placeholder="Search for a place">
                 <button type="button" id="search-button">Search</button>
               </form>
-              <div>
-                <!--  FROM SAVES THE CHANGES MADE TO LAYERS ON THE MAP    -->
-                <form id="save-changes-form" th:object="${map}" th:method="POST" th:action="@{/saveMap}">
-                  <input id="mapId" th:hidden="true" th:field="*{id}"/>
-                  <input id="updated-data" value="" th:hidden="true" th:field="*{data}">
-                </form>
-                <button type="button" id="save-changes">Save Changes</button>
-              </div>
+<!--              <div>-->
+<!--                &lt;!&ndash;  FROM SAVES THE CHANGES MADE TO LAYERS ON THE MAP    &ndash;&gt;-->
+<!--                <form id="save-changes-form" th:object="${map}" th:method="POST" th:action="@{/saveMap}">-->
+<!--                  <input id="mapId" th:hidden="true" th:field="*{id}"/>-->
+<!--                  <input id="updated-data" value="" th:hidden="true" th:field="*{data}">-->
+<!--                </form>-->
+<!--                <button type="button" id="save-changes">Save Changes</button>-->
+<!--              </div>-->
               <div>
                 <button type="button" id="open-update-modal">Edit Map Style</button>
               </div>
