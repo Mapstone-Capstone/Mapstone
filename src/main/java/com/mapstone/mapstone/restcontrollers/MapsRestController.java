@@ -35,10 +35,10 @@ public class MapsRestController {
     }
 
     //returns the map data (layers, markers, etc) as a string, must be handled separately from the map details because it needs to be parsed by the map
-    @GetMapping("/api/map" + "/{id}")
-    public String getMap(@PathVariable long id) {
-        return mapDao.getMapById(id).getData();
-    }
+//    @GetMapping("/api/map" + "/{id}")
+//    public String getMap(@PathVariable long id) {
+//        return mapDao.getMapById(id).getData();
+//    }
 
     //returns the map details (color, style, projection, and zoom) as a Map object
     @GetMapping("/api/map/details" + "/{id}")
@@ -79,6 +79,7 @@ public class MapsRestController {
             user.getCountries().remove(countryToAdd);
         } else {
             user.getCountries().add(countryToAdd);
+            loggedInUser.getCountries().add(countryToAdd);
         }
         //save the user so the country is added to the user_countries table
         userDao.save(user);
@@ -96,17 +97,7 @@ public class MapsRestController {
         //set the map for the layer
         layer.setMap(userMap);
         //get all the layers for the map and loop through them, if the name of the layer being added matches the name of a layer already in the map, remove it
-        List<Layer> layers = userMap.getLayers();
-        for (Layer layer1 : layers) {
-            if (!layer1.getName().equals(layer.getName())) {
-                layers.add(layer);
-            } else {
-                layers.remove(layer1);
-            }
-
-        }
-        //set the layers for the map
-        userMap.setLayers(layers);
+        userMap.getLayers().add(layer);
         //save the layers
         mapDao.save(userMap);
         //return the list of layers

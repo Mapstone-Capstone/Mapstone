@@ -35,10 +35,6 @@ public class User {
     @Email(message = "Please provide a valid email")
     private String email;
 
-    @Column(name = "country", length = 250)
-    @NotEmpty(message = "Country cannot be blank")
-    private String country;
-
     @Column(name = "password", length = 500)
     @JsonIgnore
     @NotEmpty(message = "Password cannot be blank")
@@ -69,7 +65,6 @@ public class User {
     private List<Image> images;
 
 
-
     public User() {
     }
 
@@ -79,7 +74,6 @@ public class User {
         firstName = copy.firstName;
         lastName = copy.lastName;
         email = copy.email;
-        country = copy.country;
         password = copy.password;
         avatar = copy.avatar;
         map = copy.map;
@@ -88,42 +82,38 @@ public class User {
         images = copy.images;
     }
 
-    public User(long id, String username, String firstName, String lastName, String email, String country, String password, String avatar) {
+    public User(long id, String username, String firstName, String lastName, String email, String password, String avatar) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
         this.password = password;
         this.avatar = avatar;
     }
 
-    public User(String username, String firstName, String lastName, String email, String country, String password, String avatar) {
+    public User(String username, String firstName, String lastName, String email, String password, String avatar) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
         this.password = password;
         this.avatar = avatar;
     }
 
-    public User(String username, String firstName, String lastName, String email, String country, String password) {
+    public User(String username, String firstName, String lastName, String email, String password) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
         this.password = password;
     }
 
-    public User(String username, String firstName, String lastName, String email, String country) {
+    public User(String username, String firstName, String lastName, String email) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
     }
 
     public long getId() {
@@ -166,14 +156,6 @@ public class User {
         this.email = email;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -210,13 +192,14 @@ public class User {
         return countries;
     }
 
-//    public void setCountries(Country country) {
-//        this.countries.add(country);
-//    }
-
     public void setCountries(List<Country> countries) {
         this.countries = countries;
     }
+
+    public void addCountry(Country country) {
+        this.countries.add(country);
+    }
+
 
     public List<Image> getImages() {
         return images;
@@ -225,7 +208,6 @@ public class User {
     public void setImages(List<Image> images) {
         this.images = images;
     }
-
 
 
 }

@@ -54,19 +54,26 @@ public class MapsController {
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userDao.getById(loggedInUser.getId());
+
         //delete the layers that belong to the map
-        if (map.getLayers() != null) {
-           map.getLayers().clear();
-            mapDao.save(map);
+        List<Layer> layers = map.getLayers();
+        if (layers != null) {
+            layerDao.deleteAll(layers);
         }
+        mapDao.save(map);
+
         //delete the countries that belong to the user
-         if(user.getCountries() != null) {
-             user.getCountries().clear();
-             userDao.save(user);
-         }
+        List<Country> countries = user.getCountries();
+        if(countries != null) {
+            countryDao.deleteAll(countries);
+        }
+
+        userDao.save(user);
+
+
         //now delete the map, then create a new default map and set it to the user, then save the user
         mapDao.delete(map);
-        Map newMap = new Map("#0059ff", "light-v11", "naturalEarth", "1" );
+        Map newMap = new Map("#0059ff", "light-v11", "naturalEarth", "1");
         newMap.setUser(loggedInUser);
         mapDao.save(newMap);
         model.addAttribute("map", newMap);

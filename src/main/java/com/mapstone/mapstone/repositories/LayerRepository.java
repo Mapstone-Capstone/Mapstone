@@ -15,4 +15,5 @@ public interface LayerRepository extends JpaRepository<Layer, Long> {
 
     List<Layer> getAllByMap(Map userMap);
 
+    List<Layer> getLayersByMapId(long id);
 }

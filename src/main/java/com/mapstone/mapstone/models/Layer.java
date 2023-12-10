@@ -1,7 +1,6 @@
 package com.mapstone.mapstone.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -43,6 +42,12 @@ public class Layer {
         this.map = map;
     }
 
+    public Layer(long id, String name, Map map) {
+        this.id = id;
+        this.name = name;
+        this.map = map;
+    }
+
     public long getId() {
         return id;
     }
@@ -50,7 +55,6 @@ public class Layer {
     public void setId(long id) {
         this.id = id;
     }
-
 
 
     public String getName() {
@@ -69,4 +73,6 @@ public class Layer {
     public void setMap(Map map) {
         this.map = map;
     }
+
+
 }

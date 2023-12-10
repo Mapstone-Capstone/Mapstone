@@ -19,4 +19,5 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
 
     void deleteAllByUsers_Id(long id);
 
+
 }
