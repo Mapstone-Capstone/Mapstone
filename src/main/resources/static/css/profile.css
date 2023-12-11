@@ -190,12 +190,19 @@ button {
 
 .modal-content {
     position: relative;
-    max-width: 40dvw;
+    max-width: 30dvw;
     padding: 30px;
     border-radius: 20px;
     color: black;
     background-color:white;
     transition: all ease 0.3s;
+
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
 }
 
 .modal-header {

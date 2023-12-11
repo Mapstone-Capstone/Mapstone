@@ -12,7 +12,8 @@ public class Layer {
     long id;
 
 
-    @Column(name = "name")
+    //a map can have many layers but each map can only have one layer with a given name
+    @Column(nullable = false)
     String name;
 
 

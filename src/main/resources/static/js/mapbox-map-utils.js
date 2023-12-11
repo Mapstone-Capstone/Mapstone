@@ -79,6 +79,8 @@ const generateUserMap = async (mapDetails) => {
         projection: mapDetails.projection
     });
 
+    map.addControl(new mapboxgl.NavigationControl());
+
     return map;
 };
 
@@ -391,6 +393,7 @@ function openUpdateModal() {
         mapId.value = id;
         console.log(mapStyle.value);
         console.log(mapColor.value);
+        console.log(mapId.value);
 
         updateMapForm.submit();
     });

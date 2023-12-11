@@ -27,7 +27,7 @@ public class MapsRestController {
 
     public final LayerRepository layerDao;
 
-    public MapsRestController(MapRepository mapDao, CountryRepository countryDao, UserRepository userDao, LayerRepository layerDao ) {
+    public MapsRestController(MapRepository mapDao, CountryRepository countryDao, UserRepository userDao, LayerRepository layerDao) {
         this.mapDao = mapDao;
         this.countryDao = countryDao;
         this.userDao = userDao;
@@ -67,11 +67,11 @@ public class MapsRestController {
 
     //post endpoint to add country to user_countries table
     @PostMapping("/api/country/add")
-    public List<Country> addCountry(@RequestBody Country country)  {
+    public List<Country> addCountry(@RequestBody Country country) {
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //get the country from the database
-       Country countryToAdd = countryDao.getCountryByName(country.getName());
+        Country countryToAdd = countryDao.getCountryByName(country.getName());
         //add the country to the user's list of countries
         User user = userDao.getOne(loggedInUser.getId());
         //if the country is already in the user's list of countries, remove it, otherwise add it
@@ -88,21 +88,55 @@ public class MapsRestController {
     }
 
 
+//    @PostMapping("/api/map/layer/add")
+//    public List<Layer> updateMapLayers(@RequestBody Layer layer) {
+//        //get the logged-in user
+//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        //get the map from the database
+//        Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
+//        //set the map for the layer
+//        layer.setMap(userMap);
+//        //get all the layers for the map and loop through them, if the name of the layer being added matches the name of a layer already in the map, remove it
+//        userMap.getLayers().add(layer);
+//        //save the layers
+//        mapDao.save(userMap);
+//        //return the list of layers
+//        return layerDao.getAllByMap_Id(userMap.getId());
+//    }
+
     @PostMapping("/api/map/layer/add")
-    public List<Layer> updateMapLayers(@RequestBody Layer layer) {
+    public List<Layer> updateMapLayers(@RequestBody Layer newLayer) {
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //get the map from the database
-        Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
         //set the map for the layer
-        layer.setMap(userMap);
+        newLayer.setMap(mapDao.getMapByUserId(loggedInUser.getId()));
+        //get the user
+        User user = userDao.getOne(loggedInUser.getId());
+        Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
+
         //get all the layers for the map and loop through them, if the name of the layer being added matches the name of a layer already in the map, remove it
-        userMap.getLayers().add(layer);
-        //save the layers
-        mapDao.save(userMap);
+        for (Layer layer : userMap.getLayers()) {
+            if (layer.getName().equals(newLayer.getName())) {
+                userMap.getLayers().remove(layer);
+                break;
+            }
+        }
+        //add the new layer to the map
+        userMap.getLayers().add(newLayer);
+
+        try {
+            userDao.save(user);
+            mapDao.save(userMap);
+        } catch (Exception e) {
+        //remove the layer from the map where the duplicate error occurred
+            userMap.getLayers().remove(newLayer);
+            mapDao.save(userMap);
+        }
+
         //return the list of layers
-        return layerDao.getAllByMap_Id(userMap.getId());
+        return userMap.getLayers();
     }
+
 
 
 
@@ -127,4 +161,9 @@ public class MapsRestController {
         //return JUST THE STRINGIFIED COUNTRY DATA SO IT CAN BE PARSED AS VALID JSON
         return countries.toString();
     }
-}
+
+    }
+
+
+
+
