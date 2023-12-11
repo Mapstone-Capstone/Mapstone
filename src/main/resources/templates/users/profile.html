@@ -26,14 +26,14 @@
             <span>Last Name: <span th:text="${#authentication.principal.lastName}"></span></span>
             <span>Username: <span th:text="${#authentication.principal.username}"></span></span>
             <span># of countries visited: <span th:text="${#authentication.principal.countries.size()}"></span></span>
-            <span>% of the world explored: <span th:text="${#authentication.principal.countries.size() / 195 * 100}"></span></span>
+            <span>% of the world explored: <span th:text="${100 * #authentication.principal.countries.size() / 195} + '%'"></span></span>
           </p>
         </div>
 
         <h4>Achievements</h4>
         <div class="badges w-100">
           <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
+            <img class="border rounded-circle badge" src="/assets/badges/on-the-map.svg" alt="badge"/>
           </div>
           <div class="badge-wrapper">
             <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
@@ -66,14 +66,7 @@
                 <input id="search-input" type="text" placeholder="Search for a place">
                 <button type="button" id="search-button">Search</button>
               </form>
-              <div>
-                <!--  FROM SAVES THE CHANGES MADE TO LAYERS ON THE MAP    -->
-                <form id="save-changes-form" th:object="${map}" th:method="POST" th:action="@{/saveMap}">
-                  <input id="mapId" th:hidden="true" th:field="*{id}"/>
-                  <input id="updated-data" value="" th:hidden="true" th:field="*{data}">
-                </form>
-                <button type="button" id="save-changes">Save Changes</button>
-              </div>
+
               <div>
                 <button type="button" id="open-update-modal">Edit Map Style</button>
               </div>
@@ -90,11 +83,10 @@
             <form id="update-map-form" th:object="${map}">
               <input id="map-id" th:hidden="true" th:field="*{id}"/>
               <input id="user-id" th:hidden="true" th:field="*{user}"/>
-              <input  value="" th:hidden="true" th:field="*{data}">
               <input id="current-style" value="" th:hidden="true" th:field="*{style}">
               <input id="current-color"  value="" th:hidden="true" th:field="*{color}">
               <input id="current-projection" value="" th:hidden="true" th:field="*{projection}">
-              <input id="current-zoom" value="$" th:hidden="true" th:field="*{zoom}">
+              <input id="current-zoom" value="" th:hidden="true" th:field="*{zoom}">
             </form>
           </div>
 

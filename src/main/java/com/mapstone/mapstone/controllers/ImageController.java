@@ -46,12 +46,12 @@ public class ImageController {
 
 
         for (String url:urls) {
+
             Image image = new Image();
 
             image.setImageUrl(url);
             //set that user as the owner of the image uploaded
             image.setUser(user);
-
             //make this image belong to that country
             image.setCountry(country);
             //now the image has a user and country, so save it to the db

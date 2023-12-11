@@ -5,12 +5,13 @@ let countriesVisited = [];
 let countryName;
 let countryId;
 let opacity = 0.8;
-let id = document.getElementById("map-id").value;
 //get the map id of the map that belongs to the logged-in user from the hidden input field
+let id = document.getElementById("map-id").value;
 
 
-const getUserMapLayers = async (id) => {
-    const url = `http://localhost:8080/api/map/${id}`;
+
+const getUserMapLayers = async () => {
+    const url = `http://localhost:8080/api/map/layers`;
     let options = {
         method: "GET",
         headers: {
@@ -21,6 +22,23 @@ const getUserMapLayers = async (id) => {
     let layers = await response.json();
     return layers;
 };
+
+
+
+const getUserCountries = async () => {
+    const url = `http://localhost:8080/api/countries`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let countries = await response.json();
+    return countries;
+};
+
+
 
 const getUserMapDetails = async (id) => {
     const url = `http://localhost:8080/api/map/details/${id}`;
@@ -43,10 +61,12 @@ const generateUserMap = async (mapDetails) => {
     let map = new mapboxgl.Map({
         container: "map",
         style: "mapbox://styles/mapbox/" + mapDetails.style,
-        center: [-97.5, 37],
+        center: [10.296718898844109, 8.174209724384902],
         zoom: mapDetails.zoom,
         projection: mapDetails.projection
     });
+
+    map.addControl(new mapboxgl.NavigationControl());
 
     return map;
 };
@@ -88,15 +108,17 @@ async function addDefaultLayers(map, mapDetails) {
     });
 };
 
-async function addUserLayers(map, mapDetails, id) {
-    let userMapLayers = await getUserMapLayers(id);
-    if (userMapLayers === null || userMapLayers.length === 0 || userMapLayers === "") {
+async function addUserLayers(map, mapDetails) {
+    // let userMapLayers = await getUserMapLayers(id);
+    let userMapLayers = await getUserMapLayers();
+    console.log(userMapLayers);
+    if (userMapLayers === null || userMapLayers.length === 0) {
         return;
     } else {
         //loop through the layers that belong to users map, and all them to this map
         for (let i = 0; i < userMapLayers.length; i++) {
             map.addLayer({
-                "id": `${userMapLayers[i].id}`,
+                "id": `${userMapLayers[i].name}`,
                 "type": "fill",
                 "source": "world",
                 "layout": {},
@@ -105,10 +127,11 @@ async function addUserLayers(map, mapDetails, id) {
                     "fill-opacity": opacity
                 },
                 //where the name is equal to the country name on the highlighted layer, the opacity is set to 1
-                "filter": ["==", "NAME", `${userMapLayers[i].id}`]
+                "filter": ["==", "NAME", `${userMapLayers[i].name}`]
             });
         }
     }
+
 }
 
 
@@ -140,7 +163,7 @@ function addMarker(map) {
             draggable: true,
             color: "red",
         })
-            .setLngLat([-98.30651848969364, 29.50652020966919])
+            .setLngLat([6.996193303998299, -13.522856295968037])
             .addTo(map);
 
         //gets the lngLat of the marker when it is dragged
@@ -156,9 +179,10 @@ function addMarker(map) {
 
 const renderModal = (countryName) => {
     let country = countryName;
-
     const clickedCountry = document.querySelector("#clicked-country");
-    clickedCountry.value = country;
+    // const laterButton = document.querySelector("#later-button");
+    const confirmBtn = document.querySelector("#confirm");
+    const uploadBtn = document.querySelector("#upload-button");
 
     const imgForm = document.querySelector("#img-form");
     const input = document.querySelector("#url-for-image");
@@ -170,7 +194,6 @@ const renderModal = (countryName) => {
         maxFiles: 10,
         onUploadDone:
             function (response) {
-
                 let listOfImages = response.filesUploaded;
                 let arrayOfImages = [];
                 listOfImages.forEach( (image) => {
@@ -218,7 +241,7 @@ const onMapLoad = async () => {
         await addDefaultLayers(map, mapDetails);
         await addUserLayers(map, mapDetails, id);
         let allLayers = map.getStyle().layers;
-
+        console.log(allLayers)
         //reveals the highlighted layer when the user hovers over a country
         let hoveredPolygonId = null;
         map.on("mousemove", "highlighted", (e) => {
@@ -254,32 +277,36 @@ const onMapLoad = async () => {
     //when a country is clicked, fill the country with the color selected by the user
     map.on("click", function (e) {
         e.preventDefault();
+
+       console.log(e.lngLat);
+        console.log(e.point);
+
         // Get features at the clicked point
         let features = map.queryRenderedFeatures(e.point);
-
+        console.log(features[0]);
         // Log the name of the clicked layer to the console
         if (features.length > 0) {
             countryName = features[0].properties.NAME;
             countryId = features[0].id;
-            //pushes the clicked country name to the countriesVisited array so that it can be used to add the country to the user_countries table
-            countriesVisited.push(countryName);
             let allLayers = map.getStyle().layers;
             for (let i = 0; i < allLayers.length; i++) {
                 //if the country is already filled (already clicked), and the user clicks it again, remove the fill layer
                 if (allLayers[i].id === countryName) {
-                    map.removeLayer(countryName);
-                    //remove the country from the countriesVisited array
-                    countriesVisited.splice(countriesVisited.indexOf(countryName), 1);
+                    renderModal(countryName);
                     return;
                 }
             }
+            //otherwise, add the fill layer to the map
+            sendLayersToBackend(countryName);
+            sendCountriesToBackend(countryName);
+            countriesVisited.push(countryName);
+
             map.addLayer({
                 "id": countryName,
                 "type": "fill",
                 "source": "world",
                 "layout": {},
                 "paint": {
-                    // "fill-color": "#" + mapDetails.color,
                     "fill-color": mapDetails.color,
                     "fill-opacity": opacity
                 },
@@ -292,82 +319,9 @@ const onMapLoad = async () => {
         renderModal(countryName);
     });
 
-    const saveChanges = document.querySelector("#save-changes");
-    saveChanges.addEventListener("click", function (e) {
-        e.preventDefault();
-        const saveChangesForm = document.getElementById("save-changes-form");
-        // get all the map layers, including default layers
-        let allLayers = map.getStyle().layers;
-        // gets only the layers that belong to the user
-        //if the layer already exists, dont try to add it again
-        let userLayers = [];
-        allLayers.forEach((layer) => {
-            if (layer.source === "world" && layer.id !== "world" && layer.id !== "highlighted") {
-                userLayers.push(layer);
-            }
-        });
-        //stringify the layers so that it can be parsed and stored in the database
-        let stringifiedLayers = JSON.stringify(userLayers);
-        let mapId = document.getElementById("mapId");
-        let updatedMapData = document.getElementById("updated-data");
-            updatedMapData.value = stringifiedLayers;
-        mapId.value = id;
-        // send the countriesVisited array to the backend
-        countriesVisited.forEach((country) => {
-            sendCountriesToBackend(country);
-        });
-
-        saveChangesForm.submit();
-
-    });
-
-
-    // const updateMap = document.getElementById("update-map");
-    // //when update button is clicked, the countryLayers array is merged into one layer
-    // updateMap.addEventListener("click", async function (e) {
-    //     e.preventDefault();
-    //
-    //     //get all the map layers, including default layers
-    //     let allLayers = map.getStyle().layers;
-    //     // gets only the layers that belong to the user
-    //     //if the layer already exists, dont try to add it again
-    //     let userLayers = [];
-    //     allLayers.forEach((layer) => {
-    //         if (layer.source === "world" && layer.id !== "world" && layer.id !== "highlighted") {
-    //             userLayers.push(layer);
-    //         }
-    //     });
-    //
-    //     //stringify the layers so that it can be parsed and stored in the database
-    //     let stringifiedLayers = JSON.stringify(userLayers);
-    //
-    //     let mapId = document.getElementById("map-id");
-    //
-    //     mapId.value = id;
-    //
-    //     let updatedMapData = document.getElementById("updated-data");
-    //     updatedMapData.value = stringifiedLayers;
-    //     const updateMapForm = document.getElementById("update-map-form");
-    //     const mapStyle = document.getElementById("map-style-select");
-    //     const mapColor = document.getElementById("map-color-select");
-    //     const mapProjection = document.getElementById("map-projection-select");
-    //     const mapZoom = document.getElementById("map-zoom-select");
-    //     //if any fields are empty, don't submit the form
-    //     if (mapStyle.value === "" || mapColor.value === "" || mapProjection.value === "" || mapZoom.value === "") {
-    //         alert("Please fill out all fields.");
-    //         return;
-    //     }
-    //
-    //     updateMapForm.submit();
-    //
-    // });
-
     searchForCountry(map);
 
-
 };
-
-
 
 function openUpdateModal() {
     //get the existing values from the hidden input fields
@@ -427,49 +381,56 @@ function openUpdateModal() {
                   <option value="15">15</option>
                 </select>
               </div>
-            <button type="button" id="update-map">Update Map</button>
+            <button type="button" class="update-map" id="update-map">Update Map</button>
         </div>
       </div>`;
 
     //nodes from the modal for event listeners
     const modalClose = modal.querySelector(".modal-close");
     const modalBackground = modal.querySelector(".modal-bg");
-    const updateMapButton = modal.querySelector("#update-map");
-
-
-
+    const updateMapButton = modal.querySelector(".update-map");
 
     //event listener for update map button
-    updateMapButton.addEventListener("click", function (e) {
+    updateMapButton.addEventListener("click", async function (e) {
         e.preventDefault();
 
         const updateMapForm = document.getElementById("update-map-form");
-        const uppdatedMapStyle = document.getElementById("map-style-select");
-        const updatedMapColor = document.getElementById("map-color-select");
-        const updatedMapProjection = document.getElementById("map-projection-select");
-        const updatedMapZoom = document.getElementById("map-zoom-select");
         const mapId = document.getElementById("map-id");
+        const updatedMapStyle = modal.querySelector("#map-style-select");
+        const updatedMapColor = modal.querySelector("#map-color-select");
+        const updatedMapProjection = modal.querySelector("#map-projection-select");
+        const updatedMapZoom = modal.querySelector("#map-zoom-select");
+
 
         //if any fields are empty, don't submit the form
-        if (uppdatedMapStyle.value === "" || updatedMapColor.value === "" || updatedMapProjection.value === "" || updatedMapZoom.value === "") {
+        if (updatedMapStyle.value === "" || updatedMapColor.value === "" || updatedMapProjection.value === "" || updatedMapZoom.value === "") {
             alert("Please fill out all fields.");
             return;
         }
 
-        mapStyle.value = uppdatedMapStyle.value;
-        mapColor.value = updatedMapColor.value;
-        mapProjection.value = updatedMapProjection.value;
-        mapZoom.value = updatedMapZoom.value;
-        mapId.value = id;
+        console.log(mapStyle.value);
+        console.log(mapColor.value);
+        console.log(mapId.value);
 
-        updateMapForm.submit();
+        const mapToUpdate =
+            {
+                id: id,
+                style: updatedMapStyle.value,
+                color: updatedMapColor.value,
+                projection: updatedMapProjection.value,
+                zoom: updatedMapZoom.value
+            }
+
+        await updateMapStyle(mapToUpdate);
+
+        //refresh the page to see the updated map
+        window.location.reload();
+
     });
-
     // event listener for close button
     modalClose.addEventListener("click", () => {
         modal.remove();
     });
-
     //event listener for modal background, allows user to click anywhere on background to close modal
     modalBackground.addEventListener("click", () => {
         modal.remove();
@@ -478,11 +439,9 @@ function openUpdateModal() {
     document.body.appendChild(modal);
 }
 
-
 // Function to POST countries to the backend
 async function sendCountriesToBackend(countryClicked) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
-    console.log("CSRF token:", csrfToken);
 
     const country =
         {
@@ -503,7 +462,6 @@ async function sendCountriesToBackend(countryClicked) {
         if (!response.ok) {
             throw new Error("Failed to send countries to the backend");
         }
-
         const responseData = await response.json();
         console.log("Countries successfully sent to the backend:", responseData);
     } catch (error) {
@@ -512,6 +470,62 @@ async function sendCountriesToBackend(countryClicked) {
 }
 
 
+// Function to POST countries to the backend
+async function sendLayersToBackend(name) {
+    const csrfToken = document.querySelector("meta[name='_csrf']").content;
+    const layer =
+        {
+            name: name,
+        }
+
+    const backendEndpoint = "http://localhost:8080/api/map/layer/add";
+    try {
+        const response = await fetch(backendEndpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            body: JSON.stringify(layer),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to post layer to backend");
+        }
+        const responseData = await response.json();
+        console.log("Layer successfully saved to backend :", responseData);
+    } catch (error) {
+        console.error("Error sending layer to the backend:", error.message);
+    }
+}
+
+
+async function updateMapStyle(mapStyle) {
+    const csrfToken = document.querySelector("meta[name='_csrf']").content;
+
+    const backendEndpoint = "http://localhost:8080/api/map/update";
+    try {
+        const response = await fetch(backendEndpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            body: JSON.stringify(mapStyle),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to update map style");
+        }
+        const responseData = await response.json();
+        console.log("Map style successfully saved :", responseData);
+    } catch (error) {
+        console.error("Error sending map style to db:", error.message);
+    }
+}
+
+
+
 export {
-    onMapLoad, openUpdateModal, displayImages
+    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal
 };

@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+//import com.mapstone.mapstone.PasswordConstraint;
 
 import java.util.List;
 
@@ -35,13 +40,10 @@ public class User {
     @Email(message = "Please provide a valid email")
     private String email;
 
-    @Column(name = "country", length = 250)
-    @NotEmpty(message = "Country cannot be blank")
-    private String country;
-
     @Column(name = "password", length = 500)
     @JsonIgnore
     @NotEmpty(message = "Password cannot be blank")
+//    @PasswordConstraint
     private String password;
 
     @Column(name = "avatar", length = 500)
@@ -56,7 +58,6 @@ public class User {
     private List<Comment> comments;
 
     @JsonIgnore
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_countries",
@@ -70,7 +71,6 @@ public class User {
     private List<Image> images;
 
 
-
     public User() {
     }
 
@@ -80,7 +80,6 @@ public class User {
         firstName = copy.firstName;
         lastName = copy.lastName;
         email = copy.email;
-        country = copy.country;
         password = copy.password;
         avatar = copy.avatar;
         map = copy.map;
@@ -89,42 +88,38 @@ public class User {
         images = copy.images;
     }
 
-    public User(long id, String username, String firstName, String lastName, String email, String country, String password, String avatar) {
+    public User(long id, String username, String firstName, String lastName, String email, String password, String avatar) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
         this.password = password;
         this.avatar = avatar;
     }
 
-    public User(String username, String firstName, String lastName, String email, String country, String password, String avatar) {
+    public User(String username, String firstName, String lastName, String email, String password, String avatar) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
         this.password = password;
         this.avatar = avatar;
     }
 
-    public User(String username, String firstName, String lastName, String email, String country, String password) {
+    public User(String username, String firstName, String lastName, String email, String password) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
         this.password = password;
     }
 
-    public User(String username, String firstName, String lastName, String email, String country) {
+    public User(String username, String firstName, String lastName, String email) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
     }
 
     public long getId() {
@@ -167,14 +162,6 @@ public class User {
         this.email = email;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -211,13 +198,14 @@ public class User {
         return countries;
     }
 
-//    public void setCountries(Country country) {
-//        this.countries.add(country);
-//    }
-
     public void setCountries(List<Country> countries) {
         this.countries = countries;
     }
+
+    public void addCountry(Country country) {
+        this.countries.add(country);
+    }
+
 
     public List<Image> getImages() {
         return images;
@@ -226,7 +214,6 @@ public class User {
     public void setImages(List<Image> images) {
         this.images = images;
     }
-
 
 
 }

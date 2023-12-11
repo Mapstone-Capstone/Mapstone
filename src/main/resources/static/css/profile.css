@@ -10,11 +10,17 @@
     background: #f2f2f2;
 }
 
+aside {
+    background-color: var(--federal-blue);
+    color: white;
+}
+
 #map {
     min-height: 40dvh;
     padding: 10px;
     border-radius: 5px;
 }
+
 aside {
     display: flex;
     flex-direction: column;
@@ -96,11 +102,11 @@ button {
     border: none;
     letter-spacing: 0.05em;
     border-radius: 16px;
+    cursor: pointer;
+    transition: all ease 0.3s;
 
-    & :hover {
-        background: var(--white);
-        color: var(--dark-blue);
-        border: 1px solid var(--button);
+    &:hover {
+        background: var(--dark-blue);
     }
 }
 
@@ -185,12 +191,19 @@ button {
 
 .modal-content {
     position: relative;
-    max-width: 40dvw;
+    max-width: 30dvw;
     padding: 30px;
     border-radius: 20px;
     color: black;
-    background-color:white;
+    background-color: white;
     transition: all ease 0.3s;
+
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
 }
 
 .modal-header {
@@ -215,4 +228,9 @@ button {
         background-color: grey;
         color: black;
     }
+}
+
+.badge {
+    min-width: 100px;
+    min-height: 100px;
 }
