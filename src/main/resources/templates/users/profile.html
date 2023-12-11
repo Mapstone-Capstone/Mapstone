@@ -17,14 +17,14 @@
             <span>Last Name: <span th:text="${#authentication.principal.lastName}"></span></span>
             <span>Username: <span th:text="${#authentication.principal.username}"></span></span>
             <span># of countries visited: <span th:text="${#authentication.principal.countries.size()}"></span></span>
-            <span>% of the world explored: <span th:text="${#authentication.principal.countries.size() / 195 * 100}"></span></span>
+            <span>% of the world explored: <span th:text="${100 * #authentication.principal.countries.size() / 195} + '%'"></span></span>
           </p>
         </div>
 
         <h4>Achievements</h4>
         <div class="badges w-100">
           <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
+            <img class="border rounded-circle badge" src="/assets/badges/on-the-map.svg" alt="badge"/>
           </div>
           <div class="badge-wrapper">
             <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
