@@ -78,7 +78,10 @@ public class ImageController {
         return "redirect:/profile";
     }
 
-
+    @GetMapping("/image/country"+"/{id}")
+    public List<Image> getImagesByCountryId(@PathVariable long id) {
+        return imageDao.getImagesByCountry_Id(id);
+    }
 
 }
 
