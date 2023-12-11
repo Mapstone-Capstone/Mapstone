@@ -2,14 +2,8 @@ package com.mapstone.mapstone.restcontrollers;
 
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.mapstone.mapstone.models.Country;
-import com.mapstone.mapstone.models.Layer;
-import com.mapstone.mapstone.models.Map;
-import com.mapstone.mapstone.models.User;
-import com.mapstone.mapstone.repositories.CountryRepository;
-import com.mapstone.mapstone.repositories.LayerRepository;
-import com.mapstone.mapstone.repositories.MapRepository;
-import com.mapstone.mapstone.repositories.UserRepository;
+import com.mapstone.mapstone.models.*;
+import com.mapstone.mapstone.repositories.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +21,14 @@ public class MapsRestController {
 
     public final LayerRepository layerDao;
 
-    public MapsRestController(MapRepository mapDao, CountryRepository countryDao, UserRepository userDao, LayerRepository layerDao) {
+    public final BadgesRepository badgesDao;
+
+    public MapsRestController(MapRepository mapDao, CountryRepository countryDao, UserRepository userDao, LayerRepository layerDao, BadgesRepository badgesDao) {
         this.mapDao = mapDao;
         this.countryDao = countryDao;
         this.userDao = userDao;
         this.layerDao = layerDao;
+        this.badgesDao = badgesDao;
     }
 
 
@@ -81,6 +78,26 @@ public class MapsRestController {
             loggedInUser.getCountries().add(countryToAdd);
         }
         //save the user so the country is added to the user_countries table
+        userDao.save(user);
+        //get the updated list of countries so we can determine if a new badge should be given to the user
+        List<Country> updatedCountries = user.getCountries();
+        //Also get the list of badges that user already has
+        List<Badge> userBadges = user.getBadges();
+        //user has visited at least one country
+        if (updatedCountries.size() >= 1 && !userBadges.contains(badgesDao.getReferenceById(1))) {
+            userBadges.add(badgesDao.getOne(1));
+            loggedInUser.getBadges().add(badgesDao.getOne(1));
+        }
+        //user has visited at least 5 countries
+        if (updatedCountries.size() >= 5 && !userBadges.contains(badgesDao.getReferenceById(4))) {
+            userBadges.add(badgesDao.getOne(4));
+            loggedInUser.getBadges().add(badgesDao.getOne(4));
+        }
+        //user has visited at least 10 countries
+        if (updatedCountries.size() >= 10 && !userBadges.contains(badgesDao.getReferenceById(5))) {
+            userBadges.add(badgesDao.getOne(5));
+            loggedInUser.getBadges().add(badgesDao.getOne(5));
+        }
         userDao.save(user);
         //return the list of countries
         return countryDao.getAllByUsers_Id(loggedInUser.getId());
@@ -151,6 +168,8 @@ public class MapsRestController {
         //return JUST THE STRINGIFIED COUNTRY DATA SO IT CAN BE PARSED AS VALID JSON
         return countries.toString();
     }
+
+
 
     }
 

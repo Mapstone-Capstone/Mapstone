@@ -4,6 +4,10 @@ package com.mapstone.mapstone.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -18,6 +22,8 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column
+    private Date date;
 
     @JsonBackReference(value = "map-comment")
     @OneToOne
@@ -40,6 +46,13 @@ public class Comment {
 
     public Comment(User user, Map map, String content) {
         this.user = user;
+        this.map = map;
+        this.content = content;
+    }
+
+    public Comment(User user, Date date, Map map, String content) {
+        this.user = user;
+        this.date = date;
         this.map = map;
         this.content = content;
     }
@@ -72,6 +85,17 @@ public class Comment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getDate() {
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm dd-MM-yyyy");
+        String strDate = dateFormat.format(date);
+        System.out.println("Converted String: " + strDate);
+        return strDate;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Map getMap() {

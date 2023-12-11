@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{partials/fragments :: head(Login, '/css/login.css')}">
+<head th:replace="~{partials/fragments :: head('Login', '/css/login.css')}">
   <style></style>
 	<title>Login</title>
 
@@ -24,11 +24,12 @@
           <div th:if="${param.error}">
             Invalid Username and Password.
           </div>
-          <label for="username">Username</label>
-          <input id="username" name="username" type="text"/>
 
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password"/>
+	        <label for="username">Username</label>
+	        <input id="username" name="username" type="text"/>
+	        
+	        <label for="password">Password</label>
+	        <input id="password" name="password" type="password"/>
 
           <button class="login-button" type="submit">
             <img src="/assets/globe-icon.svg" alt="globe-icon">

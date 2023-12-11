@@ -1,11 +1,7 @@
 package com.mapstone.mapstone.controllers;
 
 import com.mapstone.mapstone.models.*;
-import com.mapstone.mapstone.repositories.CountryRepository;
-import com.mapstone.mapstone.repositories.ImageRepository;
-import com.mapstone.mapstone.repositories.MapRepository;
-import com.mapstone.mapstone.repositories.UserRepository;
-import com.mapstone.mapstone.repositories.LayerRepository;
+import com.mapstone.mapstone.repositories.*;
 import jakarta.validation.Valid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,15 +32,20 @@ public class UsersController {
     private final LayerRepository layerDao;
 
     private final ImageRepository imageDao;
+    private final CommentRepository commentDao;
+
+    private final BadgesRepository badgeDao;
     private PasswordEncoder passwordEncoder;
 
-    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao) {
+    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao, BadgesRepository badgeDao) {
         this.userDao = userDao;
         this.mapDao = mapDao;
         this.passwordEncoder = passwordEncoder;
         this.countryDao = countryDao;
         this.imageDao = imageDao;
         this.layerDao = layerDao;
+        this.commentDao = commentDao;
+        this.badgeDao = badgeDao;
     }
 
     @GetMapping("/sign-up")
@@ -71,6 +72,7 @@ public class UsersController {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         //set the hashed password on the user object
         user.setPassword(hashedPassword);
+        user.setAvatar("https://as2.ftcdn.net/v2/jpg/01/86/61/17/1000_F_186611794_cMP2t2Dn7fdJea0R4JAJOi9tNcSJ0i1T.jpg");
         //save the user object to the database
         userDao.save(user);
         //create a new map object for the user with default values
@@ -87,13 +89,11 @@ public class UsersController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //send the logged-in user to the profile page
         model.addAttribute("user", userDao.getOne(loggedInUser.getId()));
-
+        //gets all comments made by logged in user
+        List<Comment>commentList = commentDao.findAllByMap_Id(loggedInUser.getMap().getId());
+        model.addAttribute("commentList",commentList);
         //get the user's map
         Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
-
-
-        //TODO:get the users list of countries visited
-        //model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
 
         model.addAttribute("image", new Image());
 
@@ -102,6 +102,7 @@ public class UsersController {
 
         return "users/profile";
     }
+
     @GetMapping("/viewprofile/{id}")
     public String viewGuestProfile(@PathVariable Long id, Model model){
         model.addAttribute("comment", new Comment());
@@ -114,7 +115,15 @@ public class UsersController {
         }
         User chosen = userDao.getReferenceById(id);
         model.addAttribute("user",chosen);
+
+        //get the users badges
+        List<Badge> userBadges = chosen.getBadges();
+        //send the badges to the view
+        model.addAttribute("badges", userBadges);
+
         Map userMap = mapDao.getMapByUserId(chosen.getId());
+        List<Comment>commentList = commentDao.findAllByMap_Id(userMap.getId());
+        model.addAttribute("commentList",commentList);
         List<Country> list = countryDao.getAllByUsers_Id(chosen.getId());
         model.addAttribute("countries", list);
         model.addAttribute("map", userMap);
@@ -122,15 +131,18 @@ public class UsersController {
     }
 
 @PostMapping("/profile-picture")
-    public String updateProfilePicture(@ModelAttribute User user) {
-        //get the logged-in user
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //set the logged-in user's profile picture to the new profile picture
-        User userFromDb = userDao.getOne(loggedInUser.getId());
-        userFromDb.setAvatar(user.getAvatar());
-        //save the user object to the database
-        userDao.save(userFromDb);
+    public String updateProfilePicture(@RequestParam(name = "avatarUrl") String avatarUrl) {
 
+    //get the logged-in user
+    User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    //set the logged-in user's profile picture to the new profile picture
+    User userFromDb = userDao.getOne(loggedInUser.getId());
+    userFromDb.setAvatar(avatarUrl);
+
+
+    //save the user object to the database
+    userDao.save(userFromDb);
 
         return "redirect:/profile";
     }
@@ -140,7 +152,9 @@ public class UsersController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         String image = imageDao.getImageByUser(loggedInUser).getImageUrl();
-        model.addAttribute("image", image);
+
+//        List<Country> listOfCountries =
+//        model.addAttribute("image", image);
         return "/profile";
     }
     // method to retrieve user profile for editing

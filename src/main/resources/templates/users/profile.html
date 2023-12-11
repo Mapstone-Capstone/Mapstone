@@ -10,15 +10,19 @@
     <div class="row">
       <aside class="col-3 d-flex flex-column p-5">
         <div class="user-info w-100">
+
           <h4>Welcome <span th:text="${#authentication.principal.username}"></span></h4>
 	        
+
 	        <!-- upload avatar click event -->
-<!--          <img  th:src="/assets/default-profile.png" name="avatar" alt="avatar" class="avatar" />-->
-<!--	        <form id="upload-avatar-form">-->
-<!--		        <input id="upload-avatar-btn" type="file" />-->
-<!--	        </form>-->
+          <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar" />
 	        
+	        <form id="upload-avatar-form" th:action="@{/profile-picture}" th:method="POST">
+		        <input id="avatarUrl" name="avatarUrl" type="hidden"/>
+		        <button id="upload-avatar-btn" type="button" class="btn btn-primary">Upload Avatar</button>
+	        </form>
 	        
+	       
         </div>
         <div class="user-details w-100">
           <p class="d-flex flex-column">
@@ -32,23 +36,10 @@
 
         <h4>Achievements</h4>
         <div class="badges w-100">
-          <div class="badge-wrapper">
-            <img class="border rounded-circle badge" src="/assets/badges/on-the-map.svg" alt="badge"/>
-          </div>
-          <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
-          </div>
-          <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
-          </div>
-          <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
-          </div>
-          <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
-          </div>
-          <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
+          <div class="badge-wrapper" th:each="badge : ${#authentication.principal.badges}">
+            <img class="rounded-circle badge-img" th:id="${'badge'+badge.id}" th:src="${badge.url}" alt="badge"/>
+            <p th:hidden="true" class="badge-name" th:value="${badge.name}"></p>
+            <p th:hidden="true" class="badge-description" th:value="${badge.description}"></p>
           </div>
 
         </div>
@@ -56,10 +47,8 @@
       <section class="col">
         <div class="main-profile-row row">
           <div>
-
             <div class="w-100" id="map">
             </div>
-
             <div class="update-search-wrapper w-100">
               <form class="geocode-search">
                 <label for="search-input">Search:</label>
@@ -99,27 +88,34 @@
               <input id="current-zoom" value="" th:hidden="true" th:field="*{zoom}">
             </form>
           </div>
-
         </div>
 
 
-        <div class="country-images-wrapper w-100">
+        <div id="country-images-wrapper" class="hide-country-images-wrapper">
           <div class="country-images-header w-100">
             <h2>Images</h2>
 	          
 	          <!--Use for possible navbar to pull up images based on user country-->
-<!--	          <ul>-->
-<!--		          <th:block th:each="country : ${user.getCountries()}">-->
-<!--			          <p th:text="${country.getName()}"></p>-->
-<!--		          </th:block>-->
-<!--	          </ul>-->
+	          <ul>
+		          <li style="list-style: none">
+			          <button id="all-images" type="button">All</button>
+		          </li>
+		          <li style="list-style: none">
+			          <form th:action="@{/country/${id}}" th:method="POST">
+				          <th:block th:each="country : ${user.getCountries()}">
+					          <button class="image-filter-btn" th:text="${country.getName()}"></button>
+				          </th:block>
+			          </form>
+		          </li>
+	          </ul>
 	         
           </div>
           <div class="country-images-body w-100">
             <div class="country-images w-100">
-<!--	            loops through list of image object to input image url into image source tag-->
+	            <!--loops through list of image object to input image url into image source tag-->
 	            <th:block th:each="image : ${user.getImages()}">
 		            <div class="country-image">
+<!--			            <input th:value="${}" type="hidden" />-->
 			            <img th:src="${image.getImageUrl()}" alt="country image">
 		            </div>
 	            </th:block>
@@ -132,14 +128,15 @@
           <div class="comments-header">
             <h2>Comments</h2>
           </div>
-          <div class="comments-body">
+
+          <div class="comments-body" th:each="item : ${commentList}">
             <div class="comment">
               <div class="comment-header">
-                <h5>Username</h5>
-                <p>date</p>
+                <h5>Username: <span th:text="${item.getUser().getUsername()}"></span></h5>
+                <p>date: <span th:text="${item.getDate()}"></span></p>
               </div>
               <div class="comment-body">
-                <p>comment</p>
+                <p th:text="${item.comment}"></p>
               </div>
             </div>
           </div>
@@ -161,6 +158,8 @@
 
 </main>
 <footer th:replace="~{partials/fragments :: footer}"></footer>
+
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
+<script src="/js/badges.js"></script>
 </body>
 </html>

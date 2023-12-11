@@ -78,5 +78,4 @@ public class MapsController {
         return "redirect:/profile";
     }
 
-
 }
