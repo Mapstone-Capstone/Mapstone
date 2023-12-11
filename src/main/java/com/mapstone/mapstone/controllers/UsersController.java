@@ -69,6 +69,7 @@ public class UsersController {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         //set the hashed password on the user object
         user.setPassword(hashedPassword);
+        user.setAvatar("https://as2.ftcdn.net/v2/jpg/01/86/61/17/1000_F_186611794_cMP2t2Dn7fdJea0R4JAJOi9tNcSJ0i1T.jpg");
         //save the user object to the database
         userDao.save(user);
         //create a new map object for the user with default values

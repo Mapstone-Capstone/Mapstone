@@ -12,12 +12,12 @@
         <div class="user-info w-100">
           <h1>Welcome <span th:text="${#authentication.principal.username}"></span></h1>
 	        
-	        <!-- upload avatar click event -->
-<!--          <img  th:src="/assets/default-profile.png" name="avatar" alt="avatar" class="avatar" />-->
+<!--&lt;!&ndash;	         upload avatar click event &ndash;&gt;-->
+<!--          <img  th:src="@{assets/default-profile.png}" name="avatar" alt="avatar" class="avatar" />-->
 <!--	        <form id="upload-avatar-form">-->
 <!--		        <input id="upload-avatar-btn" type="file" />-->
 <!--	        </form>-->
-        </div>
+<!--        </div>-->
         <div class="user-details w-100">
           <p class="d-flex flex-column">
             <span>First Name: <span th:text="${#authentication.principal.firstName}"></span></span>
