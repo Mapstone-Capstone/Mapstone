@@ -231,8 +231,7 @@ const displayImages = () => {
 
 }
 
-//upload profile pic
-
+//upload profile avatar
 const uploadAvatar = () => {
 
     const uploadAvatarBtn = document.getElementById('upload-avatar-btn');
@@ -255,7 +254,6 @@ const uploadAvatar = () => {
     })
 
 }
-
 
 const onMapLoad = async () => {
     let mapDetails = await getUserMapDetails(id);
