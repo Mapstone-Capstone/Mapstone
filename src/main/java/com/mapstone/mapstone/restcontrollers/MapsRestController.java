@@ -60,6 +60,7 @@ public class MapsRestController {
 
         return mapToUpdate;
 
+
     }
 
 
@@ -124,10 +125,20 @@ public class MapsRestController {
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //get the map from the database
-        Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
+        Map userMap = mapDao.getMapById(loggedInUser.getMap().getId());
         //get the list of layers
         return layerDao.getAllByMap_Id(userMap.getId());
+    }
 
+
+    @GetMapping("/api/map/layers"+"/{id}")
+    public List<Layer> getViewOnlyMapLayers(@PathVariable long id) {
+        //get the user by id
+        User user = userDao.getReferenceById(id);
+        //get the map from the database
+        Map userMap = mapDao.getMapById(user.getMap().getId());
+        //get the list of layers
+        return layerDao.getAllByMap_Id(userMap.getId());
     }
 
     //get all the names of the countries that belong to the logged-in user as a string to it can be parsed as valid JSON

@@ -1,126 +1,93 @@
 import {MAP_BOX_TOKEN} from "./keys.js";
 import {
-     getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal
+    getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers
 } from "./mapbox-map-utils.js";
-import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
-let countriesVisited = [];
-let countryName;
-let countryId;
+
 let opacity = 0.8;
 let id = document.getElementById("map-id").value;
+let userId = document.getElementById("user-id").value;
 //get the map id of the map that belongs to the logged-in user from the hidden input field
 
+const getViewOnlyUserMapLayers = async (id) => {
+    const url = `http://localhost:8080/api/map/layers/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let layers = await response.json();
+    return layers;
+};
+
+async function addViewOnlyUserLayers(map, mapDetails) {
+    // let userMapLayers = await getUserMapLayers(id);
+    let userMapLayers = await getViewOnlyUserMapLayers(userId);
+    console.log(userMapLayers);
+    if (userMapLayers === null || userMapLayers.length === 0) {
+        return;
+    } else {
+        //loop through the layers that belong to users map, and all them to this map
+        for (let i = 0; i < userMapLayers.length; i++) {
+            map.addLayer({
+                "id": `${userMapLayers[i].name}`,
+                "type": "fill",
+                "source": "world",
+                "layout": {},
+                "paint": {
+                    "fill-color": mapDetails.color,
+                    "fill-opacity": opacity
+                },
+                //where the name is equal to the country name on the highlighted layer, the opacity is set to 1
+                "filter": ["==", "NAME", `${userMapLayers[i].name}`]
+            });
+        }
+    }
+
+}
 
 
-// const getUserMapDetails = async (id) => {
-//     const url = `http://localhost:8080/api/map/details/${id}`;
-//     let options = {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//     };
-//     let response = await fetch(url, options);
-//     let details = await response.json();
-//     return details;
-// };
-//
-// //returns a map object with styling, zoom, projection, and color
-// const generateUserMap = async (mapDetails) => {
-//     //gets the map details from the database(styling, zoom, projection, color)
-//     //creates a map object with the styling, zoom, projection, and color
-//     mapboxgl.accessToken = MAP_BOX_TOKEN;
-//     let map = new mapboxgl.Map({
-//         container: "map",
-//         style: "mapbox://styles/mapbox/" + mapDetails.style,
-//         center: [-97.5, 37],
-//         zoom: mapDetails.zoom,
-//         projection: mapDetails.projection
-//     });
-//
-//     return map;
-// };
-//
-// async function addDefaultLayers(map, mapDetails) {
-//
-//     //adds the custom geojson source to the map
-//     map.addSource("world", {
-//         "type": "geojson",
-//         "data": "../../data/world.geojson"
-//     });
-//
-//     // adds the world layer to the map, makes the outline of each country black
-//     map.addLayer({
-//         "id": "world",
-//         "type": "line",
-//         "source": "world",
-//         "layout": {},
-//         "paint": {
-//             "line-color": "#030303",
-//             "line-width": 1
-//         }
-//     });
-//     // adds the highlighted layer to the map, to prepare for hover effect
-//     map.addLayer({
-//         "id": "highlighted",
-//         "type": "fill",
-//         "source": "world",
-//         "layout": {},
-//         "paint": {
-//             "fill-color": mapDetails.color,
-//             "fill-opacity": [
-//                 "case",
-//                 ["boolean", ["feature-state", "hover"], false],
-//                 0.3,
-//                 0.0
-//             ]
-//         },
-//     });
-// };
-//
-// async function addUserLayers(map, mapDetails, id) {
-//     let userMapLayers = await getUserMapLayers(id);
-//     if (userMapLayers === null || userMapLayers.length === 0 || userMapLayers === "") {
-//         return;
-//     } else {
-//         //loop through the layers that belong to users map, and all them to this map
-//         for (let i = 0; i < userMapLayers.length; i++) {
-//             map.addLayer({
-//                 "id": `${userMapLayers[i].id}`,
-//                 "type": "fill",
-//                 "source": "world",
-//                 "layout": {},
-//                 "paint": {
-//                     "fill-color": mapDetails.color,
-//                     "fill-opacity": opacity
-//                 },
-//                 //where the name is equal to the country name on the highlighted layer, the opacity is set to 1
-//                 "filter": ["==", "NAME", `${userMapLayers[i].id}`]
-//             });
-//         }
-//     }
-// };
-//
-//
-//
-// const renderModal = () => {
-//     const modal = document.createElement("div");
-//     modal.classList.add("modal");
-//     modal.innerHTML = `
-//         <div class="modal-bg"></div>
-//         <div class="modal-content">
-//             <div class="modal-header">
-//                 <h2 class="modal-title"</h2>
-//
-//             </div>
-//             <div class="modal-body">
-//                 <button id="later-button">Not Right Now</button>
-//                 <button>Choose Photos</button>
-//             </div>
-//         </div>
-//     `;
-//     document.body.appendChild(modal);
-// };
+
+
+async function addDefaultLayers(map, mapDetails) {
+
+    //adds the custom geojson source to the map
+    map.addSource("world", {
+        "type": "geojson",
+        "data": "../../data/world.geojson",
+    });
+
+    // adds the world layer to the map, makes the outline of each country black
+    map.addLayer({
+        "id": "world",
+        "type": "line",
+        "source": "world",
+        "layout": {},
+        "paint": {
+            "line-color": "#030303",
+            "line-width": 1
+        }
+    });
+    // adds the highlighted layer to the map, to prepare for hover effect
+    map.addLayer({
+        "id": "highlighted",
+        "type": "fill",
+        "source": "world",
+        "layout": {},
+        "paint": {
+            "fill-color": mapDetails.color,
+            "fill-opacity": [
+                "case",
+                ["boolean", ["feature-state", "hover"], false],
+                0.3,
+                0.0
+            ]
+        },
+    });
+};
+
+
 
 
 
@@ -134,7 +101,7 @@ const onMapLoad = async () => {
         //adds the default layers to the map
         await addDefaultLayers(map, mapDetails);
 
-        await addUserLayers(map, mapDetails, id);
+        await addViewOnlyUserLayers(map, mapDetails);
         let allLayers = map.getStyle().layers;
         console.log(allLayers);
         console.log(id)

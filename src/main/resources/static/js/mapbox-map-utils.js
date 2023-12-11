@@ -219,7 +219,7 @@ const onMapLoad = async () => {
     map.on("load", async function () {
         //adds the default layers to the map
         await addDefaultLayers(map, mapDetails);
-        await addUserLayers(map, mapDetails);
+        await addUserLayers(map, mapDetails, id);
         let allLayers = map.getStyle().layers;
         console.log(allLayers)
         //reveals the highlighted layer when the user hovers over a country
