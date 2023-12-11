@@ -183,10 +183,11 @@ const renderModal = (countryName) => {
     // const laterButton = document.querySelector("#later-button");
     const confirmBtn = document.querySelector("#confirm");
     const uploadBtn = document.querySelector("#upload-button");
-
+        clickedCountry.value = countryName;
     const imgForm = document.querySelector("#img-form");
     const input = document.querySelector("#url-for-image");
 
+    clickedCountry.value = countryName;
 
     // event for image upload
     const client = filestack.init(FILE_STACK_TOKEN);
@@ -211,25 +212,49 @@ const renderModal = (countryName) => {
 const displayImages = () => {
 
     const viewImagesBtn = document.getElementById('view-images-btn');
-    const countryImagesWrapper = document.getElementsByClassName('country-images-wrapper');
+    const countryImagesWrapper = document.getElementById('country-images-wrapper')
 
-    viewImagesBtn.addEventListener("click", () => {
+    viewImagesBtn.addEventListener('click', () => {
 
-        console.log("hello im here in the event listener")
-        countryImagesWrapper.style.display = 'flex';
+        if (countryImagesWrapper.className === "hide-country-images-wrapper") {
+
+            countryImagesWrapper.classList.remove("hide-country-images-wrapper");
+            countryImagesWrapper.classList.add("display-country-images-wrapper");
+
+        } else if (countryImagesWrapper.className === "display-country-images-wrapper") {
+
+            countryImagesWrapper.classList.remove("display-country-images-wrapper");
+            countryImagesWrapper.classList.add("hide-country-images-wrapper");
+
+        }
 
     })
 
 }
 
-//upload profile pic
-
+//upload profile avatar
 const uploadAvatar = () => {
 
     const uploadAvatarBtn = document.getElementById('upload-avatar-btn');
+    const avatarUrl = document.getElementById('avatarUrl');
+    const avatarForm = document.getElementById('upload-avatar-form');
+
+    uploadAvatarBtn.addEventListener('click', () => {
+
+        const client = filestack.init(FILE_STACK_TOKEN);
+        const options = {
+            onUploadDone:
+                function (response) {
+                    console.log(response.filesUploaded[0].url);
+                    avatarUrl.value = response.filesUploaded[0].url
+                    console.log(avatarUrl.value);
+                    avatarForm.submit();
+                }
+        };
+        client.picker(options).open();
+    })
 
 }
-
 
 const onMapLoad = async () => {
     let mapDetails = await getUserMapDetails(id);
@@ -320,6 +345,10 @@ const onMapLoad = async () => {
     });
 
     searchForCountry(map);
+    // store id of country in variable here
+
+    let images = await getImagesByCountryId(185);
+    console.log(images);
 
 };
 
@@ -526,6 +555,55 @@ async function updateMapStyle(mapStyle) {
 
 
 
+
+const getImagesByCountryId = async (id) => {
+    const url = `http://localhost:8080/api/image/country/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let images = await response.json();
+    return images;
+};
+
+
+//
+// async function getImages(id, countryName) {
+//     const csrfToken = document.querySelector("meta[name='_csrf']").content;
+//
+//     const country =
+//         {
+//             id: id,
+//             name: countryName,
+//
+//         }
+//
+//     const backendEndpoint = `http://localhost:8080/api/image/country`;
+//     try {
+//         const response = await fetch(backendEndpoint, {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "X-CSRF-TOKEN": csrfToken,
+//             },
+//             body: JSON.stringify(country),
+//         });
+//
+//         if (!response.ok) {
+//             throw new Error("Failed to port image");
+//         }
+//         const responseData = await response.json();
+//         console.log("Images successfully retried :", responseData);
+//     } catch (error) {
+//         console.error("Error sending post request:", error.message);
+//     }
+// }
+
+
+
 export {
-    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal, displayImages
+    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal, displayImages, uploadAvatar
 };
