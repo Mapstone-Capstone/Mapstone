@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -54,28 +55,25 @@ public class MapsController {
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userDao.getById(loggedInUser.getId());
-
-        //delete the layers that belong to the map
-        List<Layer> layers = map.getLayers();
+        Map mapToReset = mapDao.getMapById(map.getId());
+        //delete the layers that belong to the map (must be done before deleting the map because of foreign key constraints)
+        List<Layer> layers = mapToReset.getLayers();
         if (layers != null) {
             layerDao.deleteAll(layers);
         }
-        mapDao.save(map);
-
-        //delete the countries that belong to the user
-        List<Country> countries = user.getCountries();
-        if(countries != null) {
-            countryDao.deleteAll(countries);
-        }
-
-        userDao.save(user);
-
-
+        //save the map with no layers
+        mapDao.save(mapToReset);
+       //get all the countries that belong to the user and delete them
+       user.setCountries(new ArrayList<>());
+         userDao.save(user);
+         //update the logged in user principal to reflect the changes when the user is redirected to the profile page
+        loggedInUser.setCountries(new ArrayList<>());
         //now delete the map, then create a new default map and set it to the user, then save the user
-        mapDao.delete(map);
+        mapDao.delete(mapToReset);
         Map newMap = new Map("#0059ff", "light-v11", "naturalEarth", "1");
-        newMap.setUser(loggedInUser);
+        newMap.setUser(user);
         mapDao.save(newMap);
+        //send the new map to the profile page
         model.addAttribute("map", newMap);
         return "redirect:/profile";
     }

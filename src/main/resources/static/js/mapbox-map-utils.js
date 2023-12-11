@@ -74,7 +74,7 @@ const generateUserMap = async (mapDetails) => {
     let map = new mapboxgl.Map({
         container: "map",
         style: "mapbox://styles/mapbox/" + mapDetails.style,
-        center: [-97.5, 37],
+        center: [-92, -20],
         zoom: mapDetails.zoom,
         projection: mapDetails.projection
     });
@@ -297,45 +297,9 @@ const onMapLoad = async () => {
         renderModal(countryName);
     });
 
-    const saveChanges = document.querySelector("#save-changes");
-    saveChanges.addEventListener("click", function (e) {
-        e.preventDefault();
-        const saveChangesForm = document.getElementById("save-changes-form");
-        // get all the map layers, including default layers
-        let allLayers = map.getStyle().layers;
-        // gets only the layers that belong to the user
-        //if the layer already exists, dont try to add it again
-        let userLayers = [];
-        allLayers.forEach((layer) => {
-            if (layer.source === "world" && layer.id !== "world" && layer.id !== "highlighted") {
-                userLayers.push(layer);
-
-            }
-        });
-        //stringify the layers so that it can be parsed and stored in the database
-        let stringifiedLayers = JSON.stringify(userLayers);
-        let mapId = document.getElementById("mapId");
-        let updatedMapData = document.getElementById("updated-data");
-            updatedMapData.value = stringifiedLayers;
-        mapId.value = id;
-        // send the countriesVisited array to the backend
-        countriesVisited.forEach((country) => {
-            sendCountriesToBackend(country);
-        });
-
-        saveChangesForm.submit();
-
-    });
-
-
-
     searchForCountry(map);
 
-
 };
-
-
-
 
 function openUpdateModal() {
     //get the existing values from the hidden input fields
@@ -402,7 +366,7 @@ function openUpdateModal() {
     //nodes from the modal for event listeners
     const modalClose = modal.querySelector(".modal-close");
     const modalBackground = modal.querySelector(".modal-bg");
-    const updateMapButton = modal.querySelector("#update-map");
+    const updateMapButton = modal.querySelector("button");
 
     //event listener for update map button
     updateMapButton.addEventListener("click", function (e) {
@@ -425,8 +389,10 @@ function openUpdateModal() {
         mapProjection.value = updatedMapProjection.value;
         mapZoom.value = updatedMapZoom.value;
         mapId.value = id;
+        console.log(mapStyle.value);
+        console.log(mapColor.value);
 
-        // updateMapForm.submit();
+        updateMapForm.submit();
     });
     // event listener for close button
     modalClose.addEventListener("click", () => {
