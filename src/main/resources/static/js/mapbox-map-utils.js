@@ -236,6 +236,23 @@ const displayImages = () => {
 const uploadAvatar = () => {
 
     const uploadAvatarBtn = document.getElementById('upload-avatar-btn');
+    const avatarUrl = document.getElementById('avatarUrl');
+    const avatarForm = document.getElementById('upload-avatar-form');
+
+    uploadAvatarBtn.addEventListener('click', () => {
+
+        const client = filestack.init(FILE_STACK_TOKEN);
+        const options = {
+            onUploadDone:
+                function (response) {
+                    console.log(response.filesUploaded[0].url);
+                    avatarUrl.value = response.filesUploaded[0].url
+                    console.log(avatarUrl.value);
+                    avatarForm.submit();
+                }
+        };
+        client.picker(options).open();
+    })
 
 }
 
@@ -536,5 +553,5 @@ async function updateMapStyle(mapStyle) {
 
 
 export {
-    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal, displayImages
+    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal, displayImages, uploadAvatar
 };
