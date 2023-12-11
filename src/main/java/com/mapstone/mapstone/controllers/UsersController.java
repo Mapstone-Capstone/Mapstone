@@ -131,7 +131,6 @@ public class UsersController {
         //save the user object to the database
         userDao.save(userFromDb);
 
-
         return "redirect:/profile";
     }
 

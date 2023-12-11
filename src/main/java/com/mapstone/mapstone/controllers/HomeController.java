@@ -18,4 +18,5 @@ public class HomeController {
     public String meetTheTeam(){
         return "about-us";
     }
+
 }
