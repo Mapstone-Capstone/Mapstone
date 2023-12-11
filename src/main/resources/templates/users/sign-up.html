@@ -46,12 +46,21 @@
                        placeholder="Enter Password">
                 <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></p>
               </label>
+
+<!--              refactor applied-->
+
               <label for="password-confirm">Confirm Password
                 <input type="password" name="password-confirm" class="form-control" id="password-confirm"
                        placeholder="Enter Password">
               </label>
               <p id="password-error"></p>
               <input id="map" th:hidden="true">
+
+              <small id=“passwordRequirements” class=“form-text text-muted”>
+                Password must be at least 8 characters long and contain at least (1) lowercase letter, (1) uppercase letter, (1) digit, and (1) special character (*).
+              </small><br>
+              <span id="alert">! Your password does not match !</span>
+              <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
             </div>
             <button id="register-button" type="submit" class="btn btn-primary">Register</button>
           </form>
@@ -64,5 +73,35 @@
 </main>
 <th:block th:replace="~{partials/fragments :: scripts('/js/sign-up.js')}"></th:block>
 <!--<script th:src="@{/js/sign-up.js}"></script>-->
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossorigin="anonymous"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    let passwordInput = document.getElementById('password');
+    let confirmPasswordInput = document.getElementById('password-confirm');
+    let registerButton = document.getElementById('register-button');
+    let alertMessage = document.getElementById('alert');
+
+    function validatePasswords() {
+      if (passwordInput.value === confirmPasswordInput.value) {
+        registerButton.disabled = false;
+        alertMessage.style.visibility = 'hidden';
+      } else {
+        registerButton.disabled = true;
+        alertMessage.style.visibility = 'visible';
+      }
+    }
+
+    passwordInput.addEventListener('input', validatePasswords);
+    confirmPasswordInput.addEventListener('input', validatePasswords);
+
+    document.getElementById('register-form').addEventListener('submit', function(event) {
+      if (passwordInput.value !== confirmPasswordInput.value) {
+        event.preventDefault();
+        alertMessage.style.visibility = 'visible';
+      }
+    });
+  });
+</script>
 </body>
 </html>
