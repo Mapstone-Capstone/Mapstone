@@ -347,8 +347,9 @@ const onMapLoad = async () => {
 
     searchForCountry(map);
     // store id of country in variable here
-    // let images = await getImagesByCountry(id)
-    // console.log(images);
+
+    let images = await getImagesByCountryId(185);
+    console.log(images);
 
 };
 
@@ -556,18 +557,18 @@ async function updateMapStyle(mapStyle) {
 
 
 
-// const getImagesByCountry = async () => {
-//     const url = `http://localhost:8080/api/image/country/${id}`;
-//     let options = {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//     };
-//     let response = await fetch(url, options);
-//     let images = await response.json();
-//     return images;
-// };
+const getImagesByCountryId = async (id) => {
+    const url = `http://localhost:8080/api/image/country/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let images = await response.json();
+    return images;
+};
 
 
 //
