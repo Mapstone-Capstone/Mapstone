@@ -165,14 +165,26 @@ const renderModal = (countryName) => {
     const uploadBtn = document.querySelector("#upload-button");
     const imgForm = document.querySelector("#img-form");
     const input = document.querySelector("#url-for-image");
-    // event for image upload
 
+
+    // event for image upload
     const client = filestack.init(FILE_STACK_TOKEN);
     const options = {
+        maxFiles: 10,
         onUploadDone:
             function (response) {
-                input.value = response.filesUploaded[0].url;
+
+                let listOfImages = response.filesUploaded;
+                let arrayOfImages = [];
+                listOfImages.forEach( (image) => {
+                    arrayOfImages.push(image.url);
+                    // input.value += image.url;
+                    // console.log(input.value)
+                    // imgForm.submit();
+                })
+                input.value = arrayOfImages;
                 imgForm.submit();
+                console.log(input.value)
             }
     };
     client.picker(options).open();
