@@ -1,11 +1,7 @@
 package com.mapstone.mapstone.controllers;
 
 import com.mapstone.mapstone.models.*;
-import com.mapstone.mapstone.repositories.CountryRepository;
-import com.mapstone.mapstone.repositories.ImageRepository;
-import com.mapstone.mapstone.repositories.MapRepository;
-import com.mapstone.mapstone.repositories.UserRepository;
-import com.mapstone.mapstone.repositories.LayerRepository;
+import com.mapstone.mapstone.repositories.*;
 import jakarta.validation.Valid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,15 +32,17 @@ public class UsersController {
     private final LayerRepository layerDao;
 
     private final ImageRepository imageDao;
+    private final CommentRepository commentDao;
     private PasswordEncoder passwordEncoder;
 
-    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao) {
+    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao) {
         this.userDao = userDao;
         this.mapDao = mapDao;
         this.passwordEncoder = passwordEncoder;
         this.countryDao = countryDao;
         this.imageDao = imageDao;
         this.layerDao = layerDao;
+        this.commentDao = commentDao;
     }
 
     @GetMapping("/sign-up")
@@ -87,7 +85,9 @@ public class UsersController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //send the logged-in user to the profile page
         model.addAttribute("user", userDao.getOne(loggedInUser.getId()));
-
+        //gets all comments made by logged in user
+        List<Comment>commentList = commentDao.findAllByMap_Id(loggedInUser.getMap().getId());
+        model.addAttribute("commentList",commentList);
         //get the user's map
         Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
 
@@ -115,6 +115,8 @@ public class UsersController {
         User chosen = userDao.getReferenceById(id);
         model.addAttribute("user",chosen);
         Map userMap = mapDao.getMapByUserId(chosen.getId());
+        List<Comment>commentList = commentDao.findAllByMap_Id(userMap.getId());
+        model.addAttribute("commentList",commentList);
         List<Country> list = countryDao.getAllByUsers_Id(chosen.getId());
         model.addAttribute("countries", list);
         model.addAttribute("map", userMap);
