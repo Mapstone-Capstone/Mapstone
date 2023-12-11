@@ -116,14 +116,15 @@
           <div class="comments-header">
             <h2>Comments</h2>
           </div>
-          <div class="comments-body">
+
+          <div class="comments-body" th:each="item : ${commentList}">
             <div class="comment">
               <div class="comment-header">
-                <h5>Username</h5>
-                <p>date</p>
+                <h5>Username: <span th:text="${item.getUser().getUsername()}"></span></h5>
+                <p>date: <span th:text="${item.getDate()}"></span></p>
               </div>
               <div class="comment-body">
-                <p>comment</p>
+                <p th:text="${item.comment}"></p>
               </div>
             </div>
           </div>
