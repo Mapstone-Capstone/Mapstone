@@ -61,7 +61,7 @@ const generateUserMap = async (mapDetails) => {
     let map = new mapboxgl.Map({
         container: "map",
         style: "mapbox://styles/mapbox/" + mapDetails.style,
-        center: [-92, -20],
+        center: [10.296718898844109, 8.174209724384902],
         zoom: mapDetails.zoom,
         projection: mapDetails.projection
     });
@@ -163,7 +163,7 @@ function addMarker(map) {
             draggable: true,
             color: "red",
         })
-            .setLngLat([-98.30651848969364, 29.50652020966919])
+            .setLngLat([6.996193303998299, -13.522856295968037])
             .addTo(map);
 
         //gets the lngLat of the marker when it is dragged
@@ -257,6 +257,10 @@ const onMapLoad = async () => {
     //when a country is clicked, fill the country with the color selected by the user
     map.on("click", function (e) {
         e.preventDefault();
+
+       console.log(e.lngLat);
+        console.log(e.point);
+
         // Get features at the clicked point
         let features = map.queryRenderedFeatures(e.point);
         console.log(features[0]);
