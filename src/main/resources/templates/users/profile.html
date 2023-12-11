@@ -35,24 +35,12 @@
 
         <h4>Achievements</h4>
         <div class="badges w-100">
-          <div class="badge-wrapper">
-            <img class="border rounded-circle badge" src="/assets/badges/on-the-map.svg" alt="badge"/>
+          <div class="badge-wrapper" th:each="badge : ${#authentication.principal.badges}">
+            <img class="rounded-circle badge-img" th:id="${'badge'+badge.id}" th:src="${badge.url}" alt="badge"/>
+            <p th:hidden="true" class="badge-name" th:value="${badge.name}"></p>
+            <p th:hidden="true" class="badge-description" th:value="${badge.description}"></p>
           </div>
-          <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
-          </div>
-          <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
-          </div>
-          <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
-          </div>
-          <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
-          </div>
-          <div class="badge-wrapper">
-            <img class="border rounded-circle" src="https://placehold.co/75X75" alt="badge"/>
-          </div>
+
         </div>
       </aside>
       <section class="col">
@@ -106,7 +94,6 @@
           </div>
           <div class="country-images-body w-100">
             <div class="country-images w-100">
-	            
 	            <!--loops through list of image object to input image url into image source tag-->
 	            <th:block th:each="image : ${user.getImages()}">
 		            <div class="country-image">
@@ -152,6 +139,8 @@
 
 </main>
 <footer th:replace="~{partials/fragments :: footer}"></footer>
+
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
+<script src="/js/badges.js"></script>
 </body>
 </html>

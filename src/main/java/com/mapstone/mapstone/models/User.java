@@ -66,6 +66,16 @@ public class User {
     )
     private List<Country> countries;
 
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_badges",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "badge_id")}
+    )
+    private List<Badge> badges;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Image> images;
@@ -86,6 +96,7 @@ public class User {
         comments = copy.comments;
         countries = copy.countries;
         images = copy.images;
+        badges = copy.badges;
     }
 
     public User(long id, String username, String firstName, String lastName, String email, String password, String avatar) {
@@ -215,5 +226,11 @@ public class User {
         this.images = images;
     }
 
+    public List<Badge> getBadges() {
+        return badges;
+    }
 
+    public void setBadges(List<Badge> badges) {
+        this.badges = badges;
+    }
 }
