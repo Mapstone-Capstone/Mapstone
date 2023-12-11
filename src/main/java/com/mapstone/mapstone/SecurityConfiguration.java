@@ -45,9 +45,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*", "/saveMap", "/profile-picture","/viewprofile", "/test","/comment","/url-images", "/saveMap").authenticated()
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/login", "/sign-up","/viewprofile/*","/viewprofile/**","/search","/api/**", "/country","/users/viewprofile/*", "/aboutUs", "api/country/add").permitAll()
+                        .requestMatchers("/", "/login", "/sign-up","/viewprofile/*","/viewprofile/**","/search","/api/**", "/country","/users/viewprofile/*", "/aboutUs", "/explore-profiles").permitAll()
                         // allow loading of static resources
-                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**", "/images/*", "api/country/add").permitAll()
+                        .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**", "/images/*").permitAll()
                 )
                 /* Login configuration */
                 .formLogin((login) -> login.loginPage("/login").defaultSuccessUrl("/profile"))

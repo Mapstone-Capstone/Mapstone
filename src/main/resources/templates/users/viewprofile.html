@@ -37,6 +37,23 @@
                     <input type="submit"/>
                 </form>
             </div>
+    <div class="comments-container">
+        <div class="comments-header">
+            <h2>Comments</h2>
+        </div>
+
+        <div class="comments-body" th:each="item : ${commentList}">
+            <div class="comment">
+                <div class="comment-header">
+                    <h5>Username: <span th:text="${item.getUser().getUsername()}"></span></h5>
+                    <p>date: <span th:text="${item.getDate()}"></span></p>
+                </div>
+                <div class="comment-body">
+                    <p th:text="${item.comment}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
         <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">
             <input id="map-id" th:hidden="true" th:field="*{id}"/>

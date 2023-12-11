@@ -23,19 +23,11 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-<!--      SEARCH BAR -->
-<!--      <form action="/search" method="post">-->
-<!--        <label for="searchBar"></label><input type="text" name="search" id="searchBar" class="field">-->
-<!--        <input type="submit"/>Search-->
-<!--      </form>-->
-
-      <form th:method="post" th:action="@{/search}">
-        <label for="search">Search Profiles</label><input type="text" name="search" id="search">
-        <button type="submit">Submit</button>
-      </form>
-
-      <ul class="navbar-nav d-flex align-items-center w-100">
-        <li class="nav-item ms-auto">
+      <ul class="navbar-nav d-flex align-items-center justify-content-end w-100">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/explore-profiles}">Explore Profiles</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" th:href="@{/sign-up}">Sign-up</a>
         </li>
         <li class="nav-item">
@@ -69,7 +61,6 @@
         <li class="nav-item"><a th:href="@{/aboutUs}" class="nav-link px-2 text-body-secondary">Meet The Team</a></li>
       </ul>
     </footer>
-
 
 <!--SCRIPTS-->
 <th:block th:fragment="scripts(filepath)">
