@@ -20,11 +20,10 @@ badge1.addEventListener("click", function () {
             <p>${badgeDescription.value}</p>
         </div>
     `;
-    badgeModal.style.display = "block";
     const span = badgeModal.querySelector(".close");
     span.addEventListener("click", function () {
-        badgeModal.style.display = "none";
+        badgeModal.remove();
     });
 
     document.body.appendChild(badgeModal);
-}
+});

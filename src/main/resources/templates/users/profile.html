@@ -37,8 +37,8 @@
         <div class="badges w-100">
           <div class="badge-wrapper" th:each="badge : ${#authentication.principal.badges}">
             <img class="rounded-circle badge-img" th:id="${'badge'+badge.id}" th:src="${badge.url}" alt="badge"/>
-            <p th:hidden="true" class="badge-name" th:text="${badge.name}"></p>
-            <p th:hidden="true" class="badge-description" th:text="${badge.description}"></p>
+            <p th:hidden="true" class="badge-name" th:value="${badge.name}"></p>
+            <p th:hidden="true" class="badge-description" th:value="${badge.description}"></p>
           </div>
 
         </div>
@@ -139,7 +139,8 @@
 
 </main>
 <footer th:replace="~{partials/fragments :: footer}"></footer>
-<script src="/js/badges.js"></script>
+
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
+<script src="/js/badges.js"></script>
 </body>
 </html>

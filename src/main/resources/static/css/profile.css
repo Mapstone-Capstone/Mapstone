@@ -283,6 +283,10 @@ button {
     .badge-wrapper {
         min-height: 100px;
 
+        &:hover {
+            cursor: pointer;
+        }
+
         .badge-img {
             width: 75px;
             height: 75px;
