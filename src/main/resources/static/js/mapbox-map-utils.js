@@ -211,12 +211,21 @@ const renderModal = (countryName) => {
 const displayImages = () => {
 
     const viewImagesBtn = document.getElementById('view-images-btn');
-    const countryImagesWrapper = document.getElementsByClassName('country-images-wrapper');
+    const countryImagesWrapper = document.getElementById('country-images-wrapper')
 
-    viewImagesBtn.addEventListener("click", () => {
+    viewImagesBtn.addEventListener('click', () => {
 
-        console.log("hello im here in the event listener")
-        countryImagesWrapper.style.display = 'flex';
+        if (countryImagesWrapper.className === "hide-country-images-wrapper") {
+
+            countryImagesWrapper.classList.remove("hide-country-images-wrapper");
+            countryImagesWrapper.classList.add("display-country-images-wrapper");
+
+        } else if (countryImagesWrapper.className === "display-country-images-wrapper") {
+
+            countryImagesWrapper.classList.remove("display-country-images-wrapper");
+            countryImagesWrapper.classList.add("hide-country-images-wrapper");
+
+        }
 
     })
 

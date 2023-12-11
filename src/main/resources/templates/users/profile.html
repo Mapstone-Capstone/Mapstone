@@ -93,7 +93,7 @@
         </div>
 
 
-        <div class="country-images-wrapper w-100">
+        <div id="country-images-wrapper" class="hide-country-images-wrapper">
           <div class="country-images-header w-100">
             <h2>Images</h2>
 	          
@@ -107,7 +107,7 @@
           </div>
           <div class="country-images-body w-100">
             <div class="country-images w-100">
-<!--	            loops through list of image object to input image url into image source tag-->
+	            <!--loops through list of image object to input image url into image source tag-->
 	            <th:block th:each="image : ${user.getImages()}">
 		            <div class="country-image">
 			            <img th:src="${image.getImageUrl()}" alt="country image">
