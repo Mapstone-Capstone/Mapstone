@@ -211,12 +211,21 @@ const renderModal = (countryName) => {
 const displayImages = () => {
 
     const viewImagesBtn = document.getElementById('view-images-btn');
-    const countryImagesWrapper = document.getElementsByClassName('country-images-wrapper');
+    const countryImagesWrapper = document.getElementById('country-images-wrapper')
 
-    viewImagesBtn.addEventListener("click", () => {
+    viewImagesBtn.addEventListener('click', () => {
 
-        console.log("hello im here in the event listener")
-        countryImagesWrapper.style.display = 'flex';
+        if (countryImagesWrapper.className === "hide-country-images-wrapper") {
+
+            countryImagesWrapper.classList.remove("hide-country-images-wrapper");
+            countryImagesWrapper.classList.add("display-country-images-wrapper");
+
+        } else if (countryImagesWrapper.className === "display-country-images-wrapper") {
+
+            countryImagesWrapper.classList.remove("display-country-images-wrapper");
+            countryImagesWrapper.classList.add("hide-country-images-wrapper");
+
+        }
 
     })
 
@@ -227,6 +236,23 @@ const displayImages = () => {
 const uploadAvatar = () => {
 
     const uploadAvatarBtn = document.getElementById('upload-avatar-btn');
+    const avatarUrl = document.getElementById('avatarUrl');
+    const avatarForm = document.getElementById('upload-avatar-form');
+
+    uploadAvatarBtn.addEventListener('click', () => {
+
+        const client = filestack.init(FILE_STACK_TOKEN);
+        const options = {
+            onUploadDone:
+                function (response) {
+                    console.log(response.filesUploaded[0].url);
+                    avatarUrl.value = response.filesUploaded[0].url
+                    console.log(avatarUrl.value);
+                    avatarForm.submit();
+                }
+        };
+        client.picker(options).open();
+    })
 
 }
 
@@ -527,5 +553,5 @@ async function updateMapStyle(mapStyle) {
 
 
 export {
-    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal, displayImages
+    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal, displayImages, uploadAvatar
 };

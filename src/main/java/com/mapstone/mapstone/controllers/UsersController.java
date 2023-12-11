@@ -100,6 +100,7 @@ public class UsersController {
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
 
+
         return "users/profile";
     }
     @GetMapping("/viewprofile/{id}")
@@ -124,14 +125,20 @@ public class UsersController {
     }
 
 @PostMapping("/profile-picture")
-    public String updateProfilePicture(@ModelAttribute User user) {
-        //get the logged-in user
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //set the logged-in user's profile picture to the new profile picture
-        User userFromDb = userDao.getOne(loggedInUser.getId());
-        userFromDb.setAvatar(user.getAvatar());
-        //save the user object to the database
-        userDao.save(userFromDb);
+    public String updateProfilePicture(@RequestParam(name = "avatarUrl") String avatarUrl) {
+
+    //get the logged-in user
+    User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    //set the logged-in user's profile picture to the new profile picture
+    User userFromDb = userDao.getOne(loggedInUser.getId());
+    userFromDb.setAvatar(avatarUrl);
+
+    System.out.println("im here in the user controller");
+    System.out.println("This is the avatar url: " + userFromDb.getAvatar());
+
+    //save the user object to the database
+    userDao.save(userFromDb);
 
         return "redirect:/profile";
     }
