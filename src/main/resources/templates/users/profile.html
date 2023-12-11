@@ -11,7 +11,7 @@
       <aside class="col-3 d-flex flex-column p-5">
         <div class="user-info w-100">
           <h1>Welcome <span th:text="${#authentication.principal.username}"></span></h1>
-	        
+
 	        <!-- upload avatar click event -->
           <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar" />
 	        

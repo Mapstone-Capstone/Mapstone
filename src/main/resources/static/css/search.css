@@ -1,6 +1,36 @@
-.card {
-    gap: 10px;
+.row {
+    gap: 20px;
+    padding: 10px;
 }
 body{
-    background-color: deepskyblue;
+    /*background-image: url("https://www.wiredrive.com/wp-content/uploads/2016/02/world.gif");*/
+    background-image: url("https://i.makeagif.com/media/3-16-2018/yIR5RB.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+form {
+    text-align: center;
+}
+.page-wrapper {
+    min-height: 77.5vh;
+}
+.card {
+    opacity: .2;
+    max-width: 18rem;
+    max-height: 250px;
+    flex-shrink: 1;
+    background-color: var(--bright-blue);
+}
+.card img{
+    height: 175px;
+}
+.card-body{
+    height: 75px;
+}
+.card:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+.card-text{
+    color: var(--white);
 }
