@@ -277,19 +277,19 @@ const onMapLoad = async () => {
         if (features.length > 0) {
             countryName = features[0].properties.NAME;
             countryId = features[0].id;
-            sendLayersToBackend(countryName);
-            sendCountriesToBackend(countryName);
-            countriesVisited.push(countryName);
             let allLayers = map.getStyle().layers;
             for (let i = 0; i < allLayers.length; i++) {
                 //if the country is already filled (already clicked), and the user clicks it again, remove the fill layer
                 if (allLayers[i].id === countryName) {
-                    map.removeLayer(countryName);
-                    //remove the country from the countriesVisited array
-                    countriesVisited.splice(countriesVisited.indexOf(countryName), 1);
+                    renderModal(countryName);
                     return;
                 }
             }
+            //otherwise, add the fill layer to the map
+            sendLayersToBackend(countryName);
+            sendCountriesToBackend(countryName);
+            countriesVisited.push(countryName);
+
             map.addLayer({
                 "id": countryName,
                 "type": "fill",
