@@ -34,11 +34,6 @@ public class MapsRestController {
         this.layerDao = layerDao;
     }
 
-    //returns the map data (layers, markers, etc) as a string, must be handled separately from the map details because it needs to be parsed by the map
-//    @GetMapping("/api/map" + "/{id}")
-//    public String getMap(@PathVariable long id) {
-//        return mapDao.getMapById(id).getData();
-//    }
 
     //returns the map details (color, style, projection, and zoom) as a Map object
     @GetMapping("/api/map/details" + "/{id}")
@@ -60,8 +55,11 @@ public class MapsRestController {
         mapToUpdate.setZoom(map.getZoom());
         //save the map
         mapDao.save(mapToUpdate);
-        //return the map
+
+        loggedInUser.setMap(mapToUpdate);
+
         return mapToUpdate;
+
     }
 
 
@@ -87,22 +85,6 @@ public class MapsRestController {
         return countryDao.getAllByUsers_Id(loggedInUser.getId());
     }
 
-
-//    @PostMapping("/api/map/layer/add")
-//    public List<Layer> updateMapLayers(@RequestBody Layer layer) {
-//        //get the logged-in user
-//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        //get the map from the database
-//        Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
-//        //set the map for the layer
-//        layer.setMap(userMap);
-//        //get all the layers for the map and loop through them, if the name of the layer being added matches the name of a layer already in the map, remove it
-//        userMap.getLayers().add(layer);
-//        //save the layers
-//        mapDao.save(userMap);
-//        //return the list of layers
-//        return layerDao.getAllByMap_Id(userMap.getId());
-//    }
 
     @PostMapping("/api/map/layer/add")
     public List<Layer> updateMapLayers(@RequestBody Layer newLayer) {
@@ -132,12 +114,9 @@ public class MapsRestController {
             userMap.getLayers().remove(newLayer);
             mapDao.save(userMap);
         }
-
         //return the list of layers
         return userMap.getLayers();
     }
-
-
 
 
     @GetMapping("/api/map/layers")

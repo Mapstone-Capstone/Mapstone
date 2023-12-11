@@ -37,13 +37,10 @@
                     <input type="submit"/>
                 </form>
             </div>
-    <div>
+
         <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">
             <input id="map-id" th:hidden="true" th:field="*{id}"/>
             <input id="user-id" th:hidden="true" th:field="*{user}"/>
-            <input id="updated-data" value="" th:hidden="true" th:field="*{data}">
-
-
         </form>
 <!--    </div>-->
 

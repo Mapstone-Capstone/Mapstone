@@ -5,22 +5,9 @@ let countriesVisited = [];
 let countryName;
 let countryId;
 let opacity = 0.8;
-let id = document.getElementById("map-id").value;
 //get the map id of the map that belongs to the logged-in user from the hidden input field
+let id = document.getElementById("map-id").value;
 
-
-// const getUserMapLayers = async (id) => {
-//     const url = `http://localhost:8080/api/map/${id}`;
-//     let options = {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//     };
-//     let response = await fetch(url, options);
-//     let layers = await response.json();
-//     return layers;
-// };
 
 
 const getUserMapLayers = async () => {
@@ -370,41 +357,51 @@ function openUpdateModal() {
                   <option value="15">15</option>
                 </select>
               </div>
-            <button type="button" id="update-map">Update Map</button>
+            <button type="button" class="update-map" id="update-map">Update Map</button>
         </div>
       </div>`;
 
     //nodes from the modal for event listeners
     const modalClose = modal.querySelector(".modal-close");
     const modalBackground = modal.querySelector(".modal-bg");
-    const updateMapButton = modal.querySelector("button");
+    const updateMapButton = modal.querySelector(".update-map");
 
     //event listener for update map button
-    updateMapButton.addEventListener("click", function (e) {
+    updateMapButton.addEventListener("click", async function (e) {
         e.preventDefault();
 
         const updateMapForm = document.getElementById("update-map-form");
+        const mapId = document.getElementById("map-id");
         const updatedMapStyle = modal.querySelector("#map-style-select");
         const updatedMapColor = modal.querySelector("#map-color-select");
         const updatedMapProjection = modal.querySelector("#map-projection-select");
         const updatedMapZoom = modal.querySelector("#map-zoom-select");
-        const mapId = document.getElementById("map-id");
+
 
         //if any fields are empty, don't submit the form
         if (updatedMapStyle.value === "" || updatedMapColor.value === "" || updatedMapProjection.value === "" || updatedMapZoom.value === "") {
             alert("Please fill out all fields.");
             return;
         }
-        mapStyle.value = updatedMapStyle.value;
-        mapColor.value = updatedMapColor.value;
-        mapProjection.value = updatedMapProjection.value;
-        mapZoom.value = updatedMapZoom.value;
-        mapId.value = id;
+
         console.log(mapStyle.value);
         console.log(mapColor.value);
         console.log(mapId.value);
 
-        updateMapForm.submit();
+        const mapToUpdate =
+            {
+                id: id,
+                style: updatedMapStyle.value,
+                color: updatedMapColor.value,
+                projection: updatedMapProjection.value,
+                zoom: updatedMapZoom.value
+            }
+
+        await updateMapStyle(mapToUpdate);
+
+        //refresh the page to see the updated map
+        window.location.reload();
+
     });
     // event listener for close button
     modalClose.addEventListener("click", () => {
@@ -479,6 +476,32 @@ async function sendLayersToBackend(name) {
 }
 
 
+async function updateMapStyle(mapStyle) {
+    const csrfToken = document.querySelector("meta[name='_csrf']").content;
+
+    const backendEndpoint = "http://localhost:8080/api/map/update";
+    try {
+        const response = await fetch(backendEndpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            body: JSON.stringify(mapStyle),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to update map style");
+        }
+        const responseData = await response.json();
+        console.log("Map style successfully saved :", responseData);
+    } catch (error) {
+        console.error("Error sending map style to db:", error.message);
+    }
+}
+
+
+
 export {
-    onMapLoad, openUpdateModal,
+    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal
 };
