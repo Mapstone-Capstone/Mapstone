@@ -113,7 +113,7 @@ async function addUserLayers(map, mapDetails, id) {
 
 
 function searchForCountry(map) {
-    console.log("clicked search");
+
     //get user search input and pass in through geocode function
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-button");
@@ -146,7 +146,7 @@ function addMarker(map) {
         //gets the lngLat of the marker when it is dragged
         newMarker.on("dragend", function () {
             let lngLat = newMarker.getLngLat();
-            console.log(lngLat);
+
             reverseGeocode(lngLat, MAP_BOX_TOKEN).then(function (results) {
                 console.log(results);
             });
@@ -156,13 +156,10 @@ function addMarker(map) {
 
 const renderModal = (countryName) => {
     let country = countryName;
-    console.log(country);
+
     const clickedCountry = document.querySelector("#clicked-country");
     clickedCountry.value = country;
-    console.log(clickedCountry.value + "this is the value of the hidden input");
-    // const laterButton = document.querySelector("#later-button");
-    const confirmBtn = document.querySelector("#confirm");
-    const uploadBtn = document.querySelector("#upload-button");
+
     const imgForm = document.querySelector("#img-form");
     const input = document.querySelector("#url-for-image");
 
@@ -178,18 +175,37 @@ const renderModal = (countryName) => {
                 let arrayOfImages = [];
                 listOfImages.forEach( (image) => {
                     arrayOfImages.push(image.url);
-                    // input.value += image.url;
-                    // console.log(input.value)
-                    // imgForm.submit();
                 })
                 input.value = arrayOfImages;
                 imgForm.submit();
-                console.log(input.value)
             }
     };
     client.picker(options).open();
 
 };
+
+//event to display images
+const displayImages = () => {
+
+    const viewImagesBtn = document.getElementById('view-images-btn');
+    const countryImagesWrapper = document.getElementsByClassName('country-images-wrapper');
+
+    viewImagesBtn.addEventListener("click", () => {
+
+        console.log("hello im here in the event listener")
+        countryImagesWrapper.style.display = 'flex';
+
+    })
+
+}
+
+//upload profile pic
+
+const uploadAvatar = () => {
+
+    const uploadAvatarBtn = document.getElementById('upload-avatar-btn');
+
+}
 
 
 const onMapLoad = async () => {
@@ -497,5 +513,5 @@ async function sendCountriesToBackend(countryClicked) {
 
 
 export {
-    onMapLoad, openUpdateModal
+    onMapLoad, openUpdateModal, displayImages
 };

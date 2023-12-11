@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}"></head>
+<head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}">
+	<title>Profile</title>
+</head>
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <main class="page-wrapper">
@@ -9,7 +11,14 @@
       <aside class="col-3 d-flex flex-column p-5">
         <div class="user-info w-100">
           <h1>Welcome <span th:text="${#authentication.principal.username}"></span></h1>
-          <img  src="/assets/default-profile.png" name="avatar" alt="avatar" class="avatar">
+	        
+	        <!-- upload avatar click event -->
+          <img  th:src="/assets/default-profile.png" name="avatar" alt="avatar" class="avatar" />
+	        <form id="upload-avatar-form">
+		        <input id="upload-avatar-btn" type="file" />
+	        </form>
+	        
+	        
         </div>
         <div class="user-details w-100">
           <p class="d-flex flex-column">
@@ -72,6 +81,7 @@
                 <input th:hidden="true" th:field="*{id}"/>
                 <button>Reset Map</button>
               </form>
+	            <button id="view-images-btn" type="button">View Images</button>
             </div>
           </div>
 	        
@@ -106,11 +116,11 @@
           <div class="country-images-body w-100">
             <div class="country-images w-100">
 	            <!--loops through list of image object to input image url into image source tag -->
-	            <th:block th:each="image : ${user.getImages()}">
-		            <div class="country-image">
-			            <img th:src="${image.getImageUrl()}" alt="country image">
-		            </div>
-	            </th:block>
+<!--	            <th:block th:each="image : ${user.getImages()}">-->
+<!--		            <div class="country-image">-->
+<!--			            <img th:src="${image.getImageUrl()}" alt="country image">-->
+<!--		            </div>-->
+<!--	            </th:block>-->
             </div>
           </div>
         </div>
@@ -141,8 +151,6 @@
   <!-- FileStack Upload Images -->
   <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
     <input id="url-for-image" name="imageUrls" value="" type="hidden"/>
-<!--    <input type="hidden" th:field="*{user}"/>-->
-<!--    <input type="hidden" th:field="*{country}"/>-->
     <input name="countryName" id="clicked-country" type="hidden" value=""/>
     <button id="upload-button" type="button" class="btn btn-primary">Upload Photos</button>
     <button id="confirm" type="submit" class="btn btn-primary">Save changes</button>
