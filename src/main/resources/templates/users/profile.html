@@ -10,7 +10,7 @@
     <div class="row">
       <aside class="col-3 d-flex flex-column p-5">
         <div class="user-info w-100">
-          <h1>Welcome <span th:text="${#authentication.principal.username}"></span></h1>
+          <h4>Welcome <span th:text="${#authentication.principal.username}"></span></h4>
 	        
 	        <!-- upload avatar click event -->
 <!--          <img  th:src="/assets/default-profile.png" name="avatar" alt="avatar" class="avatar" />-->
@@ -22,11 +22,11 @@
         </div>
         <div class="user-details w-100">
           <p class="d-flex flex-column">
-            <span>First Name: <span th:text="${#authentication.principal.firstName}"></span></span>
-            <span>Last Name: <span th:text="${#authentication.principal.lastName}"></span></span>
-            <span>Username: <span th:text="${#authentication.principal.username}"></span></span>
-            <span># of countries visited: <span th:text="${#authentication.principal.countries.size()}"></span></span>
-            <span>% of the world explored: <span th:text="${100 * #authentication.principal.countries.size() / 195} + '%'"></span></span>
+            <span>First Name: <span th:text="${user.getFirstName()}"></span></span>
+            <span>Last Name: <span th:text="${user.getLastName()}"></span></span>
+            <span>Username: <span th:text="${user.getUsername()}"></span></span>
+            <span># of countries visited: <span th:text="${user.getCountries().size()}"></span></span>
+            <span>% of the world explored: <span th:text="${100 * user.getCountries().size() / 195} + '%'"></span></span>
           </p>
         </div>
 
@@ -76,8 +76,18 @@
               </form>
 	            <button id="view-images-btn" type="button">View Images</button>
             </div>
+
+            <div class="user-info w-100">
+              <h4>Welcome <span th:text="${#authentication.principal.username}"></span></h4>
+
+
+              <!-- edit profile button -->
+              <button><a th:href="@{/edit-profile}" class="btn btn-primary">Edit Profile</a></button>
+            </div>
           </div>
-	        
+
+
+
           <div>
               <!--  FROM UPDATED MAP STYLE    -->
             <form id="update-map-form" th:object="${map}">

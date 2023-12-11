@@ -143,5 +143,44 @@ public class UsersController {
         model.addAttribute("image", image);
         return "/profile";
     }
+    // method to retrieve user profile for editing
+    @GetMapping("/edit-profile")
+    public String editProfile(Model model) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", userDao.getOne(loggedInUser.getId()));
+        return "users/edit"; // Return the view for editing the profile
+    }
+
+    // method to update user profile
+    @PostMapping("/edit-profile")
+    public String updateProfile(@ModelAttribute(name = "user") @Valid User updatedUser, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            model.addAttribute("user", updatedUser);
+            System.out.println("User password is: " + updatedUser.getPassword());
+            return "redirect:/edit-profile"; // Return to the edit-profile page if errors occur
+        }
+
+        User existingUser = userDao.getOne(updatedUser.getId());
+
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setFirstName(updatedUser.getFirstName());
+        existingUser.setLastName(updatedUser.getLastName());
+        existingUser.setEmail(updatedUser.getEmail());
+//        existingUser.setPassword(updatedUser.getPassword());
+
+
+        userDao.save(existingUser);
+        return "redirect:/profile";
+    }
+
+    // method to delete user profile
+    @PostMapping("/delete-profile")
+    public String deleteProfile() {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userDao.deleteById(loggedInUser.getId());
+
+        return "redirect:/login";
+    }
 }
 
