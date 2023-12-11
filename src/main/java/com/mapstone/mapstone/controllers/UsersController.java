@@ -12,12 +12,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.*;
 import java.util.List;
 
 @Controller
+@Validated
 public class UsersController {
 
     private final UserRepository userDao;
@@ -86,10 +94,6 @@ public class UsersController {
 
         //TODO:get the users list of countries visited
         //model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
-
-        model.addAttribute("image", new Image());
-
-        model.addAttribute("images", imageDao.getImageByUser(loggedInUser));
 
         model.addAttribute("image", new Image());
 

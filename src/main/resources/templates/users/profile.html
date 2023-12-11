@@ -67,12 +67,6 @@
               </form>
             </div>
           </div>
-
-
-<!--	        <form method="post" action="/view" id="view">-->
-<!--		        <img th:src="${images.getImageUrl()}" alt="coutry image">-->
-<!--		        <button id="view-image" type="submit">View Images</button>-->
-<!--	        </form>-->
 	        
           <div>
               <!--  FROM UPDATED MAP STYLE    -->
@@ -92,32 +86,27 @@
         <div class="country-images-wrapper w-100">
           <div class="country-images-header w-100">
             <h2>Images</h2>
+	          
+	          <!--Use for possible navbar to pull up images based on user country-->
+<!--	          <ul>-->
+<!--		          <th:block th:each="country : ${user.getCountries()}">-->
+<!--			          <p th:text="${country.getName()}"></p>-->
+<!--		          </th:block>-->
+<!--	          </ul>-->
+	         
           </div>
           <div class="country-images-body w-100">
             <div class="country-images w-100">
-              <div class="country-image">
-                <img src="https://placehold.co/200X200" alt="country image"/>
-              </div>
-              <div class="country-image">
-                <img src="https://placehold.co/200X200" alt="country image"/>
-              </div>
-              <div class="country-image">
-                <img src="https://placehold.co/200X200" alt="country image"/>
-              </div>
-              <div class="country-image">
-                <img src="https://placehold.co/200X200" alt="country image"/>
-              </div>
-              <div class="country-image">
-                <img src="https://placehold.co/200X200" alt="country image"/>
-              </div>
-              <div class="country-image">
-                <img src="https://placehold.co/200X200" alt="country image"/>
-              </div>
+	            <!--loops through list of image object to input image url into image source tag -->
+	            <th:block th:each="image : ${user.getImages()}">
+		            <div class="country-image">
+			            <img th:src="${image.getImageUrl()}" alt="country image">
+		            </div>
+	            </th:block>
             </div>
           </div>
         </div>
-
-
+	      
         <!--  COMMENTS CONTAINER  -->
         <div class="comments-container">
           <div class="comments-header">
@@ -143,9 +132,9 @@
 
   <!-- FileStack Upload Images -->
   <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
-    <input id="url-for-image" th:field="*{imageUrl}" value="" type="hidden"/>
-    <input type="hidden" th:field="*{user}"/>
-    <input type="hidden" th:field="*{country}"/>
+    <input id="url-for-image" name="imageUrls" value="" type="hidden"/>
+<!--    <input type="hidden" th:field="*{user}"/>-->
+<!--    <input type="hidden" th:field="*{country}"/>-->
     <input name="countryName" id="clicked-country" type="hidden" value=""/>
     <button id="upload-button" type="button" class="btn btn-primary">Upload Photos</button>
     <button id="confirm" type="submit" class="btn btn-primary">Save changes</button>

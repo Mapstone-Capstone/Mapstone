@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+//import com.mapstone.mapstone.PasswordConstraint;
 
 import java.util.List;
 
@@ -38,6 +43,7 @@ public class User {
     @Column(name = "password", length = 500)
     @JsonIgnore
     @NotEmpty(message = "Password cannot be blank")
+//    @PasswordConstraint
     private String password;
 
     @Column(name = "avatar", length = 500)
