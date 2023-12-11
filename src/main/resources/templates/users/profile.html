@@ -13,7 +13,6 @@
           <h1>Welcome <span th:text="${#authentication.principal.username}"></span></h1>
 	        
 	        <!-- upload avatar click event -->
-
           <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar" />
 	        
 	        <form id="upload-avatar-form" th:action="@{/profile-picture}" th:method="POST">
@@ -85,11 +84,18 @@
             <h2>Images</h2>
 	          
 	          <!--Use for possible navbar to pull up images based on user country-->
-<!--	          <ul>-->
-<!--		          <th:block th:each="country : ${user.getCountries()}">-->
-<!--			          <p th:text="${country.getName()}"></p>-->
-<!--		          </th:block>-->
-<!--	          </ul>-->
+	          <ul>
+		          <li style="list-style: none">
+			          <button id="all-images" type="button">All</button>
+		          </li>
+		          <li>
+			          <form th:action="@{/country/${id}}" th:method="POST">
+				          <th:block th:each="country : ${user.getCountries()}">
+					          <button class="image-filter-btn" th:text="${country.getName()}"></button>
+				          </th:block>
+			          </form>
+		          </li>
+	          </ul>
 	         
           </div>
           <div class="country-images-body w-100">
@@ -97,6 +103,7 @@
 	            <!--loops through list of image object to input image url into image source tag-->
 	            <th:block th:each="image : ${user.getImages()}">
 		            <div class="country-image">
+<!--			            <input th:value="${}" type="hidden" />-->
 			            <img th:src="${image.getImageUrl()}" alt="country image">
 		            </div>
 	            </th:block>

@@ -139,8 +139,6 @@ public class UsersController {
     User userFromDb = userDao.getOne(loggedInUser.getId());
     userFromDb.setAvatar(avatarUrl);
 
-    System.out.println("im here in the user controller");
-    System.out.println("This is the avatar url: " + userFromDb.getAvatar());
 
     //save the user object to the database
     userDao.save(userFromDb);
@@ -153,7 +151,9 @@ public class UsersController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         String image = imageDao.getImageByUser(loggedInUser).getImageUrl();
-        model.addAttribute("image", image);
+
+//        List<Country> listOfCountries =
+//        model.addAttribute("image", image);
         return "/profile";
     }
 }

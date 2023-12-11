@@ -187,6 +187,7 @@ const renderModal = (countryName) => {
     const imgForm = document.querySelector("#img-form");
     const input = document.querySelector("#url-for-image");
 
+    clickedCountry.value = countryName;
 
     // event for image upload
     const client = filestack.init(FILE_STACK_TOKEN);
@@ -231,8 +232,7 @@ const displayImages = () => {
 
 }
 
-//upload profile pic
-
+//upload profile avatar
 const uploadAvatar = () => {
 
     const uploadAvatarBtn = document.getElementById('upload-avatar-btn');
@@ -255,7 +255,6 @@ const uploadAvatar = () => {
     })
 
 }
-
 
 const onMapLoad = async () => {
     let mapDetails = await getUserMapDetails(id);
