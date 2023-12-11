@@ -2,6 +2,8 @@ package com.mapstone.mapstone.models;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.lang.reflect.Array;
@@ -15,10 +17,6 @@ public class Map {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
-
-
-    @Column (name="data", length = 1000000)
-    private String data;
 
     @Column (name="color")
     private String color;
@@ -35,18 +33,21 @@ public class Map {
     @Column(name="center")
     private String center;
 
-
-
     @JsonBackReference(value="user-map")
     @OneToOne
     private User user;
 
 
+    @JsonManagedReference(value="map-layer")
+    //when the map is deleted, the layers are deleted as well
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "map")
+    private List<Layer> layers;
+
+
     public Map() {
     }
 
-    public Map(String data, String color, String style, String projection, String zoom, String center) {
-        this.data = data;
+    public Map(String color, String style, String projection, String zoom, String center) {
         this.color = color;
         this.style = style;
         this.projection = projection;
@@ -55,9 +56,8 @@ public class Map {
     }
 
 
-    public Map(long id, String data, String color, String style, String projection, String zoom) {
+    public Map(long id, String color, String style, String projection, String zoom) {
         this.id = id;
-        this.data = data;
         this.color = color;
         this.style = style;
         this.projection = projection;
@@ -73,12 +73,8 @@ public class Map {
 
     public Map(long id, String data) {
         this.id = id;
-        this.data = data;
     }
 
-    public Map(String data) {
-        this.data = data;
-    }
 
     public long getId() {
         return id;
@@ -128,15 +124,6 @@ public class Map {
         this.center = center;
     }
 
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-
     public User getUser() {
         return user;
     }
@@ -145,5 +132,11 @@ public class Map {
         this.user = user;
     }
 
+    public List<Layer> getLayers() {
+        return layers;
+    }
 
+    public void setLayers(List<Layer> layers) {
+        this.layers = layers;
+    }
 }

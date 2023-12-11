@@ -5,6 +5,7 @@ import com.mapstone.mapstone.repositories.CountryRepository;
 import com.mapstone.mapstone.repositories.ImageRepository;
 import com.mapstone.mapstone.repositories.MapRepository;
 import com.mapstone.mapstone.repositories.UserRepository;
+import com.mapstone.mapstone.repositories.LayerRepository;
 import jakarta.validation.Valid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.*;
 import java.util.List;
 
 @Controller
@@ -31,21 +33,26 @@ public class UsersController {
 
     private final CountryRepository countryDao;
 
+    private final LayerRepository layerDao;
+
     private final ImageRepository imageDao;
     private PasswordEncoder passwordEncoder;
 
-    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao) {
+    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao) {
         this.userDao = userDao;
         this.mapDao = mapDao;
         this.passwordEncoder = passwordEncoder;
         this.countryDao = countryDao;
         this.imageDao = imageDao;
+        this.layerDao = layerDao;
     }
 
     @GetMapping("/sign-up")
     public String displayRegistrationForm(Model model) {
         //send a new empty user object to the sign-up form
         model.addAttribute("user", new User());
+        //send all the existing countries to the sign-up form so the user can select their country
+        model.addAttribute("countries", countryDao.findAll());
         return "/users/sign-up";
     }
 
@@ -69,6 +76,7 @@ public class UsersController {
         //create a new map object for the user with default values
         Map userMap = new Map("#0059ff", "light-v11", "naturalEarth", "1" );
         userMap.setUser(user);
+        userDao.save(user);
         mapDao.save(userMap);
         return "redirect:/login";
     }
@@ -83,10 +91,9 @@ public class UsersController {
         //get the user's map
         Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
 
-        model.addAttribute("country", new Country());
 
         //TODO:get the users list of countries visited
-//        model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
+        //model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
 
         model.addAttribute("image", new Image());
 

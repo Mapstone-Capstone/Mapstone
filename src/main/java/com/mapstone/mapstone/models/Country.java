@@ -25,8 +25,6 @@ public class Country {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private List<Image> images;
 
-
-
     @JsonIgnore
     @ManyToMany(mappedBy = "countries", fetch = FetchType.EAGER)
     private List<User> users;
@@ -97,4 +95,7 @@ public class Country {
     public void setContinent(String continent) {
         this.continent = continent;
     }
+
+
+
 }
