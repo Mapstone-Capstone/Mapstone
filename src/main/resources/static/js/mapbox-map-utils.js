@@ -527,5 +527,5 @@ async function updateMapStyle(mapStyle) {
 
 
 export {
-    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal
+    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal, displayImages
 };

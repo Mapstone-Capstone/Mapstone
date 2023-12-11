@@ -13,10 +13,10 @@
           <h1>Welcome <span th:text="${#authentication.principal.username}"></span></h1>
 	        
 	        <!-- upload avatar click event -->
-          <img  th:src="/assets/default-profile.png" name="avatar" alt="avatar" class="avatar" />
-	        <form id="upload-avatar-form">
-		        <input id="upload-avatar-btn" type="file" />
-	        </form>
+<!--          <img  th:src="/assets/default-profile.png" name="avatar" alt="avatar" class="avatar" />-->
+<!--	        <form id="upload-avatar-form">-->
+<!--		        <input id="upload-avatar-btn" type="file" />-->
+<!--	        </form>-->
 	        
 	        
         </div>
@@ -107,12 +107,12 @@
           </div>
           <div class="country-images-body w-100">
             <div class="country-images w-100">
-	            <!--loops through list of image object to input image url into image source tag -->
-<!--	            <th:block th:each="image : ${user.getImages()}">-->
-<!--		            <div class="country-image">-->
-<!--			            <img th:src="${image.getImageUrl()}" alt="country image">-->
-<!--		            </div>-->
-<!--	            </th:block>-->
+<!--	            loops through list of image object to input image url into image source tag-->
+	            <th:block th:each="image : ${user.getImages()}">
+		            <div class="country-image">
+			            <img th:src="${image.getImageUrl()}" alt="country image">
+		            </div>
+	            </th:block>
             </div>
           </div>
         </div>
