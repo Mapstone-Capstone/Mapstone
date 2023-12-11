@@ -33,9 +33,11 @@ public class UsersController {
 
     private final ImageRepository imageDao;
     private final CommentRepository commentDao;
+
+    private final BadgesRepository badgeDao;
     private PasswordEncoder passwordEncoder;
 
-    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao) {
+    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao, BadgesRepository badgeDao) {
         this.userDao = userDao;
         this.mapDao = mapDao;
         this.passwordEncoder = passwordEncoder;
@@ -43,6 +45,7 @@ public class UsersController {
         this.imageDao = imageDao;
         this.layerDao = layerDao;
         this.commentDao = commentDao;
+        this.badgeDao = badgeDao;
     }
 
     @GetMapping("/sign-up")
@@ -91,10 +94,6 @@ public class UsersController {
         //get the user's map
         Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
 
-
-        //TODO:get the users list of countries visited
-        //model.addAttribute("countries", countryDao.getAllByUsers_Id(loggedInUser.getId()));
-
         model.addAttribute("image", new Image());
 
         //send the user's map to the profile page
@@ -102,6 +101,7 @@ public class UsersController {
 
         return "users/profile";
     }
+
     @GetMapping("/viewprofile/{id}")
     public String viewGuestProfile(@PathVariable Long id, Model model){
         model.addAttribute("comment", new Comment());
@@ -114,6 +114,12 @@ public class UsersController {
         }
         User chosen = userDao.getReferenceById(id);
         model.addAttribute("user",chosen);
+
+        //get the users badges
+        List<Badge> userBadges = chosen.getBadges();
+        //send the badges to the view
+        model.addAttribute("badges", userBadges);
+
         Map userMap = mapDao.getMapByUserId(chosen.getId());
         List<Comment>commentList = commentDao.findAllByMap_Id(userMap.getId());
         model.addAttribute("commentList",commentList);

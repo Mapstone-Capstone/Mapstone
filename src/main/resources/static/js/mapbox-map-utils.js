@@ -183,7 +183,7 @@ const renderModal = (countryName) => {
     // const laterButton = document.querySelector("#later-button");
     const confirmBtn = document.querySelector("#confirm");
     const uploadBtn = document.querySelector("#upload-button");
-
+        clickedCountry.value = countryName;
     const imgForm = document.querySelector("#img-form");
     const input = document.querySelector("#url-for-image");
 
@@ -345,6 +345,9 @@ const onMapLoad = async () => {
     });
 
     searchForCountry(map);
+    // store id of country in variable here
+    // let images = await getImagesByCountry(id)
+    // console.log(images);
 
 };
 
@@ -548,6 +551,55 @@ async function updateMapStyle(mapStyle) {
         console.error("Error sending map style to db:", error.message);
     }
 }
+
+
+
+
+// const getImagesByCountry = async () => {
+//     const url = `http://localhost:8080/api/image/country/${id}`;
+//     let options = {
+//         method: "GET",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//     };
+//     let response = await fetch(url, options);
+//     let images = await response.json();
+//     return images;
+// };
+
+
+//
+// async function getImages(id, countryName) {
+//     const csrfToken = document.querySelector("meta[name='_csrf']").content;
+//
+//     const country =
+//         {
+//             id: id,
+//             name: countryName,
+//
+//         }
+//
+//     const backendEndpoint = `http://localhost:8080/api/image/country`;
+//     try {
+//         const response = await fetch(backendEndpoint, {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "X-CSRF-TOKEN": csrfToken,
+//             },
+//             body: JSON.stringify(country),
+//         });
+//
+//         if (!response.ok) {
+//             throw new Error("Failed to port image");
+//         }
+//         const responseData = await response.json();
+//         console.log("Images successfully retried :", responseData);
+//     } catch (error) {
+//         console.error("Error sending post request:", error.message);
+//     }
+// }
 
 
 

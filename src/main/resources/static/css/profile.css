@@ -56,10 +56,6 @@ aside {
     gap: 10px;
 }
 
-.badges {
-    display: flex;
-    flex-wrap: wrap;
-}
 
 .update-search-wrapper {
     display: flex;
@@ -278,7 +274,25 @@ button {
     }
 }
 
-.badge {
-    min-width: 100px;
-    min-height: 100px;
+
+.badges {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .badge-wrapper {
+        min-height: 100px;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        .badge-img {
+            width: 75px;
+            height: 75px;
+        }
+    }
 }
+
+
+
