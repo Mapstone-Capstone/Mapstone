@@ -43,6 +43,9 @@
           <!--          </div>-->
 
         </div>
+        <div>
+          <button id="share" th:value="${user.id}">Share Link</button>
+        </div>
       </aside>
       <section class="col">
         <div class="main-profile-row row">
@@ -136,7 +139,37 @@
 
       </section>
     </div>
-
+<!--    Modal-->
+    <div class="modal" id="sharelinkmodal">
+      <div class="modal-content">
+        <p>Share your travel map with your friends</p>
+        <span class="close">&times;</span>
+        <input type="text" id="link">
+        <div class="row">
+        <div class="icons">
+          <a href="https://www.facebook.com/"
+             target="popup"
+             onclick="window.open('https://www.facebook.com/','popup','width=600,height=600'); return false;">
+            <img src="/assets/icons8-facebook.svg">
+          </a>
+        </div>
+        <div class="icons">
+          <a href="https://www.instagram.com/"
+             target="popup"
+             onclick="window.open('https://www.instagram.com/','popup','width=600,height=600'); return false;">
+            <img src="/assets/icons8-instagram.svg">
+          </a>
+        </div>
+        <div class="icons">
+          <a href="https://twitter.com/"
+             target="popup"
+             onclick="window.open('https://twitter.com/','popup','width=600,height=600'); return false;">
+            <img src="/assets/icons8-twitter.svg">
+          </a>
+        </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- FileStack Upload Images -->
@@ -153,5 +186,6 @@
 
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
 <script src="/js/badges.js"></script>
+<script src="/js/sharelink.js"></script>
 </body>
 </html>
