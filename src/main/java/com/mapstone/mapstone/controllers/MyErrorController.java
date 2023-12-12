@@ -20,11 +20,14 @@ public class MyErrorController implements ErrorController {
             Integer statusCode = Integer.valueOf(status.toString());
 
             if(statusCode == HttpStatus.NOT_FOUND.value()) {
-                return "error";
+                System.out.println("Not found");
+                return "error/4xx";
             }else if (statusCode == HttpStatus.FORBIDDEN.value()){
-                return "error";
+                System.out.println("forbidden");
+                return "/error/403";
             } else if (statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()) {
-                return "error";
+                System.out.println("not working");
+                return "error/405";
             }
         }
         return "error";
@@ -38,13 +41,13 @@ public class MyErrorController implements ErrorController {
 
             if(statusCode == HttpStatus.NOT_FOUND.value()) {
                 System.out.println("Not found");
-                return "error";
+                return "error/4xx";
             }else if (statusCode == HttpStatus.FORBIDDEN.value()){
                 System.out.println("forbidden");
                 return "/error/403";
             } else if (statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()) {
                 System.out.println("not working");
-                return "error";
+                return "error/405";
             }
         }
         return "error";
