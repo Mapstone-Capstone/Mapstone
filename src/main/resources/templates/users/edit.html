@@ -1,16 +1,7 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>edit</title>
-  <link rel="stylesheet" th:href="@{/css/editprofile.css}" type="text/css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-JcKb8q3iqJ61+x3+9KF8kW1Phz0c0yUZO6n3p5g4sL8xV2odprO7+AizL3PLsTDe"
-          crossorigin="anonymous">
+<head th:replace="~{partials/fragments :: head(Profile, '/css/editprofile.css')}">
+  <title>Profile</title>
 </head>
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
