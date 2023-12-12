@@ -40,8 +40,7 @@
         </li>
         <li class="d-flex gap-2 nav-item" sec:authorize="isAuthenticated()">
           <a class="nav-link" th:href="@{/profile}">
-            <span th:text="${#authentication.principal.username}"/>
-            <img src="https://placehold.co/25X25" class="border rounded-circle" alt="Profile picture">
+            <img th:src="${#authentication.principal.avatar}" class="nav-img border rounded-circle" alt="Profile picture">
           </a>
         </li>
       </ul>

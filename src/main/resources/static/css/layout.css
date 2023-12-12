@@ -16,3 +16,9 @@
     min-height: 100vh;
     flex-direction: column;
 }
+
+.nav-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
