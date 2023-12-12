@@ -230,6 +230,7 @@ const displayImages = () => {
 
     })
 
+
     //filter images
     const viewAllImages = document.getElementById('all-images');
     const filterImageBtn = document.getElementsByClassName('image-filter-btn');
@@ -240,23 +241,33 @@ const displayImages = () => {
 
             btn.addEventListener('click', () => {
                 imageContainer.innerHTML = "";
-
+                // getSingleCountry(btn.value).then(function (response) {
+                //     console.log(response);
+                //     map.addLayer({
+                //         "id": response.name,
+                //         "type": "fill",
+                //         "source": "world",
+                //         "layout": {},
+                //         "paint": {
+                //             "line-color": "#fe0000",
+                //             "line-width": 3
+                //         },
+                //         //where the name is equal to the country name on the highlighted layer,set the opacity and color
+                //         "filter": ["==", "NAME", response.name]
+                //
+                //     });
+                // });
                 getImagesByCountryId(btn.value).then(function (response) {
-
                     response.forEach((image) => {
-
+                        console.log(response);
                         imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
                         </div>
                     `
-
                     })
-
                 })
-
             })
-
         }
 
         viewAllImages.addEventListener('click', () => {
@@ -394,6 +405,9 @@ const onMapLoad = async () => {
     });
 
     searchForCountry(map);
+
+   let test = await getSingleCountry(185);
+    console.log(test);
 
 };
 
@@ -625,6 +639,19 @@ const getAllImages = async (id) => {
     let response = await fetch(url, options);
     let images = await response.json();
     return images;
+}
+
+const getSingleCountry = async (id) => {
+    const url = `http://localhost:8080/api/country/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let country = await response.json();
+    return country;
 }
 
 

@@ -31,7 +31,6 @@ public class MapsRestController {
         this.badgesDao = badgesDao;
     }
 
-
     //returns the map details (color, style, projection, and zoom) as a Map object
     @GetMapping("/api/map/details" + "/{id}")
     public Map getMapDetails(@PathVariable long id) {
@@ -56,7 +55,6 @@ public class MapsRestController {
         loggedInUser.setMap(mapToUpdate);
 
         return mapToUpdate;
-
 
     }
 
@@ -179,6 +177,15 @@ public class MapsRestController {
         //return the list of badges that belong to the user with the given id
         return userDao.getOne(user.getId()).getBadges();
     }
+
+    @GetMapping("/api/country/" + "/{id}")
+    public Country getCountryNameById(@PathVariable long id) {
+        System.out.println(id);
+        return countryDao.getCountryById(id);
+    }
+
+
+
 
 
 }
