@@ -73,7 +73,9 @@ h4 {
     }
 }
 
-
+#sharelinkmodal{
+    display: none;
+}
 .update-search-wrapper {
     display: flex;
     gap: 10px;
