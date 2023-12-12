@@ -29,6 +29,10 @@ public class Country {
     @ManyToMany(mappedBy = "countries", fetch = FetchType.EAGER)
     private List<User> users;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
+    private List<Entry> entries;
+
     public Country() {
     }
 
@@ -96,6 +100,11 @@ public class Country {
         this.continent = continent;
     }
 
+    public List<Entry> getEntries() {
+        return entries;
+    }
 
-
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
+    }
 }

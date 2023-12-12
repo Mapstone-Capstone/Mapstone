@@ -80,6 +80,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Image> images;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Entry> entries;
+
 
     public User() {
     }
@@ -232,5 +236,13 @@ public class User {
 
     public void setBadges(List<Badge> badges) {
         this.badges = badges;
+    }
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
     }
 }
