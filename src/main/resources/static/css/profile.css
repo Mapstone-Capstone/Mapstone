@@ -53,8 +53,9 @@ h4 {
 
 .avatar {
     max-width: 150px;
-    maixheight: 150px;
+    max-height: 150px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .user-details {

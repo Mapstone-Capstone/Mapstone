@@ -9,13 +9,8 @@
     <div class="row">
       <aside class="col-3 d-flex flex-column p-5">
         <div class="user-info w-100">
-
           <h4 th:text="${user.username}"></h4>
-
-          <!-- upload avatar click event -->
-          <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar"/>
-
-
+          <img th:src="${user.avatar}" name="avatar" alt="avatar" class="avatar"/>
         </div>
         <div class="user-details w-100">
           <p class="user-details-info d-flex flex-column">
