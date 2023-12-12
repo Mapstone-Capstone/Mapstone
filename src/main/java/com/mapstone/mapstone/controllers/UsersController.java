@@ -88,6 +88,7 @@ public class UsersController {
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //send the logged-in user to the profile page
+        model.addAttribute("loggedIn",true);
         model.addAttribute("user", userDao.getOne(loggedInUser.getId()));
         //gets all comments made by logged-in user
         List<Comment>commentList = commentDao.findAllByMap_Id(loggedInUser.getMap().getId());
