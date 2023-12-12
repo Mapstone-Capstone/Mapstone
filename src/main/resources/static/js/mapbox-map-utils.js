@@ -232,14 +232,31 @@ const displayImages = () => {
 
     //filter images
     const filterImageBtn = document.getElementsByClassName('image-filter-btn');
+    const imageContainer = document.getElementById('image-container');
+
+
 
     for (const btn of filterImageBtn) {
 
-        console.log(btn.value);
-
         btn.addEventListener('click', () => {
 
-            // const image =
+            imageContainer.innerHTML = "";
+
+            getImagesByCountryId(btn.value).then(function (response) {
+
+                response.forEach((image) => {
+
+                    imageContainer.innerHTML += `
+                        <div class="country-image">
+                            <img src="${image.imageUrl}" alt="country image">
+                        </div>
+                    `
+
+                })
+
+            })
+
+
 
         })
 
