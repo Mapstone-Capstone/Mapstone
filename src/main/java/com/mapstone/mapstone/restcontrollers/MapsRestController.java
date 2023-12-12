@@ -128,7 +128,7 @@ public class MapsRestController {
             userDao.save(user);
             mapDao.save(userMap);
         } catch (Exception e) {
-        //remove the layer from the map where the duplicate error occurred
+            //remove the layer from the map where the duplicate error occurred
             userMap.getLayers().remove(newLayer);
             mapDao.save(userMap);
         }
@@ -148,7 +148,7 @@ public class MapsRestController {
     }
 
 
-    @GetMapping("/api/map/layers"+"/{id}")
+    @GetMapping("/api/map/layers" + "/{id}")
     public List<Layer> getViewOnlyMapLayers(@PathVariable long id) {
         //get the user by id
         User user = userDao.getReferenceById(id);
@@ -170,8 +170,18 @@ public class MapsRestController {
     }
 
 
-
+    @GetMapping("/api/badges" + "/{id}")
+    public List<Badge> getBadgesByUserId(@PathVariable long id) {
+        //get the map from the id
+        Map userMap = mapDao.getMapById(id);
+        //get the user from the map
+        User user = userDao.getOne(userMap.getUser().getId());
+        //return the list of badges that belong to the user with the given id
+        return userDao.getOne(user.getId()).getBadges();
     }
+
+
+}
 
 
 

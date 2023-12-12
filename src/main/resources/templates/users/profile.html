@@ -26,6 +26,7 @@
         </div>
         <div class="user-details w-100">
           <p class="d-flex flex-column">
+            <span id="userId" th:hidden="true" th:text="${user.getId()}"></span>
             <span>First Name: <span th:text="${user.getFirstName()}"></span></span>
             <span>Last Name: <span th:text="${user.getLastName()}"></span></span>
             <span>Username: <span th:text="${user.getUsername()}"></span></span>
@@ -36,11 +37,11 @@
 
         <h4>Achievements</h4>
         <div class="badges w-100">
-          <div class="badge-wrapper" th:each="badge : ${#authentication.principal.badges}">
-            <img class="rounded-circle badge-img" th:id="${'badge'+badge.id}" th:src="${badge.url}" alt="badge"/>
-            <p th:hidden="true" class="badge-name" th:value="${badge.name}"></p>
-            <p th:hidden="true" class="badge-description" th:value="${badge.description}"></p>
-          </div>
+<!--          <div class="badge-wrapper" th:each="badge : ${#authentication.principal.badges}">-->
+<!--            <img class="rounded-circle badge-img" th:id="${'badge'+badge.id}" th:src="${badge.url}" alt="badge"/>-->
+<!--            <p th:hidden="true" class="badge-name" th:value="${badge.name}"></p>-->
+<!--            <p th:hidden="true" class="badge-description" th:value="${badge.description}"></p>-->
+<!--          </div>-->
 
         </div>
       </aside>
@@ -78,7 +79,7 @@
 
 
           <div>
-              <!--  FROM UPDATED MAP STYLE    -->
+              <!--  FORM FOR UPDATING/EDITING MAP STYLE    -->
             <form id="update-map-form" th:object="${map}">
               <input id="map-id" th:hidden="true" th:field="*{id}"/>
               <input id="user-id" th:hidden="true" th:field="*{user}"/>
