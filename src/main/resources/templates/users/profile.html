@@ -83,18 +83,25 @@
             <h2>Images</h2>
 
             <!--Use for possible navbar to pull up images based on user country-->
-            <ul>
-              <li style="list-style: none">
-                <button id="all-images" type="button">All</button>
-              </li>
-              <li style="list-style: none">
-                <form>
-                  <th:block th:each="country : ${user.getCountries()}">
-                    <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}" type="button"></button>
-                  </th:block>
-                </form>
-              </li>
-            </ul>
+	          
+	          <div class="dropdown">
+		          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			          Filter Images By Country
+		          </a>
+		          
+		          <ul class="dropdown-menu">
+			          <li>
+				          <button id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>
+			          </li>
+			          <li style="list-style: none">
+				          <form>
+					          <th:block th:each="country : ${user.getCountries()}">
+						          <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}" type="button"></button>
+					          </th:block>
+				          </form>
+			          </li>
+		          </ul>
+	          </div>
 
           </div>
           <div class="country-images-body w-100">

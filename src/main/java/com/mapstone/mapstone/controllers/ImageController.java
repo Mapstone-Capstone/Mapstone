@@ -83,5 +83,11 @@ public class ImageController {
         return imageDao.getImagesByCountry_Id(id);
     }
 
+//    @RequestMapping(method = RequestMethod.GET)
+//    public List<Image> getAllImages(@RequestParam(name = "view-all-images") User user) {
+//
+//        return imageDao.getImagesByUser(user);
+//    }
+
 }
 

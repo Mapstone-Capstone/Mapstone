@@ -231,18 +231,39 @@ const displayImages = () => {
     })
 
     //filter images
+    const viewAllImages = document.getElementById('all-images');
     const filterImageBtn = document.getElementsByClassName('image-filter-btn');
     const imageContainer = document.getElementById('image-container');
 
 
+        for (const btn of filterImageBtn) {
 
-    for (const btn of filterImageBtn) {
+            btn.addEventListener('click', () => {
+                imageContainer.innerHTML = "";
 
-        btn.addEventListener('click', () => {
+                getImagesByCountryId(btn.value).then(function (response) {
+
+                    response.forEach((image) => {
+
+                        imageContainer.innerHTML += `
+                        <div class="country-image">
+                            <img src="${image.imageUrl}" alt="country image">
+                        </div>
+                    `
+
+                    })
+
+                })
+
+            })
+
+        }
+
+        viewAllImages.addEventListener('click', () => {
 
             imageContainer.innerHTML = "";
 
-            getImagesByCountryId(btn.value).then(function (response) {
+            getAllImages(viewAllImages.value).then(function(response) {
 
                 response.forEach((image) => {
 
@@ -251,20 +272,14 @@ const displayImages = () => {
                             <img src="${image.imageUrl}" alt="country image">
                         </div>
                     `
-
                 })
 
             })
 
-
-
         })
-
-
-
     }
 
-}
+
 
 //upload profile avatar
 const uploadAvatar = () => {
@@ -598,6 +613,19 @@ const getImagesByCountryId = async (id) => {
     let images = await response.json();
     return images;
 };
+
+const getAllImages = async (id) => {
+    const url = `http://localhost:8080/api/images/country/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let images = await response.json();
+    return images;
+}
 
 
 
