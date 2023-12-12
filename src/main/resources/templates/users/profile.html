@@ -91,7 +91,7 @@
 		          <li style="list-style: none">
 			          <form th:action="@{/country/${id}}" th:method="POST">
 				          <th:block th:each="country : ${user.getCountries()}">
-					          <button class="image-filter-btn" th:text="${country.getName()}"></button>
+					          <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}"></button>
 				          </th:block>
 			          </form>
 		          </li>
