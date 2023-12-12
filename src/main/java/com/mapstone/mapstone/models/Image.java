@@ -29,6 +29,11 @@ public class Image {
     @JoinColumn(name = "country_id")
     private Country country;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "entry_id")
+    private Entry entry;
+
     public Image() {
     }
 
@@ -52,6 +57,14 @@ public class Image {
     public Image(long id, String imageUrl) {
         this.id = id;
         this.imageUrl = imageUrl;
+    }
+
+    public Entry getEntry() {
+        return entry;
+    }
+
+    public void setEntry(Entry entry) {
+        this.entry = entry;
     }
 
     public long getId() {
