@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}">
-	<title>Profile</title>
-</head>
+<head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}"></head>
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <main class="page-wrapper">
@@ -10,35 +8,39 @@
     <div class="row">
       <aside class="col-3 d-flex flex-column p-5">
         <div class="user-info w-100">
-          <h1>Welcome <span th:text="${#authentication.principal.username}"></span></h1>
 
-	        <!-- upload avatar click event -->
-          <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar" />
-	        
-	        <form id="upload-avatar-form" th:action="@{/profile-picture}" th:method="POST">
-		        <input id="avatarUrl" name="avatarUrl" type="hidden"/>
-		        <button id="upload-avatar-btn" type="button" class="btn btn-primary">Upload Avatar</button>
-	        </form>
-	        
-	       
+          <h4>Welcome <span th:text="${#authentication.principal.username}"></span></h4>
+
+          <!-- upload avatar click event -->
+          <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar"/>
+
+          <form id="upload-avatar-form" th:action="@{/profile-picture}" th:method="POST">
+            <input id="avatarUrl" name="avatarUrl" type="hidden"/>
+            <button id="upload-avatar-btn" type="button" class="btn btn-primary">Upload Avatar</button>
+          </form>
+          <!-- edit profile button -->
+          <a th:href="@{/edit-profile}" class="btn btn-primary">Edit Profile</a>
+
+
         </div>
         <div class="user-details w-100">
-          <p class="d-flex flex-column">
-            <span>First Name: <span th:text="${#authentication.principal.firstName}"></span></span>
-            <span>Last Name: <span th:text="${#authentication.principal.lastName}"></span></span>
-            <span>Username: <span th:text="${#authentication.principal.username}"></span></span>
-            <span># of countries visited: <span th:text="${#authentication.principal.countries.size()}"></span></span>
-            <span>% of the world explored: <span th:text="${100 * #authentication.principal.countries.size() / 195} + '%'"></span></span>
+          <p class="user-details-info d-flex flex-column">
+            <span>First Name: <span th:text="${user.getFirstName()}"></span></span>
+            <span>Last Name: <span th:text="${user.getLastName()}"></span></span>
+            <span>Username: <span th:text="${user.getUsername()}"></span></span>
+            <span># of countries visited: <span th:text="${user.getCountries().size()}"></span></span>
+            <span>% of the world explored: <span
+                th:text="${100 * user.getCountries().size() / 195} + '%'"></span></span>
           </p>
         </div>
 
         <h4>Achievements</h4>
         <div class="badges w-100">
-          <div class="badge-wrapper" th:each="badge : ${#authentication.principal.badges}">
-            <img class="rounded-circle badge-img" th:id="${'badge'+badge.id}" th:src="${badge.url}" alt="badge"/>
-            <p th:hidden="true" class="badge-name" th:value="${badge.name}"></p>
-            <p th:hidden="true" class="badge-description" th:value="${badge.description}"></p>
-          </div>
+          <!--          <div class="badge-wrapper" th:each="badge : ${#authentication.principal.badges}">-->
+          <!--            <img class="rounded-circle badge-img" th:id="${'badge'+badge.id}" th:src="${badge.url}" alt="badge"/>-->
+          <!--            <p th:hidden="true" class="badge-name" th:value="${badge.name}"></p>-->
+          <!--            <p th:hidden="true" class="badge-description" th:value="${badge.description}"></p>-->
+          <!--          </div>-->
 
         </div>
       </aside>
@@ -61,17 +63,19 @@
                 <input th:hidden="true" th:field="*{id}"/>
                 <button>Reset Map</button>
               </form>
-	            <button id="view-images-btn" type="button">View Images</button>
+              <button id="view-images-btn" type="button">View Images</button>
             </div>
+
           </div>
-	        
+
+
           <div>
-              <!--  FROM UPDATED MAP STYLE    -->
+            <!--  FORM FOR UPDATING/EDITING MAP STYLE    -->
             <form id="update-map-form" th:object="${map}">
               <input id="map-id" th:hidden="true" th:field="*{id}"/>
               <input id="user-id" th:hidden="true" th:field="*{user}"/>
               <input id="current-style" value="" th:hidden="true" th:field="*{style}">
-              <input id="current-color"  value="" th:hidden="true" th:field="*{color}">
+              <input id="current-color" value="" th:hidden="true" th:field="*{color}">
               <input id="current-projection" value="" th:hidden="true" th:field="*{projection}">
               <input id="current-zoom" value="" th:hidden="true" th:field="*{zoom}">
             </form>
@@ -82,35 +86,35 @@
         <div id="country-images-wrapper" class="hide-country-images-wrapper">
           <div class="country-images-header w-100">
             <h2>Images</h2>
-	          
-	          <!--Use for possible navbar to pull up images based on user country-->
-	          <ul>
-		          <li style="list-style: none">
-			          <button id="all-images" type="button">All</button>
-		          </li>
-		          <li style="list-style: none">
-			          <form th:action="@{/country/${id}}" th:method="POST">
-				          <th:block th:each="country : ${user.getCountries()}">
-					          <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}"></button>
-				          </th:block>
-			          </form>
-		          </li>
-	          </ul>
-	         
+
+            <!--Use for possible navbar to pull up images based on user country-->
+            <ul>
+              <li style="list-style: none">
+                <button id="all-images" type="button">All</button>
+              </li>
+              <li style="list-style: none">
+                <form th:action="@{/country/${id}}" th:method="POST">
+                  <th:block th:each="country : ${user.getCountries()}">
+                    <button class="image-filter-btn" th:text="${country.getName()}"></button>
+                  </th:block>
+                </form>
+              </li>
+            </ul>
+
           </div>
           <div class="country-images-body w-100">
             <div class="country-images w-100">
-	            <!--loops through list of image object to input image url into image source tag-->
-	            <th:block th:each="image : ${user.getImages()}">
-		            <div class="country-image">
-<!--			            <input th:value="${}" type="hidden" />-->
-			            <img th:src="${image.getImageUrl()}" alt="country image">
-		            </div>
-	            </th:block>
+              <!--loops through list of image object to input image url into image source tag-->
+              <th:block th:each="image : ${user.getImages()}">
+                <div class="country-image">
+                  <!--			            <input th:value="${}" type="hidden" />-->
+                  <img th:src="${image.getImageUrl()}" alt="country image">
+                </div>
+              </th:block>
             </div>
           </div>
         </div>
-	      
+
         <!--  COMMENTS CONTAINER  -->
         <div class="comments-container">
           <div class="comments-header">
@@ -136,12 +140,12 @@
   </div>
 
   <!-- FileStack Upload Images -->
-  <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
-    <input id="url-for-image" name="imageUrls" value="" type="hidden"/>
-    <input name="countryName" id="clicked-country" type="hidden" value=""/>
-    <button id="upload-button" type="button" class="btn btn-primary">Upload Photos</button>
-    <button id="confirm" type="submit" class="btn btn-primary">Save changes</button>
-  </form>
+<!--  <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">-->
+<!--    <input id="url-for-image" name="imageUrls" value="" type="hidden"/>-->
+<!--    <input name="countryName" id="clicked-country" type="hidden" value=""/>-->
+<!--    <button id="upload-button" type="button" class="btn btn-primary">Upload Photos</button>-->
+<!--    <button id="confirm" type="submit" class="btn btn-primary">Save changes</button>-->
+<!--  </form>-->
 
 
 </main>

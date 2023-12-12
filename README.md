@@ -1,12 +1,12 @@
-# Welcome to Map Share 
+# Welcome to Map-Share 
 
 //TODO: Add Screenshot
 
-Map Share is an immersive and feature-rich full-stack web application developed using an impressive stack of technologies, including HTML/CSS, JavaScript, Java, Spring Boot, Bootstrap, and MySql. With a user-friendly interface, Map Share empowers users to explore a vast array of profiles, share their valuable travel experiences through personalized maps and photos, comment on other user profiles, and earn badges based on their travels. This engaging platform seamlessly combines the love of traveling with a rewarding experience for its users.
+Map-Share is an immersive and feature-rich full-stack web application developed using an impressive stack of technologies, including HTML/CSS, JavaScript, Java, Spring Boot, Bootstrap, and MySql. With a user-friendly interface, Map Share empowers users to explore a vast array of profiles, share their valuable travel experiences through personalized maps and photos, comment on other user profiles, and earn badges based on their travels. This engaging platform seamlessly combines the love of traveling with a rewarding experience for its users.
 
 ### Technologies Used
 
-Map Share is built using a range of modern technologies, including:
+Map-Share is built using a range of modern technologies, including:
 
     HTML 5
     CSS

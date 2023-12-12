@@ -13,6 +13,7 @@
 aside {
     background-color: var(--federal-blue);
     color: white;
+    height: 100dvh;
 }
 
 #map {
@@ -29,6 +30,7 @@ aside {
 
 .user-info {
     display: flex;
+    gap: 10px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -42,18 +44,33 @@ aside {
     }
 }
 
+h4 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
 .avatar {
     max-width: 150px;
-    maixheight: 150px;
+    max-height: 150px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .user-details {
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 10px;
+
+    & .user-details-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
 }
 
 
@@ -278,6 +295,7 @@ button {
 .badges {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
 
     .badge-wrapper {

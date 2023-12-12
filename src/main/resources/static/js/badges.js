@@ -1,29 +1,73 @@
-const badge1 = document.getElementById("badge1");
-const badge2 = document.getElementById("badge2");
-const badge3 = document.getElementById("badge3");
-const badge4 = document.getElementById("badge4");
-const badge5 = document.getElementById("badge5");
+
+const mapId = document.getElementById("map-id").value;
+const badgeContainer = document.querySelector(".badges");
 
 
-// when badge is clicked, open modal explaining badge
-badge1.addEventListener("click", function () {
-    const badgeModal = document.createElement("div");
-    const badgeName = badgeModal.querySelector(".badge-name");
-    const badgeDescription = badgeModal.querySelector(".badge-description");
-    console.log(badgeName.value);
-    badgeModal.classList.add("modal");
-    badgeModal.innerHTML = `
-    <div class="modal-bg"></div>
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>${badgeName.value}</h3>
-            <p>${badgeDescription.value}</p>
-        </div>
-    `;
-    const span = badgeModal.querySelector(".close");
-    span.addEventListener("click", function () {
-        badgeModal.remove();
+
+const getBadgesByMapId = async (id) => {
+    const url = `http://localhost:8080/api/badges/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let images = await response.json();
+    return images;
+};
+
+
+
+async function getBadges(mapId) {
+    const badges = await getBadgesByMapId(mapId);
+    console.log(badges)
+    badges.forEach((badge) => {
+        const badgeDiv = document.createElement("div");
+        badgeDiv.classList.add("badge-wrapper");
+        badgeDiv.innerHTML = `
+        <img class="rounded-circle badge-img" value="${badge.url}" src="${badge.url}" alt="badge"/>
+        <p hidden="hidden" id="badge${badge.id}"></p>
+        <p hidden="hidden" class="badge-name">${badge.name}</p>
+        <p hidden="hidden"class="badge-description">${badge.description}</p>
+    </p>`;
+
+        const thisBadge = badgeDiv.querySelector(".badge-img");
+        thisBadge.addEventListener("click", function () {
+            const badgeModal = document.createElement("div");
+
+            badgeModal.classList.add("modal");
+            badgeModal.innerHTML = `
+            <div class="modal-bg"></div>
+                <div class="modal-content d-flex justify-content-center align-items-center">
+                    <span class="modal-close">&times;</span>
+                    <h3>${badge.name}</h3>
+                    <img class="rounded-circle badge-img" src="${badge.url}" alt="badge"/>
+                    <p>${badge.description}</p>
+                </div>
+            `;
+            const modalClose = badgeModal.querySelector(".modal-close");
+            modalClose.addEventListener("click", function () {
+                badgeModal.remove();
+            });
+
+            const modalBg = badgeModal.querySelector(".modal-bg");
+            modalBg.addEventListener("click", function () {
+                badgeModal.remove();
+            });
+
+            document.body.appendChild(badgeModal);
+        });
+
+
+        badgeContainer.appendChild(badgeDiv);
     });
+}
 
-    document.body.appendChild(badgeModal);
+getBadges(mapId).then(() => {
+    console.log("Badges loaded");
 });
+
+
+
+

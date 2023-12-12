@@ -18,31 +18,29 @@ registerButton.addEventListener("click", (e)=> {
 })
 
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     const passwordInput = document.getElementById("password");
-//     const confirmPasswordInput = document.getElementById("password-confirm");
-//     const passwordError = document.getElementById("password-error");
-//     const registerForm = document.getElementById("register-form");
-//
-//     registerForm.addEventListener("submit", function (event) {
-//         if (!isPasswordValid()) {
-//             event.preventDefault();
-//             passwordError.textContent = "Password must contain at least 1 uppercase letter, 1 number, 1 special character, and be at least 4 characters long";
-//             return false;
-//         }
-//         if (passwordInput.value !== confirmPasswordInput.value) {
-//             event.preventDefault();
-//             passwordError.textContent = "Passwords do not match";
-//             return false;
-//         }
-//         return true;
-//     });
-//
-//     function isPasswordValid() {
-//         const password = passwordInput.value;
-//         // Password pattern requiring at least 1 uppercase letter, 1 number, 1 special character, and minimum 4 characters
-//         const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,}$/;
-//
-//         return passwordPattern.test(password);
-//     }
-// });
+document.addEventListener("DOMContentLoaded", function() {
+    let passwordInput = document.getElementById('password');
+    let confirmPasswordInput = document.getElementById('password-confirm');
+    let registerButton = document.getElementById('register-button');
+    let alertMessage = document.getElementById('alert');
+
+    function validatePasswords() {
+        if (passwordInput.value === confirmPasswordInput.value) {
+            registerButton.disabled = false;
+            alertMessage.style.visibility = 'hidden';
+        } else {
+            registerButton.disabled = true;
+            alertMessage.style.visibility = 'visible';
+        }
+    }
+
+    passwordInput.addEventListener('input', validatePasswords);
+    confirmPasswordInput.addEventListener('input', validatePasswords);
+
+    document.getElementById('register-form').addEventListener('submit', function(event) {
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            event.preventDefault();
+            alertMessage.style.visibility = 'visible';
+        }
+    });
+});

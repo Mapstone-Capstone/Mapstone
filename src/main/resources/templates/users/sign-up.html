@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{partials/fragments :: head('Sign Up!', '/css/style.css')}">
+<head th:replace="~{partials/fragments :: head('Sign Up!', '/css/signup.css')}">
 
   <title>Sign Up!</title>
 </head>
@@ -11,55 +11,63 @@
     <div class="container">
       <div class="row">
         <div class="col d-flex flex-column justify-content-center form-wrapper w-100">
-          <form th:method="POST" th:action="@{/sign-up}" th:object="${user}" class="d-flex flex-column" id="register-form">
-            <div class="form-group d-flex flex-column gap-2">
-              <label for="username">Username
-                <input th:field="*{username}" name="username" class="form-control" id="username"
-                       placeholder="Enter username">
-              </label>
-              <label for="firstname">First Name
-                <input th:field="*{firstName}" name="firstname" class="form-control" id="firstname"
-                       placeholder="Your First Name">
-                <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="error"></p>
-              </label>
-
-              <label for="lastname">Last Name
-                <input type="text" th:field="*{lastName}" name="lastname" class="form-control" id="lastname"
-                       placeholder="Your Last Name">
-                <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="error"></p>
-              </label>
-
-              <label for="email">Email
-                <input type="text" th:field="*{email}" name="email" class="form-control" id="email"
-                       placeholder="Your email">
-                <!--  below: if the field has errors, display them -->
-                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error"></p>
-              </label>
-
-              <label for="password">Password
-                <input type="password" th:field="*{password}" name="password" class="form-control" id="password"
-                       placeholder="Enter Password">
-                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></p>
-              </label>
-
-<!--              refactor applied-->
-
-              <label for="password-confirm">Confirm Password
-                <input type="password" name="password-confirm" class="form-control" id="password-confirm"
-                       placeholder="Enter Password">
-              </label>
-              <p id="password-error"></p>
-              <input id="map" th:hidden="true">
-
-              <small id=“passwordRequirements” class=“form-text text-muted”>
-                Password must be at least 8 characters long and contain at least (1) lowercase letter, (1) uppercase letter, (1) digit, and (1) special character (*).
-              </small><br>
-              <span id="alert">! Your password does not match !</span>
-              <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+          <section>
+            <div class="login-header">
+              <h1 class="text-center">Sign Up!</h1>
+              <p class="text-center">Sign up and share your travel experiences with friends.</p>
             </div>
-            <button id="register-button" type="submit" class="btn btn-primary">Register</button>
-          </form>
+            <form th:method="POST" th:action="@{/sign-up}" th:object="${user}" class="d-flex flex-column" id="register-form">
+              <div class="d-flex flex-column gap-2 register-form">
+                <label for="username">Username
+                  <input th:field="*{username}" name="username" id="username"
+                         placeholder="Enter username">
+                </label>
+                <label for="firstname">First Name
+                  <input th:field="*{firstName}" name="firstname" id="firstname"
+                         placeholder="Your First Name">
+                  <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="error"></p>
+                </label>
 
+                <label for="lastname">Last Name
+                  <input type="text" th:field="*{lastName}" name="lastname" id="lastname"
+                         placeholder="Your Last Name">
+                  <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="error"></p>
+                </label>
+
+                <label for="email">Email
+                  <input type="text" th:field="*{email}" name="email"  id="email"
+                         placeholder="Your email">
+                  <!--  below: if the field has errors, display them -->
+                  <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error"></p>
+                </label>
+
+                <label for="password">Password
+                  <input type="password" th:field="*{password}" name="password" id="password"
+                         placeholder="Enter Password">
+                  <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></p>
+                </label>
+
+                <!--              refactor applied-->
+                <label for="password-confirm">Confirm Password
+                  <input type="password" name="password-confirm" id="password-confirm"
+                         placeholder="Enter Password">
+                </label>
+                <p id="password-error"></p>
+                <input id="map" th:hidden="true">
+
+                <small id="“passwordRequirements”" class="“form-text" text-muted”>
+                  Password must be at least 8 characters long and contain at least (1) lowercase letter, (1) uppercase
+                  letter, (1) digit, and (1) special character (*).
+                </small><br>
+                <!--              <span id="alert">! Your password does not match !</span>-->
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+              </div>
+              <button id="register-button" type="submit">
+                <img src="/assets/globe-icon.svg" alt="globe-icon">
+                <span>Register</span>
+              </button>
+            </form>
+          </section>
         </div>
       </div>
     </div>
@@ -67,36 +75,6 @@
   <footer th:replace="~{partials/fragments :: footer}"></footer>
 </main>
 <th:block th:replace="~{partials/fragments :: scripts('/js/sign-up.js')}"></th:block>
-<!--<script th:src="@{/js/sign-up.js}"></script>-->
-<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
-        crossorigin="anonymous"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    let passwordInput = document.getElementById('password');
-    let confirmPasswordInput = document.getElementById('password-confirm');
-    let registerButton = document.getElementById('register-button');
-    let alertMessage = document.getElementById('alert');
 
-    function validatePasswords() {
-      if (passwordInput.value === confirmPasswordInput.value) {
-        registerButton.disabled = false;
-        alertMessage.style.visibility = 'hidden';
-      } else {
-        registerButton.disabled = true;
-        alertMessage.style.visibility = 'visible';
-      }
-    }
-
-    passwordInput.addEventListener('input', validatePasswords);
-    confirmPasswordInput.addEventListener('input', validatePasswords);
-
-    document.getElementById('register-form').addEventListener('submit', function(event) {
-      if (passwordInput.value !== confirmPasswordInput.value) {
-        event.preventDefault();
-        alertMessage.style.visibility = 'visible';
-      }
-    });
-  });
-</script>
 </body>
 </html>
