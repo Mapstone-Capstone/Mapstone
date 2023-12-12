@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}">
-  <title>Profile</title>
-</head>
+<head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}"></head>
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <main class="page-wrapper">
@@ -21,12 +19,12 @@
             <button id="upload-avatar-btn" type="button" class="btn btn-primary">Upload Avatar</button>
           </form>
           <!-- edit profile button -->
-          <button><a th:href="@{/edit-profile}" class="btn btn-primary">Edit Profile</a></button>
+          <a th:href="@{/edit-profile}" class="btn btn-primary">Edit Profile</a>
 
 
         </div>
         <div class="user-details w-100">
-          <p class="d-flex flex-column">
+          <p class="user-details-info d-flex flex-column">
             <span>First Name: <span th:text="${user.getFirstName()}"></span></span>
             <span>Last Name: <span th:text="${user.getLastName()}"></span></span>
             <span>Username: <span th:text="${user.getUsername()}"></span></span>
@@ -142,12 +140,12 @@
   </div>
 
   <!-- FileStack Upload Images -->
-  <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
-    <input id="url-for-image" name="imageUrls" value="" type="hidden"/>
-    <input name="countryName" id="clicked-country" type="hidden" value=""/>
-    <button id="upload-button" type="button" class="btn btn-primary">Upload Photos</button>
-    <button id="confirm" type="submit" class="btn btn-primary">Save changes</button>
-  </form>
+<!--  <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">-->
+<!--    <input id="url-for-image" name="imageUrls" value="" type="hidden"/>-->
+<!--    <input name="countryName" id="clicked-country" type="hidden" value=""/>-->
+<!--    <button id="upload-button" type="button" class="btn btn-primary">Upload Photos</button>-->
+<!--    <button id="confirm" type="submit" class="btn btn-primary">Save changes</button>-->
+<!--  </form>-->
 
 
 </main>

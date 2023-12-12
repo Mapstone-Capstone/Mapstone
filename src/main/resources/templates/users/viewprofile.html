@@ -5,80 +5,121 @@
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <main class="page-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <aside class="col-3 d-flex flex-column p-5">
+        <div class="user-info w-100">
+
+          <h4 th:text="${user.username}"></h4>
+
+          <!-- upload avatar click event -->
+          <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar"/>
 
 
-    <!--<div sec:authentication="isAuthenticated()">-->
-    <!--  <h3>Hello <span th:text="${#authentication.principal.username}"></span>!</h3>-->
-    <!--</div>-->
+        </div>
+        <div class="user-details w-100">
+          <p class="user-details-info d-flex flex-column">
+            <span>First Name: <span th:text="${user.getFirstName()}"></span></span>
+            <span>Last Name: <span th:text="${user.getLastName()}"></span></span>
+            <span>Username: <span th:text="${user.getUsername()}"></span></span>
+            <span># of countries visited: <span th:text="${user.getCountries().size()}"></span></span>
+            <span>% of the world explored: <span
+                th:text="${100 * user.getCountries().size() / 195} + '%'"></span></span>
+          </p>
+        </div>
 
-    <div id="map" style="width: 50dvw; height: 70dvh;">
+        <h4>Achievements</h4>
+        <div class="badges w-100">
+          <!-- This div is dynamically populated with JavaScript -->
+        </div>
+      </aside>
 
-    </div>
-    <!--    Comments that show when loggedIn flag is true (UserController)-->
-<!--    <div th:if="${loggedIn}">-->
-<!--        <form th:action="@{/comment}" th:method="post" th:object="${comment}">-->
-<!--            Comment:-->
-<!--            <input name="comment" th:field="*{comment}"/>-->
-<!--            &lt;!&ndash;            TODO PUT path id into form&ndash;&gt;-->
-<!--            &lt;!&ndash;            <input th:type="hidden" th:field="*{user}">&ndash;&gt;-->
-<!--            <br/>-->
-<!--            <input type="submit"/>-->
-<!--        </form>-->
-<!--    </div>-->
-    <div th:if="${loggedIn}">-->
-                <form th:action="@{/comment}" method="post">
-                    Comment:
-                    <input type="text" name="comment2"/>
-                    <input type="hidden" name="user" th:value="${map.user.id}">
-                    <input type="hidden" name="mapid" th:value="${map.id}">
-                    <!--            TODO PUT path id into form-->
-                    <!--            <input th:type="hidden" th:field="*{user}">-->
-                    <br/>
-                    <input type="submit"/>
+      <section class="col">
+        <div class="main-profile-row row">
+          <div>
+            <div class="w-100" id="map">
+            </div>
+            <div class="update-search-wrapper w-100">
+              <button id="view-images-btn" type="button">View Images</button>
+            </div>
+          </div>
+        </div>
+
+
+        <div id="country-images-wrapper" class="hide-country-images-wrapper">
+          <div class="country-images-header w-100">
+            <h2>Images</h2>
+            <!--Use for possible navbar to pull up images based on user country-->
+            <ul>
+              <li style="list-style: none">
+                <button id="all-images" type="button">All</button>
+              </li>
+              <li style="list-style: none">
+                <form th:action="@{/country/${id}}" th:method="POST">
+                  <th:block th:each="country : ${user.getCountries()}">
+                    <button class="image-filter-btn" th:text="${country.getName()}"></button>
+                  </th:block>
                 </form>
+              </li>
+            </ul>
+          </div>
+          <div class="country-images-body w-100">
+            <div class="country-images w-100">
+              <!--loops through list of image object to input image url into image source tag-->
+              <th:block th:each="image : ${user.getImages()}">
+                <div class="country-image">
+                  <!--			            <input th:value="${}" type="hidden" />-->
+                  <img th:src="${image.getImageUrl()}" alt="country image">
+                </div>
+              </th:block>
             </div>
-    <div class="comments-container">
-        <div class="comments-header">
-            <h2>Comments</h2>
+          </div>
         </div>
 
-        <div class="comments-body" th:each="item : ${commentList}">
-            <div class="comment">
-                <div class="comment-header">
-                    <h5>Username: <span th:text="${item.getUser().getUsername()}"></span></h5>
-                    <p>date: <span th:text="${item.getDate()}"></span></p>
-                </div>
-                <div class="comment-body">
-                    <p th:text="${item.comment}"></p>
-                </div>
-            </div>
+        <div th:if="${loggedIn}">-->
+          <form th:action="@{/comment}" method="post">
+            Comment:
+            <input type="text" name="comment2"/>
+            <input type="hidden" name="user" th:value="${map.user.id}">
+            <input type="hidden" name="mapid" th:value="${map.id}">
+            <!--            TODO PUT path id into form-->
+            <!--            <input th:type="hidden" th:field="*{user}">-->
+            <br/>
+            <input type="submit"/>
+          </form>
         </div>
+        <div class="comments-container">
+          <div class="comments-header">
+            <h2>Comments</h2>
+          </div>
+
+          <div class="comments-body" th:each="item : ${commentList}">
+            <div class="comment">
+              <div class="comment-header">
+                <h5>Username: <span th:text="${item.getUser().getUsername()}"></span></h5>
+                <!--                        <p>date: <span th:text="${item.getDate()}"></span></p>-->
+              </div>
+              <div class="comment-body">
+                <p th:text="${item.comment}"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
     </div>
 
-        <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">
-            <input id="map-id" th:hidden="true" th:field="*{id}"/>
-            <input id="user-id" th:hidden="true" th:field="*{user}"/>
-        </form>
-<!--    </div>-->
 
-<!--    <form th:action="@{/test}" th:method="POST">-->
-<!--        <button type="submit">submit</button>-->
-<!--    </form>-->
-
-    <!--    <div>-->
-    <!--        <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">-->
-    <!--            <input th:hidden="true" th:field="*{id}"/>-->
-    <!--            <button>Reset Map</button>-->
-    <!--        </form>-->
-    <!--    </div>-->
-
+    <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">
+      <input id="map-id" th:hidden="true" th:field="*{id}"/>
+      <input id="user-id" th:hidden="true" th:field="*{user}"/>
+    </form>
+  </div>
 </main>
-<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
-<!--    MapBox API JS-->
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
-<!--    Mapbox map utils-->
-<script type="module" th:src="@{/js/viewprofile.js}"></script>
-<script type="module" th:src="@{/js/viewProfileMain.js}"></script>
 <footer th:replace="~{partials/fragments :: footer}"></footer>
+
+<th:block th:replace="~{partials/fragments :: scripts('/js/viewprofile.js')}"></th:block>
+<script type="module" th:src="@{/js/viewProfileMain.js}"></script>
+<script src="/js/badges.js"></script>
 </body>
 </html>

@@ -89,7 +89,7 @@ public class UsersController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //send the logged-in user to the profile page
         model.addAttribute("user", userDao.getOne(loggedInUser.getId()));
-        //gets all comments made by logged in user
+        //gets all comments made by logged-in user
         List<Comment>commentList = commentDao.findAllByMap_Id(loggedInUser.getMap().getId());
         model.addAttribute("commentList",commentList);
         //get the user's map
@@ -116,11 +116,6 @@ public class UsersController {
         User chosen = userDao.getReferenceById(id);
         model.addAttribute("user",chosen);
 
-        //get the users badges
-        List<Badge> userBadges = chosen.getBadges();
-        //send the badges to the view
-        model.addAttribute("badges", userBadges);
-
         Map userMap = mapDao.getMapByUserId(chosen.getId());
         List<Comment>commentList = commentDao.findAllByMap_Id(userMap.getId());
         model.addAttribute("commentList",commentList);
@@ -132,18 +127,13 @@ public class UsersController {
 
 @PostMapping("/profile-picture")
     public String updateProfilePicture(@RequestParam(name = "avatarUrl") String avatarUrl) {
-
     //get the logged-in user
     User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
     //set the logged-in user's profile picture to the new profile picture
     User userFromDb = userDao.getOne(loggedInUser.getId());
     userFromDb.setAvatar(avatarUrl);
-
-
     //save the user object to the database
     userDao.save(userFromDb);
-
         return "redirect:/profile";
     }
 
@@ -157,6 +147,8 @@ public class UsersController {
 //        model.addAttribute("image", image);
         return "/profile";
     }
+
+
     // method to retrieve user profile for editing
     @GetMapping("/edit-profile")
     public String editProfile(Model model) {
@@ -176,14 +168,11 @@ public class UsersController {
         }
 
         User existingUser = userDao.getOne(updatedUser.getId());
-
         existingUser.setUsername(updatedUser.getUsername());
         existingUser.setFirstName(updatedUser.getFirstName());
         existingUser.setLastName(updatedUser.getLastName());
         existingUser.setEmail(updatedUser.getEmail());
 //        existingUser.setPassword(updatedUser.getPassword());
-
-
         userDao.save(existingUser);
         return "redirect:/profile";
     }
@@ -193,7 +182,6 @@ public class UsersController {
     public String deleteProfile() {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userDao.deleteById(loggedInUser.getId());
-
         return "redirect:/login";
     }
 }
