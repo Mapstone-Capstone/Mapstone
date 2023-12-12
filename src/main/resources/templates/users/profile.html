@@ -99,6 +99,7 @@
 			          <li style="list-style: none">
 				          <form>
 					          <th:block th:each="country : ${user.getCountries()}">
+                      <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>
 						          <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}" type="button"></button>
 					          </th:block>
 				          </form>
@@ -136,9 +137,9 @@
             </div>
           </div>
         </div>
-
       </section>
     </div>
+
 <!--    Modal-->
     <div class="modal" id="sharelinkmodal">
       <div class="modal-content">
@@ -170,14 +171,15 @@
         </div>
       </div>
     </div>
+
   </div>
 
   <!-- FileStack Upload Images -->
   <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
     <input id="url-for-image" name="imageUrls" value="" type="hidden"/>
     <input name="countryName" id="clicked-country" type="hidden" value=""/>
-    <button id="upload-button" type="button" class="btn btn-primary">Upload Photos</button>
-    <button id="confirm" type="submit" class="btn btn-primary">Save changes</button>
+<!--    <button id="upload-button" type="button" class="btn btn-primary">Upload Photos</button>-->
+<!--    <button id="confirm" type="submit" class="btn btn-primary">Save changes</button>-->
   </form>
 
 
