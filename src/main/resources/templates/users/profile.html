@@ -18,8 +18,16 @@
             <input id="avatarUrl" name="avatarUrl" type="hidden"/>
             <button id="upload-avatar-btn" type="button" class="btn btn-primary">Upload Avatar</button>
           </form>
-          <!-- edit profile button -->
-          <a th:href="@{/edit-profile}" class="btn btn-primary">Edit Profile</a>
+
+          <!-- edit profile button - need these values to make modal sticky  -->
+          <form id="edit-user-form" th:object="${user}">
+            <input id="userId" th:hidden="true" th:field="*{id}"/>
+            <input id="username" value="" th:hidden="true" th:field="*{username}">
+            <input id="first-name" value="" th:hidden="true" th:field="*{firstName}">
+            <input id="last-name" value="" th:hidden="true" th:field="*{lastName}">
+            <input id="user-email" value="" th:hidden="true" th:field="*{email}">
+          </form>
+          <button class="btn btn-primary">Edit Profile</button>
 
 
         </div>
@@ -52,7 +60,7 @@
             <div class="update-search-wrapper w-100">
               <form class="geocode-search">
                 <label for="search-input">Search:</label>
-                <input id="search-input" type="text" placeholder="Search for a place">
+                <input id="search-input" type="text" placeholder="Search for a country">
                 <button type="button" id="search-button">Search</button>
               </form>
 
@@ -61,9 +69,10 @@
               </div>
               <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
                 <input th:hidden="true" th:field="*{id}"/>
-                <button>Reset Map</button>
               </form>
+
 	            <button id="upload-images-btn" type="button">Upload Images</button>
+              <button id="reset-map-button">Reset Map</button>
               <button id="view-images-btn" type="button">View Images</button>
             </div>
 
@@ -164,27 +173,30 @@
         <span class="close">&times;</span>
         <input type="text" id="link">
         <div class="row">
-        <div class="icons">
-          <a href="https://www.facebook.com/"
-             target="popup"
-             onclick="window.open('https://www.facebook.com/','popup','width=600,height=600'); return false;">
-            <img src="/assets/icons8-facebook.svg">
-          </a>
-        </div>
-        <div class="icons">
-          <a href="https://www.instagram.com/"
-             target="popup"
-             onclick="window.open('https://www.instagram.com/','popup','width=600,height=600'); return false;">
-            <img src="/assets/icons8-instagram.svg">
-          </a>
-        </div>
-        <div class="icons">
-          <a href="https://twitter.com/"
-             target="popup"
-             onclick="window.open('https://twitter.com/','popup','width=600,height=600'); return false;">
-            <img src="/assets/icons8-twitter.svg">
-          </a>
-        </div>
+          <div class="icons">
+            <a href="https://www.facebook.com/"
+               target="popup"
+               onclick="window.open('https://www.facebook.com/','popup','width=600,height=600'); return false;">
+              <img src="/assets/icons8-facebook.svg">
+              <!--        TODO    https://www.facebook.com/share.php?u=[URL]-->
+            </a>
+          </div>
+          <div class="icons">
+            <a href="https://www.Linkedin.com/"
+               target="popup"
+               onclick="window.open('https://www.Linkedin.com/','popup','width=600,height=600'); return false;">
+              <img src="/assets/icons8-linkedin.svg">
+            </a>
+          </div>
+<!--          TODO https://www.linkedin.com/sharing/share-offsite/?url=[URL]-->
+          <div class="icons">
+            <a href="https://twitter.com/"
+               target="popup"
+               onclick="window.open('https://twitter.com/','popup','width=600,height=600'); return false;">
+              <img src="/assets/icons8-twitter.svg">
+              <!--         TODO   https://twitter.com/intent/tweet?url=https[URL]-->
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -204,5 +216,6 @@
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
 <script src="/js/badges.js"></script>
 <script src="/js/sharelink.js"></script>
+<script src="/js/edit-profile.js"></script>
 </body>
 </html>

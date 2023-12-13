@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,33 +57,26 @@ public class UsersController {
         model.addAttribute("user", new User());
         //send all the existing countries to the sign-up form so the user can select their country
         model.addAttribute("countries", countryDao.findAll());
-        return "/users/sign-up";
+        return "users/sign-up";
     }
 
     @PostMapping("/sign-up")
-    public String createUser(@ModelAttribute @Valid User user, BindingResult result, Model model) {
+    public String createUser(@ModelAttribute User user) {
 
-        //check for validation errors
-        if (result.hasErrors()) {
-            //if there are errors, send the errors back to the form
-            model.addAttribute("errors", result.getAllErrors());
-            //send the user object back to the form so the user doesn't have to re-enter the information
-            model.addAttribute("user", user);
-            return "users/sign-up";
-        }
-        //hash the password
-        String hashedPassword = passwordEncoder.encode(user.getPassword());
-        //set the hashed password on the user object
-        user.setPassword(hashedPassword);
-        user.setAvatar("https://as2.ftcdn.net/v2/jpg/01/86/61/17/1000_F_186611794_cMP2t2Dn7fdJea0R4JAJOi9tNcSJ0i1T.jpg");
-        //save the user object to the database
-        userDao.save(user);
-        //create a new map object for the user with default values
-        Map userMap = new Map("#0059ff", "light-v11", "naturalEarth", "1" );
-        userMap.setUser(user);
-        userDao.save(user);
-        mapDao.save(userMap);
-        return "redirect:/login";
+            //hash the password
+            String hashedPassword = passwordEncoder.encode(user.getPassword());
+            //set the hashed password on the user object
+            user.setPassword(hashedPassword);
+            user.setAvatar("https://as2.ftcdn.net/v2/jpg/01/86/61/17/1000_F_186611794_cMP2t2Dn7fdJea0R4JAJOi9tNcSJ0i1T.jpg");
+            //save the user object to the database
+            userDao.save(user);
+            //create a new map object for the user with default values
+            Map userMap = new Map("#0059ff", "light-v11", "naturalEarth", "1");
+            userMap.setUser(user);
+            userDao.save(user);
+            mapDao.save(userMap);
+            return "users/login";
+
     }
 
     @GetMapping("/profile")

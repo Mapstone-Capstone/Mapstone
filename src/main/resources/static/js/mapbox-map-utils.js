@@ -180,7 +180,6 @@ const uploadImagesOnMap = (countryName) => {
 
     // event for image upload
     uploadImages(FILE_STACK_TOKEN, input, imgForm);
-
 };
 
 // const uploadImagesBtn = () => {
@@ -201,7 +200,7 @@ const displayImages = () => {
     const viewImagesBtn = document.getElementById('view-images-btn');
     const countryImagesWrapper = document.getElementById('country-images-wrapper');
 
-    viewImagesBtn.addEventListener('click', () => {
+    viewImagesBtn.addEventListener("click", () => {
 
         if (countryImagesWrapper.className === "hide-country-images-wrapper") {
 
@@ -214,7 +213,6 @@ const displayImages = () => {
             countryImagesWrapper.classList.add("hide-country-images-wrapper");
 
         }
-
     })
 
 
@@ -287,11 +285,19 @@ const displayImages = () => {
             imageContainer.innerHTML = "";
             viewEntries.innerHTML = "";
 
-            getAllImages(viewAllImages.value).then(function(response) {
+    });
 
-                response.forEach((image) => {
 
-                    imageContainer.innerHTML += `
+    // //filter images
+    const viewAllImages = document.getElementById("all-images");
+    const filterImageBtn = document.getElementsByClassName("image-filter-btn");
+    const imageContainer = document.getElementById("image-container");
+    viewAllImages.addEventListener("click", () => {
+        imageContainer.innerHTML = "";
+        getAllImages(viewAllImages.value).then(function (response) {
+            response.forEach((image) => {
+
+                imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
                         </div>
@@ -305,6 +311,13 @@ const displayImages = () => {
                 viewEntries.innerHTML = `<h3>Journal</h3>`
 
                 response.forEach((entry) => {
+
+                    `;
+            });
+        });
+    });
+};
+
 
                     viewEntries.innerHTML += `
                             <div>
@@ -324,26 +337,26 @@ const displayImages = () => {
 //upload profile avatar
 const uploadAvatar = () => {
 
-    const uploadAvatarBtn = document.getElementById('upload-avatar-btn');
-    const avatarUrl = document.getElementById('avatarUrl');
-    const avatarForm = document.getElementById('upload-avatar-form');
+    const uploadAvatarBtn = document.getElementById("upload-avatar-btn");
+    const avatarUrl = document.getElementById("avatarUrl");
+    const avatarForm = document.getElementById("upload-avatar-form");
 
-    uploadAvatarBtn.addEventListener('click', () => {
+    uploadAvatarBtn.addEventListener("click", () => {
 
         const client = filestack.init(FILE_STACK_TOKEN);
         const options = {
             onUploadDone:
                 function (response) {
                     console.log(response.filesUploaded[0].url);
-                    avatarUrl.value = response.filesUploaded[0].url
+                    avatarUrl.value = response.filesUploaded[0].url;
                     console.log(avatarUrl.value);
                     avatarForm.submit();
                 }
         };
         client.picker(options).open();
-    })
+    });
 
-}
+};
 
 const onMapLoad = async () => {
     let mapDetails = await getUserMapDetails(id);
@@ -355,7 +368,7 @@ const onMapLoad = async () => {
         await addDefaultLayers(map, mapDetails);
         await addUserLayers(map, mapDetails, id);
         let allLayers = map.getStyle().layers;
-        console.log(allLayers)
+        console.log(allLayers);
         //reveals the highlighted layer when the user hovers over a country
         let hoveredPolygonId = null;
         map.on("mousemove", "highlighted", (e) => {
@@ -392,9 +405,6 @@ const onMapLoad = async () => {
     map.on("click", function (e) {
         e.preventDefault();
 
-       console.log(e.lngLat);
-        console.log(e.point);
-
         // Get features at the clicked point
         let features = map.queryRenderedFeatures(e.point);
         console.log(features[0]);
@@ -428,13 +438,82 @@ const onMapLoad = async () => {
                 "filter": ["==", "NAME", countryName]
 
             });
-
         }
         uploadImagesOnMap(countryName);
     });
 
-    searchForCountry(map);
 
+    //filter images
+    const viewAllImages = document.getElementById("all-images");
+    const filterImageBtn = document.getElementsByClassName("image-filter-btn");
+    const imageContainer = document.getElementById("image-container");
+
+    //event listener for filtering images by country
+    for (const btn of filterImageBtn) {
+        btn.addEventListener("click", () => {
+            imageContainer.innerHTML = "";
+            map.removeLayer("test");
+            getSingleCountry(btn.value).then(function (response) {
+                //adds a line layer to the map, to highlight the country that thr uer is viewing images for
+                map.addLayer({
+                    "id": "test",
+                    "type": "line",
+                    "source": "world",
+                    "layout": {},
+                    "paint": {
+                        "line-color": "#fee900",
+                        "line-width": 5
+                    },
+                    //where the name is equal to the country name on the highlighted layer,set the opacity and color
+                    "filter": ["==", "NAME", response.name]
+
+                });
+                let mapLayers = map.getStyle().layers;
+                //loop through layers and find the layer where the id is equal to the response.name
+                //then fly to that country since the user is viewing images for that country
+                for (let i = 0; i < mapLayers.length; i++) {
+                    if (mapLayers[i].id === response.name) {
+                        console.log(mapLayers[i]);
+                        geocode(response.name, MAP_BOX_TOKEN).then(function (results) {
+                            map.flyTo({
+                                center: results,
+                                zoom: 2
+                            });
+                        });
+                    }
+                }
+
+            });
+            getImagesByCountryId(btn.value).then(function (response) {
+                response.forEach((image) => {
+                    console.log(response);
+                    imageContainer.innerHTML += `
+                        <div class="country-image">
+                            <img src="${image.imageUrl}" alt="country image">
+                        </div>
+                    `;
+                });
+            });
+        });
+    }
+
+
+    //event listener for the reset map button
+    const resetMapForm = document.getElementById("reset-map-form");
+    const resetMapButton = document.getElementById("reset-map-button");
+    resetMapButton.addEventListener("click", async function (e) {
+        e.preventDefault();
+        let userAnswer = confirm("Are you sure you want to reset your map? This will delete all of your saved countries on the map.");
+
+        if (userAnswer === true) {
+            resetMapForm.submit();
+        } else {
+            return;
+        }
+    });
+
+
+    searchForCountry(map);
 };
 
 function openUpdateModal() {
@@ -533,7 +612,7 @@ function openUpdateModal() {
                 color: updatedMapColor.value,
                 projection: updatedMapProjection.value,
                 zoom: updatedMapZoom.value
-            }
+            };
 
         await updateMapStyle(mapToUpdate);
 
@@ -589,7 +668,7 @@ async function sendLayersToBackend(name) {
     const layer =
         {
             name: name,
-        }
+        };
 
     const backendEndpoint = "http://localhost:8080/api/map/layer/add";
     try {
@@ -660,7 +739,7 @@ const getAllImages = async (id) => {
     let response = await fetch(url, options);
     let images = await response.json();
     return images;
-}
+};
 
 const getSingleCountry = async (id) => {
     const url = `http://localhost:8080/api/country/${id}`;
@@ -702,5 +781,7 @@ const getAllEntries = async (id) => {
 }
 
 export {
+
     onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, uploadImagesOnMap, displayImages, uploadAvatar, getImagesByCountryId, getAllImages, getAllEntries, getEntriesByCountryId
+
 };
