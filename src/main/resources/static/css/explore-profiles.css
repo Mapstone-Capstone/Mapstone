@@ -35,6 +35,48 @@
 }
 
 .avatar {
+    height: 122px;
+    width: 128px;
 
-
+}
+/*Original search page CSS */
+body{
+    /*background-image: url("https://www.wiredrive.com/wp-content/uploads/2016/02/world.gif");*/
+    background-image: url("https://i.makeagif.com/media/3-16-2018/yIR5RB.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.page-wrapper {
+    min-height: 77.5vh;
+}
+.user-wrapper{
+    opacity: .5;
+    color: var(--white);
+}
+.user-wrapper:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+#search {
+    background-color: #D9D9D9;
+    height: 60px;
+    width: 396px;
+}
+label {
+    text-align: center;
+}
+.searchBar{
+    padding: 22px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.search-container{
+    height: 682px;
+    width: 1043px;
+    flex-direction: column;
+}
+.view-profile-button {
+    height: 43px;
+    width: 196px;
 }
