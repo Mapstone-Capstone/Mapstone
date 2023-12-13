@@ -289,10 +289,7 @@ viewAllImages.addEventListener("click", () => {
 });
 
 
-// //filter images
-// const viewAllImages = document.getElementById("all-images");
-// const filterImageBtn = document.getElementsByClassName("image-filter-btn");
-// const imageContainer = document.getElementById("image-container");
+//filter images
 viewAllImages.addEventListener("click", () => {
     imageContainer.innerHTML = "";
     getAllImages(viewAllImages.value).then(function (response) {
@@ -306,24 +303,25 @@ viewAllImages.addEventListener("click", () => {
         });
 
     });
+
+
+getAllEntries(viewAllImages.value).then(function (response) {
+
+    viewEntries.innerHTML = `<h3>Journal</h3>`;
+
+    response.forEach((entry) => {
+
+        viewEntries.innerHTML += `
+                            <div>
+                                <h5>${entry.title}</h5>
+                                <p>Date: ${entry.date}</p>
+                                <p>${entry.description}</p>
+                            </div>
+                        `;
+    });
 });
 
-// getAllEntries(viewAllImages.value).then(function (response) {
-//
-//     viewEntries.innerHTML = `<h3>Journal</h3>`;
-//
-//     response.forEach((entry) => {
-//
-//         viewEntries.innerHTML += `
-//                             <div>
-//                                 <h5>${entry.title}</h5>
-//                                 <p>Date: ${entry.date}</p>
-//                                 <p>${entry.description}</p>
-//                             </div>
-//                         `;
-//     });
-//
-// });
+});
 
 
 //upload profile avatar
