@@ -96,6 +96,18 @@ public class MapsRestController {
             userBadges.add(badgesDao.getOne(5));
             loggedInUser.getBadges().add(badgesDao.getOne(5));
         }
+
+        //user has visited one country in each continent
+        if (updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Africa")) &&
+                updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Asia")) &&
+                updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Europe")) &&
+                updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("North America")) &&
+                updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("South America")) &&
+                updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Oceania")) &&
+                !userBadges.contains(badgesDao.getReferenceById(2))) {
+            userBadges.add(badgesDao.getOne(2));
+            loggedInUser.getBadges().add(badgesDao.getOne(2));
+        }
         userDao.save(user);
         //return the list of countries
         return countryDao.getAllByUsers_Id(loggedInUser.getId());

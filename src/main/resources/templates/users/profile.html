@@ -18,8 +18,16 @@
             <input id="avatarUrl" name="avatarUrl" type="hidden"/>
             <button id="upload-avatar-btn" type="button" class="btn btn-primary">Upload Avatar</button>
           </form>
-          <!-- edit profile button -->
-          <a th:href="@{/edit-profile}" class="btn btn-primary">Edit Profile</a>
+
+          <!-- edit profile button - need these values to make modal sticky  -->
+          <form id="edit-user-form" th:object="${user}">
+            <input id="userId" th:hidden="true" th:field="*{id}"/>
+            <input id="username" value="" th:hidden="true" th:field="*{username}">
+            <input id="first-name" value="" th:hidden="true" th:field="*{firstName}">
+            <input id="last-name" value="" th:hidden="true" th:field="*{lastName}">
+            <input id="user-email" value="" th:hidden="true" th:field="*{email}">
+          </form>
+          <button class="btn btn-primary">Edit Profile</button>
 
 
         </div>
@@ -50,7 +58,7 @@
             <div class="update-search-wrapper w-100">
               <form class="geocode-search">
                 <label for="search-input">Search:</label>
-                <input id="search-input" type="text" placeholder="Search for a place">
+                <input id="search-input" type="text" placeholder="Search for a country">
                 <button type="button" id="search-button">Search</button>
               </form>
 
@@ -189,5 +197,6 @@
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
 <script src="/js/badges.js"></script>
 <script src="/js/sharelink.js"></script>
+<script src="/js/edit-profile.js"></script>
 </body>
 </html>

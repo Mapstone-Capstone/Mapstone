@@ -61,15 +61,6 @@ public class UsersController {
     @PostMapping("/sign-up")
     public String createUser(@ModelAttribute User user) {
 
-//        System.out.println("validation.hasErrors() = " + result.hasErrors());
-//        //check for validation errors
-//        if (result.hasErrors()) {
-//            //if there are errors, send the errors back to the form
-//            model.addAttribute("errors", result);
-//            //send the user object back to the form so the user doesn't have to re-enter the information
-//            model.addAttribute("user", user);
-//            return "users/sign-up";
-//        }
             //hash the password
             String hashedPassword = passwordEncoder.encode(user.getPassword());
             //set the hashed password on the user object
