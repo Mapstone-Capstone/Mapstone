@@ -39,37 +39,62 @@
             </div>
           </div>
         </div>
-
-
-        <div id="country-images-wrapper" class="hide-country-images-wrapper">
-          <div class="country-images-header w-100">
-            <h2>Images</h2>
-            <!--Use for possible navbar to pull up images based on user country-->
-            <ul>
-              <li style="list-style: none">
-                <button id="all-images" type="button">All</button>
-              </li>
-              <li style="list-style: none">
-                <form th:action="@{/country/${id}}" th:method="POST">
-                  <th:block th:each="country : ${user.getCountries()}">
-                    <button class="image-filter-btn" th:text="${country.getName()}"></button>
-                  </th:block>
-                </form>
-              </li>
-            </ul>
-          </div>
-          <div class="country-images-body w-100">
-            <div class="country-images w-100">
-              <!--loops through list of image object to input image url into image source tag-->
-              <th:block th:each="image : ${user.getImages()}">
-                <div class="country-image">
-                  <!--			            <input th:value="${}" type="hidden" />-->
-                  <img th:src="${image.getImageUrl()}" alt="country image">
-                </div>
-              </th:block>
-            </div>
-          </div>
-        </div>
+	      
+	      
+	      <!--Images Container-->
+	      <div id="country-images-wrapper" class="hide-country-images-wrapper">
+		      <div class="country-images-header w-100">
+			      <h2>Images</h2>
+			      
+			      <!--Dynamic Dropdown Filter-->
+			      <div class="dropdown">
+				      
+				      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					      Filter Images By Country
+				      </a>
+				      
+				      <ul class="dropdown-menu">
+					      <li>
+						      <button id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>
+					      </li>
+					      <li style="list-style: none">
+						      <form>
+							      <th:block th:each="country : ${user.getCountries()}">
+								      <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>
+								      <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}" type="button"></button>
+							      </th:block>
+						      </form>
+					      </li>
+				      </ul>
+				      
+			      </div>
+		      </div>
+		      
+		      <!--Images Populated Dynamically-->
+		      <div class="country-images-body w-100">
+			      <div id="image-container" class="country-images w-100">
+				      <th:block th:each="image : ${user.getImages()}">
+					      <div class="country-image">
+						      <img th:src="${image.getImageUrl()}" alt="country image">
+					      </div>
+				      </th:block>
+			      </div>
+			      
+			      <!--Dynamic Journal Entry Container-->
+			      <article id="view-entries">
+				      <h3>Journal</h3>
+				      <th:block th:each="entry : ${user.getEntries()}">
+					      <div>
+						      <h5 th:text="${entry.getTitle()}"></h5>
+						      <p>Date: <span th:text="${entry.getDate()}"></span></p>
+						      <p><span th:text="${entry.getDescription()}"></span></p>
+					      </div>
+					      <br />
+				      </th:block>
+			      </article>
+		      
+		      </div>
+	      </div>
 
         <div th:if="${loggedIn}">-->
           <form th:action="@{/comment}" method="post">

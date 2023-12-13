@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}"></head>
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
@@ -43,9 +43,11 @@
         </div>
 
         <h4>Achievements</h4>
+	      
         <div class="badges w-100">
 			<!--dynamically filled with javascript-->
         </div>
+	      
         <div>
           <button id="share" th:value="${user.id}">Share Link</button>
         </div>
@@ -68,6 +70,8 @@
               <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
                 <input th:hidden="true" th:field="*{id}"/>
               </form>
+
+	            <button id="upload-images-btn" type="button">Upload Images</button>
               <button id="reset-map-button">Reset Map</button>
               <button id="view-images-btn" type="button">View Images</button>
             </div>
@@ -88,13 +92,14 @@
           </div>
         </div>
 
-
+	    <!--Images Container-->
         <div id="country-images-wrapper" class="hide-country-images-wrapper">
           <div class="country-images-header w-100">
             <h2>Images</h2>
+	          
+	          <div id="create-entries"></div>
 
-            <!--Use for possible navbar to pull up images based on user country-->
-	          <a href="/create-entries">Create an Entry</a>
+              <!--Dynamic Dropdown Filter-->
 	          <div class="dropdown">
 		          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 			          Filter Images By Country
@@ -114,8 +119,8 @@
 			          </li>
 		          </ul>
 	          </div>
-
           </div>
+	        
           <div class="country-images-body w-100">
             <div id="image-container" class="country-images w-100">
               <th:block th:each="image : ${user.getImages()}">
@@ -124,9 +129,22 @@
                 </div>
               </th:block>
             </div>
+	          
+	          <article id="view-entries">
+		          <h3>Journal</h3>
+		          <th:block th:each="entry : ${user.getEntries()}">
+			          <div>
+				          <h5 th:text="${entry.getTitle()}"></h5>
+				          <p>Date: <span th:text="${entry.getDate()}"></span></p>
+				          <p><span th:text="${entry.getDescription()}"></span></p>
+			          </div>
+			          <br />
+		          </th:block>
+	          </article>
+	          
           </div>
-        </div>
-
+		</div>
+	      
         <!--  COMMENTS CONTAINER  -->
         <div class="comments-container">
           <div class="comments-header">
@@ -189,8 +207,6 @@
   <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
     <input id="url-for-image" name="imageUrls" value="" type="hidden"/>
     <input name="countryName" id="clicked-country" type="hidden" value=""/>
-<!--    <button id="upload-button" type="button" class="btn btn-primary">Upload Photos</button>-->
-<!--    <button id="confirm" type="submit" class="btn btn-primary">Save changes</button>-->
   </form>
 
 
