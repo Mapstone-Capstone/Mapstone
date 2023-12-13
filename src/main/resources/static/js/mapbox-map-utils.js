@@ -368,7 +368,7 @@ const onMapLoad = async () => {
             imageContainer.innerHTML = "";
             map.removeLayer("test");
             getSingleCountry(btn.value).then(function (response) {
-                console.log(response);
+                //adds a line layer to the map, to highlight the country that thr uer is viewing images for
                 map.addLayer({
                     "id": "test",
                     "type": "line",
@@ -383,7 +383,8 @@ const onMapLoad = async () => {
 
                 });
                 let mapLayers = map.getStyle().layers;
-                //loop through layers and find the layer where the id is is equal to the response.name
+                //loop through layers and find the layer where the id is equal to the response.name
+                //then fly to that country since the user is viewing images for that country
                 for (let i = 0; i < mapLayers.length; i++) {
                     if (mapLayers[i].id === response.name) {
                         console.log(mapLayers[i]);
