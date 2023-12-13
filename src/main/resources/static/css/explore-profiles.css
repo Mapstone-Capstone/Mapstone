@@ -27,8 +27,8 @@
     width: 100%;
     height: 50px;
     font-weight: bold;
-    color: white;
-    background-color: #1E90FF;
+    color: black;
+    background-color: #8DE189;
     border: none;
     border-radius: 5px;
     text-align: center;
@@ -37,7 +37,8 @@
 .avatar {
     height: 122px;
     width: 128px;
-
+    border-radius: 100px;
+    padding: unset;
 }
 /*Original search page CSS */
 body{
@@ -52,6 +53,9 @@ body{
 .user-wrapper{
     opacity: .5;
     color: var(--white);
+    flex-direction: row;
+    width: 700px;
+    height: 153px;
 }
 .user-wrapper:hover{
     opacity: 1;
@@ -72,11 +76,37 @@ label {
     text-align: center;
 }
 .search-container{
-    height: 682px;
-    width: 1043px;
+    max-height: 682px;
+    max-width: 1043px;
     flex-direction: column;
+    align-content: center;
+
 }
 .view-profile-button {
     height: 43px;
     width: 196px;
+    display: flex;
+    justify-content: center;
+}
+.text {
+    text-align: center;
+}
+footer .nav-link{
+    display: unset;
+    display: flex;
+    background-color: #8DE189;
+    color: black;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+footer{
+    color: white;
+    font-weight: bold;
+    background-color: #080063;
+}
+ nav .nav-link {
+    font-weight: bold;
+    color: black;
+    font-size: 20px;
 }
