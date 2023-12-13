@@ -231,51 +231,13 @@ const displayImages = () => {
     })
 
 
-    //filter images
+    // //filter images
     const viewAllImages = document.getElementById('all-images');
     const filterImageBtn = document.getElementsByClassName('image-filter-btn');
     const imageContainer = document.getElementById('image-container');
-
-
-        for (const btn of filterImageBtn) {
-
-            btn.addEventListener('click', () => {
-                imageContainer.innerHTML = "";
-                // getSingleCountry(btn.value).then(function (response) {
-                //     console.log(response);
-                //     map.addLayer({
-                //         "id": response.name,
-                //         "type": "fill",
-                //         "source": "world",
-                //         "layout": {},
-                //         "paint": {
-                //             "line-color": "#fe0000",
-                //             "line-width": 3
-                //         },
-                //         //where the name is equal to the country name on the highlighted layer,set the opacity and color
-                //         "filter": ["==", "NAME", response.name]
-                //
-                //     });
-                // });
-                getImagesByCountryId(btn.value).then(function (response) {
-                    response.forEach((image) => {
-                        console.log(response);
-                        imageContainer.innerHTML += `
-                        <div class="country-image">
-                            <img src="${image.imageUrl}" alt="country image">
-                        </div>
-                    `
-                    })
-                })
-            })
-        }
-
         viewAllImages.addEventListener('click', () => {
-
             imageContainer.innerHTML = "";
-
             getAllImages(viewAllImages.value).then(function(response) {
-
                 response.forEach((image) => {
 
                     imageContainer.innerHTML += `
@@ -284,9 +246,7 @@ const displayImages = () => {
                         </div>
                     `
                 })
-
             })
-
         })
     }
 
@@ -363,9 +323,6 @@ const onMapLoad = async () => {
     map.on("click", function (e) {
         e.preventDefault();
 
-       console.log(e.lngLat);
-        console.log(e.point);
-
         // Get features at the clicked point
         let features = map.queryRenderedFeatures(e.point);
         console.log(features[0]);
@@ -399,15 +356,57 @@ const onMapLoad = async () => {
                 "filter": ["==", "NAME", countryName]
 
             });
-
         }
         renderModal(countryName);
     });
 
+
+    //filter images
+    const viewAllImages = document.getElementById('all-images');
+    const filterImageBtn = document.getElementsByClassName('image-filter-btn');
+    const imageContainer = document.getElementById('image-container');
+
+    for (const btn of filterImageBtn) {
+
+        btn.addEventListener('click', () => {
+            imageContainer.innerHTML = "";
+            map.removeLayer("test");
+            getSingleCountry(btn.value).then(function (response) {
+                console.log(response);
+                map.addLayer({
+                    "id": "test",
+                    "type": "line",
+                    "source": "world",
+                    "layout": {},
+                    "paint": {
+                        "line-color": "#fee900",
+                        "line-width": 5
+                    },
+                    //where the name is equal to the country name on the highlighted layer,set the opacity and color
+                    "filter": ["==", "NAME", response.name]
+
+                });
+            });
+            getImagesByCountryId(btn.value).then(function (response) {
+                response.forEach((image) => {
+                    console.log(response);
+                    imageContainer.innerHTML += `
+                        <div class="country-image">
+                            <img src="${image.imageUrl}" alt="country image">
+                        </div>
+                    `
+                })
+            })
+        })
+    }
+
+
+
+
+
+
     searchForCountry(map);
 
-   let test = await getSingleCountry(185);
-    console.log(test);
 
 };
 
