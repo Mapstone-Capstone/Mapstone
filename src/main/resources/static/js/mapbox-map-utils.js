@@ -406,8 +406,8 @@ const onMapLoad = async () => {
 
     searchForCountry(map);
 
-   let test = await getSingleCountry(185);
-    console.log(test);
+   // let test = await getSingleCountry(185);
+   //  console.log(test);
 
 };
 
