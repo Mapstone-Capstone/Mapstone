@@ -16,57 +16,51 @@
               <h1 class="text-center">Sign Up!</h1>
               <p class="text-center">Sign up and share your travel experiences with friends.</p>
             </div>
-            <form th:method="POST" th:action="@{/sign-up}" th:object="${user}" class="d-flex flex-column" id="register-form">
+            <form th:method="POST" th:action="@{/sign-up}" th:object="${user}" class="d-flex flex-column"
+                  id="register-form">
               <div class="d-flex flex-column gap-2 register-form">
                 <label for="username">Username
                   <input th:field="*{username}" name="username" id="username"
                          placeholder="Enter username">
+                  <p id="username-error" class="errors"></p>
                 </label>
                 <label for="firstname">First Name
                   <input th:field="*{firstName}" name="firstname" id="firstname"
                          placeholder="Your First Name">
-                  <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="error"></p>
+                  <p id="firstName-error" class="errors"></p>
                 </label>
 
                 <label for="lastname">Last Name
-                  <input type="text" th:field="*{lastName}" name="lastname" id="lastname"
+                  <input th:field="*{lastName}" name="lastname" id="lastname"
                          placeholder="Your Last Name">
-                  <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="error"></p>
+                  <p id="lastName-error" class="errors"></p>
                 </label>
 
                 <label for="email">Email
-                  <input type="text" th:field="*{email}" name="email"  id="email"
+                  <input type="email" th:field="*{email}" name="email" id="email"
                          placeholder="Your email">
-                  <!--  below: if the field has errors, display them -->
-                  <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error"></p>
+                  <p id="email-error" class="errors"></p>
                 </label>
 
                 <label for="password">Password
                   <input type="password" th:field="*{password}" name="password" id="password"
                          placeholder="Enter Password">
-                  <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></p>
                 </label>
 
                 <!--              refactor applied-->
                 <label for="password-confirm">Confirm Password
                   <input type="password" name="password-confirm" id="password-confirm"
                          placeholder="Enter Password">
+                  <!--  Populates if password does not meet custom javascript regex parameters      -->
+                  <p id="password-error" class="errors"></p>
                 </label>
-                <p id="password-error"></p>
-                <input id="map" th:hidden="true">
-
-                <small id="“passwordRequirements”" class="“form-text" text-muted”>
-                  Password must be at least 8 characters long and contain at least (1) lowercase letter, (1) uppercase
-                  letter, (1) digit, and (1) special character (*).
-                </small><br>
-                <!--              <span id="alert">! Your password does not match !</span>-->
-                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
               </div>
               <button id="register-button" type="submit">
                 <img src="/assets/globe-icon.svg" alt="globe-icon">
                 <span>Register</span>
               </button>
             </form>
+
           </section>
         </div>
       </div>
