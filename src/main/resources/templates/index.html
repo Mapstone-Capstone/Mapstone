@@ -3,6 +3,7 @@
 <head th:replace="~{partials/fragments :: head('Home', '/css/home.css')}">
 
 </head>
+
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <div class="page-wrapper position-relative">
@@ -14,22 +15,83 @@
     </div>
 <!--    <div th:replace="partials/nav :: nav"></div>-->
     <div class="container flex-grow-1 d-flex flex-column justify-content-center hero">
-        <div class="row">
+        <div class="row center-title">
             <div class="col d-flex flex-column align-items-center justify-content-start">
-                <h1>Map Explore Share</h1>
-                <h3>Where Creativity Meets Adventure</h3>
-                <p>Discover the world through your own lens with "Map Share" – your ultimate travel companion. Our platform empowers you to transform your journeys into personalized maps, capturing the essence of your adventures like never before.
-
-                    Sign up for an account and embark on a unique journey of mapping your travels. Our intuitive tools allow you to craft personalized maps, pinpointing each country you've visited. Add rich details, and highlight memorable moments through photos specific to each visited country.
-
-                    Dive into a world of exploration beyond your own adventures. Explore other users' profiles, browse their captivating maps, and delve into their travel tales. Engage with fellow travelers, leave comments, and gather inspiration from the diverse experiences shared across our vibrant community.</p>
-                <br>
-                <p>Join Map Explore Share today and embark on a journey of exploration, connection, and shared experiences. Start mapping your world, one adventure at a time. Sign up now and let your travels become your story!</p>
+                <h1 class="map-share-title">Map Share</h1>
             </div>
+
+            <div class="hero-buttons d-flex justify-content-center mt-5" id="section1">
+                <div class="d-flex">
+                    <ul class="d-flex gap-5 align-items-center justify-content-center w-100">
+                        <li class="  d-flex ">
+                            <a class="hero-buttons" href="#section2">Learn More</a>
+                        </li>
+                        <li class=" d-flex">
+                            <a class="hero-buttons" th:href="@{/explore-profiles}">Explore Profiles</a>
+                        </li>
+                        <li class=" d-flex">
+                            <a class="hero-buttons " th:href="@{/sign-up}">Sign-up</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+<div class="container-fluid what-is-statement section2" id="section2">
+    <div class="container pb-2 pt-5 d-flex justify-content-center align-content-center">
+        <div>
+            <h2>What is Map-Share?</h2>
+            <p>Our intuitive tools allow you to craft personalized maps, pinpointing each country you've visited. Add rich details, and highlight memorable moments through photos specific to each visited country.
+                Dive into a world of exploration beyond your own adventures. Explore other users' profiles, browse their captivating maps, and delve into their travel tales. Engage with fellow travelers, leave comments, and gather inspiration from the diverse experiences shared across our vibrant community.
+                Join Map Explore Share today and embark on a journey of exploration, connection, and shared experiences. Start mapping your world, one adventure at a time. Sign up now and let your travels become your story!</p>
         </div>
     </div>
 </div>
 
+<div class="container d-flex justify-content-center pb-5">
+    <div class="row">
+
+        <div class="col-lg-6 mb-3 mt-5 pt-5">
+            <p>Customize the look and feel of your map! Chose from various map styles</p>
+        </div>
+        <div class="col-lg-6 mb-3 pt-3 mt-3">
+            <img src="/images/Group%2014.png" class="card-img-top img-fluid various-maps" alt="various maps">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <p>Join Map Explore Share today and embark on a journey of exploration, connection, and shared experiences. Start mapping your world, one adventure at a time. Sign up now and let your travels become your story!</p>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Add smooth scrolling to all links
+        let links = document.querySelectorAll("a");
+
+        links.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                // Make sure this.hash has a value before overriding default behavior
+                if (this.hash !== "") {
+                    // Prevent default anchor click behavior
+                    event.preventDefault();
+
+                    // Store hash
+                    let hash = this.hash;
+
+                    // Using the scrollIntoView() method to add smooth page scroll
+                    document.querySelector(hash).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    history.pushState(null, null, hash);
+                }
+            });
+        });
+    });
+
+</script>
 
 <footer th:replace="~{partials/fragments :: footer}"></footer>
 </body>
