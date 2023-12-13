@@ -190,7 +190,6 @@ button {
 
     & .country-images-body {
         display: flex;
-        flex-wrap: wrap;
         gap: 10px;
 
         & .country-images {
@@ -313,6 +312,12 @@ button {
         }
     }
 }
+
+article h3 {
+    text-align: center;
+    text-decoration: underline;
+}
+
 
 
 

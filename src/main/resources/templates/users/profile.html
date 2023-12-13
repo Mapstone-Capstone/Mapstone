@@ -101,7 +101,6 @@
 				          <form>
 					          <th:block th:each="country : ${user.getCountries()}">
                       <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>
-<!--						          <a href="/create-entries">Create an Entry</a>-->
 						          <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}" type="button"></button>
 					          </th:block>
 				          </form>
@@ -118,12 +117,21 @@
                 </div>
               </th:block>
             </div>
+	          
+	          <article id="view-entries">
+		          <h3>Journal</h3>
+		          <th:block th:each="entry : ${user.getEntries()}">
+			          <div>
+				          <h5 th:text="${entry.getTitle()}"></h5>
+				          <p>Date: <span th:text="${entry.getDate()}"></span></p>
+				          <p><span th:text="${entry.getDescription()}"></span></p>
+			          </div>
+			          <br />
+		          </th:block>
+	          </article>
+	          
           </div>
-	        
-	        <div id="view-entries"></div>
-	        
-        </div>
-
+		</div>
         <!--  COMMENTS CONTAINER  -->
         <div class="comments-container">
           <div class="comments-header">
