@@ -178,9 +178,10 @@ public class MapsRestController {
         return userDao.getOne(user.getId()).getBadges();
     }
 
-    @GetMapping("/api/country/" + "/{id}")
+    @GetMapping("/api/country" + "/{id}")
     public Country getCountryNameById(@PathVariable long id) {
         System.out.println(id);
+
         return countryDao.getCountryById(id);
     }
 
