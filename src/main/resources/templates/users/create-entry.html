@@ -4,8 +4,26 @@
 	<title>Create Entry</title>
 </head>
 <body>
+<nav th:replace="~{partials/fragments :: nav}"></nav>
 <h1>Create A Journal Entry</h1>
 <form th:action="@{/create-entries}" th:method="post" th:object="${entry}">
+	
+	<p>Choose a trip to country you want to talk about: <strong><span id="country-value"></span></strong></p>
+	
+	<div class="dropdown">
+		<a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			Dropdown link
+		</a>
+		<ul class="dropdown-menu">
+			<th:block th:each="country : ${countries}">
+				<li>
+					<button class="dropdown-item country-entry" th:text="${country.getName()}" th:value="${country.getId()}" type="button"></button>
+				</li>
+			</th:block>
+		</ul>
+	</div>
+	<input name="country-id" id="country-id" type="hidden" />
+	<br />
 	
 	<label for="entry-title">Title:
 		<input th:field="*{title}" id="entry-title" name="entry-title"/>
@@ -23,7 +41,20 @@
 	<br />
 	<input type="submit" />
 	
+	
+	<div id="image-container" class="country-images">
+	</div>
 </form>
 
+
+
+
+
+<footer th:replace="~{partials/fragments :: footer}"></footer>
+
+<th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
+<script src="/js/badges.js"></script>
+<script src="/js/sharelink.js"></script>
+<script src="/js/entries.js"></script>
 </body>
 </html>

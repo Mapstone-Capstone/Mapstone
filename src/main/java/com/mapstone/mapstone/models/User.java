@@ -97,6 +97,7 @@ public class User {
         countries = copy.countries;
         images = copy.images;
         badges = copy.badges;
+        entries = copy.entries;
     }
 
     public User(long id, String username, String firstName, String lastName, String email, String password, String avatar) {

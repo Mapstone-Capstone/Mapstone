@@ -14,6 +14,8 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
     List<Image> getImagesByCountry_Id(long id);
 
     List<Image> getImagesByUser_Id(long id);
+    
+    
 
 
 }

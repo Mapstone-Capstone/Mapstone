@@ -103,6 +103,12 @@ h4 {
 
 }
 
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 button {
     display: flex;
@@ -190,7 +196,6 @@ button {
 
     & .country-images-body {
         display: flex;
-        flex-wrap: wrap;
         gap: 10px;
 
         & .country-images {
@@ -313,6 +318,12 @@ button {
         }
     }
 }
+
+article h3 {
+    text-align: center;
+    text-decoration: underline;
+}
+
 
 
 

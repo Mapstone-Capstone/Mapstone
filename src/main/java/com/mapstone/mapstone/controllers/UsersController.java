@@ -18,7 +18,6 @@ import org.springframework.validation.annotation.Validated;
 
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.*;
 import java.util.List;
 
 @Controller
@@ -35,10 +34,12 @@ public class UsersController {
     private final ImageRepository imageDao;
     private final CommentRepository commentDao;
 
+    private final EntriesRepository entryDao;
+
     private final BadgesRepository badgeDao;
     private PasswordEncoder passwordEncoder;
 
-    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao, BadgesRepository badgeDao) {
+    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao, EntriesRepository entryDao, BadgesRepository badgeDao) {
         this.userDao = userDao;
         this.mapDao = mapDao;
         this.passwordEncoder = passwordEncoder;
@@ -46,6 +47,7 @@ public class UsersController {
         this.imageDao = imageDao;
         this.layerDao = layerDao;
         this.commentDao = commentDao;
+        this.entryDao = entryDao;
         this.badgeDao = badgeDao;
     }
 
@@ -93,7 +95,6 @@ public class UsersController {
 
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
-
         return "users/profile";
     }
 
@@ -131,16 +132,16 @@ public class UsersController {
         return "redirect:/profile";
     }
 
-    @GetMapping("/view")
-    public String viewImages(@RequestParam(name = "viewImage") Model model){
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        String image = imageDao.getImageByUser(loggedInUser).getImageUrl();
-
-//        List<Country> listOfCountries =
-//        model.addAttribute("image", image);
-        return "/profile";
-    }
+//    @GetMapping("/view")
+//    public String viewImages(@RequestParam(name = "viewImage") Model model){
+//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        String image = imageDao.getImageByUser(loggedInUser).getImageUrl();
+//
+////        List<Country> listOfCountries =
+////        model.addAttribute("image", image);
+//        return "/profile";
+//    }
 
 
     // method to retrieve user profile for editing
