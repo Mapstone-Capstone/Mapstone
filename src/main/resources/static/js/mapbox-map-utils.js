@@ -1,5 +1,6 @@
 import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
+import {uploadImages} from "./images.js";
 
 let countriesVisited = [];
 let countryName;
@@ -170,36 +171,29 @@ function addMarker(map) {
 }
 
 //Upload Images
-const uploadImages = (countryName) => {
+const uploadImagesOnMap = (countryName) => {
     let country = countryName;
     const clickedCountry = document.querySelector("#clicked-country");
-    // const laterButton = document.querySelector("#later-button");
-    const confirmBtn = document.querySelector("#confirm");
-    const uploadBtn = document.querySelector("#upload-button");
-    clickedCountry.value = countryName;
     const imgForm = document.querySelector("#img-form");
     const input = document.querySelector("#url-for-image");
-
-    clickedCountry.value = countryName;
+    clickedCountry.value = country;
 
     // event for image upload
-    const client = filestack.init(FILE_STACK_TOKEN);
-    const options = {
-        maxFiles: 10,
-        onUploadDone:
-            function (response) {
-                let listOfImages = response.filesUploaded;
-                let arrayOfImages = [];
-                listOfImages.forEach( (image) => {
-                    arrayOfImages.push(image.url);
-                })
-                input.value = arrayOfImages;
-                imgForm.submit();
-            }
-    };
-    client.picker(options).open();
+    uploadImages(FILE_STACK_TOKEN, input, imgForm);
 
 };
+
+// const uploadImagesBtn = () => {
+//
+//     const uploadImagesBtn = document.getElementById('upload-images-btn');
+//
+//     uploadImagesBtn.addEventListener('click', () => {
+//
+//
+//
+//     })
+//
+// }
 
 //event to display images
 const displayImages = () => {
@@ -436,7 +430,7 @@ const onMapLoad = async () => {
             });
 
         }
-        uploadImages(countryName);
+        uploadImagesOnMap(countryName);
     });
 
     searchForCountry(map);
@@ -708,5 +702,5 @@ const getAllEntries = async (id) => {
 }
 
 export {
-    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, uploadImages, displayImages, uploadAvatar, getImagesByCountryId, getAllImages, getAllEntries, getEntriesByCountryId
+    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, uploadImagesOnMap, displayImages, uploadAvatar, getImagesByCountryId, getAllImages, getAllEntries, getEntriesByCountryId
 };
