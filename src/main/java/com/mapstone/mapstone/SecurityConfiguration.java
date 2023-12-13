@@ -1,5 +1,6 @@
 package com.mapstone.mapstone;
 
+import com.mapstone.mapstone.services.CustomAccessDeniedHandler;
 import com.mapstone.mapstone.services.UserDetailsLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -42,10 +44,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requests) -> requests
                         /* Pages that require authentication
                          * only authenticated users can create and edit ads */
-                        .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*", "/saveMap", "/profile-picture","/viewprofile", "/test","/comment","/url-images", "/saveMap", "/edit-profile").authenticated()
+                        .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*", "/saveMap", "/profile-picture","/viewprofile", "/test","/comment","/url-images", "/saveMap", "/edit-profile", "/create-entries").authenticated()
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/login", "/sign-up","/viewprofile/*","/viewprofile/**","/search","/api/**", "/country","/users/viewprofile/*", "/aboutUs", "/explore-profiles").permitAll()
+                        .requestMatchers("/", "/login", "/sign-up","/viewprofile/*","/viewprofile/**","/search","/api/**", "/country","/users/viewprofile/*", "/aboutUs", "/explore-profiles","/error").permitAll()
                         // allow loading of static resources
                         .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**", "/images/*").permitAll()
                 )
@@ -58,6 +60,9 @@ public class SecurityConfiguration {
 //                .httpBasic(withDefaults());
         return http.build();
     }
-
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
 }
 

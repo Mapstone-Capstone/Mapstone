@@ -2,6 +2,7 @@ package com.mapstone.mapstone.restcontrollers;
 
 
 import com.mapstone.mapstone.models.Image;
+import com.mapstone.mapstone.models.User;
 import com.mapstone.mapstone.repositories.ImageRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,5 +23,11 @@ public class ImageRestController {
     public List<Image> getImagesByCountryId(@PathVariable long id) {
         System.out.println(id);
         return imageDao.getImagesByCountry_Id(id);
+    }
+
+    @GetMapping("/api/images/country"+"/{id}")
+    public List<Image> getAllImages(@PathVariable long id) {
+
+        return imageDao.getImagesByUser_Id(id);
     }
 }
