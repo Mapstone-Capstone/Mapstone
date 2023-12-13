@@ -48,7 +48,7 @@ body{
     background-size: cover;
 }
 .page-wrapper {
-    min-height: 77.5vh;
+    min-height: 57.5vh;
 }
 .user-wrapper{
     opacity: .5;
@@ -78,9 +78,10 @@ label {
 .search-container{
     max-height: 682px;
     max-width: 1043px;
-    flex-direction: column;
+    overflow-x: auto;
+    flex-direction: row;
     align-content: center;
-
+    justify-content: center;
 }
 .view-profile-button {
     height: 43px;
@@ -110,3 +111,34 @@ footer{
     color: black;
     font-size: 20px;
 }
+ .profile-container{
+     justify-content: center;
+ }
+/*max-height: 682px;*/
+/*max-width: 1043px;*/
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.search-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.search-container {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+ @media only screen and (min-width: 1440px){
+     .search-container{
+         height: 682px;
+         width: 1043px;
+     }
+ }

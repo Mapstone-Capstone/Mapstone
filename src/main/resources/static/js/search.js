@@ -6,11 +6,11 @@ search.addEventListener("keyup", (event)=>{
     let noResults = true;
     for (let i = 0; i < result.length; i++) {
         if (!result[i].innerHTML.toLowerCase().includes(input)) {
-            result[i].parentElement.style.display="none";
+            result[i].parentElement.parentElement.style.display="none";
             console.log(result[i].innerHTML + "is gone")
         }
         else {
-            result[i].parentElement.style.display="flex";
+            result[i].parentElement.parentElement.style.display="flex";
             noResults = false;
             console.log(result[i].innerHTML + "is here")
         }
