@@ -17,7 +17,7 @@
 
 
   <div class="user-wrapper" th:each="user : ${userList}">
-    <img th:src="@{user.avatar}" class="avatar border-rounded-circle" alt="Avatar Pic">
+    <img th:src="${user.avatar}" class="avatar border-rounded-circle" alt="Avatar Pic">
       <p th:text="${user.username}"></p>
     <span># of countries visited: <span th:text="${user.countries.size()}"></span></span>
     <span>% of the world explored: <span th:text="${100 * user.countries.size() / 195} + '%'"></span></span>

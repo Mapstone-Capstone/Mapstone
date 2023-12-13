@@ -59,8 +59,8 @@
               </div>
               <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
                 <input th:hidden="true" th:field="*{id}"/>
-                <button>Reset Map</button>
               </form>
+              <button id="reset-map-button">Reset Map</button>
               <button id="view-images-btn" type="button">View Images</button>
             </div>
 

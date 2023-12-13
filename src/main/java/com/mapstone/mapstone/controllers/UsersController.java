@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,12 +59,13 @@ public class UsersController {
     }
 
     @PostMapping("/sign-up")
-    public String createUser(@ModelAttribute @Valid User user, BindingResult result, Model model) {
+    public String createUser(@ModelAttribute @Valid User user, Model model, Errors validation) {
+        System.out.println(user.getUsername());
 
         //check for validation errors
-        if (result.hasErrors()) {
+        if (validation.hasErrors()) {
             //if there are errors, send the errors back to the form
-            model.addAttribute("errors", result.getAllErrors());
+            model.addAttribute("errors", validation);
             //send the user object back to the form so the user doesn't have to re-enter the information
             model.addAttribute("user", user);
             return "users/sign-up";

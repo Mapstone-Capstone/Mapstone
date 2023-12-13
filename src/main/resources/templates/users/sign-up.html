@@ -44,7 +44,6 @@
                 <label for="password">Password
                   <input type="password" th:field="*{password}" name="password" id="password"
                          placeholder="Enter Password">
-                  <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></p>
                 </label>
 
                 <!--              refactor applied-->
@@ -52,21 +51,16 @@
                   <input type="password" name="password-confirm" id="password-confirm"
                          placeholder="Enter Password">
                 </label>
+                  <!--  Populates if password does not meet custom javascript regex parameters      -->
                 <p id="password-error"></p>
-                <input id="map" th:hidden="true">
 
-                <small id="“passwordRequirements”" class="“form-text" text-muted”>
-                  Password must be at least 8 characters long and contain at least (1) lowercase letter, (1) uppercase
-                  letter, (1) digit, and (1) special character (*).
-                </small><br>
-                <!--              <span id="alert">! Your password does not match !</span>-->
-                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
               </div>
               <button id="register-button" type="submit">
                 <img src="/assets/globe-icon.svg" alt="globe-icon">
                 <span>Register</span>
               </button>
             </form>
+
           </section>
         </div>
       </div>

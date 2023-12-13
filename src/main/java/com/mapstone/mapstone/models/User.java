@@ -40,10 +40,9 @@ public class User {
     @Email(message = "Please provide a valid email")
     private String email;
 
+    //password must match the regex in the PasswordConstraint class
     @Column(name = "password", length = 500)
     @JsonIgnore
-    @NotEmpty(message = "Password cannot be blank")
-//    @PasswordConstraint
     private String password;
 
     @Column(name = "avatar", length = 500)
