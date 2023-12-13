@@ -13,10 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,12 +39,12 @@ public class EntriesController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userDao.getReferenceById(loggedInUser.getId());
 
-        Country country = countryDao.getOne(loggedInUser.getId());
+        List<Country> countries = countryDao.getAllByUsers_Id(loggedInUser.getId());
 
         //send a new empty user object to the create entry form
         model.addAttribute("entry", new Entry());
 
-        model.addAttribute("country", country);
+        model.addAttribute("countries", countries);
 
         model.addAttribute("user", user);
 
@@ -55,18 +52,27 @@ public class EntriesController {
     }
 
     @PostMapping("/create-entries")
-    public String createEntry(@ModelAttribute Entry entry, @RequestParam(name = "entry-date") String date, Model model) {
+    public String createEntry(@ModelAttribute Entry entry, @RequestParam(name = "entry-date") String date, @RequestParam(name = "country-id") long id, Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //use the copy to get the real user from the DB
+
         User user = userDao.getOne(loggedInUser.getId());
 
-//        Contry country = countryDao.getAllByUsers_Id()
+        Country country = countryDao.getCountryById(id);
+
+        entry.setCountry(country);
         entry.setDate(date);
         entry.setUser(user);
 
-//        entryDao.save(entry);
+        entryDao.save(entry);
 
-        return "redirect:/create-entries";
+        return "redirect:/profile";
 
     }
+
+//    @GetMapping("/api/entry/country"+"/{id}")
+//    public List<Entry> getEntriesByCountryId(@PathVariable long id) {
+//        System.out.println(id);
+//        return entryDao.getEntriesByCountry_Id(id);
+//    }
+
 }

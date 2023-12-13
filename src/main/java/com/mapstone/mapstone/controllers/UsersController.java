@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,6 @@ import org.springframework.validation.annotation.Validated;
 
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.*;
 import java.util.List;
 
 @Controller
@@ -34,10 +34,12 @@ public class UsersController {
     private final ImageRepository imageDao;
     private final CommentRepository commentDao;
 
+    private final EntriesRepository entryDao;
+
     private final BadgesRepository badgeDao;
     private PasswordEncoder passwordEncoder;
 
-    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao, BadgesRepository badgeDao) {
+    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao, EntriesRepository entryDao, BadgesRepository badgeDao) {
         this.userDao = userDao;
         this.mapDao = mapDao;
         this.passwordEncoder = passwordEncoder;
@@ -45,6 +47,7 @@ public class UsersController {
         this.imageDao = imageDao;
         this.layerDao = layerDao;
         this.commentDao = commentDao;
+        this.entryDao = entryDao;
         this.badgeDao = badgeDao;
     }
 
@@ -54,33 +57,26 @@ public class UsersController {
         model.addAttribute("user", new User());
         //send all the existing countries to the sign-up form so the user can select their country
         model.addAttribute("countries", countryDao.findAll());
-        return "/users/sign-up";
+        return "users/sign-up";
     }
 
     @PostMapping("/sign-up")
-    public String createUser(@ModelAttribute @Valid User user, BindingResult result, Model model) {
+    public String createUser(@ModelAttribute User user) {
 
-        //check for validation errors
-        if (result.hasErrors()) {
-            //if there are errors, send the errors back to the form
-            model.addAttribute("errors", result.getAllErrors());
-            //send the user object back to the form so the user doesn't have to re-enter the information
-            model.addAttribute("user", user);
-            return "users/sign-up";
-        }
-        //hash the password
-        String hashedPassword = passwordEncoder.encode(user.getPassword());
-        //set the hashed password on the user object
-        user.setPassword(hashedPassword);
-        user.setAvatar("https://as2.ftcdn.net/v2/jpg/01/86/61/17/1000_F_186611794_cMP2t2Dn7fdJea0R4JAJOi9tNcSJ0i1T.jpg");
-        //save the user object to the database
-        userDao.save(user);
-        //create a new map object for the user with default values
-        Map userMap = new Map("#0059ff", "light-v11", "naturalEarth", "1" );
-        userMap.setUser(user);
-        userDao.save(user);
-        mapDao.save(userMap);
-        return "redirect:/login";
+            //hash the password
+            String hashedPassword = passwordEncoder.encode(user.getPassword());
+            //set the hashed password on the user object
+            user.setPassword(hashedPassword);
+            user.setAvatar("https://as2.ftcdn.net/v2/jpg/01/86/61/17/1000_F_186611794_cMP2t2Dn7fdJea0R4JAJOi9tNcSJ0i1T.jpg");
+            //save the user object to the database
+            userDao.save(user);
+            //create a new map object for the user with default values
+            Map userMap = new Map("#0059ff", "light-v11", "naturalEarth", "1");
+            userMap.setUser(user);
+            userDao.save(user);
+            mapDao.save(userMap);
+            return "users/login";
+
     }
 
     @GetMapping("/profile")
@@ -100,7 +96,6 @@ public class UsersController {
 
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
-
         return "users/profile";
     }
 
@@ -138,16 +133,16 @@ public class UsersController {
         return "redirect:/profile";
     }
 
-    @GetMapping("/view")
-    public String viewImages(@RequestParam(name = "viewImage") Model model){
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        String image = imageDao.getImageByUser(loggedInUser).getImageUrl();
-
-//        List<Country> listOfCountries =
-//        model.addAttribute("image", image);
-        return "/profile";
-    }
+//    @GetMapping("/view")
+//    public String viewImages(@RequestParam(name = "viewImage") Model model){
+//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        String image = imageDao.getImageByUser(loggedInUser).getImageUrl();
+//
+////        List<Country> listOfCountries =
+////        model.addAttribute("image", image);
+//        return "/profile";
+//    }
 
 
     // method to retrieve user profile for editing

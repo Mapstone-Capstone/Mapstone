@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <!--HEAD-->
 <head th:fragment="head(title, stylesheet)">
   <meta charset="UTF-8">
@@ -14,24 +15,26 @@
   <link rel="stylesheet" th:href="${stylesheet}">
 </head>
 <body>
+
 <!--NAV-->
-<nav th:fragment="nav" style="background-color: #080063" class="navbar navbar-expand-lg navbar-white">
-  <div class="container-fluid">
-    <a class="navbar-brand" th:href="@{/}">Map Share</a>
+
+<nav th:fragment="nav" class="navbar navbar-expand-lg  " style="background-color: darkblue" >
+  <div class="container-fluid d-flex">
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav d-flex align-items-center justify-content-end w-100">
-        <li class="nav-item">
+    <div class="collapse navbar-collapse " id="navbarNavDropdown">
+      <ul class="navbar-nav ms-auto  d-flex gap-5 align-items-center justify-content-end w-100">
+        <li class="nav-item flex-grow-1 d-flex ml-5 pl-5 ">
           <a class="nav-link" th:href="@{/explore-profiles}">Explore Profiles</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/sign-up}">Sign-up</a>
+        <li class="nav-item ">
+          <a class="nav-link " th:href="@{/sign-up}">Sign-up</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/login}">Login</a>
+        <li class="nav-item ">
+          <a class="nav-link " th:href="@{/login}">Login</a>
         </li>
         <li class="nav-item">
           <form th:action="@{/logout}" th:method="post" sec:authorize="isAuthenticated()">
@@ -49,12 +52,14 @@
 </nav>
 
 <!--FOOTER-->
+
     <footer th:fragment="footer" class="d-flex flex-wrap justify-content-between align-items-center py-3">
       <p class="col-md-4 mb-0">&copy; 2023 Company, Inc</p>
 
 
       <ul class="nav col-md-7 justify-content-start">
         <li class="nav-item"><a th:href="@{/aboutUs}" class="nav-link px-2">Meet The Team</a></li>
+
       </ul>
     </footer>
 

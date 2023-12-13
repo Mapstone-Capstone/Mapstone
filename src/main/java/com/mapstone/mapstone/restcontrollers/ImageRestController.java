@@ -1,8 +1,9 @@
 package com.mapstone.mapstone.restcontrollers;
 
 
+import com.mapstone.mapstone.models.Country;
 import com.mapstone.mapstone.models.Image;
-import com.mapstone.mapstone.models.User;
+import com.mapstone.mapstone.repositories.CountryRepository;
 import com.mapstone.mapstone.repositories.ImageRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +15,11 @@ import java.util.List;
 public class ImageRestController {
 
     private final ImageRepository imageDao;
+    private  final CountryRepository countryDao;
 
-    public ImageRestController(ImageRepository imageDao) {
+    public ImageRestController(ImageRepository imageDao, CountryRepository countryDao) {
         this.imageDao = imageDao;
+        this.countryDao = countryDao;
     }
 
     @GetMapping("/api/image/country"+"/{id}")
