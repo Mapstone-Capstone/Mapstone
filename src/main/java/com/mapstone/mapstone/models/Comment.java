@@ -26,7 +26,7 @@ public class Comment {
     private Date date;
 
     @JsonBackReference(value = "map-comment")
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "map_id")
     private Map map;
 
