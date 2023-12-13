@@ -212,7 +212,7 @@ const renderModal = (countryName) => {
 const displayImages = () => {
 
     const viewImagesBtn = document.getElementById('view-images-btn');
-    const countryImagesWrapper = document.getElementById('country-images-wrapper')
+    const countryImagesWrapper = document.getElementById('country-images-wrapper');
 
     viewImagesBtn.addEventListener('click', () => {
 
@@ -235,11 +235,14 @@ const displayImages = () => {
     const viewAllImages = document.getElementById('all-images');
     const filterImageBtn = document.getElementsByClassName('image-filter-btn');
     const imageContainer = document.getElementById('image-container');
-
+    const createEntries = document.getElementById('create-entries');
 
         for (const btn of filterImageBtn) {
 
             btn.addEventListener('click', () => {
+
+                createEntries.innerHTML = ` <a href="/create-entries">Create an Entry</a>`;
+
                 imageContainer.innerHTML = "";
                 // getSingleCountry(btn.value).then(function (response) {
                 //     console.log(response);
@@ -272,6 +275,7 @@ const displayImages = () => {
 
         viewAllImages.addEventListener('click', () => {
 
+            createEntries.innerHTML = "";
             imageContainer.innerHTML = "";
 
             getAllImages(viewAllImages.value).then(function(response) {
@@ -405,9 +409,6 @@ const onMapLoad = async () => {
     });
 
     searchForCountry(map);
-
-   let test = await getSingleCountry(185);
-    console.log(test);
 
 };
 

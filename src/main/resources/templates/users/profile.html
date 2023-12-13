@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}"></head>
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
@@ -84,9 +84,10 @@
         <div id="country-images-wrapper" class="hide-country-images-wrapper">
           <div class="country-images-header w-100">
             <h2>Images</h2>
+	          
+	          <div id="create-entries"></div>
 
-            <!--Use for possible navbar to pull up images based on user country-->
-	          <a href="/create-entries">Create an Entry</a>
+            <!--Navbar to sort images by country-->
 	          <div class="dropdown">
 		          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 			          Filter Images By Country
@@ -100,14 +101,15 @@
 				          <form>
 					          <th:block th:each="country : ${user.getCountries()}">
                       <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>
+<!--						          <a href="/create-entries">Create an Entry</a>-->
 						          <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}" type="button"></button>
 					          </th:block>
 				          </form>
 			          </li>
 		          </ul>
 	          </div>
-
           </div>
+	        
           <div class="country-images-body w-100">
             <div id="image-container" class="country-images w-100">
               <th:block th:each="image : ${user.getImages()}">
@@ -117,6 +119,9 @@
               </th:block>
             </div>
           </div>
+	        
+	        <div id="view-entries"></div>
+	        
         </div>
 
         <!--  COMMENTS CONTAINER  -->
