@@ -8,8 +8,6 @@ let opacity = 0.8;
 //get the map id of the map that belongs to the logged-in user from the hidden input field
 let id = document.getElementById("map-id").value;
 
-
-
 const getUserMapLayers = async () => {
     const url = `http://localhost:8080/api/map/layers`;
     let options = {
@@ -23,8 +21,6 @@ const getUserMapLayers = async () => {
     return layers;
 };
 
-
-
 const getUserCountries = async () => {
     const url = `http://localhost:8080/api/countries`;
     let options = {
@@ -37,8 +33,6 @@ const getUserCountries = async () => {
     let countries = await response.json();
     return countries;
 };
-
-
 
 const getUserMapDetails = async (id) => {
     const url = `http://localhost:8080/api/map/details/${id}`;
@@ -134,7 +128,6 @@ async function addUserLayers(map, mapDetails) {
 
 }
 
-
 function searchForCountry(map) {
 
     //get user search input and pass in through geocode function
@@ -151,7 +144,6 @@ function searchForCountry(map) {
         });
     });
 };
-
 
 function addMarker(map) {
     //user can add a marker to the map using the add marker button
@@ -177,13 +169,14 @@ function addMarker(map) {
     });
 }
 
-const renderModal = (countryName) => {
+//Upload Images
+const uploadImages = (countryName) => {
     let country = countryName;
     const clickedCountry = document.querySelector("#clicked-country");
     // const laterButton = document.querySelector("#later-button");
     const confirmBtn = document.querySelector("#confirm");
     const uploadBtn = document.querySelector("#upload-button");
-        clickedCountry.value = countryName;
+    clickedCountry.value = countryName;
     const imgForm = document.querySelector("#img-form");
     const input = document.querySelector("#url-for-image");
 
@@ -334,8 +327,6 @@ const displayImages = () => {
         })
     }
 
-
-
 //upload profile avatar
 const uploadAvatar = () => {
 
@@ -445,7 +436,7 @@ const onMapLoad = async () => {
             });
 
         }
-        renderModal(countryName);
+        uploadImages(countryName);
     });
 
     searchForCountry(map);
@@ -598,7 +589,6 @@ async function sendCountriesToBackend(countryClicked) {
     }
 }
 
-
 // Function to POST countries to the backend
 async function sendLayersToBackend(name) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
@@ -628,7 +618,6 @@ async function sendLayersToBackend(name) {
     }
 }
 
-
 async function updateMapStyle(mapStyle) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
@@ -652,9 +641,6 @@ async function updateMapStyle(mapStyle) {
         console.error("Error sending map style to db:", error.message);
     }
 }
-
-
-
 
 const getImagesByCountryId = async (id) => {
     const url = `http://localhost:8080/api/image/country/${id}`;
@@ -722,5 +708,5 @@ const getAllEntries = async (id) => {
 }
 
 export {
-    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, renderModal, displayImages, uploadAvatar
+    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, uploadImages, displayImages, uploadAvatar, getImagesByCountryId, getAllImages, getAllEntries, getEntriesByCountryId
 };
