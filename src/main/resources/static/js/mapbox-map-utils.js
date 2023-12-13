@@ -197,8 +197,8 @@ const uploadImagesOnMap = (countryName) => {
 //event to display images
 const displayImages = () => {
 
-    const viewImagesBtn = document.getElementById('view-images-btn');
-    const countryImagesWrapper = document.getElementById('country-images-wrapper');
+    const viewImagesBtn = document.getElementById("view-images-btn");
+    const countryImagesWrapper = document.getElementById("country-images-wrapper");
 
     viewImagesBtn.addEventListener("click", () => {
 
@@ -213,126 +213,118 @@ const displayImages = () => {
             countryImagesWrapper.classList.add("hide-country-images-wrapper");
 
         }
-    })
-
-
-    //filter images
-    const viewAllImages = document.getElementById('all-images');
-    const filterImageBtn = document.getElementsByClassName('image-filter-btn');
-    const imageContainer = document.getElementById('image-container');
-    const createEntries = document.getElementById('create-entries');
-    const viewEntries = document.getElementById('view-entries');
-
-        for (const btn of filterImageBtn) {
-
-            btn.addEventListener('click', () => {
-
-                createEntries.innerHTML = ` <a href="/create-entries">Create an Entry</a>`;
-
-                imageContainer.innerHTML = "";
-                viewEntries.innerHTML = "";
-                // getSingleCountry(btn.value).then(function (response) {
-                //     console.log(response);
-                //     map.addLayer({
-                //         "id": response.name,
-                //         "type": "fill",
-                //         "source": "world",
-                //         "layout": {},
-                //         "paint": {
-                //             "line-color": "#fe0000",
-                //             "line-width": 3
-                //         },
-                //         //where the name is equal to the country name on the highlighted layer,set the opacity and color
-                //         "filter": ["==", "NAME", response.name]
-                //
-                //     });
-                // });
-                getImagesByCountryId(btn.value).then(function (response) {
-                    response.forEach((image) => {
-                        imageContainer.innerHTML += `
-                        <div class="country-image">
-                            <img src="${image.imageUrl}" alt="country image">
-                        </div>
-                    `
-                    })
-                })
-
-                getEntriesByCountryId(btn.value).then(function (response){
-
-                    viewEntries.innerHTML = `<h3>Journal</h3>`
-
-                    response.forEach((entry) => {
-
-                        viewEntries.innerHTML += `
-                            <div>
-                                <h5>${entry.title}</h5>
-                                <p>Date: ${entry.date}</p>
-                                <p>${entry.description}</p>
-                            </div>
-                        `
-
-                    })
-
-                })
-
-            })
-
-        }
-
-        viewAllImages.addEventListener('click', () => {
-
-            createEntries.innerHTML = "";
-            imageContainer.innerHTML = "";
-            viewEntries.innerHTML = "";
-
-    });
-
-
-    // //filter images
-    const viewAllImages = document.getElementById("all-images");
-    const filterImageBtn = document.getElementsByClassName("image-filter-btn");
-    const imageContainer = document.getElementById("image-container");
-    viewAllImages.addEventListener("click", () => {
-        imageContainer.innerHTML = "";
-        getAllImages(viewAllImages.value).then(function (response) {
-            response.forEach((image) => {
-
-                imageContainer.innerHTML += `
-                        <div class="country-image">
-                            <img src="${image.imageUrl}" alt="country image">
-                        </div>
-                    `
-                })
-
-            })
-
-            getAllEntries(viewAllImages.value).then(function(response){
-
-                viewEntries.innerHTML = `<h3>Journal</h3>`
-
-                response.forEach((entry) => {
-
-                    `;
-            });
-        });
     });
 };
 
 
-                    viewEntries.innerHTML += `
+//filter images
+const viewAllImages = document.getElementById("all-images");
+const filterImageBtn = document.getElementsByClassName("image-filter-btn");
+const imageContainer = document.getElementById("image-container");
+const createEntries = document.getElementById("create-entries");
+const viewEntries = document.getElementById("view-entries");
+
+for (const btn of filterImageBtn) {
+
+    btn.addEventListener("click", () => {
+
+        createEntries.innerHTML = ` <a href="/create-entries">Create an Entry</a>`;
+
+        imageContainer.innerHTML = "";
+        viewEntries.innerHTML = "";
+        // getSingleCountry(btn.value).then(function (response) {
+        //     console.log(response);
+        //     map.addLayer({
+        //         "id": response.name,
+        //         "type": "fill",
+        //         "source": "world",
+        //         "layout": {},
+        //         "paint": {
+        //             "line-color": "#fe0000",
+        //             "line-width": 3
+        //         },
+        //         //where the name is equal to the country name on the highlighted layer,set the opacity and color
+        //         "filter": ["==", "NAME", response.name]
+        //
+        //     });
+        // });
+        getImagesByCountryId(btn.value).then(function (response) {
+            response.forEach((image) => {
+                imageContainer.innerHTML += `
+                        <div class="country-image">
+                            <img src="${image.imageUrl}" alt="country image">
+                        </div>
+                    `;
+            });
+        });
+
+        getEntriesByCountryId(btn.value).then(function (response) {
+
+            viewEntries.innerHTML = `<h3>Journal</h3>`;
+
+            response.forEach((entry) => {
+
+                viewEntries.innerHTML += `
                             <div>
                                 <h5>${entry.title}</h5>
                                 <p>Date: ${entry.date}</p>
                                 <p>${entry.description}</p>
                             </div>
-                        `
+                        `;
 
-                })
+            });
 
-            })
+        });
 
-        })
-    }
+    });
+
+}
+
+viewAllImages.addEventListener("click", () => {
+
+    createEntries.innerHTML = "";
+    imageContainer.innerHTML = "";
+    viewEntries.innerHTML = "";
+
+});
+
+
+// //filter images
+// const viewAllImages = document.getElementById("all-images");
+// const filterImageBtn = document.getElementsByClassName("image-filter-btn");
+// const imageContainer = document.getElementById("image-container");
+viewAllImages.addEventListener("click", () => {
+    imageContainer.innerHTML = "";
+    getAllImages(viewAllImages.value).then(function (response) {
+        response.forEach((image) => {
+
+            imageContainer.innerHTML += `
+                        <div class="country-image">
+                            <img src="${image.imageUrl}" alt="country image">
+                        </div>
+                    `;
+        });
+
+    });
+});
+
+// getAllEntries(viewAllImages.value).then(function (response) {
+//
+//     viewEntries.innerHTML = `<h3>Journal</h3>`;
+//
+//     response.forEach((entry) => {
+//
+//         viewEntries.innerHTML += `
+//                             <div>
+//                                 <h5>${entry.title}</h5>
+//                                 <p>Date: ${entry.date}</p>
+//                                 <p>${entry.description}</p>
+//                             </div>
+//                         `;
+//     });
+//
+// });
+
 
 //upload profile avatar
 const uploadAvatar = () => {
@@ -624,7 +616,7 @@ function openUpdateModal() {
     modalClose.addEventListener("click", () => {
         modal.remove();
     });
-    //event listener for modal background, allows user to click anywhere on background to close modal
+    // event listener for modal background, allows user to click anywhere on background to close modal
     modalBackground.addEventListener("click", () => {
         modal.remove();
     });
@@ -752,7 +744,7 @@ const getSingleCountry = async (id) => {
     let response = await fetch(url, options);
     let country = await response.json();
     return country;
-}
+};
 
 const getEntriesByCountryId = async (id) => {
     const url = `http://localhost:8080/api/entry/country/${id}`;
@@ -778,10 +770,26 @@ const getAllEntries = async (id) => {
     let response = await fetch(url, options);
     let entries = await response.json();
     return entries;
-}
+};
 
 export {
 
-    onMapLoad, openUpdateModal, getUserMapLayers, getUserCountries, getUserMapDetails, generateUserMap, addDefaultLayers, addUserLayers, searchForCountry, addMarker, uploadImagesOnMap, displayImages, uploadAvatar, getImagesByCountryId, getAllImages, getAllEntries, getEntriesByCountryId
+    onMapLoad,
+    openUpdateModal,
+    getUserMapLayers,
+    getUserCountries,
+    getUserMapDetails,
+    generateUserMap,
+    addDefaultLayers,
+    addUserLayers,
+    searchForCountry,
+    addMarker,
+    uploadImagesOnMap,
+    displayImages,
+    uploadAvatar,
+    getImagesByCountryId,
+    getAllImages,
+    getAllEntries,
+    getEntriesByCountryId
 
 };
