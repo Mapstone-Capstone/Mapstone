@@ -16,13 +16,10 @@ import java.util.List;
 public class UserRestController {
 
     private UserRepository userDao;
-    private MapRepository mapDao;
-    private LayerRepository layerDao;
 
-    public UserRestController(UserRepository userDao, MapRepository mapDao, LayerRepository layerDao) {
+    public UserRestController(UserRepository userDao) {
         this.userDao = userDao;
-        this.mapDao = mapDao;
-        this.layerDao = layerDao;
+
     }
 
     @PostMapping("/api/user/edit")
@@ -61,20 +58,6 @@ public class UserRestController {
     }
 
 
-    //check if username is taken
-    @GetMapping("/api/user/checkUsername" + "/{username}")
-    public User checkUsername(@PathVariable String username) {
-        User user = userDao.findByUsername(username);
-        return user;
-
-    }
-
-    //check if email is taken
-    @GetMapping("/api/user/checkEmail" + "/{email}")
-    public User checkEmail(@PathVariable String email) {
-        User user = userDao.findByEmail(email);
-        return user;
-    }
 }
 
 

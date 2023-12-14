@@ -130,11 +130,11 @@ async function addUserLayers(map, mapDetails) {
 }
 
 function searchForCountry(map) {
-
+const searchForm = document.querySelector(".geocode-search");
     //get user search input and pass in through geocode function
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-button");
-    searchButton.addEventListener("click", function (e) {
+    searchForm.addEventListener("submit", function (e) {
         e.preventDefault();
         let searchValue = searchInput.value;
         geocode(searchValue, MAP_BOX_TOKEN).then(function (results) {
@@ -224,61 +224,61 @@ const imageContainer = document.getElementById("image-container");
 const createEntries = document.getElementById("create-entries");
 const viewEntries = document.getElementById("view-entries");
 
-for (const btn of filterImageBtn) {
+// for (const btn of filterImageBtn) {
+//
+//     btn.addEventListener("click", () => {
+//
+//         createEntries.innerHTML = ` <a href="/create-entries">Create an Entry</a>`;
+//
+//         imageContainer.innerHTML = "";
+//         viewEntries.innerHTML = "";
+//         // getSingleCountry(btn.value).then(function (response) {
+//         //     console.log(response);
+//         //     map.addLayer({
+//         //         "id": response.name,
+//         //         "type": "fill",
+//         //         "source": "world",
+//         //         "layout": {},
+//         //         "paint": {
+//         //             "line-color": "#fe0000",
+//         //             "line-width": 3
+//         //         },
+//         //         //where the name is equal to the country name on the highlighted layer,set the opacity and color
+//         //         "filter": ["==", "NAME", response.name]
+//         //
+//         //     });
+//         // });
+//         getImagesByCountryId(btn.value).then(function (response) {
+//             response.forEach((image) => {
+//                 imageContainer.innerHTML += `
+//                         <div class="country-image">
+//                             <img src="${image.imageUrl}" alt="country image">
+//                         </div>
+//                     `;
+//             });
+//         });
 
-    btn.addEventListener("click", () => {
-
-        createEntries.innerHTML = ` <a href="/create-entries">Create an Entry</a>`;
-
-        imageContainer.innerHTML = "";
-        viewEntries.innerHTML = "";
-        // getSingleCountry(btn.value).then(function (response) {
-        //     console.log(response);
-        //     map.addLayer({
-        //         "id": response.name,
-        //         "type": "fill",
-        //         "source": "world",
-        //         "layout": {},
-        //         "paint": {
-        //             "line-color": "#fe0000",
-        //             "line-width": 3
-        //         },
-        //         //where the name is equal to the country name on the highlighted layer,set the opacity and color
-        //         "filter": ["==", "NAME", response.name]
+        // getEntriesByCountryId(btn.value).then(function (response) {
+        //
+        //     viewEntries.innerHTML = `<h3>Journal</h3>`;
+        //
+        //     response.forEach((entry) => {
+        //
+        //         viewEntries.innerHTML += `
+        //                     <div>
+        //                         <h5>${entry.title}</h5>
+        //                         <p>Date: ${entry.date}</p>
+        //                         <p>${entry.description}</p>
+        //                     </div>
+        //                 `;
         //
         //     });
+        //
         // });
-        getImagesByCountryId(btn.value).then(function (response) {
-            response.forEach((image) => {
-                imageContainer.innerHTML += `
-                        <div class="country-image">
-                            <img src="${image.imageUrl}" alt="country image">
-                        </div>
-                    `;
-            });
-        });
 
-        getEntriesByCountryId(btn.value).then(function (response) {
-
-            viewEntries.innerHTML = `<h3>Journal</h3>`;
-
-            response.forEach((entry) => {
-
-                viewEntries.innerHTML += `
-                            <div>
-                                <h5>${entry.title}</h5>
-                                <p>Date: ${entry.date}</p>
-                                <p>${entry.description}</p>
-                            </div>
-                        `;
-
-            });
-
-        });
-
-    });
-
-}
+//     });
+//
+// }
 
 viewAllImages.addEventListener("click", () => {
 
@@ -476,7 +476,7 @@ const onMapLoad = async () => {
                 }
 
             });
-            getImagesByCountryId(btn.value).then(function (response) {
+            getImagesByCountryIdAndUserId(btn.value, id).then(function (response) {
                 response.forEach((image) => {
                     console.log(response);
                     imageContainer.innerHTML += `
@@ -486,6 +486,25 @@ const onMapLoad = async () => {
                     `;
                 });
             });
+
+            getEntriesByCountryId(btn.value).then(function (response) {
+
+                viewEntries.innerHTML = `<h3>Journal</h3>`;
+
+                response.forEach((entry) => {
+
+                    viewEntries.innerHTML += `
+                            <div>
+                                <h5>${entry.title}</h5>
+                                <p>Date: ${entry.date}</p>
+                                <p>${entry.description}</p>
+                            </div>
+                        `;
+
+                });
+
+            });
+
         });
     }
 
@@ -720,6 +739,19 @@ const getImagesByCountryId = async (id) => {
     return images;
 };
 
+const getImagesByCountryIdAndUserId = async (countryId, userId) => {
+    const url = `http://localhost:8080/api/image/country/${countryId}/${userId}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let images = await response.json();
+    return images;
+};
+
 const getAllImages = async (id) => {
     const url = `http://localhost:8080/api/images/country/${id}`;
     let options = {
@@ -758,6 +790,7 @@ const getEntriesByCountryId = async (id) => {
     let entries = await response.json();
     return entries;
 };
+
 
 const getAllEntries = async (id) => {
     const url = `http://localhost:8080/api/entry/user/${id}`;

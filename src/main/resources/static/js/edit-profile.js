@@ -66,6 +66,7 @@ function editUserModal() {
 
     const editUserModal = document.createElement("div");
     editUserModal.classList.add("modal");
+    editUserModal.setAttribute("id", "edit-user-modal");
     editUserModal.innerHTML = `<div class="modal-bg"></div>
         <div class="modal-content">
             <div class="modal-header">
@@ -73,19 +74,19 @@ function editUserModal() {
                 <span class="modal-close">&times;</span>
             </div> 
         <div class="modal-body"> 
-        <div>
+        <div class="form-inputs">
             <label for="username">Username:</label>
             <input type="text" id="username" value="${userName}" />
         </div>
-        <div>
+        <div class="form-inputs">
             <label for="firstName">First Name:</label>
             <input type="text" id="firstName" value="${firstName}" />
         </div>
-        <div>
+        <div class="form-inputs">
             <label for="lastName">Last Name:</label>
             <input type="text" id="lastName" value="${lastName}" />
         </div>
-        <div>
+        <div class="form-inputs">
             <label for="email">Email:</label>
             <input type="email" id="email" value="${email}" />
         </div> 

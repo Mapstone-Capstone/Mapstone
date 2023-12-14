@@ -16,7 +16,7 @@
 
           <form id="upload-avatar-form" th:action="@{/profile-picture}" th:method="POST">
             <input id="avatarUrl" name="avatarUrl" type="hidden"/>
-            <button id="upload-avatar-btn" type="button" class="btn btn-primary">Upload Avatar</button>
+            <button id="upload-avatar-btn" type="button" class="btn btn-primary">Change Avatar</button>
           </form>
 
           <!-- edit profile button - need these values to make modal sticky  -->
@@ -59,8 +59,8 @@
             <div class="update-search-wrapper w-100">
               <form class="geocode-search">
                 <label for="search-input">Search:</label>
-                <input id="search-input" type="text" placeholder="Search for a country">
-                <button type="button" id="search-button">Search</button>
+                <input id="search-input" type="search" placeholder="Search for a country">
+                <button type="submit" id="search-button">Search</button>
               </form>
 
               <div>
