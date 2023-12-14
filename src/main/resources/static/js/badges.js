@@ -5,7 +5,7 @@ const badgeContainer = document.querySelector(".badges");
 
 
 const getBadgesByMapId = async (id) => {
-    const url = `http://localhost:8080/api/badges/${id}`;
+    const url = `https://www.map-share.net/api/badges/${id}`;
     let options = {
         method: "GET",
         headers: {

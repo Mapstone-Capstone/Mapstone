@@ -10,7 +10,7 @@ let countryName;
 //get the map id of the map that belongs to the logged-in user from the hidden input field
 
 const getViewOnlyUserMapLayers = async (id) => {
-    const url = `http://localhost:8080/api/map/layers/${id}`;
+    const url = `https://www.map-share.net/api/map/layers/${id}`;
     let options = {
         method: "GET",
         headers: {

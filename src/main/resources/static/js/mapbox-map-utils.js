@@ -10,7 +10,7 @@ let opacity = 0.8;
 let id = document.getElementById("map-id").value;
 
 const getUserMapLayers = async () => {
-    const url = `http://localhost:8080/api/map/layers`;
+    const url = `https://www.map-share.net/api/map/layers`;
     let options = {
         method: "GET",
         headers: {
@@ -23,7 +23,7 @@ const getUserMapLayers = async () => {
 };
 
 const getUserCountries = async () => {
-    const url = `http://localhost:8080/api/countries`;
+    const url = `https://www.map-share.net/api/countries`;
     let options = {
         method: "GET",
         headers: {
@@ -36,7 +36,7 @@ const getUserCountries = async () => {
 };
 
 const getUserMapDetails = async (id) => {
-    const url = `http://localhost:8080/api/map/details/${id}`;
+    const url = `https://www.map-share.net/api/map/details/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -638,7 +638,7 @@ async function sendCountriesToBackend(countryClicked) {
             name: countryClicked,
         }
     ;
-    const backendEndpoint = "http://localhost:8080/api/country/add";
+    const backendEndpoint = "https://www.map-share.net/api/country/add";
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -667,7 +667,7 @@ async function sendLayersToBackend(name) {
             name: name,
         };
 
-    const backendEndpoint = "http://localhost:8080/api/map/layer/add";
+    const backendEndpoint = "https://www.map-share.net/api/map/layer/add";
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -691,7 +691,7 @@ async function sendLayersToBackend(name) {
 async function updateMapStyle(mapStyle) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
-    const backendEndpoint = "http://localhost:8080/api/map/update";
+    const backendEndpoint = "https://www.map-share.net/api/map/update";
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -713,7 +713,7 @@ async function updateMapStyle(mapStyle) {
 }
 
 const getImagesByCountryId = async (id) => {
-    const url = `http://localhost:8080/api/image/country/${id}`;
+    const url = `https://www.map-share.net/api/image/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -726,7 +726,7 @@ const getImagesByCountryId = async (id) => {
 };
 
 const getImagesByCountryIdAndUserId = async (countryId, userId) => {
-    const url = `http://localhost:8080/api/image/country/${countryId}/${userId}`;
+    const url = `https://www.map-share.net/api/image/country/${countryId}/${userId}`;
     let options = {
         method: "GET",
         headers: {
@@ -739,7 +739,7 @@ const getImagesByCountryIdAndUserId = async (countryId, userId) => {
 };
 
 const getAllImages = async (id) => {
-    const url = `http://localhost:8080/api/images/country/${id}`;
+    const url = `https://www.map-share.net/api/images/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -752,7 +752,7 @@ const getAllImages = async (id) => {
 };
 
 const getSingleCountry = async (id) => {
-    const url = `http://localhost:8080/api/country/${id}`;
+    const url = `https://www.map-share.net/api/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -765,7 +765,7 @@ const getSingleCountry = async (id) => {
 };
 
 const getEntriesByCountryId = async (id) => {
-    const url = `http://localhost:8080/api/entry/country/${id}`;
+    const url = `https://www.map-share.net/api/entry/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -779,7 +779,7 @@ const getEntriesByCountryId = async (id) => {
 
 
 const getAllEntries = async (id) => {
-    const url = `http://localhost:8080/api/entry/user/${id}`;
+    const url = `https://www.map-share.net/api/entry/user/${id}`;
     let options = {
         method: "GET",
         headers: {
