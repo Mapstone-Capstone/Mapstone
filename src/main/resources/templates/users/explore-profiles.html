@@ -35,8 +35,13 @@
     </div>
   </div>
 <!--  </div>-->
-</div>
-<footer th:replace="~{partials/fragments :: footer}"></footer>
+</div><footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5" style="background-color: #080063">
+
+  <ul class="nav col-md-12 justify-content-center mt-1 p-3">
+    <li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>
+  </ul>
+</footer>
+<!--<footer th:replace="~{partials/fragments :: footer}"></footer>-->
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"

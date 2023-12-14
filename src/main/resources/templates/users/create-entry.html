@@ -46,12 +46,13 @@
 	</div>
 </form>
 
+<footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5 fixed-bottom" style="background-color: #080063">
 
-
-
-
-<footer th:replace="~{partials/fragments :: footer}"></footer>
-
+	<ul class="nav col-md-12 justify-content-center mt-1 p-3">
+		<li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>
+	</ul>
+</footer>
+<!--<footer th:replace="~{partials/fragments :: footer}"></footer>-->
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
 <script src="/js/badges.js"></script>
 <script src="/js/sharelink.js"></script>
