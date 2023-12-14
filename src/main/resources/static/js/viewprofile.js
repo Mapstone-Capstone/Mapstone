@@ -3,6 +3,7 @@ import {
     getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getAllImages, getAllEntries, getEntriesByCountryId
 } from "./mapbox-map-utils.js";
 
+let urlpattern = `http://localhost:8080`;
 let opacity = 0.8;
 let id = document.getElementById("map-id").value;
 let userId = document.getElementById("user-id").value;
@@ -10,7 +11,7 @@ let countryName;
 //get the map id of the map that belongs to the logged-in user from the hidden input field
 
 const getViewOnlyUserMapLayers = async (id) => {
-    const url = `https://www.map-share.net/api/map/layers/${id}`;
+    const url = `${urlpattern}/api/map/layers/${id}`;
     let options = {
         method: "GET",
         headers: {

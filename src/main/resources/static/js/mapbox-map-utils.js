@@ -2,7 +2,8 @@
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
 import {uploadImages} from "./images.js";
 
-let urlpattern = `${window.location.protocol}//${window.location.host}`
+// let urlpattern = `${window.location.protocol}//${window.location.host}`
+let urlpattern = `http://localhost:8080`;
 let countriesVisited = [];
 let countryName;
 let countryId;
@@ -632,7 +633,7 @@ async function sendLayersToBackend(name) {
 async function updateMapStyle(mapStyle) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
-    const backendEndpoint = "${urlpattern}/api/map/update";
+    const backendEndpoint = `${urlpattern}/api/map/update`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",

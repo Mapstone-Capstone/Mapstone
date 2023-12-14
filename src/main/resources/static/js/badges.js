@@ -1,11 +1,11 @@
-
+let urlpattern = `http://localhost:8080`;
 const mapId = document.getElementById("map-id").value;
 const badgeContainer = document.querySelector(".badges");
 
 
 
 const getBadgesByMapId = async (id) => {
-    const url = `https://www.map-share.net/api/badges/${id}`;
+    const url = `${urlpattern}/api/badges/${id}`;
     let options = {
         method: "GET",
         headers: {
