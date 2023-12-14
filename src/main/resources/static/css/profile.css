@@ -234,6 +234,13 @@ button {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+#edit-journal-modal {
+
+    justify-content: center;
+    align-items: center;
+
+}
+
 .modal {
     position: fixed;
     top: 0;
@@ -256,6 +263,7 @@ button {
     backdrop-filter: blur(10px);
     background-color: rgba(0, 0, 0, 0.5);
 }
+
 
 .modal-content {
     position: relative;
