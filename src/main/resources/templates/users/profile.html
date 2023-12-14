@@ -66,15 +66,12 @@
               <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
                 <input th:hidden="true" th:field="*{id}"/>
               </form>
-
-	            <button id="upload-images-btn" type="button">Upload Images</button>
               <button id="reset-map-button">Reset Map</button>
+	            <!--Edit to a possible "view journal"-->
               <button id="view-images-btn" type="button">View Images</button>
             </div>
-
           </div>
-
-
+	        
           <div>
             <!--  FORM FOR UPDATING/EDITING MAP STYLE    -->
             <form id="update-map-form" th:object="${map}">
@@ -88,13 +85,17 @@
           </div>
         </div>
 
-	    <!--Images Container-->
+	    <!--Images Container (add a navbar for a journal instead of just image)-->
         <div id="country-images-wrapper" class="hide-country-images-wrapper">
           <div class="country-images-header w-100">
             <h2>Images</h2>
 	          
+	          <div>
+		          <button type="button" id="edit-journal-btn">Edit Journal</button>
+	          </div>
+	          
 	          <div id="create-entries"></div>
-
+	          
               <!--Dynamic Dropdown Filter-->
 	          <div class="dropdown">
 		          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -189,6 +190,7 @@
     </div>
 
   </div>
+	
 
   <!-- FileStack Upload Images -->
   <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
@@ -211,5 +213,6 @@
 <script src="/js/badges.js"></script>
 <script src="/js/sharelink.js"></script>
 <script src="/js/edit-profile.js"></script>
+<script src="/js/edit-journal.js"></script>
 </body>
 </html>
