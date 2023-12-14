@@ -59,14 +59,12 @@ public class MapsController {
         //delete the layers that belong to the map (must be done before deleting the map because of foreign key constraints)
         List<Layer> layersToDelete = layerDao.getLayersByMap(mapToReset);
         layerDao.deleteAll(layersToDelete);
-
-
         //save the map with no layers
         mapDao.save(mapToReset);
-       //get all the countries that belong to the user and delete them
-       user.setCountries(new ArrayList<>());
-         userDao.save(user);
-         //update the logged-in user principal to reflect the changes when the user is redirected to the profile page
+        //get all the countries that belong to the user and delete them
+        user.setCountries(new ArrayList<>());
+        userDao.save(user);
+        //update the logged-in user principal to reflect the changes when the user is redirected to the profile page
         loggedInUser.setCountries(new ArrayList<>());
         //now set default map values and save the map
         mapToReset.setColor("#0059ff");
