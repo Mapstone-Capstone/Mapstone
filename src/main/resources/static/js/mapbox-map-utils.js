@@ -170,38 +170,6 @@ function addMarker(map) {
     });
 }
 
-const renderModal = (countryName) => {
-    let country = countryName;
-    const clickedCountry = document.querySelector("#clicked-country");
-    // const laterButton = document.querySelector("#later-button");
-    const confirmBtn = document.querySelector("#confirm");
-    const uploadBtn = document.querySelector("#upload-button");
-    clickedCountry.value = countryName;
-    const imgForm = document.querySelector("#img-form");
-    const input = document.querySelector("#url-for-image");
-
-    clickedCountry.value = countryName;
-
-    // event for image upload
-    const client = filestack.init(FILE_STACK_TOKEN);
-    const options = {
-        maxFiles: 10,
-        onUploadDone:
-            function (response) {
-                let listOfImages = response.filesUploaded;
-                let arrayOfImages = [];
-                listOfImages.forEach( (image) => {
-                    arrayOfImages.push(image.url);
-                })
-                input.value = arrayOfImages;
-                imgForm.submit();
-            }
-    };
-    client.picker(options).open();
-
-};
-
-
 //Upload Images
 const uploadImagesOnMap = (countryName) => {
     let country = countryName;
@@ -213,18 +181,6 @@ const uploadImagesOnMap = (countryName) => {
     // event for image upload
     uploadImages(FILE_STACK_TOKEN, input, imgForm);
 };
-
-// const uploadImagesBtn = () => {
-//
-//     const uploadImagesBtn = document.getElementById('upload-images-btn');
-//
-//     uploadImagesBtn.addEventListener('click', () => {
-//
-//
-//
-//     })
-//
-// }
 
 //event to display images
 const displayImages = () => {
