@@ -19,6 +19,7 @@ public class UserRestController {
 
     @PostMapping("/api/user/edit")
     public User editUser(@RequestBody User user) {
+        System.out.println(user.getFirstName());
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //get the user from the database
@@ -28,6 +29,12 @@ public class UserRestController {
         userToUpdate.setFirstName(user.getFirstName());
         userToUpdate.setLastName(user.getLastName());
         userToUpdate.setEmail(user.getEmail());
+
+        //update thr logged-in user
+        loggedInUser.setUsername(user.getUsername());
+        loggedInUser.setFirstName(user.getFirstName());
+        loggedInUser.setLastName(user.getLastName());
+        loggedInUser.setEmail(user.getEmail());
 
         userDao.save(userToUpdate);
 

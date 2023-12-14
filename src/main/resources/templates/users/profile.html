@@ -22,12 +22,12 @@
           <!-- edit profile button - need these values to make modal sticky  -->
           <form id="edit-user-form" th:object="${user}">
             <input id="userId" th:hidden="true" th:field="*{id}"/>
-            <input id="username" value="" th:hidden="true" th:field="*{username}">
-            <input id="first-name" value="" th:hidden="true" th:field="*{firstName}">
-            <input id="last-name" value="" th:hidden="true" th:field="*{lastName}">
-            <input id="user-email" value="" th:hidden="true" th:field="*{email}">
+            <input id="username" th:hidden="true" th:field="*{username}">
+            <input id="first-name" th:hidden="true" th:field="*{firstName}">
+            <input id="last-name" th:hidden="true" th:field="*{lastName}">
+            <input id="user-email" th:hidden="true" th:field="*{email}">
           </form>
-          <button class="btn btn-primary">Edit Profile</button>
+          <button id="edit-profile-button" class="btn btn-primary">Edit Profile</button>
 
         </div>
         <div class="user-details w-100">
