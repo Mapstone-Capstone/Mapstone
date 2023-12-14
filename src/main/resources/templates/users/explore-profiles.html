@@ -9,20 +9,24 @@
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <div class="page-wrapper">
 <!--  insert search bar mapped to /search-->
-  <form th:method="post" th:action="@{/search}">
+<!--  <form th:method="post" th:action="@{/search}">-->
+  <div class="row">
     <label for="search">Search Profiles</label><input type="text" name="search" id="search">
-    <button type="submit">Submit</button>
-  </form>
-  <div class="container users-container">
-
-
-  <div class="user-wrapper" th:each="user : ${userList}">
-    <img th:src="${user.getAvatar()}" class="avatar border-rounded-circle" alt="Avatar Pic">
-      <p th:text="${user.username}"></p>
-    <span># of countries visited: <span th:text="${user.countries.size()}"></span></span>
-    <span>% of the world explored: <span th:text="${100 * user.countries.size() / 195} + '%'"></span></span>
-      <a class="view-profile-button" th:href="@{/viewprofile/{id} (id = ${user.id})}">View Profile</a>
   </div>
+<!--    <button type="submit">Submit</button>-->
+<!--  </form>-->
+  <div class="container-fluid users-container row">
+
+
+<!--  <div class="user-wrapper" th:each="user : ${userList}">-->
+<!--    <img th:src="${user.getAvatar()}" class="avatar border-rounded-circle" alt="Avatar Pic">-->
+<!--      <p th:text="${user.username}"></p>-->
+<!--    <span># of countries visited: <span th:text="${user.countries.size()}"></span></span>-->
+<!--    <span>% of the world explored: <span th:text="${100 * user.countries.size() / 195} + '%'"></span></span>-->
+<!--      <a class="view-profile-button" th:href="@{/viewprofile/{id} (id = ${user.id})}">View Profile</a>-->
+<!--  </div>-->
+
+
   <!--    <button type="submit">Submit</button>-->
   <!--  </form>-->
 <!--  <div class="container-fluid users-container">-->
