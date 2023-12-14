@@ -23,6 +23,7 @@
                   <input th:field="*{username}" name="username" id="username"
                          placeholder="Enter username">
                   <p id="username-error" class="errors"></p>
+                  <p th:text="${usernameError}"></p>
                 </label>
                 <label for="firstname">First Name
                   <input th:field="*{firstName}" name="firstname" id="firstname"
@@ -40,6 +41,7 @@
                   <input type="email" th:field="*{email}" name="email" id="email"
                          placeholder="Your email">
                   <p id="email-error" class="errors"></p>
+                  <p th:text="${emailError}"></p>
                 </label>
 
                 <label for="password">Password
@@ -55,11 +57,11 @@
                   <p id="password-error" class="errors"></p>
                 </label>
               </div>
-              <button id="register-button" type="submit">
-                <img src="/assets/globe-icon.svg" alt="globe-icon">
-                <span>Register</span>
-              </button>
             </form>
+            <button id="register-button">
+              <img src="/assets/globe-icon.svg" alt="globe-icon">
+              <span>Register</span>
+            </button>
 
           </section>
         </div>

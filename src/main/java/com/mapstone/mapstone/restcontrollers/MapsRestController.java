@@ -97,7 +97,7 @@ public class MapsRestController {
             loggedInUser.getBadges().add(badgesDao.getOne(5));
         }
 
-        //user has visited one country in each continent
+        //user has visited one country in each continent nd does not already have this badge
         if (updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Africa")) &&
                 updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Asia")) &&
                 updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Europe")) &&
