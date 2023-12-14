@@ -135,6 +135,7 @@ body {
 .search-container {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+    max-height: 682px;
 }
  @media only screen and (min-width: 1440px){
      .search-container{
