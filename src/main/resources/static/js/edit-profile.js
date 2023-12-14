@@ -8,7 +8,7 @@ async function postUpdatedUser(user) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
 
-    const backendEndpoint = "https://www.map-share.net/api/user/edit";
+    const backendEndpoint = "${urlpattern}/api/user/edit";
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -32,7 +32,7 @@ async function postUpdatedUser(user) {
 async function deleteUser(user) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
-    const backendEndpoint = "https://www.map-share.net/api/user/delete";
+    const backendEndpoint = "${urlpattern}/api/user/delete";
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",

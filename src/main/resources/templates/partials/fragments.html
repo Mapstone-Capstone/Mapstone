@@ -4,6 +4,7 @@
 
 <!--HEAD-->
 <head th:fragment="head(title, stylesheet)">
+  <script th:src="@{/keys.js}"></script>
   <meta charset="UTF-8">
   <meta name="_csrf" data-th-content="${_csrf.token}">
   <title th:text="${title}"></title>

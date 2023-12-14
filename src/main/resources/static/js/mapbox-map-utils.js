@@ -1,7 +1,8 @@
-import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
+// import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
 import {uploadImages} from "./images.js";
 
+let urlpattern = `${window.location.protocol}//${window.location.host}`
 let countriesVisited = [];
 let countryName;
 let countryId;
@@ -10,7 +11,7 @@ let opacity = 0.8;
 let id = document.getElementById("map-id").value;
 
 const getUserMapLayers = async () => {
-    const url = `https://www.map-share.net/api/map/layers`;
+    const url = `${urlpattern}/api/map/layers`;
     let options = {
         method: "GET",
         headers: {
@@ -23,7 +24,7 @@ const getUserMapLayers = async () => {
 };
 
 const getUserCountries = async () => {
-    const url = `https://www.map-share.net/api/countries`;
+    const url = `${urlpattern}/api/countries`;
     let options = {
         method: "GET",
         headers: {
@@ -36,7 +37,7 @@ const getUserCountries = async () => {
 };
 
 const getUserMapDetails = async (id) => {
-    const url = `https://www.map-share.net/api/map/details/${id}`;
+    const url = `${urlpattern}/api/map/details/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -638,7 +639,7 @@ async function sendCountriesToBackend(countryClicked) {
             name: countryClicked,
         }
     ;
-    const backendEndpoint = "https://www.map-share.net/api/country/add";
+    const backendEndpoint = "${urlpattern}/api/country/add";
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -667,7 +668,7 @@ async function sendLayersToBackend(name) {
             name: name,
         };
 
-    const backendEndpoint = "https://www.map-share.net/api/map/layer/add";
+    const backendEndpoint = "${urlpattern}/api/map/layer/add";
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -691,7 +692,7 @@ async function sendLayersToBackend(name) {
 async function updateMapStyle(mapStyle) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
-    const backendEndpoint = "https://www.map-share.net/api/map/update";
+    const backendEndpoint = "${urlpattern}/api/map/update";
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -713,7 +714,7 @@ async function updateMapStyle(mapStyle) {
 }
 
 const getImagesByCountryId = async (id) => {
-    const url = `https://www.map-share.net/api/image/country/${id}`;
+    const url = `${urlpattern}/api/image/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -726,7 +727,7 @@ const getImagesByCountryId = async (id) => {
 };
 
 const getImagesByCountryIdAndUserId = async (countryId, userId) => {
-    const url = `https://www.map-share.net/api/image/country/${countryId}/${userId}`;
+    const url = `${urlpattern}/api/image/country/${countryId}/${userId}`;
     let options = {
         method: "GET",
         headers: {
@@ -739,7 +740,7 @@ const getImagesByCountryIdAndUserId = async (countryId, userId) => {
 };
 
 const getAllImages = async (id) => {
-    const url = `https://www.map-share.net/api/images/country/${id}`;
+    const url = `${urlpattern}/api/images/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -752,7 +753,7 @@ const getAllImages = async (id) => {
 };
 
 const getSingleCountry = async (id) => {
-    const url = `https://www.map-share.net/api/country/${id}`;
+    const url = `${urlpattern}/api/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -765,7 +766,7 @@ const getSingleCountry = async (id) => {
 };
 
 const getEntriesByCountryId = async (id) => {
-    const url = `https://www.map-share.net/api/entry/country/${id}`;
+    const url = `${urlpattern}/api/entry/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -779,7 +780,7 @@ const getEntriesByCountryId = async (id) => {
 
 
 const getAllEntries = async (id) => {
-    const url = `https://www.map-share.net/api/entry/user/${id}`;
+    const url = `${urlpattern}/api/entry/user/${id}`;
     let options = {
         method: "GET",
         headers: {
