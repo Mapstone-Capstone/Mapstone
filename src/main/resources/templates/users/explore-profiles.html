@@ -8,10 +8,20 @@
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <div class="page-wrapper">
-  <!--  insert search bar mapped to /search-->
-  <!--  <form th:method="post" th:action="@{/search}">-->
-  <div class="row searchBar">
-    <input type="text" name="search" id="search">
+<!--  insert search bar mapped to /search-->
+  <form th:method="post" th:action="@{/search}">
+    <label for="search">Search Profiles</label><input type="text" name="search" id="search">
+    <button type="submit">Submit</button>
+  </form>
+  <div class="container users-container">
+
+
+  <div class="user-wrapper" th:each="user : ${userList}">
+    <img th:src="${user.getAvatar()}" class="avatar border-rounded-circle" alt="Avatar Pic">
+      <p th:text="${user.username}"></p>
+    <span># of countries visited: <span th:text="${user.countries.size()}"></span></span>
+    <span>% of the world explored: <span th:text="${100 * user.countries.size() / 195} + '%'"></span></span>
+      <a class="view-profile-button" th:href="@{/viewprofile/{id} (id = ${user.id})}">View Profile</a>
   </div>
   <!--    <button type="submit">Submit</button>-->
   <!--  </form>-->
@@ -34,9 +44,16 @@
       </div>
     </div>
   </div>
+
 <!--  </div>-->
-</div>
-<footer th:replace="~{partials/fragments :: footer}"></footer>
+</div><footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5" style="background-color: #080063">
+
+  <ul class="nav col-md-12 justify-content-center mt-1 p-3">
+    <li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>
+  </ul>
+</footer>
+<!--<footer th:replace="~{partials/fragments :: footer}"></footer>-->
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"

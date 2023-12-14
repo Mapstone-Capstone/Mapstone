@@ -57,8 +57,10 @@ public class MapsController {
         User user = userDao.getById(loggedInUser.getId());
         Map mapToReset = mapDao.getMapById(map.getId());
         //delete the layers that belong to the map (must be done before deleting the map because of foreign key constraints)
+
         List<Layer> layersToDelete = layerDao.getLayersByMap(mapToReset);
         layerDao.deleteAll(layersToDelete);
+
         //save the map with no layers
         mapDao.save(mapToReset);
         //get all the countries that belong to the user and delete them

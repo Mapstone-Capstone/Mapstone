@@ -48,3 +48,47 @@ h1.team {
     width: 100%;
     bottom: 0;
 }
+/*Navbar Buttons*/
+a.nav-link {
+    color: #080063;
+    border-radius: 6px;
+    border: 1px solid #000;
+    background: #FEFFFF;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    text-align: center;
+    font-family: Mada, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+button.btn-link {
+    color: #080063;
+    border-radius: 6px;
+    border: 1px solid #000;
+    background: #FEFFFF;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    text-align: center;
+    font-family: Mada, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+li.meet-us {
+    width: 350px;
+    height: 69px;
+    padding: 20px 15px;
+    /*flex-shrink: 0;*/
+    border-radius: 6px;
+    background: #8DE189;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
