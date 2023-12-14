@@ -148,6 +148,7 @@ a.nav-link {
     line-height: normal;
 }
 
+
 /*Footer Button*/
 li.meet-us {
     width: 350px;
@@ -164,6 +165,18 @@ li.meet-us {
     font-weight: 700;
     line-height: normal;
 }
+
+/*INPUT VALIDATION CLASSES*/
+
+.invalid {
+    border: 1px solid red;
+}
+
+.valid {
+    border: 1px solid green;
+}
+
+
 
 
 
