@@ -639,7 +639,7 @@ async function sendCountriesToBackend(countryClicked) {
             name: countryClicked,
         }
     ;
-    const backendEndpoint = "${urlpattern}/api/country/add";
+    const backendEndpoint = `${urlpattern}/api/country/add`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -668,7 +668,7 @@ async function sendLayersToBackend(name) {
             name: name,
         };
 
-    const backendEndpoint = "${urlpattern}/api/map/layer/add";
+    const backendEndpoint = `${urlpattern}/api/map/layer/add`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
