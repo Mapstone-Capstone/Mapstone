@@ -170,38 +170,6 @@ function addMarker(map) {
     });
 }
 
-const renderModal = (countryName) => {
-    let country = countryName;
-    const clickedCountry = document.querySelector("#clicked-country");
-    // const laterButton = document.querySelector("#later-button");
-    const confirmBtn = document.querySelector("#confirm");
-    const uploadBtn = document.querySelector("#upload-button");
-    clickedCountry.value = countryName;
-    const imgForm = document.querySelector("#img-form");
-    const input = document.querySelector("#url-for-image");
-
-    clickedCountry.value = countryName;
-
-    // event for image upload
-    const client = filestack.init(FILE_STACK_TOKEN);
-    const options = {
-        maxFiles: 10,
-        onUploadDone:
-            function (response) {
-                let listOfImages = response.filesUploaded;
-                let arrayOfImages = [];
-                listOfImages.forEach( (image) => {
-                    arrayOfImages.push(image.url);
-                })
-                input.value = arrayOfImages;
-                imgForm.submit();
-            }
-    };
-    client.picker(options).open();
-
-};
-
-
 //Upload Images
 const uploadImagesOnMap = (countryName) => {
     let country = countryName;
@@ -213,18 +181,6 @@ const uploadImagesOnMap = (countryName) => {
     // event for image upload
     uploadImages(FILE_STACK_TOKEN, input, imgForm);
 };
-
-// const uploadImagesBtn = () => {
-//
-//     const uploadImagesBtn = document.getElementById('upload-images-btn');
-//
-//     uploadImagesBtn.addEventListener('click', () => {
-//
-//
-//
-//     })
-//
-// }
 
 //event to display images
 const displayImages = () => {
@@ -248,69 +204,11 @@ const displayImages = () => {
     });
 };
 
-
 //filter images
 const viewAllImages = document.getElementById("all-images");
-const filterImageBtn = document.getElementsByClassName("image-filter-btn");
 const imageContainer = document.getElementById("image-container");
 const createEntries = document.getElementById("create-entries");
 const viewEntries = document.getElementById("view-entries");
-
-// for (const btn of filterImageBtn) {
-//
-//     btn.addEventListener("click", () => {
-//
-//         createEntries.innerHTML = ` <a href="/create-entries">Create an Entry</a>`;
-//
-//         imageContainer.innerHTML = "";
-//         viewEntries.innerHTML = "";
-//         // getSingleCountry(btn.value).then(function (response) {
-//         //     console.log(response);
-//         //     map.addLayer({
-//         //         "id": response.name,
-//         //         "type": "fill",
-//         //         "source": "world",
-//         //         "layout": {},
-//         //         "paint": {
-//         //             "line-color": "#fe0000",
-//         //             "line-width": 3
-//         //         },
-//         //         //where the name is equal to the country name on the highlighted layer,set the opacity and color
-//         //         "filter": ["==", "NAME", response.name]
-//         //
-//         //     });
-//         // });
-//         getImagesByCountryId(btn.value).then(function (response) {
-//             response.forEach((image) => {
-//                 imageContainer.innerHTML += `
-//                         <div class="country-image">
-//                             <img src="${image.imageUrl}" alt="country image">
-//                         </div>
-//                     `;
-//             });
-//         });
-
-        // getEntriesByCountryId(btn.value).then(function (response) {
-        //
-        //     viewEntries.innerHTML = `<h3>Journal</h3>`;
-        //
-        //     response.forEach((entry) => {
-        //
-        //         viewEntries.innerHTML += `
-        //                     <div>
-        //                         <h5>${entry.title}</h5>
-        //                         <p>Date: ${entry.date}</p>
-        //                         <p>${entry.description}</p>
-        //                     </div>
-        //                 `;
-        //
-        //     });
-        //
-        // });
-
-//     });
-//
-// }
 
 viewAllImages.addEventListener("click", () => {
 
@@ -319,7 +217,6 @@ viewAllImages.addEventListener("click", () => {
     viewEntries.innerHTML = "";
 
 });
-
 
 //filter images
 viewAllImages.addEventListener("click", () => {
@@ -354,7 +251,6 @@ getAllEntries(viewAllImages.value).then(function (response) {
 });
 
 });
-
 
 //upload profile avatar
 const uploadAvatar = () => {

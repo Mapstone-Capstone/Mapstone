@@ -8,9 +8,7 @@
     <div class="row">
       <aside class="col-3 d-flex flex-column p-5">
         <div class="user-info w-100">
-
           <h4>Welcome <span th:text="${#authentication.principal.username}"></span></h4>
-
           <!-- upload avatar click event -->
           <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar"/>
 
@@ -36,8 +34,7 @@
             <span>Last Name: <span th:text="${user.getLastName()}"></span></span>
             <span>Username: <span th:text="${user.getUsername()}"></span></span>
             <span># of countries visited: <span th:text="${user.getCountries().size()}"></span></span>
-            <span>% of the world explored: <span
-                th:text="${100 * user.getCountries().size() / 195} + '%'"></span></span>
+            <span>% of the world explored: <span th:text="${100 * user.getCountries().size() / 195} + '%'"></span></span>
           </p>
         </div>
 
@@ -69,15 +66,12 @@
               <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
                 <input th:hidden="true" th:field="*{id}"/>
               </form>
-
-	            <button id="upload-images-btn" type="button">Upload Images</button>
               <button id="reset-map-button">Reset Map</button>
+	            <!--Edit to a possible "view journal"-->
               <button id="view-images-btn" type="button">View Images</button>
             </div>
-
           </div>
-
-
+	        
           <div>
             <!--  FORM FOR UPDATING/EDITING MAP STYLE    -->
             <form id="update-map-form" th:object="${map}">
@@ -91,13 +85,17 @@
           </div>
         </div>
 
-	    <!--Images Container-->
+	    <!--Images Container (add a navbar for a journal instead of just image)-->
         <div id="country-images-wrapper" class="hide-country-images-wrapper">
           <div class="country-images-header w-100">
             <h2>Images</h2>
 	          
+	          <div>
+		          <button type="button" id="edit-journal-btn">Edit Journal</button>
+	          </div>
+	          
 	          <div id="create-entries"></div>
-
+	          
               <!--Dynamic Dropdown Filter-->
 	          <div class="dropdown">
 		          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -193,7 +191,7 @@
                target="popup"
                onclick="window.open('https://twitter.com/','popup','width=600,height=600'); return false;">
               <img src="/assets/icons8-twitter.svg">
-              <!--         TODO   https://twitter.com/intent/tweet?url=https[URL]-->
+              <!--TODO   https://twitter.com/intent/tweet?url=https[URL]-->
             </a>
           </div>
         </div>
@@ -201,6 +199,7 @@
     </div>
 
   </div>
+	
 
   <!-- FileStack Upload Images -->
   <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
@@ -210,12 +209,19 @@
 
 
 </main>
-<footer th:replace="~{partials/fragments :: footer}"></footer>
+<footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5" style="background-color: #080063">
+
+  <ul class="nav col-md-12 justify-content-center mt-3 p-3">
+    <li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>
+  </ul>
+</footer>
+<!--<footer th:replace="~{partials/fragments :: footer}"></footer>-->
 
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
 <script th:type="module" src="/js/mapbox-map-utils.js"></script>
 <script src="/js/badges.js"></script>
 <script src="/js/sharelink.js"></script>
 <script src="/js/edit-profile.js"></script>
+<script src="/js/edit-journal.js"></script>
 </body>
 </html>

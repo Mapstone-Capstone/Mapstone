@@ -1,6 +1,5 @@
 const countryEntry = document.getElementsByClassName('country-entry');
 const countryValue = document.getElementById('country-value');
-
 const imageContainer = document.getElementById('image-container');
 const countryId = document.getElementById('country-id');
 
@@ -16,8 +15,6 @@ const getImagesByCountryId = async (id) => {
     let images = await response.json();
     return images;
 };
-
-
 
 //loops through dropdown button and shows the images assigned to that country
 for (let entry of countryEntry) {
