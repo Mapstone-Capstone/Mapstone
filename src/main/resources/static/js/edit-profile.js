@@ -1,4 +1,4 @@
-
+let urlpattern = `${window.location.protocol}//${window.location.host}`
 const userId = document.getElementById("userId").value;
 const editProfileButton = document.getElementById("edit-profile-button");
 
@@ -8,7 +8,7 @@ async function postUpdatedUser(user) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
 
-    const backendEndpoint = "${urlpattern}/api/user/edit";
+    const backendEndpoint = `${urlpattern}/api/user/edit`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -32,7 +32,7 @@ async function postUpdatedUser(user) {
 async function deleteUser(user) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
-    const backendEndpoint = "${urlpattern}/api/user/delete";
+    const backendEndpoint = `${urlpattern}/api/user/delete`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
