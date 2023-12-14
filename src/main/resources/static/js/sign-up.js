@@ -18,66 +18,106 @@ const lastNameError = document.getElementById("lastName-error");
 const emailError = document.getElementById("email-error");
 
 
-registerButton.addEventListener("click", (e)=> {
+let usernameValid = false;
+let firstNameValid = false;
+let lastNameValid = false;
+let emailValid = false;
+let passwordValid = false;
+
+//validate thr username as the user types, username must be at least 3 characters long
+username.addEventListener("input", (e) => {
     e.preventDefault();
-    passwordError.innerText = "";
-    usernameError.innerText = "";
-    firstNameError.innerText = "";
-    lastNameError.innerText = "";
-    emailError.innerText = "";
+    if (username.value.length < 3) {
+        username.classList.add("invalid");
+        usernameValid = false;
+        usernameError.innerText = "Username must be at least 3 characters long.";
+    } else {
+        username.classList.remove("invalid");
+        usernameValid = true;
+        usernameError.innerText = "";
+    }
+});
 
-    //if any of the fields are blank, do not submit but keep the value of other fields
-    if (username.value === "") {
-        usernameError.innerText = "Username cannot be blank.";
-        return;
+//validate the first name as the user types, first name must be at least 2 characters long
+firstName.addEventListener("input", (e) => {
+    e.preventDefault();
+    if (firstName.value.length < 2) {
+        firstName.classList.add("invalid");
+        firstNameValid = false;
+        firstNameError.innerText = "First Name must be at least 2 characters long.";
+    } else {
+        firstName.classList.remove("invalid");
+        firstNameValid = true;
+        firstNameError.innerText = "";
+    }
+});
+
+
+//validate the last name as the user types, last name must be at least 2 characters long
+lastName.addEventListener("input", (e) => {
+    e.preventDefault();
+    if (lastName.value.length < 2) {
+        lastName.classList.add("invalid");
+        lastNameValid = false;
+        lastNameError.innerText = "Last Name must be at least 2 characters long.";
+    } else {
+        lastName.classList.remove("invalid");
+        lastNameValid = true;
+        lastNameError.innerText = "";
+    }
+});
+
+//validate the email as the user types, email must be at least 5 characters long and contain an @ symbol
+email.addEventListener("input", (e) => {
+    e.preventDefault();
+    if (email.value.length < 5 || !email.value.includes("@")) {
+        email.classList.add("invalid");
+        emailValid = false;
+        emailError.innerText = "Email must be at least 5 characters long and contain an @ symbol.";
+    } else {
+        email.classList.remove("invalid");
+        emailValid = true;
+        emailError.innerText = "";
+    }
+});
+
+//validate the password as the user types, password must be at least 8 characters long, contain one uppercase, one number, and one special character
+password.addEventListener("input", (e) => {
+    e.preventDefault();
+    if (password.value.length < 8 || !password.value.match(/[A-Z]/) || !password.value.match(/[0-9]/) || !password.value.match(/[!@#$%^&*]/)) {
+        password.classList.add("invalid");
+        passwordValid = false;
+        passwordError.innerText = "Password must be at least 8 characters long, contain one uppercase, one number, and one special character.";
+    } else {
+        password.classList.remove("invalid");
+        passwordValid = true;
+        passwordError.innerText = "";
+    }
+});
+
+//validate the password and password confirm fields match
+passwordConfirm.addEventListener("input", (e) => {
+    e.preventDefault();
+    if (passwordConfirm.value !== password.value) {
+        passwordConfirm.classList.add("invalid");
+        passwordValid = false;
+        passwordError.innerText = "Passwords must match.";
+    } else {
+        passwordConfirm.classList.remove("invalid");
+        passwordValid = true;
+        passwordError.innerText = "";
+    }
+});
+
+
+//validate the form on submit
+registerButton.addEventListener("click", (e) => {
+    console.log("click");
+
+//if all fields are valid, submit the form
+    if (usernameValid && firstNameValid && lastNameValid && emailValid && passwordValid) {
+        registerForm.submit();
     }
 
-    if (firstName.value === "") {
-        firstNameError.innerText = "First Name cannot be blank.";
-        return;
-    }
 
-    if (lastName.value === "") {
-        lastNameError.innerText = "Last Name cannot be blank.";
-        return;
-    }
-
-    if (email.value === "") {
-        emailError.innerText = "Email cannot be blank.";
-        return;
-    }
-
-    //if email id not valid, do not submit but keep the value of other fields
-    if (!email.value.includes("@")) {
-        emailError.innerText = "Email must be valid.";
-        return;
-    }
-
-
-    //if the password in blank or if it does not match the password confirm or if it does not meet the password requirments, dont dubmit the form, otherwise, submit the form
-    if (password.value === "") {
-        passwordError.innerText = "Password cannot be blank.";
-        return;
-    }
-
-    if (passwordConfirm.value === "") {
-        passwordError.innerText = "You must confirm your password.";
-        return;
-    }
-
-    if (passwordConfirm.value !== password.value)  {
-        passwordError.innerText = "Passwords do not match";
-        return;
-    }
-
-    // if (!isValid) {
-    //     passwordError.innerText = "Password must be between 8 - 15 characters long and contain at least one uppercase letter, one lowercase letter, and one number and on special character";
-    //     return;
-    // }
-
-    registerForm.submit();
-
-
-})
-
-
+});
