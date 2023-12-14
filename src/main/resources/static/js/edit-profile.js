@@ -73,29 +73,29 @@ function editUserModal() {
                 <h2 class="modal-title">Update Your Information</h2>
                 <span class="modal-close">&times;</span>
             </div> 
-        <div class="modal-body"> 
-        <div class="form-inputs">
-            <label for="username">Username:</label>
-            <input type="text" id="username" value="${userName}" />
-        </div>
-        <div class="form-inputs">
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" value="${firstName}" />
-        </div>
-        <div class="form-inputs">
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" value="${lastName}" />
-        </div>
-        <div class="form-inputs">
-            <label for="email">Email:</label>
-            <input type="email" id="email" value="${email}" />
-        </div> 
-        <button class="update-user-button" type="submit">Update Profile</button>
+            <div class="modal-body"> 
+                <div class="form-inputs">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" value="${userName}" />
+                </div>
+                <div class="form-inputs">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" value="${firstName}" />
+                </div>
+                <div class="form-inputs">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" value="${lastName}" />
+                </div>
+                <div class="form-inputs">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" value="${email}" />
+                </div> 
+                <button class="update-user-button" type="submit">Update Profile</button>
     
-    </form>
+                </form>
        
-        </div>
-      </div>`;
+            </div>
+        </div>`;
 
     //nodes from the modal for event listeners
     const modalClose = editUserModal.querySelector(".modal-close");
