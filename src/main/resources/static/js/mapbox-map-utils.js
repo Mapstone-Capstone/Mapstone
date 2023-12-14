@@ -692,7 +692,7 @@ async function sendLayersToBackend(name) {
 async function updateMapStyle(mapStyle) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
-    const backendEndpoint = "${urlpattern}/api/map/update";
+    const backendEndpoint = `${urlpattern}/api/map/update`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
