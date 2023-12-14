@@ -134,6 +134,17 @@ body {
 }
 
 
+/*INPUT VALIDATION CLASSES*/
+
+.invalid {
+    border: 1px solid red;
+}
+
+.valid {
+    border: 1px solid green;
+}
+
+
 
 
 
