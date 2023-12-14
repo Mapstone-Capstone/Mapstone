@@ -17,8 +17,6 @@ const getImagesByCountryId = async (id) => {
     return images;
 };
 
-
-
 //loops through dropdown button and shows the images assigned to that country
 for (let entry of countryEntry) {
 
