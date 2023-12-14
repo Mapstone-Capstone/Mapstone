@@ -226,6 +226,7 @@ viewAllImages.addEventListener("click", () => {
     getAllImages(viewAllImages.value).then(function (response) {
         response.forEach((image) => {
 
+            createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
             imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
@@ -407,6 +408,7 @@ const onMapLoad = async () => {
             getImagesByCountryIdAndUserId(btn.value, id).then(function (response) {
                 response.forEach((image) => {
                     console.log(response);
+                    createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
                     imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
