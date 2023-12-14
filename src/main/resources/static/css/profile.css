@@ -10,11 +10,18 @@
     background: #f2f2f2;
 }
 
+aside {
+    background-color: var(--federal-blue);
+    color: white;
+    height: 100dvh;
+}
+
 #map {
     min-height: 40dvh;
     padding: 10px;
     border-radius: 5px;
 }
+
 aside {
     display: flex;
     flex-direction: column;
@@ -23,6 +30,7 @@ aside {
 
 .user-info {
     display: flex;
+    gap: 10px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -36,25 +44,38 @@ aside {
     }
 }
 
+h4 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
 .avatar {
     max-width: 150px;
-    maixheight: 150px;
+    max-height: 150px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .user-details {
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 10px;
+
+    & .user-details-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
 }
 
-.badges {
-    display: flex;
-    flex-wrap: wrap;
+#sharelinkmodal{
+    display: none;
 }
-
 .update-search-wrapper {
     display: flex;
     gap: 10px;
@@ -82,6 +103,12 @@ aside {
 
 }
 
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 button {
     display: flex;
@@ -95,17 +122,18 @@ button {
     background: var(--button);
     border: none;
     letter-spacing: 0.05em;
-    border-radius: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all ease 0.3s;
 
-    & :hover {
-        background: var(--white);
-        color: var(--dark-blue);
-        border: 1px solid var(--button);
+    &:hover {
+        background: var(--dark-blue);
     }
 }
 
-.country-images-wrapper {
-    display: flex;
+.hide-country-images-wrapper {
+    display: none;
+    width: 100%;
     flex-wrap: wrap;
     gap: 10px;
     padding: 10px;
@@ -122,6 +150,52 @@ button {
     & .country-images-body {
         display: flex;
         flex-wrap: wrap;
+        gap: 10px;
+
+        & .country-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            height: auto;
+            padding: 10px;
+            background: var(--white);
+
+            & .country-image {
+                flex-wrap: wrap;
+                width: 250px;
+                height: auto;
+                object-fit: cover;
+                border-radius: 5px;
+
+                & img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 5px;
+                }
+            }
+        }
+    }
+}
+
+.display-country-images-wrapper {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background: var(--white);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    & .country-images-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    & .country-images-body {
+        display: flex;
         gap: 10px;
 
         & .country-images {
@@ -185,12 +259,19 @@ button {
 
 .modal-content {
     position: relative;
-    max-width: 40dvw;
+    max-width: 30dvw;
     padding: 30px;
     border-radius: 20px;
     color: black;
-    background-color:white;
+    background-color: white;
     transition: all ease 0.3s;
+
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
 }
 
 .modal-header {
@@ -216,3 +297,139 @@ button {
         color: black;
     }
 }
+
+
+.badges {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .badge-wrapper {
+        min-height: 100px;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        .badge-img {
+            width: 75px;
+            height: 75px;
+        }
+    }
+}
+
+article h3 {
+    text-align: center;
+    text-decoration: underline;
+}
+
+
+/*Navbar Buttons*/
+a.nav-link {
+    color: #080063;
+    border-radius: 6px;
+    border: 1px solid #000;
+    background: #FEFFFF;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    text-align: center;
+    font-family: Mada, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+button.btn-link {
+    color: #080063;
+    border-radius: 6px;
+    border: 1px solid #000;
+    background: #FEFFFF;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    text-align: center;
+    font-family: Mada, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+=======
+#edit-user-modal {
+    justify-content: center;
+    align-items: center;
+
+    & .form-inputs {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+
+    }
+
+     & input {
+         padding: 5px;
+         border-radius: 5px;
+         border-bottom: 1px solid var(--dark-blue);
+         font-family: inherit;
+         font-size: 17px;
+         font-weight: 500;
+         color: var(--dark-blue);
+         background: transparent;
+     }
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/*make drop down scrollable*/
+.dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--button);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.image-filter-btn {
+    background-color: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 5px 10px;
+    color: var(--white);
+    border: none;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border-radius: unset;
+}
+
+/*Footer Button*/
+li.meet-us {
+    width: 350px;
+    height: 69px;
+    padding: 20px 15px;
+    /*flex-shrink: 0;*/
+    border-radius: 6px;
+    background: #8DE189;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+

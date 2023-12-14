@@ -16,4 +16,8 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
     Country getCountryByNameLike(String name);
 
     List<Country> getAllByUsers_Id(long id);
+
+    void deleteAllByUsers_Id(long id);
+
+
 }

@@ -1,11 +1,24 @@
 :root {
     --white: white;
-    --dark-blue: #0D0149;
-    --button: #343CFF;
+    --dark-blue: #0d0149ff;
+    /*190AC7*/
+    --button: #7075ffff;
+    /* CSS HEX */
+    --bright-blue: #0A73E1;
+    --medium-slate-blue: #7075ffff;
+    --federal-blue: #0d0149ff;
+    --light-green: #8DE189ff;
+    --kelly-green: #11AC06ff;
+    --copper: #B5793Eff;
 }
 
 .page-wrapper {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+}
+
+.nav-img {
+    width: auto;
+    height: 150px;
 }

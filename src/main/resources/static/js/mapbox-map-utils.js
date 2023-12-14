@@ -1,16 +1,16 @@
 import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
+import {uploadImages} from "./images.js";
 
 let countriesVisited = [];
 let countryName;
 let countryId;
 let opacity = 0.8;
-let id = document.getElementById("map-id").value;
 //get the map id of the map that belongs to the logged-in user from the hidden input field
+let id = document.getElementById("map-id").value;
 
-
-const getUserMapLayers = async (id) => {
-    const url = `http://localhost:8080/api/map/${id}`;
+const getUserMapLayers = async () => {
+    const url = `http://localhost:8080/api/map/layers`;
     let options = {
         method: "GET",
         headers: {
@@ -20,6 +20,19 @@ const getUserMapLayers = async (id) => {
     let response = await fetch(url, options);
     let layers = await response.json();
     return layers;
+};
+
+const getUserCountries = async () => {
+    const url = `http://localhost:8080/api/countries`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let countries = await response.json();
+    return countries;
 };
 
 const getUserMapDetails = async (id) => {
@@ -43,10 +56,12 @@ const generateUserMap = async (mapDetails) => {
     let map = new mapboxgl.Map({
         container: "map",
         style: "mapbox://styles/mapbox/" + mapDetails.style,
-        center: [-97.5, 37],
+        center: [10.296718898844109, 8.174209724384902],
         zoom: mapDetails.zoom,
         projection: mapDetails.projection
     });
+
+    map.addControl(new mapboxgl.NavigationControl());
 
     return map;
 };
@@ -88,15 +103,17 @@ async function addDefaultLayers(map, mapDetails) {
     });
 };
 
-async function addUserLayers(map, mapDetails, id) {
-    let userMapLayers = await getUserMapLayers(id);
-    if (userMapLayers === null || userMapLayers.length === 0 || userMapLayers === "") {
+async function addUserLayers(map, mapDetails) {
+    // let userMapLayers = await getUserMapLayers(id);
+    let userMapLayers = await getUserMapLayers();
+    console.log(userMapLayers);
+    if (userMapLayers === null || userMapLayers.length === 0) {
         return;
     } else {
         //loop through the layers that belong to users map, and all them to this map
         for (let i = 0; i < userMapLayers.length; i++) {
             map.addLayer({
-                "id": `${userMapLayers[i].id}`,
+                "id": `${userMapLayers[i].name}`,
                 "type": "fill",
                 "source": "world",
                 "layout": {},
@@ -105,19 +122,19 @@ async function addUserLayers(map, mapDetails, id) {
                     "fill-opacity": opacity
                 },
                 //where the name is equal to the country name on the highlighted layer, the opacity is set to 1
-                "filter": ["==", "NAME", `${userMapLayers[i].id}`]
+                "filter": ["==", "NAME", `${userMapLayers[i].name}`]
             });
         }
     }
+
 }
 
-
 function searchForCountry(map) {
-    console.log("clicked search");
+const searchForm = document.querySelector(".geocode-search");
     //get user search input and pass in through geocode function
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-button");
-    searchButton.addEventListener("click", function (e) {
+    searchForm.addEventListener("submit", function (e) {
         e.preventDefault();
         let searchValue = searchInput.value;
         geocode(searchValue, MAP_BOX_TOKEN).then(function (results) {
@@ -129,7 +146,6 @@ function searchForCountry(map) {
     });
 };
 
-
 function addMarker(map) {
     //user can add a marker to the map using the add marker button
     const addMarker = document.getElementById("add-marker");
@@ -140,13 +156,13 @@ function addMarker(map) {
             draggable: true,
             color: "red",
         })
-            .setLngLat([-98.30651848969364, 29.50652020966919])
+            .setLngLat([6.996193303998299, -13.522856295968037])
             .addTo(map);
 
         //gets the lngLat of the marker when it is dragged
         newMarker.on("dragend", function () {
             let lngLat = newMarker.getLngLat();
-            console.log(lngLat);
+
             reverseGeocode(lngLat, MAP_BOX_TOKEN).then(function (results) {
                 console.log(results);
             });
@@ -154,43 +170,171 @@ function addMarker(map) {
     });
 }
 
-const renderModal = (countryName) => {
+//Upload Images
+const uploadImagesOnMap = (countryName) => {
     let country = countryName;
-    console.log(country);
     const clickedCountry = document.querySelector("#clicked-country");
-    clickedCountry.value = country;
-    console.log(clickedCountry.value + "this is the value of the hidden input");
-    // const laterButton = document.querySelector("#later-button");
-    const confirmBtn = document.querySelector("#confirm");
-    const uploadBtn = document.querySelector("#upload-button");
     const imgForm = document.querySelector("#img-form");
     const input = document.querySelector("#url-for-image");
-
+    clickedCountry.value = country;
 
     // event for image upload
-    const client = filestack.init(FILE_STACK_TOKEN);
-    const options = {
-        maxFiles: 10,
-        onUploadDone:
-            function (response) {
-
-                let listOfImages = response.filesUploaded;
-                let arrayOfImages = [];
-                listOfImages.forEach( (image) => {
-                    arrayOfImages.push(image.url);
-                    // input.value += image.url;
-                    // console.log(input.value)
-                    // imgForm.submit();
-                })
-                input.value = arrayOfImages;
-                imgForm.submit();
-                console.log(input.value)
-            }
-    };
-    client.picker(options).open();
-
+    uploadImages(FILE_STACK_TOKEN, input, imgForm);
 };
 
+//event to display images
+const displayImages = () => {
+
+    const viewImagesBtn = document.getElementById("view-images-btn");
+    const countryImagesWrapper = document.getElementById("country-images-wrapper");
+
+    viewImagesBtn.addEventListener("click", () => {
+
+        if (countryImagesWrapper.className === "hide-country-images-wrapper") {
+
+            countryImagesWrapper.classList.remove("hide-country-images-wrapper");
+            countryImagesWrapper.classList.add("display-country-images-wrapper");
+
+        } else if (countryImagesWrapper.className === "display-country-images-wrapper") {
+
+            countryImagesWrapper.classList.remove("display-country-images-wrapper");
+            countryImagesWrapper.classList.add("hide-country-images-wrapper");
+
+        }
+    });
+};
+
+
+//filter images
+const viewAllImages = document.getElementById("all-images");
+const filterImageBtn = document.getElementsByClassName("image-filter-btn");
+const imageContainer = document.getElementById("image-container");
+const createEntries = document.getElementById("create-entries");
+const viewEntries = document.getElementById("view-entries");
+
+// for (const btn of filterImageBtn) {
+//
+//     btn.addEventListener("click", () => {
+//
+//         createEntries.innerHTML = ` <a href="/create-entries">Create an Entry</a>`;
+//
+//         imageContainer.innerHTML = "";
+//         viewEntries.innerHTML = "";
+//         // getSingleCountry(btn.value).then(function (response) {
+//         //     console.log(response);
+//         //     map.addLayer({
+//         //         "id": response.name,
+//         //         "type": "fill",
+//         //         "source": "world",
+//         //         "layout": {},
+//         //         "paint": {
+//         //             "line-color": "#fe0000",
+//         //             "line-width": 3
+//         //         },
+//         //         //where the name is equal to the country name on the highlighted layer,set the opacity and color
+//         //         "filter": ["==", "NAME", response.name]
+//         //
+//         //     });
+//         // });
+//         getImagesByCountryId(btn.value).then(function (response) {
+//             response.forEach((image) => {
+//                 imageContainer.innerHTML += `
+//                         <div class="country-image">
+//                             <img src="${image.imageUrl}" alt="country image">
+//                         </div>
+//                     `;
+//             });
+//         });
+
+        // getEntriesByCountryId(btn.value).then(function (response) {
+        //
+        //     viewEntries.innerHTML = `<h3>Journal</h3>`;
+        //
+        //     response.forEach((entry) => {
+        //
+        //         viewEntries.innerHTML += `
+        //                     <div>
+        //                         <h5>${entry.title}</h5>
+        //                         <p>Date: ${entry.date}</p>
+        //                         <p>${entry.description}</p>
+        //                     </div>
+        //                 `;
+        //
+        //     });
+        //
+        // });
+
+//     });
+//
+// }
+
+viewAllImages.addEventListener("click", () => {
+
+    createEntries.innerHTML = "";
+    imageContainer.innerHTML = "";
+    viewEntries.innerHTML = "";
+
+});
+
+
+//filter images
+viewAllImages.addEventListener("click", () => {
+    imageContainer.innerHTML = "";
+    getAllImages(viewAllImages.value).then(function (response) {
+        response.forEach((image) => {
+
+            imageContainer.innerHTML += `
+                        <div class="country-image">
+                            <img src="${image.imageUrl}" alt="country image">
+                        </div>
+                    `;
+        });
+
+    });
+
+
+getAllEntries(viewAllImages.value).then(function (response) {
+
+    viewEntries.innerHTML = `<h3>Journal</h3>`;
+
+    response.forEach((entry) => {
+
+        viewEntries.innerHTML += `
+                            <div>
+                                <h5>${entry.title}</h5>
+                                <p>Date: ${entry.date}</p>
+                                <p>${entry.description}</p>
+                            </div>
+                        `;
+    });
+});
+
+});
+
+
+//upload profile avatar
+const uploadAvatar = () => {
+
+    const uploadAvatarBtn = document.getElementById("upload-avatar-btn");
+    const avatarUrl = document.getElementById("avatarUrl");
+    const avatarForm = document.getElementById("upload-avatar-form");
+
+    uploadAvatarBtn.addEventListener("click", () => {
+
+        const client = filestack.init(FILE_STACK_TOKEN);
+        const options = {
+            onUploadDone:
+                function (response) {
+                    console.log(response.filesUploaded[0].url);
+                    avatarUrl.value = response.filesUploaded[0].url;
+                    console.log(avatarUrl.value);
+                    avatarForm.submit();
+                }
+        };
+        client.picker(options).open();
+    });
+
+};
 
 const onMapLoad = async () => {
     let mapDetails = await getUserMapDetails(id);
@@ -202,7 +346,7 @@ const onMapLoad = async () => {
         await addDefaultLayers(map, mapDetails);
         await addUserLayers(map, mapDetails, id);
         let allLayers = map.getStyle().layers;
-
+        console.log(allLayers);
         //reveals the highlighted layer when the user hovers over a country
         let hoveredPolygonId = null;
         map.on("mousemove", "highlighted", (e) => {
@@ -238,32 +382,33 @@ const onMapLoad = async () => {
     //when a country is clicked, fill the country with the color selected by the user
     map.on("click", function (e) {
         e.preventDefault();
+
         // Get features at the clicked point
         let features = map.queryRenderedFeatures(e.point);
-
+        console.log(features[0]);
         // Log the name of the clicked layer to the console
         if (features.length > 0) {
             countryName = features[0].properties.NAME;
             countryId = features[0].id;
-            //pushes the clicked country name to the countriesVisited array so that it can be used to add the country to the user_countries table
-            countriesVisited.push(countryName);
             let allLayers = map.getStyle().layers;
             for (let i = 0; i < allLayers.length; i++) {
                 //if the country is already filled (already clicked), and the user clicks it again, remove the fill layer
                 if (allLayers[i].id === countryName) {
-                    map.removeLayer(countryName);
-                    //remove the country from the countriesVisited array
-                    countriesVisited.splice(countriesVisited.indexOf(countryName), 1);
+                    renderModal(countryName);
                     return;
                 }
             }
+            //otherwise, add the fill layer to the map
+            sendLayersToBackend(countryName);
+            sendCountriesToBackend(countryName);
+            countriesVisited.push(countryName);
+
             map.addLayer({
                 "id": countryName,
                 "type": "fill",
                 "source": "world",
                 "layout": {},
                 "paint": {
-                    // "fill-color": "#" + mapDetails.color,
                     "fill-color": mapDetails.color,
                     "fill-opacity": opacity
                 },
@@ -271,87 +416,102 @@ const onMapLoad = async () => {
                 "filter": ["==", "NAME", countryName]
 
             });
-
         }
-        renderModal(countryName);
+        uploadImagesOnMap(countryName);
     });
 
-    const saveChanges = document.querySelector("#save-changes");
-    saveChanges.addEventListener("click", function (e) {
+
+    //filter images
+    const viewAllImages = document.getElementById("all-images");
+    const filterImageBtn = document.getElementsByClassName("image-filter-btn");
+    const imageContainer = document.getElementById("image-container");
+
+    //event listener for filtering images by country
+    for (const btn of filterImageBtn) {
+        btn.addEventListener("click", () => {
+            imageContainer.innerHTML = "";
+            map.removeLayer("test");
+            getSingleCountry(btn.value).then(function (response) {
+                //adds a line layer to the map, to highlight the country that thr uer is viewing images for
+                map.addLayer({
+                    "id": "test",
+                    "type": "line",
+                    "source": "world",
+                    "layout": {},
+                    "paint": {
+                        "line-color": "#fee900",
+                        "line-width": 5
+                    },
+                    //where the name is equal to the country name on the highlighted layer,set the opacity and color
+                    "filter": ["==", "NAME", response.name]
+
+                });
+                let mapLayers = map.getStyle().layers;
+                //loop through layers and find the layer where the id is equal to the response.name
+                //then fly to that country since the user is viewing images for that country
+                for (let i = 0; i < mapLayers.length; i++) {
+                    if (mapLayers[i].id === response.name) {
+                        console.log(mapLayers[i]);
+                        geocode(response.name, MAP_BOX_TOKEN).then(function (results) {
+                            map.flyTo({
+                                center: results,
+                                zoom: 2
+                            });
+                        });
+                    }
+                }
+
+            });
+            getImagesByCountryIdAndUserId(btn.value, id).then(function (response) {
+                response.forEach((image) => {
+                    console.log(response);
+                    imageContainer.innerHTML += `
+                        <div class="country-image">
+                            <img src="${image.imageUrl}" alt="country image">
+                        </div>
+                    `;
+                });
+            });
+
+            getEntriesByCountryId(btn.value).then(function (response) {
+
+                viewEntries.innerHTML = `<h3>Journal</h3>`;
+
+                response.forEach((entry) => {
+
+                    viewEntries.innerHTML += `
+                            <div>
+                                <h5>${entry.title}</h5>
+                                <p>Date: ${entry.date}</p>
+                                <p>${entry.description}</p>
+                            </div>
+                        `;
+
+                });
+
+            });
+
+        });
+    }
+
+
+    //event listener for the reset map button
+    const resetMapForm = document.getElementById("reset-map-form");
+    const resetMapButton = document.getElementById("reset-map-button");
+    resetMapButton.addEventListener("click", async function (e) {
         e.preventDefault();
-        const saveChangesForm = document.getElementById("save-changes-form");
-        // get all the map layers, including default layers
-        let allLayers = map.getStyle().layers;
-        // gets only the layers that belong to the user
-        //if the layer already exists, dont try to add it again
-        let userLayers = [];
-        allLayers.forEach((layer) => {
-            if (layer.source === "world" && layer.id !== "world" && layer.id !== "highlighted") {
-                userLayers.push(layer);
-            }
-        });
-        //stringify the layers so that it can be parsed and stored in the database
-        let stringifiedLayers = JSON.stringify(userLayers);
-        let mapId = document.getElementById("mapId");
-        let updatedMapData = document.getElementById("updated-data");
-            updatedMapData.value = stringifiedLayers;
-        mapId.value = id;
-        // send the countriesVisited array to the backend
-        countriesVisited.forEach((country) => {
-            sendCountriesToBackend(country);
-        });
+        let userAnswer = confirm("Are you sure you want to reset your map? This will delete all of your saved countries on the map.");
 
-        saveChangesForm.submit();
-
+        if (userAnswer === true) {
+            resetMapForm.submit();
+        } else {
+            return;
+        }
     });
 
-
-    // const updateMap = document.getElementById("update-map");
-    // //when update button is clicked, the countryLayers array is merged into one layer
-    // updateMap.addEventListener("click", async function (e) {
-    //     e.preventDefault();
-    //
-    //     //get all the map layers, including default layers
-    //     let allLayers = map.getStyle().layers;
-    //     // gets only the layers that belong to the user
-    //     //if the layer already exists, dont try to add it again
-    //     let userLayers = [];
-    //     allLayers.forEach((layer) => {
-    //         if (layer.source === "world" && layer.id !== "world" && layer.id !== "highlighted") {
-    //             userLayers.push(layer);
-    //         }
-    //     });
-    //
-    //     //stringify the layers so that it can be parsed and stored in the database
-    //     let stringifiedLayers = JSON.stringify(userLayers);
-    //
-    //     let mapId = document.getElementById("map-id");
-    //
-    //     mapId.value = id;
-    //
-    //     let updatedMapData = document.getElementById("updated-data");
-    //     updatedMapData.value = stringifiedLayers;
-    //     const updateMapForm = document.getElementById("update-map-form");
-    //     const mapStyle = document.getElementById("map-style-select");
-    //     const mapColor = document.getElementById("map-color-select");
-    //     const mapProjection = document.getElementById("map-projection-select");
-    //     const mapZoom = document.getElementById("map-zoom-select");
-    //     //if any fields are empty, don't submit the form
-    //     if (mapStyle.value === "" || mapColor.value === "" || mapProjection.value === "" || mapZoom.value === "") {
-    //         alert("Please fill out all fields.");
-    //         return;
-    //     }
-    //
-    //     updateMapForm.submit();
-    //
-    // });
 
     searchForCountry(map);
-
-
 };
-
-
 
 function openUpdateModal() {
     //get the existing values from the hidden input fields
@@ -411,50 +571,57 @@ function openUpdateModal() {
                   <option value="15">15</option>
                 </select>
               </div>
-            <button type="button" id="update-map">Update Map</button>
+            <button type="button" class="update-map" id="update-map">Update Map</button>
         </div>
       </div>`;
 
     //nodes from the modal for event listeners
     const modalClose = modal.querySelector(".modal-close");
     const modalBackground = modal.querySelector(".modal-bg");
-    const updateMapButton = modal.querySelector("#update-map");
-
-
-
+    const updateMapButton = modal.querySelector(".update-map");
 
     //event listener for update map button
-    updateMapButton.addEventListener("click", function (e) {
+    updateMapButton.addEventListener("click", async function (e) {
         e.preventDefault();
 
         const updateMapForm = document.getElementById("update-map-form");
-        const uppdatedMapStyle = document.getElementById("map-style-select");
-        const updatedMapColor = document.getElementById("map-color-select");
-        const updatedMapProjection = document.getElementById("map-projection-select");
-        const updatedMapZoom = document.getElementById("map-zoom-select");
         const mapId = document.getElementById("map-id");
+        const updatedMapStyle = modal.querySelector("#map-style-select");
+        const updatedMapColor = modal.querySelector("#map-color-select");
+        const updatedMapProjection = modal.querySelector("#map-projection-select");
+        const updatedMapZoom = modal.querySelector("#map-zoom-select");
+
 
         //if any fields are empty, don't submit the form
-        if (uppdatedMapStyle.value === "" || updatedMapColor.value === "" || updatedMapProjection.value === "" || updatedMapZoom.value === "") {
+        if (updatedMapStyle.value === "" || updatedMapColor.value === "" || updatedMapProjection.value === "" || updatedMapZoom.value === "") {
             alert("Please fill out all fields.");
             return;
         }
 
-        mapStyle.value = uppdatedMapStyle.value;
-        mapColor.value = updatedMapColor.value;
-        mapProjection.value = updatedMapProjection.value;
-        mapZoom.value = updatedMapZoom.value;
-        mapId.value = id;
+        console.log(mapStyle.value);
+        console.log(mapColor.value);
+        console.log(mapId.value);
 
-        updateMapForm.submit();
+        const mapToUpdate =
+            {
+                id: id,
+                style: updatedMapStyle.value,
+                color: updatedMapColor.value,
+                projection: updatedMapProjection.value,
+                zoom: updatedMapZoom.value
+            };
+
+        await updateMapStyle(mapToUpdate);
+
+        //refresh the page to see the updated map
+        window.location.reload();
+
     });
-
     // event listener for close button
     modalClose.addEventListener("click", () => {
         modal.remove();
     });
-
-    //event listener for modal background, allows user to click anywhere on background to close modal
+    // event listener for modal background, allows user to click anywhere on background to close modal
     modalBackground.addEventListener("click", () => {
         modal.remove();
     });
@@ -462,11 +629,9 @@ function openUpdateModal() {
     document.body.appendChild(modal);
 }
 
-
 // Function to POST countries to the backend
 async function sendCountriesToBackend(countryClicked) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
-    console.log("CSRF token:", csrfToken);
 
     const country =
         {
@@ -487,7 +652,6 @@ async function sendCountriesToBackend(countryClicked) {
         if (!response.ok) {
             throw new Error("Failed to send countries to the backend");
         }
-
         const responseData = await response.json();
         console.log("Countries successfully sent to the backend:", responseData);
     } catch (error) {
@@ -495,7 +659,156 @@ async function sendCountriesToBackend(countryClicked) {
     }
 }
 
+// Function to POST countries to the backend
+async function sendLayersToBackend(name) {
+    const csrfToken = document.querySelector("meta[name='_csrf']").content;
+    const layer =
+        {
+            name: name,
+        };
+
+    const backendEndpoint = "http://localhost:8080/api/map/layer/add";
+    try {
+        const response = await fetch(backendEndpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            body: JSON.stringify(layer),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to post layer to backend");
+        }
+        const responseData = await response.json();
+        console.log("Layer successfully saved to backend :", responseData);
+    } catch (error) {
+        console.error("Error sending layer to the backend:", error.message);
+    }
+}
+
+async function updateMapStyle(mapStyle) {
+    const csrfToken = document.querySelector("meta[name='_csrf']").content;
+
+    const backendEndpoint = "http://localhost:8080/api/map/update";
+    try {
+        const response = await fetch(backendEndpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            body: JSON.stringify(mapStyle),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to update map style");
+        }
+        const responseData = await response.json();
+        console.log("Map style successfully saved :", responseData);
+    } catch (error) {
+        console.error("Error sending map style to db:", error.message);
+    }
+}
+
+const getImagesByCountryId = async (id) => {
+    const url = `http://localhost:8080/api/image/country/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let images = await response.json();
+    return images;
+};
+
+const getImagesByCountryIdAndUserId = async (countryId, userId) => {
+    const url = `http://localhost:8080/api/image/country/${countryId}/${userId}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let images = await response.json();
+    return images;
+};
+
+const getAllImages = async (id) => {
+    const url = `http://localhost:8080/api/images/country/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let images = await response.json();
+    return images;
+};
+
+const getSingleCountry = async (id) => {
+    const url = `http://localhost:8080/api/country/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let country = await response.json();
+    return country;
+};
+
+const getEntriesByCountryId = async (id) => {
+    const url = `http://localhost:8080/api/entry/country/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let entries = await response.json();
+    return entries;
+};
+
+
+const getAllEntries = async (id) => {
+    const url = `http://localhost:8080/api/entry/user/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let entries = await response.json();
+    return entries;
+};
 
 export {
-    onMapLoad, openUpdateModal
+
+    onMapLoad,
+    openUpdateModal,
+    getUserMapLayers,
+    getUserCountries,
+    getUserMapDetails,
+    generateUserMap,
+    addDefaultLayers,
+    addUserLayers,
+    searchForCountry,
+    addMarker,
+    uploadImagesOnMap,
+    displayImages,
+    uploadAvatar,
+    getImagesByCountryId,
+    getAllImages,
+    getAllEntries,
+    getEntriesByCountryId
+
 };

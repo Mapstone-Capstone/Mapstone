@@ -1,6 +1,68 @@
-.card {
-    gap: 10px;
+.row {
+    gap: 20px;
+    padding: 10px;
 }
 body{
-    background-color: deepskyblue;
+    /*background-image: url("https://www.wiredrive.com/wp-content/uploads/2016/02/world.gif");*/
+    background-image: url("https://i.makeagif.com/media/3-16-2018/yIR5RB.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+form {
+    text-align: center;
+}
+.page-wrapper {
+    min-height: 77.5vh;
+}
+.card {
+    opacity: .2;
+    max-width: 18rem;
+    max-height: 250px;
+    flex-shrink: 1;
+    background-color: var(--bright-blue);
+}
+.card img{
+    height: 175px;
+}
+.card-body{
+    height: 75px;
+}
+.card:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+.card-text{
+    color: var(--white);
+}
+
+/*Navbar Buttons*/
+a.nav-link {
+    color: #080063;
+    border-radius: 6px;
+    border: 1px solid #000;
+    background: #FEFFFF;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    text-align: center;
+    font-family: Mada, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+/*Footer Button*/
+li.meet-us {
+    width: 350px;
+    height: 69px;
+    padding: 20px 15px;
+    /*flex-shrink: 0;*/
+    border-radius: 6px;
+    background: #8DE189;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
