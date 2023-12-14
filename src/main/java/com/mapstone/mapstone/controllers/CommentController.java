@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
+
 @Controller
 public class CommentController {
     private UserRepository userDao;
@@ -30,8 +32,10 @@ public class CommentController {
         User user = userDao.getReferenceById(Long.valueOf(user_id));
         Map map = mapDao.getMapById(Long.parseLong(map_id));
         System.out.println("\n\n\n\n\nn\nHEY\n!!!!!!");
+       Date date = new Date();
+        System.out.println(date);
        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Comment newComment = new Comment(loggedInUser,map,comment);
+        Comment newComment = new Comment(loggedInUser,date,map,comment);
         commentDao.save(newComment);
         return "redirect:/viewprofile/"+user.getId();
     }

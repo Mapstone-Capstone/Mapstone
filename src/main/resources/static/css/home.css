@@ -1,27 +1,11 @@
-body {
-
-    background: linear-gradient(300deg, #dee1df, #ccb6b6, #d8d8e1);
-    background-size: 800% 800%;
-    /*animation: gradient-animation 6s ease infinite;*/
-    height: 100%;
-}
-@keyframes gradient-animation {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 50% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500&family=Lilita+One&display=swap');
 
 .page-wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
 }
+
 video {
     object-fit: cover;
     position: absolute;
@@ -44,20 +28,7 @@ video {
     align-items: center;
     justify-content: center;
 }
-.navbar-custom{
-    background-color: #06063d;
-}
-.container.hero {
-    width: 800px;
-}
-.container.hero h1 {
-    font-family: 'Kanit', sans-serif;
-    font-size: 77px;
-    font-weight: 400;
-    position: relative;
-    color: white;
-    text-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-}
+
 .black-overlay{
     position: absolute;
     width: 100%;
@@ -65,26 +36,30 @@ video {
     background-color: rgba(0, 0, 0, 0.37);
     z-index: -1;
 }
-input.btn , button.btn {
-    background-color: #06063d;
-    color: whitesmoke;
-}
-input.btn:hover, button.btn:hover{
-    background-color: #06063d;
-    color: whitesmoke;
-    transition: 0.3s;
+
+.container.hero {
+    width: 800px;
+    height: 100vh;
 }
 
+.container.hero h1 {
+    font-family: 'Kanit', sans-serif;
+    font-size: 77px;
+    font-weight: 400;
+    position: relative;
+    color: white;
+    text-shadow: rgba(0, 0, 0, 0.19) 0 10px 20px, rgba(0, 0, 0, 0.23) 0 6px 6px;
+}
+
+.container.hero h1 {
+    font-size: 80px;
+}
 h1, h3 {
     color: whitesmoke;
     margin: 10px;
     padding: 10px;
     /*text-shadow: 2px 2px 5px white;*/
     z-index: 2;
-}
-
-.container.hero h1 {
-    font-size: 80px;
 }
 
 h3 {
@@ -100,13 +75,116 @@ p {
     color: white;
     font-size: 22px;
 }
+
+.container.hero h1{
+    font-size: 200px;
+    font-weight: 400;
+    font-family: 'Lilita One', sans-serif;
+}
+
 .container {
     min-width: 1100px;
 }
-button a {
+
+/*Inputs*/
+input.btn , button.btn {
+    background-color: #080063;
     color: whitesmoke;
 }
 
-p.about{
-    text-shadow: 2px 2px 5px black;
+input.btn:hover, button.btn:hover{
+    background-color: #080063;
+    color: whitesmoke;
+    transition: 0.3s;
+}
+
+.what-is-statement {
+    background-color: #080063;
+    color: white;
+    text-align: center;
+}
+
+.what-is-statement h2{
+    font-weight: 400;
+    font-size: 60px;
+    font-family: 'Lilita One', sans-serif;
+}
+
+/*Map Collage*/
+.various-maps {
+    height: 360px;
+    margin-top: 40px;
+    /*border: 5px solid darkblue;*/
+}
+
+/*Navbar Buttons*/
+a.nav-link {
+    color: #080063;
+    border-radius: 6px;
+    border: 1px solid #000;
+    background: #FEFFFF;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    text-align: center;
+    font-family: Mada, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+a.hero-buttons {
+    width: 260px;
+    height: 69px;
+    border-radius: 6px;
+    background: #8DE189;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding: 20px;
+}
+
+ul {
+    list-style: none;
+}
+
+.map-share-title {
+    margin-bottom: 150px;
+}
+
+/*Footer Button*/
+a.meet-us {
+    width: 400px;
+    height: 69px;
+    padding: 20px 15px;
+    /*flex-shrink: 0;*/
+    border-radius: 6px;
+    background: #8DE189;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+/*Footer Button*/
+li.meet-us {
+    width: 350px;
+    height: 69px;
+    padding: 20px 15px;
+    /*flex-shrink: 0;*/
+    border-radius: 6px;
+    background: #8DE189;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }

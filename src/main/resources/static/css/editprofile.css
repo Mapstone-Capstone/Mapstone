@@ -1,0 +1,90 @@
+/* editprofile.css */
+
+h1 {
+    text-align: center;
+    /*color: #0B73E1;*/
+}
+
+/* Styles for the form container */
+.edit {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Styles for form labels */
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Styles for form inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+}
+
+/* Styles for the submit button */
+input[type="submit"] {
+    /*background-color: ;*/
+    /*color: #0B73E1;*/
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Hover styles for the submit button */
+input[type="submit"]:hover {
+    background-color: #0B73E1;
+    color: #f2f2f2;
+}
+
+/* Styles for the delete button */
+button[type="submit"] {
+    /*background-color: ;*/
+    color: #0B73E1;
+    border: none;
+    /*margin-left: 650px;*/
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Hover styles for the delete button */
+button[type="submit"]:hover {
+    background-color: #d32f2f;
+    color: #f2f2f2;
+}
+
+.delete-btn {
+    box-shadow: black 2px 2px 2px;
+    /*background-color:;*/
+    color: #0B73E1;
+    height: 35px;
+    border-radius: 15px;
+    border: none;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+    color: #f2f2f2;
+    cursor: pointer;
+}
+
+

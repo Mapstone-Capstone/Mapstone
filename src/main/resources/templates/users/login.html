@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{partials/fragments :: head(Login, '/css/login.css')}">
+<head th:replace="~{partials/fragments :: head('Login', '/css/login.css')}">
   <style></style>
+	<title>Login</title>
 
 </head>
 <body>
@@ -23,15 +24,16 @@
           <div th:if="${param.error}">
             Invalid Username and Password.
           </div>
-          <label for="username">Username</label>
-          <input id="username" name="username" type="text"/>
 
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password"/>
+	        <label for="username">Username</label>
+	        <input id="username" name="username" type="text"/>
+	        
+	        <label for="password">Password</label>
+	        <input id="password" name="password" type="password"/>
 
           <button class="login-button" type="submit">
             <img src="/assets/globe-icon.svg" alt="globe-icon">
-            <span>login</span>
+            <span>Login</span>
           </button>
         </form>
         <div class="login-footer">
@@ -41,6 +43,12 @@
     </div>
   </div>
 </main>
-<footer th:replace="~{partials/fragments :: footer}"></footer>
+<footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5" style="background-color: #080063">
+
+  <ul class="nav col-md-12 justify-content-center mt-3 p-3">
+    <li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>
+  </ul>
+</footer>
+<!--<footer th:replace="~{partials/fragments :: footer}"></footer>-->
 </body>
 </html>

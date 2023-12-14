@@ -9,10 +9,7 @@ import com.mapstone.mapstone.repositories.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,12 +43,12 @@ public class ImageController {
 
 
         for (String url:urls) {
+
             Image image = new Image();
 
             image.setImageUrl(url);
             //set that user as the owner of the image uploaded
             image.setUser(user);
-
             //make this image belong to that country
             image.setCountry(country);
             //now the image has a user and country, so save it to the db
@@ -80,6 +77,17 @@ public class ImageController {
 
         return "redirect:/profile";
     }
+
+    @GetMapping("/image/country"+"/{id}")
+    public List<Image> getImagesByCountryId(@PathVariable long id) {
+        return imageDao.getImagesByCountry_Id(id);
+    }
+
+//    @RequestMapping(method = RequestMethod.GET)
+//    public List<Image> getAllImages(@RequestParam(name = "view-all-images") User user) {
+//
+//        return imageDao.getImagesByUser(user);
+//    }
 
 }
 

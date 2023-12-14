@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.util.List;
 
@@ -20,28 +23,23 @@ public class User {
     long id;
 
     @Column(name = "username", length = 250, unique = true)
+    @NotBlank(message = "Username cannot be blank")
     private String username;
 
     @Column(name = "first_name", length = 250)
-    @NotEmpty(message = "First name cannot be blank")
+    @NotBlank(message = "First name cannot be blank")
     private String firstName;
 
     @Column(name = "last_name", length = 250)
-    @NotEmpty(message = "Last name cannot be blank")
+    @NotBlank(message = "Last name cannot be blank")
     private String lastName;
 
     @Column(name = "email", length = 250, unique = true)
-    @NotEmpty(message = "Email cannot be blank")
-    @Email(message = "Please provide a valid email")
+    @NotBlank(message = "Email cannot be blank")
     private String email;
-
-    @Column(name = "country", length = 250)
-    @NotEmpty(message = "Country cannot be blank")
-    private String country;
 
     @Column(name = "password", length = 500)
     @JsonIgnore
-    @NotEmpty(message = "Password cannot be blank")
     private String password;
 
     @Column(name = "avatar", length = 500)
@@ -56,7 +54,6 @@ public class User {
     private List<Comment> comments;
 
     @JsonIgnore
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_countries",
@@ -65,10 +62,23 @@ public class User {
     )
     private List<Country> countries;
 
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_badges",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "badge_id")}
+    )
+    private List<Badge> badges;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Image> images;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Entry> entries;
 
 
     public User() {
@@ -80,51 +90,48 @@ public class User {
         firstName = copy.firstName;
         lastName = copy.lastName;
         email = copy.email;
-        country = copy.country;
         password = copy.password;
         avatar = copy.avatar;
         map = copy.map;
         comments = copy.comments;
         countries = copy.countries;
         images = copy.images;
+        badges = copy.badges;
+        entries = copy.entries;
     }
 
-    public User(long id, String username, String firstName, String lastName, String email, String country, String password, String avatar) {
+    public User(long id, String username, String firstName, String lastName, String email, String password, String avatar) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
         this.password = password;
         this.avatar = avatar;
     }
 
-    public User(String username, String firstName, String lastName, String email, String country, String password, String avatar) {
+    public User(String username, String firstName, String lastName, String email, String password, String avatar) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
         this.password = password;
         this.avatar = avatar;
     }
 
-    public User(String username, String firstName, String lastName, String email, String country, String password) {
+    public User(String username, String firstName, String lastName, String email, String password) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
         this.password = password;
     }
 
-    public User(String username, String firstName, String lastName, String email, String country) {
+    public User(String username, String firstName, String lastName, String email) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.country = country;
     }
 
     public long getId() {
@@ -167,14 +174,6 @@ public class User {
         this.email = email;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -211,13 +210,14 @@ public class User {
         return countries;
     }
 
-//    public void setCountries(Country country) {
-//        this.countries.add(country);
-//    }
-
     public void setCountries(List<Country> countries) {
         this.countries = countries;
     }
+
+    public void addCountry(Country country) {
+        this.countries.add(country);
+    }
+
 
     public List<Image> getImages() {
         return images;
@@ -227,6 +227,19 @@ public class User {
         this.images = images;
     }
 
+    public List<Badge> getBadges() {
+        return badges;
+    }
 
+    public void setBadges(List<Badge> badges) {
+        this.badges = badges;
+    }
 
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
+    }
 }
