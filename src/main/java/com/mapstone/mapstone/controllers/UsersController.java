@@ -61,21 +61,39 @@ public class UsersController {
     }
 
     @PostMapping("/sign-up")
-    public String createUser(@ModelAttribute User user) {
+    public String createUser(@ModelAttribute User user, Model model) {
 
-            //hash the password
-            String hashedPassword = passwordEncoder.encode(user.getPassword());
-            //set the hashed password on the user object
-            user.setPassword(hashedPassword);
-            user.setAvatar("https://as2.ftcdn.net/v2/jpg/01/86/61/17/1000_F_186611794_cMP2t2Dn7fdJea0R4JAJOi9tNcSJ0i1T.jpg");
-            //save the user object to the database
-            userDao.save(user);
-            //create a new map object for the user with default values
-            Map userMap = new Map("#0059ff", "light-v11", "naturalEarth", "1");
-            userMap.setUser(user);
-            userDao.save(user);
-            mapDao.save(userMap);
-            return "users/login";
+        //check if the username is taken
+        User existingUser = userDao.findByUsername(user.getUsername());
+        if (existingUser != null) {
+            model.addAttribute("user", user);
+            model.addAttribute("usernameError", "Username already exists");
+            //if the username is taken, send the user back to the sign-up form
+            return "users/sign-up";
+        }
+
+        //check if the email is taken
+        User existingEmail = userDao.findByEmail(user.getEmail());
+        if (existingEmail != null) {
+            model.addAttribute("user", user);
+            model.addAttribute("emailError", "Email already exists");
+            //if the email is taken, send the user back to the sign-up form
+            return "users/sign-up";
+        }
+
+        //hash the password
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        //set the hashed password on the user object
+        user.setPassword(hashedPassword);
+        user.setAvatar("https://as2.ftcdn.net/v2/jpg/01/86/61/17/1000_F_186611794_cMP2t2Dn7fdJea0R4JAJOi9tNcSJ0i1T.jpg");
+        //save the user object to the database
+        userDao.save(user);
+        //create a new map object for the user with default values
+        Map userMap = new Map("#0059ff", "light-v11", "naturalEarth", "1");
+        userMap.setUser(user);
+        userDao.save(user);
+        mapDao.save(userMap);
+        return "users/login";
 
     }
 
@@ -84,10 +102,11 @@ public class UsersController {
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //send the logged-in user to the profile page
+        model.addAttribute("loggedIn",true);
         model.addAttribute("user", userDao.getOne(loggedInUser.getId()));
         //gets all comments made by logged-in user
-        List<Comment>commentList = commentDao.findAllByMap_Id(loggedInUser.getMap().getId());
-        model.addAttribute("commentList",commentList);
+        List<Comment> commentList = commentDao.findAllByMap_Id(loggedInUser.getMap().getId());
+        model.addAttribute("commentList", commentList);
         //get the user's map
         Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
 
@@ -99,36 +118,36 @@ public class UsersController {
     }
 
     @GetMapping("/viewprofile/{id}")
-    public String viewGuestProfile(@PathVariable Long id, Model model){
+    public String viewGuestProfile(@PathVariable Long id, Model model) {
         model.addAttribute("comment", new Comment());
         //Checks if user is logged in
         //When not logged in a user, it will be called an anonymousUser
-        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal()!="anonymousUser"){
-            model.addAttribute("loggedIn",true);
-        }else {
-            model.addAttribute("loggedIn",false);
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
+            model.addAttribute("loggedIn", true);
+        } else {
+            model.addAttribute("loggedIn", false);
         }
         User chosen = userDao.getReferenceById(id);
-        model.addAttribute("user",chosen);
+        model.addAttribute("user", chosen);
 
         Map userMap = mapDao.getMapByUserId(chosen.getId());
-        List<Comment>commentList = commentDao.findAllByMap_Id(userMap.getId());
-        model.addAttribute("commentList",commentList);
+        List<Comment> commentList = commentDao.findAllByMap_Id(userMap.getId());
+        model.addAttribute("commentList", commentList);
         List<Country> list = countryDao.getAllByUsers_Id(chosen.getId());
         model.addAttribute("countries", list);
         model.addAttribute("map", userMap);
         return "users/viewprofile";
     }
 
-@PostMapping("/profile-picture")
+    @PostMapping("/profile-picture")
     public String updateProfilePicture(@RequestParam(name = "avatarUrl") String avatarUrl) {
-    //get the logged-in user
-    User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    //set the logged-in user's profile picture to the new profile picture
-    User userFromDb = userDao.getOne(loggedInUser.getId());
-    userFromDb.setAvatar(avatarUrl);
-    //save the user object to the database
-    userDao.save(userFromDb);
+        //get the logged-in user
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //set the logged-in user's profile picture to the new profile picture
+        User userFromDb = userDao.getOne(loggedInUser.getId());
+        userFromDb.setAvatar(avatarUrl);
+        //save the user object to the database
+        userDao.save(userFromDb);
         return "redirect:/profile";
     }
 

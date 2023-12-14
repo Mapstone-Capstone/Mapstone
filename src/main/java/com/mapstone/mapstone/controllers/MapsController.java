@@ -59,6 +59,7 @@ public class MapsController {
         //delete the layers that belong to the map (must be done before deleting the map because of foreign key constraints)
         List<Layer> layers = mapToReset.getLayers();
         if (layers != null) {
+            System.out.println("Layers deleted");
             layerDao.deleteAll(layers);
         }
         //save the map with no layers
