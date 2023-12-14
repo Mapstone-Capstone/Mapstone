@@ -57,24 +57,25 @@ public class MapsController {
         User user = userDao.getById(loggedInUser.getId());
         Map mapToReset = mapDao.getMapById(map.getId());
         //delete the layers that belong to the map (must be done before deleting the map because of foreign key constraints)
-        List<Layer> layers = mapToReset.getLayers();
-        if (layers != null) {
-            layerDao.deleteAll(layers);
-        }
+        List<Layer> layersToDelete = layerDao.getLayersByMap(mapToReset);
+        layerDao.deleteAll(layersToDelete);
+
+
         //save the map with no layers
         mapDao.save(mapToReset);
        //get all the countries that belong to the user and delete them
        user.setCountries(new ArrayList<>());
          userDao.save(user);
-         //update the logged in user principal to reflect the changes when the user is redirected to the profile page
+         //update the logged-in user principal to reflect the changes when the user is redirected to the profile page
         loggedInUser.setCountries(new ArrayList<>());
-        //now delete the map, then create a new default map and set it to the user, then save the user
-        mapDao.delete(mapToReset);
-        Map newMap = new Map("#0059ff", "light-v11", "naturalEarth", "1");
-        newMap.setUser(user);
-        mapDao.save(newMap);
+        //now set default map values and save the map
+        mapToReset.setColor("#0059ff");
+        mapToReset.setStyle("light-v11");
+        mapToReset.setProjection("naturalEarth");
+        mapToReset.setZoom("1");
+        mapDao.save(mapToReset);
         //send the new map to the profile page
-        model.addAttribute("map", newMap);
+        model.addAttribute("map", mapToReset);
         return "redirect:/profile";
     }
 
