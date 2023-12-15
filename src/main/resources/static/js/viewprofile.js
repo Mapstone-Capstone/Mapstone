@@ -1,4 +1,4 @@
-import {MAP_BOX_TOKEN} from "./keys.js";
+
 import {
     getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getAllImages, getAllEntries, getEntriesByCountryId
 } from "./mapbox-map-utils.js";
