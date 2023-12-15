@@ -416,7 +416,7 @@ const onMapLoad = async () => {
                 });
             });
 
-            getEntriesByCountryId(btn.value).then(function (response) {
+            getEntriesByCountryIdAndMapId(btn.value, id).then(function (response) {
 
                 viewEntries.innerHTML = `<h3>Journal</h3>`;
 
@@ -707,8 +707,8 @@ const getSingleCountry = async (id) => {
     return country;
 };
 
-const getEntriesByCountryId = async (id) => {
-    const url = `${urlpattern}/api/entry/country/${id}`;
+const getEntriesByCountryIdAndMapId = async (entryId, mapId) => {
+    const url = `${urlpattern}/api/entry/country/${entryId}/${mapId}`;
     let options = {
         method: "GET",
         headers: {
@@ -752,6 +752,7 @@ export {
     getImagesByCountryId,
     getAllImages,
     getAllEntries,
-    getEntriesByCountryId
+    getEntriesByCountryIdAndMapId,
+    getImagesByCountryIdAndUserId
 
 };

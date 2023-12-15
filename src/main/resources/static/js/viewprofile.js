@@ -1,6 +1,6 @@
 
 import {
-    getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getAllImages, getAllEntries, getEntriesByCountryId
+    getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getImagesByCountryIdAndUserId, getAllImages, getAllEntries, getEntriesByCountryIdAndMapId
 } from "./mapbox-map-utils.js";
 
 let urlpattern = `http://localhost:8080`;
@@ -155,7 +155,7 @@ const displayImages = () => {
             //
             //     });
             // });
-            getImagesByCountryId(btn.value).then(function (response) {
+            getImagesByCountryIdAndUserId(btn.value, id).then(function (response) {
                 response.forEach((image) => {
                     imageContainer.innerHTML += `
                         <div class="country-image">
@@ -165,7 +165,7 @@ const displayImages = () => {
                 })
             })
 
-            getEntriesByCountryId(btn.value).then(function (response){
+            getEntriesByCountryIdAndMapId(btn.value, id).then(function (response){
 
                 viewEntries.innerHTML = `<h3>Journal</h3>`
 
@@ -205,7 +205,7 @@ const displayImages = () => {
 
         })
 
-        getAllEntries(viewAllImages.value).then(function(response){
+        getAllEntries(userId).then(function(response){
 
             viewEntries.innerHTML = `<h3>Journal</h3>`
 
