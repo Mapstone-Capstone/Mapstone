@@ -362,7 +362,6 @@ button.btn-link {
     line-height: normal;
 }
 
-=======
 #edit-user-modal {
     justify-content: center;
     align-items: center;
@@ -428,7 +427,6 @@ li.meet-us {
     width: 350px;
     height: 69px;
     padding: 20px 15px;
-    /*flex-shrink: 0;*/
     border-radius: 6px;
     background: #8DE189;
     color: #080063;
