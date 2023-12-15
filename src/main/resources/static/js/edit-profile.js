@@ -93,7 +93,7 @@ function editUserModal() {
                 <button class="update-user-button" type="submit">Update Profile</button>
     
                 </form>
-       
+          <button class="delete-btn" type="submit">Delete Profile</button>
             </div>
         </div>`;
 
