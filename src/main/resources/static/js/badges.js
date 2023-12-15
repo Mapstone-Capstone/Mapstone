@@ -1,4 +1,4 @@
-let urlpattern = `http://localhost:8080`;
+let urlpattern = `${window.location.protocol}//${window.location.host}`
 const mapId = document.getElementById("map-id").value;
 const badgeContainer = document.querySelector(".badges");
 

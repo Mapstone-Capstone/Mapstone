@@ -1,9 +1,8 @@
-// import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
 import {uploadImages} from "./images.js";
 
-// let urlpattern = `${window.location.protocol}//${window.location.host}`
-let urlpattern = `http://localhost:8080`;
+let urlpattern = `${window.location.protocol}//${window.location.host}`
+// let urlpattern = `http://localhost:8080`;
 let countriesVisited = [];
 let countryName;
 let countryId;
@@ -337,7 +336,7 @@ const onMapLoad = async () => {
             for (let i = 0; i < allLayers.length; i++) {
                 //if the country is already filled (already clicked), and the user clicks it again, remove the fill layer
                 if (allLayers[i].id === countryName) {
-                    renderModal(countryName);
+                    uploadImagesOnMap(countryName);
                     return;
                 }
             }

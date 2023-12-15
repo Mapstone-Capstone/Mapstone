@@ -30,7 +30,7 @@ public class Comment {
     @JoinColumn(name = "map_id")
     private Map map;
 
-    @Column
+    @Column(length = 5000)
     String content;
 
 
