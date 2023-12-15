@@ -336,7 +336,7 @@ const onMapLoad = async () => {
             for (let i = 0; i < allLayers.length; i++) {
                 //if the country is already filled (already clicked), and the user clicks it again, remove the fill layer
                 if (allLayers[i].id === countryName) {
-                    uploadImagesOnMap(countryName);
+                    renderImageUploadModal(countryName);
                     return;
                 }
             }
@@ -359,8 +359,56 @@ const onMapLoad = async () => {
 
             });
         }
-        uploadImagesOnMap(countryName);
+
+
+
+
+        renderImageUploadModal(countryName);
     });
+
+
+    function renderImageUploadModal(countryName) {
+        const imageUploadModal = document.createElement("div");
+        imageUploadModal.classList.add("modal");
+        imageUploadModal.innerHTML = `<div class="modal-bg"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Upload Images from your trip!</h2>
+                <span class="modal-close">&times;</span>
+            </div> 
+        <div class="modal-body">
+            <button type="button" class="modal-button" id="yes">Upload Now</button>
+            <button type="button" class="modal-button" id="no">Not Right Now</button>
+        </div>
+      </div>`;
+
+        //nodes from the modal for event listeners
+        const modalClose = imageUploadModal.querySelector(".modal-close");
+        const modalBackground = imageUploadModal.querySelector(".modal-bg");
+        const yesButton = imageUploadModal.querySelector("#yes");
+        const noButton = imageUploadModal.querySelector("#no");
+
+        yesButton.addEventListener("click", () => {
+            uploadImagesOnMap(countryName);
+        });
+
+        noButton.addEventListener("click", () => {
+            imageUploadModal.remove();
+        });
+
+        modalBackground.addEventListener("click", () => {
+            imageUploadModal.remove();
+        });
+
+        modalClose.addEventListener("click", () => {
+            imageUploadModal.remove();
+        });
+
+        document.body.appendChild(imageUploadModal);
+
+    }
+
+
 
 
     //filter images
@@ -540,10 +588,6 @@ function openUpdateModal() {
             alert("Please fill out all fields.");
             return;
         }
-
-        console.log(mapStyle.value);
-        console.log(mapColor.value);
-        console.log(mapId.value);
 
         const mapToUpdate =
             {
