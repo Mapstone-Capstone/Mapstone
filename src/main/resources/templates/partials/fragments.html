@@ -19,22 +19,23 @@
 
 <!--NAV-->
 
-<nav th:fragment="nav" class="navbar navbar-expand-lg  " style="background-color: darkblue" >
+<nav th:fragment="nav" class="navbar navbar-expand-lg" style="background-color: darkblue" >
   <div class="container-fluid d-flex">
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse " id="navbarNavDropdown">
-      <ul class="navbar-nav ms-auto  d-flex gap-5 align-items-center justify-content-end w-100">
-        <li class="nav-item flex-grow-1 d-flex ml-5 pl-5 ">
-          <a class="nav-link" th:href="@{/explore-profiles}">Explore Profiles</a>
-        </li>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+      <ul class="navbar-nav ms-auto d-flex gap-5 align-items-center justify-content-end flex-shrink">
         <li class="nav-item">
           <a th:href="@{/}" id="logo">
             <img src="/assets/logo.svg" alt="logo" class="nav-img" style="width: 100px; height: auto">
           </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/explore-profiles}">Explore Profiles</a>
         </li>
         <li class="nav-item ">
           <a class="nav-link " th:href="@{/sign-up}">Sign-up</a>
@@ -48,7 +49,7 @@
           </form>
         </li>
         <li class="d-flex gap-2 nav-item" sec:authorize="isAuthenticated()">
-          <a class="nav-link" th:href="@{/profile}">
+          <a th:href="@{/profile}">
             <img th:src="${#authentication.principal.avatar}" class="nav-img border rounded-circle" style="width: 50px; height: auto" alt="Profile picture">
           </a>
         </li>

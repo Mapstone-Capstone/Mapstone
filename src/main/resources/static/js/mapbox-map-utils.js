@@ -336,7 +336,7 @@ const onMapLoad = async () => {
             for (let i = 0; i < allLayers.length; i++) {
                 //if the country is already filled (already clicked), and the user clicks it again, remove the fill layer
                 if (allLayers[i].id === countryName) {
-                    renderModal(countryName);
+                    uploadImagesOnMap(countryName);
                     return;
                 }
             }

@@ -25,9 +25,10 @@
     height: 150px;
 }
 
-#logo {
+/*center the logo in the nav bar*/
+.nav-logo {
+  justify-self: center;
     align-self: center;
-    justify-self: center;
 }
 
 /*Navbar Buttons and Links*/
@@ -49,6 +50,7 @@ a.nav-link, button.btn-link {
         color: var(--white);
     }
 }
+
 
 /*Footer Button*/
 li.meet-us {
