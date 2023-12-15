@@ -11,7 +11,6 @@ Sharelink.addEventListener("click", async (event)=>{
     let link = "https://www.map-share.net/viewprofile/" + id;
     // copies info to the clipboard HOWEVER IT WILL BE A PROMISE
     await navigator.clipboard.writeText(link)
-
     let attribute= "window.open('https://www.facebook.com/share.php?u="+link+"','popup','width=600,height=600'); return false;"
     let attribute2 = "window.open('https://www.linkedin.com/sharing/share-offsite/?url="+link+"','popup','width=600,height=600'); return false;"
     let attribute3 = "window.open('https://twitter.com/intent/tweet?url="+link+"','popup','width=600,height=600'); return false;"
@@ -21,7 +20,6 @@ Sharelink.addEventListener("click", async (event)=>{
     twiiter.setAttribute("onclick",attribute3)
     // alert("Share link copied: "+ link)
 })
-
 close.addEventListener("click", (event)=>{
     modal.style.display="none";
 })

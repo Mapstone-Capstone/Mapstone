@@ -39,11 +39,11 @@
         </div>
 
         <h4>Achievements</h4>
-	      
+
         <div class="badges w-100">
 			<!--dynamically filled with javascript-->
         </div>
-	      
+
         <div>
           <button id="share" th:value="${user.id}">Share Link</button>
         </div>
@@ -71,7 +71,7 @@
               <button id="view-images-btn" type="button">View Images</button>
             </div>
           </div>
-	        
+
           <div>
             <!--  FORM FOR UPDATING/EDITING MAP STYLE    -->
             <form id="update-map-form" th:object="${map}">
@@ -89,19 +89,19 @@
         <div id="country-images-wrapper" class="hide-country-images-wrapper">
           <div class="country-images-header w-100">
             <h2>Images</h2>
-	          
-	          <div>
-		          <button type="button" id="edit-journal-btn">Edit Journal</button>
-	          </div>
-	          
+
+<!--	          <div>-->
+<!--		          <button type="button" id="edit-journal-btn">Edit Journal</button>-->
+<!--	          </div>-->
+
 	          <div id="create-entries"></div>
-	          
+
               <!--Dynamic Dropdown Filter-->
 	          <div class="dropdown">
 		          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 			          Filter Images By Country
 		          </a>
-		          
+
 		          <ul class="dropdown-menu">
 			          <li>
 				          <button id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>
@@ -117,7 +117,7 @@
 		          </ul>
 	          </div>
           </div>
-	        
+
           <div class="country-images-body w-100">
             <div id="image-container" class="country-images w-100">
               <th:block th:each="image : ${user.getImages()}">
@@ -126,7 +126,7 @@
                 </div>
               </th:block>
             </div>
-	          
+
 	          <article id="view-entries">
 		          <h3>Journal</h3>
 		          <th:block th:each="entry : ${user.getEntries()}">
@@ -138,10 +138,10 @@
 			          <br />
 		          </th:block>
 	          </article>
-	          
+
           </div>
 		</div>
-	      
+
         <!--  COMMENTS CONTAINER  -->
         <div class="comments-container">
           <div class="comments-header">
@@ -163,7 +163,7 @@
       </section>
     </div>
 
-<!--    Modal-->
+    <!--    Modal-->
     <div class="modal" id="sharelinkmodal">
       <div class="modal-content">
         <p>Share your travel map with your friends</p>
@@ -190,7 +190,7 @@
     </div>
 
   </div>
-	
+
 
   <!-- FileStack Upload Images -->
   <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
@@ -216,3 +216,4 @@
 <script src="/js/edit-journal.js"></script>
 </body>
 </html>
+

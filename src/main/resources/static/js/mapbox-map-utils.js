@@ -1,7 +1,8 @@
-import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
 import {uploadImages} from "./images.js";
 
+let urlpattern = `${window.location.protocol}//${window.location.host}`
+// let urlpattern = `http://localhost:8080`;
 let countriesVisited = [];
 let countryName;
 let countryId;
@@ -10,7 +11,7 @@ let opacity = 0.8;
 let id = document.getElementById("map-id").value;
 
 const getUserMapLayers = async () => {
-    const url = `http://localhost:8080/api/map/layers`;
+    const url = `${urlpattern}/api/map/layers`;
     let options = {
         method: "GET",
         headers: {
@@ -23,7 +24,7 @@ const getUserMapLayers = async () => {
 };
 
 const getUserCountries = async () => {
-    const url = `http://localhost:8080/api/countries`;
+    const url = `${urlpattern}/api/countries`;
     let options = {
         method: "GET",
         headers: {
@@ -36,7 +37,7 @@ const getUserCountries = async () => {
 };
 
 const getUserMapDetails = async (id) => {
-    const url = `http://localhost:8080/api/map/details/${id}`;
+    const url = `${urlpattern}/api/map/details/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -224,6 +225,7 @@ viewAllImages.addEventListener("click", () => {
     getAllImages(viewAllImages.value).then(function (response) {
         response.forEach((image) => {
 
+            createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
             imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
@@ -334,7 +336,7 @@ const onMapLoad = async () => {
             for (let i = 0; i < allLayers.length; i++) {
                 //if the country is already filled (already clicked), and the user clicks it again, remove the fill layer
                 if (allLayers[i].id === countryName) {
-                    renderModal(countryName);
+                    renderImageUploadModal(countryName);
                     return;
                 }
             }
@@ -357,8 +359,56 @@ const onMapLoad = async () => {
 
             });
         }
-        uploadImagesOnMap(countryName);
+
+
+
+
+        renderImageUploadModal(countryName);
     });
+
+
+    function renderImageUploadModal(countryName) {
+        const imageUploadModal = document.createElement("div");
+        imageUploadModal.classList.add("modal");
+        imageUploadModal.innerHTML = `<div class="modal-bg"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Upload Images from your trip!</h2>
+                <span class="modal-close">&times;</span>
+            </div> 
+        <div class="modal-body">
+            <button type="button" class="modal-button" id="yes">Upload Now</button>
+            <button type="button" class="modal-button" id="no">Not Right Now</button>
+        </div>
+      </div>`;
+
+        //nodes from the modal for event listeners
+        const modalClose = imageUploadModal.querySelector(".modal-close");
+        const modalBackground = imageUploadModal.querySelector(".modal-bg");
+        const yesButton = imageUploadModal.querySelector("#yes");
+        const noButton = imageUploadModal.querySelector("#no");
+
+        yesButton.addEventListener("click", () => {
+            uploadImagesOnMap(countryName);
+        });
+
+        noButton.addEventListener("click", () => {
+            imageUploadModal.remove();
+        });
+
+        modalBackground.addEventListener("click", () => {
+            imageUploadModal.remove();
+        });
+
+        modalClose.addEventListener("click", () => {
+            imageUploadModal.remove();
+        });
+
+        document.body.appendChild(imageUploadModal);
+
+    }
+
+
 
 
     //filter images
@@ -405,6 +455,7 @@ const onMapLoad = async () => {
             getImagesByCountryIdAndUserId(btn.value, id).then(function (response) {
                 response.forEach((image) => {
                     console.log(response);
+                    createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
                     imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
@@ -413,7 +464,7 @@ const onMapLoad = async () => {
                 });
             });
 
-            getEntriesByCountryId(btn.value).then(function (response) {
+            getEntriesByCountryIdAndMapId(btn.value, id).then(function (response) {
 
                 viewEntries.innerHTML = `<h3>Journal</h3>`;
 
@@ -538,10 +589,6 @@ function openUpdateModal() {
             return;
         }
 
-        console.log(mapStyle.value);
-        console.log(mapColor.value);
-        console.log(mapId.value);
-
         const mapToUpdate =
             {
                 id: id,
@@ -578,7 +625,7 @@ async function sendCountriesToBackend(countryClicked) {
             name: countryClicked,
         }
     ;
-    const backendEndpoint = "http://localhost:8080/api/country/add";
+    const backendEndpoint = `${urlpattern}/api/country/add`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -607,7 +654,7 @@ async function sendLayersToBackend(name) {
             name: name,
         };
 
-    const backendEndpoint = "http://localhost:8080/api/map/layer/add";
+    const backendEndpoint = `${urlpattern}/api/map/layer/add`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -631,7 +678,7 @@ async function sendLayersToBackend(name) {
 async function updateMapStyle(mapStyle) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
-    const backendEndpoint = "http://localhost:8080/api/map/update";
+    const backendEndpoint = `${urlpattern}/api/map/update`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -653,7 +700,7 @@ async function updateMapStyle(mapStyle) {
 }
 
 const getImagesByCountryId = async (id) => {
-    const url = `http://localhost:8080/api/image/country/${id}`;
+    const url = `${urlpattern}/api/image/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -666,7 +713,7 @@ const getImagesByCountryId = async (id) => {
 };
 
 const getImagesByCountryIdAndUserId = async (countryId, userId) => {
-    const url = `http://localhost:8080/api/image/country/${countryId}/${userId}`;
+    const url = `${urlpattern}/api/image/country/${countryId}/${userId}`;
     let options = {
         method: "GET",
         headers: {
@@ -679,7 +726,7 @@ const getImagesByCountryIdAndUserId = async (countryId, userId) => {
 };
 
 const getAllImages = async (id) => {
-    const url = `http://localhost:8080/api/images/country/${id}`;
+    const url = `${urlpattern}/api/images/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -692,7 +739,7 @@ const getAllImages = async (id) => {
 };
 
 const getSingleCountry = async (id) => {
-    const url = `http://localhost:8080/api/country/${id}`;
+    const url = `${urlpattern}/api/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -704,8 +751,8 @@ const getSingleCountry = async (id) => {
     return country;
 };
 
-const getEntriesByCountryId = async (id) => {
-    const url = `http://localhost:8080/api/entry/country/${id}`;
+const getEntriesByCountryIdAndMapId = async (entryId, mapId) => {
+    const url = `${urlpattern}/api/entry/country/${entryId}/${mapId}`;
     let options = {
         method: "GET",
         headers: {
@@ -719,7 +766,7 @@ const getEntriesByCountryId = async (id) => {
 
 
 const getAllEntries = async (id) => {
-    const url = `http://localhost:8080/api/entry/user/${id}`;
+    const url = `${urlpattern}/api/entry/user/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -749,6 +796,7 @@ export {
     getImagesByCountryId,
     getAllImages,
     getAllEntries,
-    getEntriesByCountryId
+    getEntriesByCountryIdAndMapId,
+    getImagesByCountryIdAndUserId
 
 };

@@ -55,6 +55,8 @@ public class EntriesController {
     public String createEntry(@ModelAttribute Entry entry, @RequestParam(name = "entry-date") String date, @RequestParam(name = "country-id") long id, Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        System.out.println("TEST");
+
         User user = userDao.getOne(loggedInUser.getId());
 
         Country country = countryDao.getCountryById(id);

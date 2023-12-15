@@ -1,11 +1,11 @@
-
+let urlpattern = `${window.location.protocol}//${window.location.host}`
 const mapId = document.getElementById("map-id").value;
 const badgeContainer = document.querySelector(".badges");
 
 
 
 const getBadgesByMapId = async (id) => {
-    const url = `http://localhost:8080/api/badges/${id}`;
+    const url = `${urlpattern}/api/badges/${id}`;
     let options = {
         method: "GET",
         headers: {

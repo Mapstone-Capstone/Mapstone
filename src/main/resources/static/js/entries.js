@@ -4,7 +4,7 @@ const imageContainer = document.getElementById('image-container');
 const countryId = document.getElementById('country-id');
 
 const getImagesByCountryId = async (id) => {
-    const url = `http://localhost:8080/api/image/country/${id}`;
+    const url = `${urlpattern}/api/image/country/${id}`;
     let options = {
         method: "GET",
         headers: {
