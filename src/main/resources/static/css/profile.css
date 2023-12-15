@@ -109,7 +109,9 @@ h4 {
     text-decoration: none;
     cursor: pointer;
 }
-
+.icons a {
+    cursor: pointer;
+}
 button {
     display: flex;
     align-items: center;
