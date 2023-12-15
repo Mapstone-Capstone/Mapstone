@@ -43,7 +43,9 @@ body{
     /*background-size: cover;*/
 }
 .page-wrapper {
-    min-height: 57.5vh;
+    /*min-height: 57.5vh;*/
+    min-height: 70.5vh
+;
 }
 .user-wrapper{
     opacity: .5;
@@ -133,17 +135,91 @@ body {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
-@media only screen and (min-width: 1440px){
-    .search-container{
-        height: 682px;
-        width: 1043px;
+/* @media only screen and (min-width: 1440px){*/
+/*     .search-container{*/
+/*         height: 682px;*/
+/*         width: 1043px;*/
+/*     }*/
+/* }*/
+/*@media only screen and (max-width: 40em){*/
+/*    body {*/
+/*        background-color: #080063;*/
+/*    }*/
+/*    .page-wrapper{*/
+/*        min-height: 10vh;*/
+/*    }*/
+/*    .search-container{*/
+/*        height: 380px;*/
+/*    }*/
+/*}*/
+/*@media only screen and (max-width: 48em) {*/
+/*    body {*/
+/*        background-color: #d32f2f;*/
+/*    }*/
+/*}*/
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media screen and (min-width: 360px) and (max-width: 767px) {
+    .page-wrapper {
+        min-height: 73.5vh;
+    }
+    .search-container {
+        height: 500px;
+    }
+    .profileLink {
+        display: flex;
+        justify-content: center;
     }
 }
-@media only screen and (max-width: 800px){
-    .page-wrapper{
-        min-height: 10vh;
+@media screen and (min-width: 425px) and (max-width: 767px){
+    .view-profile-button{
+        width: 99px;
+        height: 65px;
     }
-    .search-container{
-        height: 380px;
+    .text h3 {
+        font-size: 20px;
     }
+    .user-wrapper span{
+        font-size: 15px;
+    }
+    .avatar {
+        height: 96px;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media screen and (min-width: 768px) and (max-width: 991px){
+    /*body {background: blue;}*/
+}
+/*min-height: 93.5vh;*/
+
+/*Navbar Buttons*/
+a.nav-link {
+    color: #080063;
+    border-radius: 6px;
+    border: 1px solid #000;
+    background: #FEFFFF;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    text-align: center;
+    font-family: Mada, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+/*Footer Button*/
+li.meet-us {
+    width: 350px;
+    height: 69px;
+    padding: 20px 15px;
+    /*flex-shrink: 0;*/
+    border-radius: 6px;
+    background: #8DE189;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
