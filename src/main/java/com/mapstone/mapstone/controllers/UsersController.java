@@ -144,6 +144,7 @@ public class UsersController {
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //set the logged-in user's profile picture to the new profile picture
+        loggedInUser.setAvatar(avatarUrl);
         User userFromDb = userDao.getOne(loggedInUser.getId());
         userFromDb.setAvatar(avatarUrl);
         //save the user object to the database

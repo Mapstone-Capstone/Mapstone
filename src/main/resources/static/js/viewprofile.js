@@ -1,8 +1,9 @@
-import {MAP_BOX_TOKEN} from "./keys.js";
+
 import {
-    getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getAllImages, getAllEntries, getEntriesByCountryId
+    getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getImagesByCountryIdAndUserId, getAllImages, getAllEntries, getEntriesByCountryIdAndMapId
 } from "./mapbox-map-utils.js";
 
+let urlpattern = `http://localhost:8080`;
 let opacity = 0.8;
 let id = document.getElementById("map-id").value;
 let userId = document.getElementById("user-id").value;
@@ -10,7 +11,7 @@ let countryName;
 //get the map id of the map that belongs to the logged-in user from the hidden input field
 
 const getViewOnlyUserMapLayers = async (id) => {
-    const url = `https://www.map-share.net/api/map/layers/${id}`;
+    const url = `${urlpattern}/api/map/layers/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -154,7 +155,7 @@ const displayImages = () => {
             //
             //     });
             // });
-            getImagesByCountryId(btn.value).then(function (response) {
+            getImagesByCountryIdAndUserId(btn.value, id).then(function (response) {
                 response.forEach((image) => {
                     imageContainer.innerHTML += `
                         <div class="country-image">
@@ -164,7 +165,7 @@ const displayImages = () => {
                 })
             })
 
-            getEntriesByCountryId(btn.value).then(function (response){
+            getEntriesByCountryIdAndMapId(btn.value, id).then(function (response){
 
                 viewEntries.innerHTML = `<h3>Journal</h3>`
 
@@ -204,7 +205,7 @@ const displayImages = () => {
 
         })
 
-        getAllEntries(viewAllImages.value).then(function(response){
+        getAllEntries(userId).then(function(response){
 
             viewEntries.innerHTML = `<h3>Journal</h3>`
 

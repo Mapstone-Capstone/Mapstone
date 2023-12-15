@@ -1,6 +1,5 @@
 const countryEntry = document.getElementsByClassName('country-entry');
 const countryValue = document.getElementById('country-value');
-
 const imageContainer = document.getElementById('image-container');
 const countryId = document.getElementById('country-id');
 
