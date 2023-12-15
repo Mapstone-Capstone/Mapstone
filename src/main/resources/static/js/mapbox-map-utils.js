@@ -1,7 +1,9 @@
-import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
+// import {FILE_STACK_TOKEN, MAP_BOX_TOKEN} from "./keys.js";
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
 import {uploadImages} from "./images.js";
 
+// let urlpattern = `${window.location.protocol}//${window.location.host}`
+let urlpattern = `http://localhost:8080`;
 let countriesVisited = [];
 let countryName;
 let countryId;
@@ -10,7 +12,7 @@ let opacity = 0.8;
 let id = document.getElementById("map-id").value;
 
 const getUserMapLayers = async () => {
-    const url = `http://localhost:8080/api/map/layers`;
+    const url = `${urlpattern}/api/map/layers`;
     let options = {
         method: "GET",
         headers: {
@@ -23,7 +25,7 @@ const getUserMapLayers = async () => {
 };
 
 const getUserCountries = async () => {
-    const url = `http://localhost:8080/api/countries`;
+    const url = `${urlpattern}/api/countries`;
     let options = {
         method: "GET",
         headers: {
@@ -36,7 +38,7 @@ const getUserCountries = async () => {
 };
 
 const getUserMapDetails = async (id) => {
-    const url = `http://localhost:8080/api/map/details/${id}`;
+    const url = `${urlpattern}/api/map/details/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -204,69 +206,11 @@ const displayImages = () => {
     });
 };
 
-
 //filter images
 const viewAllImages = document.getElementById("all-images");
-const filterImageBtn = document.getElementsByClassName("image-filter-btn");
 const imageContainer = document.getElementById("image-container");
 const createEntries = document.getElementById("create-entries");
 const viewEntries = document.getElementById("view-entries");
-
-// for (const btn of filterImageBtn) {
-//
-//     btn.addEventListener("click", () => {
-//
-//         createEntries.innerHTML = ` <a href="/create-entries">Create an Entry</a>`;
-//
-//         imageContainer.innerHTML = "";
-//         viewEntries.innerHTML = "";
-//         // getSingleCountry(btn.value).then(function (response) {
-//         //     console.log(response);
-//         //     map.addLayer({
-//         //         "id": response.name,
-//         //         "type": "fill",
-//         //         "source": "world",
-//         //         "layout": {},
-//         //         "paint": {
-//         //             "line-color": "#fe0000",
-//         //             "line-width": 3
-//         //         },
-//         //         //where the name is equal to the country name on the highlighted layer,set the opacity and color
-//         //         "filter": ["==", "NAME", response.name]
-//         //
-//         //     });
-//         // });
-//         getImagesByCountryId(btn.value).then(function (response) {
-//             response.forEach((image) => {
-//                 imageContainer.innerHTML += `
-//                         <div class="country-image">
-//                             <img src="${image.imageUrl}" alt="country image">
-//                         </div>
-//                     `;
-//             });
-//         });
-
-        // getEntriesByCountryId(btn.value).then(function (response) {
-        //
-        //     viewEntries.innerHTML = `<h3>Journal</h3>`;
-        //
-        //     response.forEach((entry) => {
-        //
-        //         viewEntries.innerHTML += `
-        //                     <div>
-        //                         <h5>${entry.title}</h5>
-        //                         <p>Date: ${entry.date}</p>
-        //                         <p>${entry.description}</p>
-        //                     </div>
-        //                 `;
-        //
-        //     });
-        //
-        // });
-
-//     });
-//
-// }
 
 viewAllImages.addEventListener("click", () => {
 
@@ -276,13 +220,13 @@ viewAllImages.addEventListener("click", () => {
 
 });
 
-
 //filter images
 viewAllImages.addEventListener("click", () => {
     imageContainer.innerHTML = "";
     getAllImages(viewAllImages.value).then(function (response) {
         response.forEach((image) => {
 
+            createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
             imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
@@ -310,7 +254,6 @@ getAllEntries(viewAllImages.value).then(function (response) {
 });
 
 });
-
 
 //upload profile avatar
 const uploadAvatar = () => {
@@ -465,6 +408,7 @@ const onMapLoad = async () => {
             getImagesByCountryIdAndUserId(btn.value, id).then(function (response) {
                 response.forEach((image) => {
                     console.log(response);
+                    createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
                     imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
@@ -638,7 +582,7 @@ async function sendCountriesToBackend(countryClicked) {
             name: countryClicked,
         }
     ;
-    const backendEndpoint = "http://localhost:8080/api/country/add";
+    const backendEndpoint = `${urlpattern}/api/country/add`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -667,7 +611,7 @@ async function sendLayersToBackend(name) {
             name: name,
         };
 
-    const backendEndpoint = "http://localhost:8080/api/map/layer/add";
+    const backendEndpoint = `${urlpattern}/api/map/layer/add`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -691,7 +635,7 @@ async function sendLayersToBackend(name) {
 async function updateMapStyle(mapStyle) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
-    const backendEndpoint = "http://localhost:8080/api/map/update";
+    const backendEndpoint = `${urlpattern}/api/map/update`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -713,7 +657,7 @@ async function updateMapStyle(mapStyle) {
 }
 
 const getImagesByCountryId = async (id) => {
-    const url = `http://localhost:8080/api/image/country/${id}`;
+    const url = `${urlpattern}/api/image/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -726,7 +670,7 @@ const getImagesByCountryId = async (id) => {
 };
 
 const getImagesByCountryIdAndUserId = async (countryId, userId) => {
-    const url = `http://localhost:8080/api/image/country/${countryId}/${userId}`;
+    const url = `${urlpattern}/api/image/country/${countryId}/${userId}`;
     let options = {
         method: "GET",
         headers: {
@@ -739,7 +683,7 @@ const getImagesByCountryIdAndUserId = async (countryId, userId) => {
 };
 
 const getAllImages = async (id) => {
-    const url = `http://localhost:8080/api/images/country/${id}`;
+    const url = `${urlpattern}/api/images/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -752,7 +696,7 @@ const getAllImages = async (id) => {
 };
 
 const getSingleCountry = async (id) => {
-    const url = `http://localhost:8080/api/country/${id}`;
+    const url = `${urlpattern}/api/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -765,7 +709,7 @@ const getSingleCountry = async (id) => {
 };
 
 const getEntriesByCountryId = async (id) => {
-    const url = `http://localhost:8080/api/entry/country/${id}`;
+    const url = `${urlpattern}/api/entry/country/${id}`;
     let options = {
         method: "GET",
         headers: {
@@ -779,7 +723,7 @@ const getEntriesByCountryId = async (id) => {
 
 
 const getAllEntries = async (id) => {
-    const url = `http://localhost:8080/api/entry/user/${id}`;
+    const url = `${urlpattern}/api/entry/user/${id}`;
     let options = {
         method: "GET",
         headers: {

@@ -8,7 +8,7 @@ async function postUpdatedUser(user) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
 
-    const backendEndpoint = "http://localhost:8080/api/user/edit";
+    const backendEndpoint = `${urlpattern}/api/user/edit`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -32,7 +32,7 @@ async function postUpdatedUser(user) {
 async function deleteUser(user) {
     const csrfToken = document.querySelector("meta[name='_csrf']").content;
 
-    const backendEndpoint = "http://localhost:8080/api/user/delete";
+    const backendEndpoint = `${urlpattern}/api/user/delete`;
     try {
         const response = await fetch(backendEndpoint, {
             method: "POST",
@@ -73,29 +73,29 @@ function editUserModal() {
                 <h2 class="modal-title">Update Your Information</h2>
                 <span class="modal-close">&times;</span>
             </div> 
-        <div class="modal-body"> 
-        <div class="form-inputs">
-            <label for="username">Username:</label>
-            <input type="text" id="username" value="${userName}" />
-        </div>
-        <div class="form-inputs">
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" value="${firstName}" />
-        </div>
-        <div class="form-inputs">
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" value="${lastName}" />
-        </div>
-        <div class="form-inputs">
-            <label for="email">Email:</label>
-            <input type="email" id="email" value="${email}" />
-        </div> 
-        <button class="update-user-button" type="submit">Update Profile</button>
+            <div class="modal-body"> 
+                <div class="form-inputs">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" value="${userName}" />
+                </div>
+                <div class="form-inputs">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" value="${firstName}" />
+                </div>
+                <div class="form-inputs">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" value="${lastName}" />
+                </div>
+                <div class="form-inputs">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" value="${email}" />
+                </div> 
+                <button class="update-user-button" type="submit">Update Profile</button>
     
-    </form>
+                </form>
        
-        </div>
-      </div>`;
+            </div>
+        </div>`;
 
     //nodes from the modal for event listeners
     const modalClose = editUserModal.querySelector(".modal-close");
