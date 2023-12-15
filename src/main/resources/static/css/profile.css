@@ -119,7 +119,7 @@ button {
     font-size: 17px;
     padding: 5px 10px;
     color: var(--white);
-    background: var(--button);
+    background: var(--dark-blue);
     border: none;
     letter-spacing: 0.05em;
     border-radius: 5px;
@@ -333,6 +333,7 @@ article h3 {
 }
 
 
+
 /*Navbar Buttons*/
 a.nav-link {
     color: #080063;
@@ -422,6 +423,7 @@ button.btn-link {
     border-radius: unset;
 }
 
+
 /*Footer Button*/
 li.meet-us {
     width: 350px;
@@ -437,5 +439,6 @@ li.meet-us {
     font-weight: 700;
     line-height: normal;
 }
+
 
 
