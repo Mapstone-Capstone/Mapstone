@@ -373,10 +373,11 @@ const onMapLoad = async () => {
         imageUploadModal.innerHTML = `<div class="modal-bg"></div>
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Upload Images from your trip!</h2>
+                <h2 class="modal-title text-center">Would you like to upload images from your trip to ${countryName}?</h2>
                 <span class="modal-close">&times;</span>
             </div> 
         <div class="modal-body">
+            <p class="text-center">You can always upload images later by clicking on the country on your map.</p>
             <button type="button" class="modal-button" id="yes">Upload Now</button>
             <button type="button" class="modal-button" id="no">Not Right Now</button>
         </div>
