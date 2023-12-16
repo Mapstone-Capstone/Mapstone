@@ -361,8 +361,6 @@ const onMapLoad = async () => {
         }
 
 
-
-
         renderImageUploadModal(countryName);
     });
 
@@ -373,10 +371,11 @@ const onMapLoad = async () => {
         imageUploadModal.innerHTML = `<div class="modal-bg"></div>
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Upload Images from your trip!</h2>
+                <h2 class="modal-title text-center">Would you like to upload images from your trip to ${countryName}?</h2>
                 <span class="modal-close">&times;</span>
             </div> 
         <div class="modal-body">
+            <p class="text-center">You can always upload images later by clicking on the country on your map.</p>
             <button type="button" class="modal-button" id="yes">Upload Now</button>
             <button type="button" class="modal-button" id="no">Not Right Now</button>
         </div>
@@ -485,19 +484,50 @@ const onMapLoad = async () => {
         });
     }
 
-
+    // Are you sure you want to reset your map? This will delete all of your saved countries on the map.
     //event listener for the reset map button
     const resetMapForm = document.getElementById("reset-map-form");
     const resetMapButton = document.getElementById("reset-map-button");
     resetMapButton.addEventListener("click", async function (e) {
         e.preventDefault();
-        let userAnswer = confirm("Are you sure you want to reset your map? This will delete all of your saved countries on the map.");
+       const resetMapModal = document.createElement("div");
+        resetMapModal.classList.add("modal");
+        resetMapModal.innerHTML = `<div class="modal-bg"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Reset Map</h2>
+                <span class="modal-close">&times;</span>
+            </div> 
+        <div class="modal-body">
+            <p>Are you sure you want to reset your map? This will delete all of your saved countries on the map.</p>
+            <button type="button" class="modal-button" id="yes">Yes</button>
+            <button type="button" class="modal-button" id="no">No</button>
+        </div>
+        </div>`;
+        //nodes from the modal for event listeners
+        const modalClose = resetMapModal.querySelector(".modal-close");
+        const modalBackground = resetMapModal.querySelector(".modal-bg");
+        const yesButton = resetMapModal.querySelector("#yes");
+        const noButton = resetMapModal.querySelector("#no");
 
-        if (userAnswer === true) {
+        yesButton.addEventListener("click", async function (e) {
+            e.preventDefault();
             resetMapForm.submit();
-        } else {
-            return;
-        }
+        });
+
+        noButton.addEventListener("click", () => {
+            resetMapModal.remove();
+        });
+
+        modalBackground.addEventListener("click", () => {
+            resetMapModal.remove();
+        });
+
+        modalClose.addEventListener("click", () => {
+            resetMapModal.remove();
+        });
+
+        document.body.appendChild(resetMapModal);
     });
 
 

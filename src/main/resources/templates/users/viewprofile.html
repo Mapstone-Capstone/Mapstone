@@ -39,20 +39,20 @@
             </div>
           </div>
         </div>
-	      
-	      
+
+
 	      <!--Images Container-->
 	      <div id="country-images-wrapper" class="hide-country-images-wrapper">
 		      <div class="country-images-header w-100">
 			      <h2>Images</h2>
-			      
+
 			      <!--Dynamic Dropdown Filter-->
 			      <div class="dropdown">
-				      
+
 				      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					      Filter Images By Country
 				      </a>
-				      
+
 				      <ul class="dropdown-menu">
 					      <li>
 						      <button id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>
@@ -66,10 +66,10 @@
 						      </form>
 					      </li>
 				      </ul>
-				      
+
 			      </div>
 		      </div>
-		      
+
 		      <!--Images Populated Dynamically-->
 		      <div class="country-images-body w-100">
 			      <div id="image-container" class="country-images w-100">
@@ -79,7 +79,7 @@
 					      </div>
 				      </th:block>
 			      </div>
-			      
+
 			      <!--Dynamic Journal Entry Container-->
 			      <article id="view-entries">
 				      <h3>Journal</h3>
@@ -92,14 +92,14 @@
 					      <br />
 				      </th:block>
 			      </article>
-		      
+
 		      </div>
 	      </div>
 
-        <div th:if="${loggedIn}">-->
+        <div th:if="${loggedIn}">
           <form th:action="@{/comment}" method="post">
             Comment:
-            <input type="text" name="comment2"/>
+            <textarea type="text" name="comment2" style="field-sizing: content"></textarea>
             <input type="hidden" name="user" th:value="${map.user.id}">
             <input type="hidden" name="mapid" th:value="${map.id}">
             <!--            TODO PUT path id into form-->
@@ -125,7 +125,6 @@
             </div>
           </div>
         </div>
-
       </section>
     </div>
 
