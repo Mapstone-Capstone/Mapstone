@@ -1,5 +1,4 @@
-
-let urlpattern = `${window.location.protocol}//${window.location.host}`
+// This file contains the code for the edit profile modal
 
 const userId = document.getElementById("userId").value;
 const editProfileButton = document.getElementById("edit-profile-button");

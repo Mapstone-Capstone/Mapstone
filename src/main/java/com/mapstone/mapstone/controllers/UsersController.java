@@ -99,6 +99,7 @@ public class UsersController {
 
     @GetMapping("/profile")
     public String getProfilePage(Model model) {
+        System.out.println("logged-in");
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //send the logged-in user to the profile page
@@ -152,17 +153,6 @@ public class UsersController {
         return "redirect:/profile";
     }
 
-//    @GetMapping("/view")
-//    public String viewImages(@RequestParam(name = "viewImage") Model model){
-//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//        String image = imageDao.getImageByUser(loggedInUser).getImageUrl();
-//
-////        List<Country> listOfCountries =
-////        model.addAttribute("image", image);
-//        return "/profile";
-//    }
-
 
     // method to retrieve user profile for editing
     @GetMapping("/edit-profile")
@@ -191,11 +181,6 @@ public class UsersController {
         return "redirect:/profile";
     }
 
-    //logout method
-  @PostMapping("/logout")
-    public String logout() {
-        return "redirect:/login?logout";
-    }
 
     // method to delete user profile
     @PostMapping("/delete-profile")
@@ -207,7 +192,7 @@ public class UsersController {
        //logout the logged in principal
         SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
         SecurityContextHolder.clearContext();
-//        SecurityContextHolder.getContext().setAuthentication(null);
+
 
         return "redirect:/login";
     }
