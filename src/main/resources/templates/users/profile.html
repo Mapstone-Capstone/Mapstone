@@ -27,6 +27,8 @@
           <input id="user-email" th:hidden="true" th:field="*{email}">
         </form>
         <button id="edit-profile-button">Edit Profile</button>
+        <form id="delete-user-form" th:action="@{/delete-profile}" method="post">
+        </form>
 
       </div>
       <div class="user-details">

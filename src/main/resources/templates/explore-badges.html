@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{partials/fragments :: head(Badges, '/css/badges.css')}"></head>
+<body>
+<main class="page-wrapper">
+  <nav th:replace="~{partials/fragments :: nav}"></nav>
+
+  <div class="badge-container">
+    <!--  Dynamically insert all obtainable badges  -->
+  </div>
+
+  <footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3"
+          style="background-color: #080063">
+
+    <ul class="nav col-md-12 justify-content-center mt-3 p-3">
+      <li class="meet-us"><a th:href="@{/aboutUs}">Meet The Team</a></li>
+    </ul>
+  </footer>
+</main>
+<th:block th:replace="~{partials/fragments :: scripts('/js/explore-badges.js')}"></th:block>
+</body>
+</html>
