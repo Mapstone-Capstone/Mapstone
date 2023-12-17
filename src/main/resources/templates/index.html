@@ -3,10 +3,8 @@
 <head th:replace="~{partials/fragments :: head('Home', '/css/home.css')}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="icon" href="/images/favicon2.ico" type="image/x-icon">
 </head>
-
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <div class="page-wrapper position-relative">
@@ -16,7 +14,7 @@
             <source src="/media/planet1.mp4" type="video/mp4">
         </video>
     </div>
-<!--    <div th:replace="partials/nav :: nav"></div>-->
+
     <div class="container flex-grow-1 d-flex flex-column justify-content-center hero">
         <div class="row center-title">
             <div class="col d-flex flex-column align-items-center justify-content-start">
@@ -41,95 +39,190 @@
         </div>
         </div>
     </div>
+
 <div class="container-fluid what-is-statement section2" id="section2">
     <div class="container pb-2 pt-5 d-flex justify-content-center align-content-center">
         <div>
-            <h2>What is Map-Share?</h2>
-            <p>Our intuitive tools allow you to craft personalized maps, pinpointing each country you've visited. Add rich details, and highlight memorable moments through photos specific to each visited country.
-                Dive into a world of exploration beyond your own adventures. Explore other users' profiles, browse their captivating maps, and delve into their travel tales. Engage with fellow travelers, leave comments, and gather inspiration from the diverse experiences shared across our vibrant community.
-                Join Map Explore Share today and embark on a journey of exploration, connection, and shared experiences. Start mapping your world, one adventure at a time. Sign up now and let your travels become your story!</p>
+            <h2>What is Map Share?</h2>
+            <ul class="description">
+                <li>An intuitive application that allows you to craft personalized maps, pinpointing each country you've visited.</li>
+                <li>Highlight memorable moments through photos specific to each location and journal entries.</li>
+                <li>Explore other users' profiles, browse their captivating maps, and delve into their travel tales.</li>
+            </ul>
+            <h3>Embark on a journey of exploration, connection, and shared experiences with <span><strong>Map-Share</strong>!</span></h3>
         </div>
     </div>
 </div>
 
-<div class="container-fluid d-flex justify-content-center pb-5">
+<div class="container-fluid d-flex justify-content-center ">
     <div class="row">
+        <div class="col-lg-6 mb-3 mt-4 pt-4 tutorial-examples">
+            <h2 style="color: #080063">How To Sign Up and Create Your First Map</h2><br>
+            <p>Map Share gives the users the ability to create intuitive maps, upload images, make journal entries, view comments and share via their social media accounts all from their uniquely designed profile page.</p>
 
-        <div class="col-lg-6 mb-3 mt-5 pt-5">
-            <p><strong>Customize</strong> the look and feel of your map! <strong>Choose</strong> from various map styles!</p><br>
+<!--            Carousel Clickable with indicator Option-->
+            <div id="demo" class="carousel slide" data-bs-ride="carousel">
 
-            <p>Join Map Explore Share today and embark on a journey of exploration, connection, and shared experiences. Start mapping your world, one adventure at a time.
-                <a class="" th:href="@{/sign-up}">Sign-up now and let your travels become your story!</a></p>
-        </div>
-        <div class="col-lg-6 mb-3 pt-3 mt-3">
+                <!-- Indicators/dots -->
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                    <button type="button" data-bs-target="#demo" data-bs-slide-to="3"></button>
+                    <button type="button" data-bs-target="#demo" data-bs-slide-to="4"></button>
+                    <button type="button" data-bs-target="#demo" data-bs-slide-to="5"></button>
+                </div>
 
-<!--            &lt;!&ndash; Carousel Clickable with indicator Option&ndash;&gt;-->
-<!--            <div id="demo" class="carousel slide" data-bs-ride="carousel">-->
-
-<!--                &lt;!&ndash; Indicators/dots &ndash;&gt;-->
-<!--                <div class="carousel-indicators">-->
-<!--                    <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>-->
-<!--                    <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>-->
-<!--                    <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>-->
-<!--                    <button type="button" data-bs-target="#demo" data-bs-slide-to="3"></button>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; The slideshow/carousel &ndash;&gt;-->
-<!--                <div class="carousel-inner">-->
-<!--                    <div class="carousel-item active">-->
-<!--                        <img src="/images/dark%20flat.png" alt="Los Angeles" class="d-block w-100">-->
-<!--                    </div>-->
-<!--                    <div class="carousel-item">-->
-<!--                        <img src="/images/dark-globe.png" alt="Chicago" class="d-block w-100">-->
-<!--                    </div>-->
-<!--                    <div class="carousel-item">-->
-<!--                        <img src="/images/flat-blank.png" alt="New York" class="d-block w-100">-->
-<!--                    </div>-->
-<!--                    <div class="carousel-item">-->
-<!--                        <img src="/images/flat-orange.png" alt="New York" class="d-block w-100">-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--&lt;!&ndash;                 Left and right controls/icons&ndash;&gt;-->
-<!--                <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">-->
-<!--                    <span class="carousel-control-prev-icon"></span>-->
-<!--                </button>-->
-<!--                <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">-->
-<!--                    <span class="carousel-control-next-icon"></span>-->
-<!--                </button>-->
-<!--            </div>-->
-
-<!--                        ***Auto Carousel Option-->
-                        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img src="/images/dark%20flat.png" class="d-block w-100" alt="...">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="/images/dark-globe.png" class="d-block w-100" alt="...">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="/images/flat-blank.png" class="d-block w-100" alt="...">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="/images/flat-orange.png" class="d-block w-100" alt="...">
-                                </div>
-                            </div>
+                <!-- The slideshow/carousel -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="/images/first-Initial%20Page%20.png" alt="Los Angeles" class="d-block" style="width:100%" width="788" height="373">
+                        <div class="carousel-caption">
+                            <h3 class="" style="color: black">Profile Page Upon Signing Up</h3>
                         </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/second-Edit%20Map%20Page.png" alt="Chicago" class="d-block" style="width:100%" width="788" height="373">
+                        <div class="carousel-caption">
+                            <h3 style="color: black">Edit Map Button to Customize</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/third-Map%20selection%20page.png" alt="New York" class="d-block" style="width:100%" width="788" height="373">
+                        <div class="carousel-caption">
+                            <h3 style="color: black">Click On Your Visited Country</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/fourth-Images%20popup.png" alt="New York" class="d-block" style="width:100%; color: black" width="788" height="373" >
+                        <div class="carousel-caption">
+                            <h3 style="color: black">Upload Image Option</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/fifth-images%20upload.png" alt="New York" class="d-block" style="width:100%" width="788" height="373">
+                        <div class="carousel-caption">
+                            <h3 style="color: black">Image Selection: Upload Up To 10 Images</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/sixth-images%20preview.png" alt="New York" class="d-block" style="width:100%" width="788" height="373">
+                        <div class="carousel-caption">
+                            <h2 style="color: black; ">View Images Option</h2>
+                        </div>
+                    </div>
+                </div>
 
+<!--                Left and right controls/icons-->
+                <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
 
+        <div class="col-lg-6 mb-3 mt-4 pt-4 tutorial-examples">
+            <h2 style="color: #080063">Customize the look and feel of your map with various map styles!</h2><br>
 
-<!--            ***Collage Picture Option-->
-<!--            <img src="/images/Group%2014.png" class="card-img-top img-fluid various-maps" alt="various maps">-->
+                <p>Join Map Explore Share today and embark on a journey of exploration, connection, and shared experiences. Start mapping your world, one adventure at a time.
+                    <br>
+                    <a class="" th:href="@{/sign-up}">Click here</a> to sign-up now and let your travels become your story!</p>
+
+            <!-- Carousel -->
+            <div id="demo1" class="carousel slide" data-bs-ride="carousel">
+
+                <!-- Indicators/dots -->
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#demo1" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#demo1" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#demo1" data-bs-slide-to="2"></button>
+                    <button type="button" data-bs-target="#demo1" data-bs-slide-to="3" ></button>
+                    <button type="button" data-bs-target="#demo1" data-bs-slide-to="4" ></button>
+                    <button type="button" data-bs-target="#demo1" data-bs-slide-to="5" ></button>
+                    <button type="button" data-bs-target="#demo1" data-bs-slide-to="6" ></button>
+                    <button type="button" data-bs-target="#demo1" data-bs-slide-to="7" ></button>
+                    <button type="button" data-bs-target="#demo1" data-bs-slide-to="8" ></button>
+                    <button type="button" data-bs-target="#demo1" data-bs-slide-to="9" ></button>
+                </div>
+
+                <!-- The slideshow/carousel -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="/images/dark%20flat.png" alt="Los Angeles" class="d-block" style="width:100%" width="788" height="373">
+                        <div class="carousel-caption">
+<!--                            <h3>Dark Flat Map Option</h3>-->
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/dark-globe.png" alt="Chicago" class="d-block" style="width:100%" width="788" height="373">
+                        <div class="carousel-caption">
+<!--                            <h3>Dark Globe Map Option</h3>-->
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/flat-orange.png" alt="New York" class="d-block" style="width:100%" width="788" height="373">
+                        <div class="carousel-caption">
+<!--                            <h3>Flat Colored Map Option</h3>-->
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/flat-blank.png" alt="New York" class="d-block" style="width:100%; color: black" width="788" height="373" >
+                        <div class="carousel-caption">
+<!--                            <h3 style="color: black">Flat Blank Map Option</h3>-->
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/map1.png" alt="New York" class="d-block" style="width:100%; color: black" width="788" height="373" >
+                        <div class="carousel-caption">
+<!--                            <h3 style="color: black">Flat Blank Map Option</h3>-->
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/map2.png" alt="New York" class="d-block" style="width:100%; color: black" width="788" height="373" >
+                        <div class="carousel-caption">
+<!--                            <h3 style="color: black">Flat Blank Map Option</h3>-->
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/map3.png" alt="New York" class="d-block" style="width:100%; color: black" width="788" height="373" >
+                        <div class="carousel-caption">
+<!--                            <h3 style="color: black">Flat Blank Map Option</h3>-->
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/map4.png" alt="New York" class="d-block" style="width:100%; color: black" width="788" height="373" >
+                        <div class="carousel-caption">
+<!--                            <h3 style="color: black">Flat Blank Map Option</h3>-->
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/map5.png" alt="New York" class="d-block" style="width:100%; color: black" width="788" height="373" >
+                        <div class="carousel-caption">
+<!--                            <h3 style="color: black">Flat Blank Map Option</h3>-->
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/map7.png" alt="New York" class="d-block" style="width:100%; color: black" width="788" height="373" >
+                        <div class="carousel-caption">
+<!--                            <h3 style="color: black">Flat Blank Map Option</h3>-->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Left and right controls/icons -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#demo1" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#demo1" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
-<!--Prominent Profiles Open Space-->
-
-<!--<div class="container">-->
-<!--    <p>Join Map Explore Share today and embark on a journey of exploration, connection, and shared experiences. Start mapping your world, one adventure at a time. Sign up now and let your travels become your story!</p>-->
-<!--</div>-->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Add smooth scrolling to all links
@@ -156,18 +249,9 @@
             });
         });
     });
-
 </script>
 
-<footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5" style="background-color: #080063">
-
-    <ul class="nav col-md-12 justify-content-center mt-1 p-3">
-        <li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>
-    </ul>
-</footer>
-<!--<footer th:replace="~{partials/fragments :: footer}"></footer>-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+<footer th:replace="~{partials/fragments :: footer} "></footer>
+<footer th:replace="~{partials/fragments :: scripts(filepath)} "></footer>
 </body>
 </html>

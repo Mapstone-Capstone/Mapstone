@@ -19,7 +19,7 @@
 
 <!--NAV-->
 
-<nav th:fragment="nav" class="navbar navbar-expand-lg" style="background-color: darkblue" >
+<nav th:fragment="nav" class="navbar navbar-expand-lg" style="background-color: #080063" >
   <div class="container-fluid d-flex">
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -28,7 +28,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
-      <ul class="navbar-nav ms-auto d-flex gap-5 align-items-center justify-content-end flex-shrink">
+      <ul class="navbar-nav ms-auto d-flex gap-5 align-items-center ">
         <li class="nav-item">
           <a th:href="@{/}" id="logo">
             <img src="/assets/logo.svg" alt="logo" class="nav-img" style="width: 100px; height: auto">
@@ -45,7 +45,7 @@
         </li>
         <li class="nav-item">
           <form th:action="@{/logout}" th:method="post" sec:authorize="isAuthenticated()">
-            <button class="btn-link btn m-0" style="margin-top: 8px">Logout</button>
+            <button class="btn-link btn m-0">Logout</button>
           </form>
         </li>
         <li class="d-flex gap-2 nav-item" sec:authorize="isAuthenticated()">
@@ -58,17 +58,11 @@
   </div>
 </nav>
 
-
-
 <!--FOOTER-->
 
-    <footer th:fragment="footer" class="d-flex flex-wrap justify-content-between align-items-center py-3">
-      <p class="col-md-4 mb-0">&copy;Map Share 2023</p>
-
-
-      <ul class="nav col-md-7 justify-content-start">
+    <footer th:fragment="footer" class="d-flex flex-wrap justify-content-between align-items-center py-3" style="background-color: #080063">
+      <ul class="nav col-md-12 justify-content-center">
         <li class="nav-item"><a th:href="@{/aboutUs}" class="nav-link px-2">Meet The Team</a></li>
-
       </ul>
     </footer>
 

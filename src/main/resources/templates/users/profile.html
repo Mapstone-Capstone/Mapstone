@@ -200,14 +200,9 @@
 
 
 </main>
-<footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5" style="background-color: #080063">
 
-  <ul class="nav col-md-12 justify-content-center mt-3 p-3">
-    <li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>
-  </ul>
-</footer>
-<!--<footer th:replace="~{partials/fragments :: footer}"></footer>-->
-
+<footer th:replace="~{partials/fragments :: footer}"></footer>
+<footer th:replace="~{partials/fragments :: scripts(filepath)} "></footer>
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
 <script th:type="module" src="/js/mapbox-map-utils.js"></script>
 <script src="/js/badges.js"></script>

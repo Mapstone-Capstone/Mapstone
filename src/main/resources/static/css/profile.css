@@ -349,19 +349,19 @@ a.nav-link {
     line-height: normal;
 }
 
-button.btn-link {
-    color: #080063;
-    border-radius: 6px;
-    border: 1px solid #000;
-    background: #FEFFFF;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    text-align: center;
-    font-family: Mada, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
+/*button.btn-link {*/
+/*    color: #080063;*/
+/*    border-radius: 6px;*/
+/*    border: 1px solid #000;*/
+/*    background: #FEFFFF;*/
+/*    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);*/
+/*    text-align: center;*/
+/*    font-family: Mada, sans-serif;*/
+/*    font-size: 20px;*/
+/*    font-style: normal;*/
+/*    font-weight: 700;*/
+/*    line-height: normal;*/
+/*}*/
 
 #edit-user-modal {
     justify-content: center;
@@ -423,22 +423,36 @@ button.btn-link {
     border-radius: unset;
 }
 
-
-/*Footer Button*/
-li.meet-us {
-    width: 350px;
-    height: 69px;
-    padding: 20px 15px;
+/*fragments navbar/footer design - Jay*/
+a.nav-link {
+    font-size: 20px;
+    padding: 10px;
     border-radius: 6px;
-    background: #8DE189;
+    background: white;
     color: #080063;
     text-align: center;
     font-family: Mada sans-serif;
-    font-size: 24px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
 }
 
+a.nav-link:hover {
+    background-color: #080063;
+    color: whitesmoke;
+    transition: 0.3s;
+}
 
+button.btn-link {
+    font-size: 19px;
+    padding: 10px;
+    border-radius: 6px;
+    background: white;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+    line-height: normal;
+    margin: 0;
+    display: block;
+}
 
