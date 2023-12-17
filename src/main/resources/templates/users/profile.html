@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}"></head>
 <body>
-<nav th:replace="~{partials/fragments :: nav}"></nav>
+
 <main class="page-wrapper">
+  <nav th:replace="~{partials/fragments :: nav}"></nav>
   <div class="main-row">
     <aside>
       <div class="user-info">
@@ -14,7 +15,7 @@
         <!-- upload avatar form -->
         <form id="upload-avatar-form" th:action="@{/profile-picture}" th:method="POST">
           <input id="avatarUrl" name="avatarUrl" type="hidden"/>
-          <button id="upload-avatar-btn" type="button" class="btn btn-primary">Change Avatar</button>
+          <button id="upload-avatar-btn" type="button">Change Avatar</button>
         </form>
 
         <!-- edit profile button - need these values to make modal sticky  -->
@@ -25,7 +26,7 @@
           <input id="last-name" th:hidden="true" th:field="*{lastName}">
           <input id="user-email" th:hidden="true" th:field="*{email}">
         </form>
-        <button id="edit-profile-button" class="btn btn-primary">Edit Profile</button>
+        <button id="edit-profile-button">Edit Profile</button>
 
       </div>
       <div class="user-details">
