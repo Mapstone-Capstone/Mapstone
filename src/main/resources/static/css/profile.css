@@ -374,7 +374,13 @@ article h3 {
 }
 
 
+
+
+/*Navbar Buttons*/
+a.nav-link {
+
 button.btn-link {
+
     color: #080063;
     border-radius: 6px;
     border: 1px solid #000;
@@ -387,6 +393,7 @@ button.btn-link {
     font-weight: 700;
     line-height: normal;
 }
+
 
 #edit-user-modal {
     justify-content: center;
@@ -448,6 +455,18 @@ button.btn-link {
     border-radius: unset;
 }
 
+
+/*fragments navbar/footer design - Jay*/
+a.nav-link {
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    background: white;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-weight: 700;
+
 .comment {
     display: flex;
     flex-direction: column;
@@ -456,9 +475,29 @@ button.btn-link {
     border-radius: 5px;
     background: var(--white);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
 }
 
+a.nav-link:hover {
+    background-color: #080063;
+    color: whitesmoke;
+    transition: 0.3s;
+}
 
+button.btn-link {
+    font-size: 19px;
+    padding: 10px;
+    border-radius: 6px;
+    background: white;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+    line-height: normal;
+    margin: 0;
+    display: block;
+}
 
 
 

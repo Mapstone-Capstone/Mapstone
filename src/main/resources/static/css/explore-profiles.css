@@ -1,3 +1,27 @@
+/*fragments navbar/footer design*/
+a.nav-link {
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    background: white;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-weight: 700;
+}
+
+a.nav-link:hover {
+    background-color: #080063;
+    color: whitesmoke;
+    transition: 0.3s;
+}
+
+a.nav-link {
+    font-size: 20px;
+    padding: 10px;
+}
+
+/*---*/
 .users-container {
     display: flex;
     flex-wrap: wrap;
@@ -91,24 +115,24 @@ label {
 .text {
     text-align: center;
 }
-footer .nav-link{
-    display: unset;
-    display: flex;
-    background-color: #8DE189;
-    color: black;
-    border-radius: 5px;
-    font-weight: bold;
-}
-footer{
-    color: white;
-    font-weight: bold;
-    background-color: #080063;
-}
-nav .nav-link {
-    font-weight: bold;
-    color: black;
-    font-size: 20px;
-}
+/*footer .nav-link{*/
+/*    display: unset;*/
+/*    display: flex;*/
+/*    background-color: #8DE189;*/
+/*    color: black;*/
+/*    border-radius: 5px;*/
+/*    font-weight: bold;*/
+/*}*/
+/*footer{*/
+/*    color: white;*/
+/*    font-weight: bold;*/
+/*    background-color: #080063;*/
+/*}*/
+/*nav .nav-link {*/
+/*    font-weight: bold;*/
+/*    color: black;*/
+/*    font-size: 20px;*/
+/*}*/
 .profile-container{
     justify-content: center;
 }
@@ -186,40 +210,23 @@ body {
     }
 }
 
+button.btn-link {
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    background: white;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+
 /* Medium devices (landscape tablets, 768px and up) */
 @media screen and (min-width: 768px) and (max-width: 991px){
     /*body {background: blue;}*/
 }
 /*min-height: 93.5vh;*/
 
-/*Navbar Buttons*/
-a.nav-link {
-    color: #080063;
-    border-radius: 6px;
-    border: 1px solid #000;
-    background: #FEFFFF;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    text-align: center;
-    font-family: Mada, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
 
-/*Footer Button*/
-li.meet-us {
-    width: 350px;
-    height: 69px;
-    padding: 20px 15px;
-    /*flex-shrink: 0;*/
-    border-radius: 6px;
-    background: #8DE189;
-    color: #080063;
-    text-align: center;
-    font-family: Mada sans-serif;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
+
+

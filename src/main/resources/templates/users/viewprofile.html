@@ -140,6 +140,7 @@
   </div>
 </main>
 <footer th:replace="~{partials/fragments :: footer}"></footer>
+<footer th:replace="~{partials/fragments :: scripts(filepath)} "></footer>
 
 <th:block th:replace="~{partials/fragments :: scripts('/js/viewprofile.js')}"></th:block>
 <script type="module" th:src="@{/js/viewProfileMain.js}"></script>
