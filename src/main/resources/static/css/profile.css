@@ -191,11 +191,25 @@ aside {
         align-items: center;
         background-color: var(--federal-blue);
 
+        @media (max-width: 768px) {
+            flex-direction: column;
+            height: auto;
+        }
+
 
         & .geocode-search {
             display: flex;
             gap: 10px;
             color: white;
+        }
+
+        & .map-buttons-wrapper {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+
         }
 
         & input {

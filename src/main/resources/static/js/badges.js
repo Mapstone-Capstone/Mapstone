@@ -35,15 +35,18 @@ async function getBadges(mapId) {
         const thisBadge = badgeDiv.querySelector(".badge-img");
         thisBadge.addEventListener("click", function () {
             const badgeModal = document.createElement("div");
-
             badgeModal.classList.add("modal");
             badgeModal.innerHTML = `
             <div class="modal-bg"></div>
-                <div class="modal-content d-flex justify-content-center align-items-center">
-                    <span class="modal-close">&times;</span>
-                    <h3>${badge.name}</h3>
+                <div class="modal-content">
+                <div class="modal-header">
+                <h2 class="modal-title text-center">${badge.name}</h2>
+                 <span class="modal-close">&times;</span>
+                </div>
+                <div class="modal-body justify-content-center">
                     <img class="rounded-circle badge-img" src="${badge.url}" alt="badge"/>
-                    <p>${badge.description}</p>
+                    <p class="text-center fs-5">${badge.description}</p>
+                </div>
                 </div>
             `;
             const modalClose = badgeModal.querySelector(".modal-close");
