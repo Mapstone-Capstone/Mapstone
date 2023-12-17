@@ -5,14 +5,13 @@
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <main class="page-wrapper">
-  <div class="container-fluid">
-    <div class="row">
-      <aside class="col-3 d-flex flex-column p-5">
-        <div class="user-info w-100">
+    <div class="main-row">
+      <aside>
+        <div class="user-info">
           <h4 th:text="${user.username}"></h4>
           <img th:src="${user.avatar}" name="avatar" alt="avatar" class="avatar"/>
         </div>
-        <div class="user-details w-100">
+        <div class="user-details">
           <p class="user-details-info d-flex flex-column">
             <span>First Name: <span th:text="${user.getFirstName()}"></span></span>
             <span>Last Name: <span th:text="${user.getLastName()}"></span></span>
@@ -29,16 +28,19 @@
         </div>
       </aside>
 
-      <section class="col">
-        <div class="main-profile-row row">
-          <div>
-            <div class="w-100" id="map">
+      <section class="map-column">
+        <div class="map-row">
+          <div class="map-wrapper">
+            <div id="map">
             </div>
+          </div>
+
             <div class="update-search-wrapper w-100">
               <button id="view-images-btn" type="button">View Images</button>
             </div>
-          </div>
         </div>
+      </section>
+    </div>
 
 
 	      <!--Images Container-->
@@ -126,7 +128,7 @@
           </div>
         </div>
       </section>
-    </div>
+
 
 
     <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">
