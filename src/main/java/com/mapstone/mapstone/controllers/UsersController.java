@@ -89,7 +89,7 @@ public class UsersController {
         //save the user object to the database
         userDao.save(user);
         //create a new map object for the user with default values
-        Map userMap = new Map("#0059ff", "light-v11", "naturalEarth", "2");
+        Map userMap = new Map("#0059ff", "light-v11", "mercator", "2");
         userMap.setUser(user);
         userDao.save(user);
         mapDao.save(userMap);
