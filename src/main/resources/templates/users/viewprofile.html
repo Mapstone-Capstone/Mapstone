@@ -5,14 +5,13 @@
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <main class="page-wrapper">
-  <div class="container-fluid">
-    <div class="row">
-      <aside class="col-3 d-flex flex-column p-5">
-        <div class="user-info w-100">
+    <div class="main-row">
+      <aside>
+        <div class="user-info">
           <h4 th:text="${user.username}"></h4>
           <img th:src="${user.avatar}" name="avatar" alt="avatar" class="avatar"/>
         </div>
-        <div class="user-details w-100">
+        <div class="user-details">
           <p class="user-details-info d-flex flex-column">
             <span>First Name: <span th:text="${user.getFirstName()}"></span></span>
             <span>Last Name: <span th:text="${user.getLastName()}"></span></span>
@@ -29,30 +28,33 @@
         </div>
       </aside>
 
-      <section class="col">
-        <div class="main-profile-row row">
-          <div>
-            <div class="w-100" id="map">
+      <section class="map-column">
+        <div class="map-row">
+          <div class="map-wrapper">
+            <div id="map">
             </div>
+          </div>
+
             <div class="update-search-wrapper w-100">
               <button id="view-images-btn" type="button">View Images</button>
             </div>
-          </div>
         </div>
-	      
-	      
+      </section>
+    </div>
+
+
 	      <!--Images Container-->
 	      <div id="country-images-wrapper" class="hide-country-images-wrapper">
 		      <div class="country-images-header w-100">
 			      <h2>Images</h2>
-			      
+
 			      <!--Dynamic Dropdown Filter-->
 			      <div class="dropdown">
-				      
+
 				      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					      Filter Images By Country
 				      </a>
-				      
+
 				      <ul class="dropdown-menu">
 					      <li>
 						      <button id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>
@@ -66,10 +68,10 @@
 						      </form>
 					      </li>
 				      </ul>
-				      
+
 			      </div>
 		      </div>
-		      
+
 		      <!--Images Populated Dynamically-->
 		      <div class="country-images-body w-100">
 			      <div id="image-container" class="country-images w-100">
@@ -79,7 +81,7 @@
 					      </div>
 				      </th:block>
 			      </div>
-			      
+
 			      <!--Dynamic Journal Entry Container-->
 			      <article id="view-entries">
 				      <h3>Journal</h3>
@@ -92,14 +94,14 @@
 					      <br />
 				      </th:block>
 			      </article>
-		      
+
 		      </div>
 	      </div>
 
-        <div th:if="${loggedIn}">-->
+        <div th:if="${loggedIn}">
           <form th:action="@{/comment}" method="post">
             Comment:
-            <input type="text" name="comment2"/>
+            <textarea type="text" name="comment2" style="field-sizing: content"></textarea>
             <input type="hidden" name="user" th:value="${map.user.id}">
             <input type="hidden" name="mapid" th:value="${map.id}">
             <!--            TODO PUT path id into form-->
@@ -116,7 +118,7 @@
           <div class="comments-body" th:each="item : ${commentList}">
             <div class="comment">
               <div class="comment-header">
-                <h5>Username: <a th:href="@{https://www.map-share.net/viewprofile/{id}(id=${item.getUser().getId()})}" th:text="${item.getUser().getUsername()}"></a></h5>
+                <h5>Username: <img th:src="${item.getUser().getAvatar()}" style="width: 50px; height: auto"/> <a th:href="@{https://www.map-share.net/viewprofile/{id}(id=${item.getUser().getId()})}" th:text="${item.getUser().getUsername()}"></a></h5>
                                         <p>Date: <span th:text="${item.getDate()}"></span></p>
               </div>
               <div class="comment-body">
@@ -125,9 +127,8 @@
             </div>
           </div>
         </div>
-
       </section>
-    </div>
+
 
 
     <form id="update-map-form" th:action="@{/update}" th:method="POST" th:object="${map}">

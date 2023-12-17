@@ -4,195 +4,211 @@
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <main class="page-wrapper">
-  <div class="container-fluid">
-    <div class="row">
-      <aside class="col-3 d-flex flex-column p-5">
-        <div class="user-info w-100">
-          <h4>Welcome <span th:text="${#authentication.principal.username}"></span></h4>
-          <!-- upload avatar click event -->
-          <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar"/>
+  <div class="main-row">
+    <aside>
+      <div class="user-info">
+        <h4>Welcome <span th:text="${#authentication.principal.username}"></span></h4>
+        <!-- upload avatar click event -->
+        <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar"/>
 
-          <form id="upload-avatar-form" th:action="@{/profile-picture}" th:method="POST">
-            <input id="avatarUrl" name="avatarUrl" type="hidden"/>
-            <button id="upload-avatar-btn" type="button" class="btn btn-primary">Change Avatar</button>
+        <!-- upload avatar form -->
+        <form id="upload-avatar-form" th:action="@{/profile-picture}" th:method="POST">
+          <input id="avatarUrl" name="avatarUrl" type="hidden"/>
+          <button id="upload-avatar-btn" type="button" class="btn btn-primary">Change Avatar</button>
+        </form>
+
+        <!-- edit profile button - need these values to make modal sticky  -->
+        <form id="edit-user-form" th:object="${user}">
+          <input id="userId" th:hidden="true" th:field="*{id}"/>
+          <input id="username" th:hidden="true" th:field="*{username}">
+          <input id="first-name" th:hidden="true" th:field="*{firstName}">
+          <input id="last-name" th:hidden="true" th:field="*{lastName}">
+          <input id="user-email" th:hidden="true" th:field="*{email}">
+        </form>
+        <button id="edit-profile-button" class="btn btn-primary">Edit Profile</button>
+
+      </div>
+      <div class="user-details">
+        <p class="user-details-info d-flex flex-column">
+          <span>First Name: <span th:text="${user.getFirstName()}"></span></span>
+          <span>Last Name: <span th:text="${user.getLastName()}"></span></span>
+          <span>Username: <span th:text="${user.getUsername()}"></span></span>
+          <span># of countries visited: <span th:text="${user.getCountries().size()}"></span></span>
+          <span>% of the world explored: <span
+              th:text="${100 * user.getCountries().size() / 195} + '%'"></span></span>
+        </p>
+      </div>
+
+      <h4>Achievements</h4>
+
+      <div class="badges w-100">
+        <!--dynamically filled with javascript-->
+      </div>
+
+
+      <button id="share" th:value="${user.id}">Share Link</button>
+
+    </aside>
+    <section class="map-column">
+      <div class="map-row">
+        <div class="map-wrapper">
+          <div id="map">
+          </div>
+        </div>
+
+        <div class="update-search-wrapper">
+          <form class="geocode-search">
+            <label for="search-input">Search:</label>
+            <input id="search-input" type="search" placeholder="Search for a country">
+            <button type="submit" id="search-button">Search</button>
           </form>
-
-          <!-- edit profile button - need these values to make modal sticky  -->
-          <form id="edit-user-form" th:object="${user}">
-            <input id="userId" th:hidden="true" th:field="*{id}"/>
-            <input id="username" th:hidden="true" th:field="*{username}">
-            <input id="first-name" th:hidden="true" th:field="*{firstName}">
-            <input id="last-name" th:hidden="true" th:field="*{lastName}">
-            <input id="user-email" th:hidden="true" th:field="*{email}">
+          <div class="map-buttons-wrapper">
+          <div>
+            <button type="button" id="open-update-modal">Edit Map Style</button>
+          </div>
+          <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
+            <input th:hidden="true" th:field="*{id}"/>
           </form>
-          <button id="edit-profile-button" class="btn btn-primary">Edit Profile</button>
-
-        </div>
-        <div class="user-details w-100">
-          <p class="user-details-info d-flex flex-column">
-            <span>First Name: <span th:text="${user.getFirstName()}"></span></span>
-            <span>Last Name: <span th:text="${user.getLastName()}"></span></span>
-            <span>Username: <span th:text="${user.getUsername()}"></span></span>
-            <span># of countries visited: <span th:text="${user.getCountries().size()}"></span></span>
-            <span>% of the world explored: <span th:text="${100 * user.getCountries().size() / 195} + '%'"></span></span>
-          </p>
+          <button id="reset-map-button">Reset Map</button>
+          <!--Edit to a possible "view journal"-->
+          <button id="view-images-btn" type="button">View Images</button>
+          </div>
         </div>
 
-        <h4>Achievements</h4>
-
-        <div class="badges w-100">
-			<!--dynamically filled with javascript-->
-        </div>
 
         <div>
-          <button id="share" th:value="${user.id}">Share Link</button>
+          <!--  FORM FOR UPDATING/EDITING MAP STYLE    -->
+          <form id="update-map-form" th:object="${map}">
+            <input id="map-id" th:hidden="true" th:field="*{id}"/>
+            <input id="user-id" th:hidden="true" th:field="*{user}"/>
+            <input id="current-style" value="" th:hidden="true" th:field="*{style}">
+            <input id="current-color" value="" th:hidden="true" th:field="*{color}">
+            <input id="current-projection" value="" th:hidden="true" th:field="*{projection}">
+            <input id="current-zoom" value="" th:hidden="true" th:field="*{zoom}">
+          </form>
         </div>
-      </aside>
-      <section class="col">
-        <div class="main-profile-row row">
-          <div>
-            <div class="w-100" id="map">
-            </div>
-            <div class="update-search-wrapper w-100">
-              <form class="geocode-search">
-                <label for="search-input">Search:</label>
-                <input id="search-input" type="search" placeholder="Search for a country">
-                <button type="submit" id="search-button">Search</button>
-              </form>
+      </div>
+    </section>
+  </div>
 
+  <!--  WILL DON'T CHANGE ANYTHING ABOVE THIS COMMENT - EVERYTHING ABOVE THIS IS RESPONSIVE FOR MOBILE-->
+
+
+  <div class="images-comment-row">
+    <section>
+      <!--Images Container (add a navbar for a journal instead of just image)-->
+      <div id="country-images-wrapper" class="hide-country-images-wrapper">
+        <div class="country-images-header w-100">
+          <h2>Images</h2>
+
+          <!--	          <div>-->
+          <!--		          <button type="button" id="edit-journal-btn">Edit Journal</button>-->
+          <!--	          </div>-->
+
+          <div id="create-entries"></div>
+
+          <!--Dynamic Dropdown Filter-->
+          <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Filter Images By Country
+            </a>
+
+            <ul class="dropdown-menu">
+              <li>
+                <button id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>
+              </li>
+              <li style="list-style: none">
+                <form>
+                  <th:block th:each="country : ${user.getCountries()}">
+                    <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>
+                    <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}"
+                            type="button"></button>
+                  </th:block>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="country-images-body w-100">
+          <div id="image-container" class="country-images w-100">
+            <th:block th:each="image : ${user.getImages()}">
+              <div class="country-image">
+                <img th:src="${image.getImageUrl()}" alt="country image">
+              </div>
+            </th:block>
+          </div>
+
+          <article id="view-entries">
+            <h3>Journal</h3>
+            <th:block th:each="entry : ${user.getEntries()}">
               <div>
-                <button type="button" id="open-update-modal">Edit Map Style</button>
+                <h5 th:text="${entry.getTitle()}"></h5>
+                <p>Date: <span th:text="${entry.getDate()}"></span></p>
+                <p><span th:text="${entry.getDescription()}"></span></p>
               </div>
-              <form id="reset-map-form" th:action="@{/reset}" th:method="POST" th:object="${map}">
-                <input th:hidden="true" th:field="*{id}"/>
-              </form>
-              <button id="reset-map-button">Reset Map</button>
-	            <!--Edit to a possible "view journal"-->
-              <button id="view-images-btn" type="button">View Images</button>
-            </div>
-          </div>
+              <br/>
+            </th:block>
+          </article>
 
-          <div>
-            <!--  FORM FOR UPDATING/EDITING MAP STYLE    -->
-            <form id="update-map-form" th:object="${map}">
-              <input id="map-id" th:hidden="true" th:field="*{id}"/>
-              <input id="user-id" th:hidden="true" th:field="*{user}"/>
-              <input id="current-style" value="" th:hidden="true" th:field="*{style}">
-              <input id="current-color" value="" th:hidden="true" th:field="*{color}">
-              <input id="current-projection" value="" th:hidden="true" th:field="*{projection}">
-              <input id="current-zoom" value="" th:hidden="true" th:field="*{zoom}">
-            </form>
-          </div>
+        </div>
+      </div>
+
+      <!--  COMMENTS CONTAINER  -->
+      <div class="comments-container">
+        <div class="comments-header">
+          <h2>Comments: </h2>
         </div>
 
-	    <!--Images Container (add a navbar for a journal instead of just image)-->
-        <div id="country-images-wrapper" class="hide-country-images-wrapper">
-          <div class="country-images-header w-100">
-            <h2>Images</h2>
-
-<!--	          <div>-->
-<!--		          <button type="button" id="edit-journal-btn">Edit Journal</button>-->
-<!--	          </div>-->
-
-	          <div id="create-entries"></div>
-
-              <!--Dynamic Dropdown Filter-->
-	          <div class="dropdown">
-		          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-			          Filter Images By Country
-		          </a>
-
-		          <ul class="dropdown-menu">
-			          <li>
-				          <button id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>
-			          </li>
-			          <li style="list-style: none">
-				          <form>
-					          <th:block th:each="country : ${user.getCountries()}">
-                      <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>
-						          <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}" type="button"></button>
-					          </th:block>
-				          </form>
-			          </li>
-		          </ul>
-	          </div>
-          </div>
-
-          <div class="country-images-body w-100">
-            <div id="image-container" class="country-images w-100">
-              <th:block th:each="image : ${user.getImages()}">
-                <div class="country-image">
-                  <img th:src="${image.getImageUrl()}" alt="country image">
-                </div>
-              </th:block>
+        <div class="comments-body" th:each="item : ${commentList}">
+          <div class="comment w-50 p-3">
+            <div class="comment-header">
+              <h5>Username: <img th:src="${item.getUser().getAvatar()}" style="width: 50px; height: auto"/><a
+                  th:href="@{https://www.map-share.net/viewprofile/{id}(id=${item.getUser().getId()})}"
+                  th:text="${item.getUser().getUsername()}"></a>
+              </h5>
+              <p>date: <span th:text="${item.getDate()}"></span></p>
             </div>
-
-	          <article id="view-entries">
-		          <h3>Journal</h3>
-		          <th:block th:each="entry : ${user.getEntries()}">
-			          <div>
-				          <h5 th:text="${entry.getTitle()}"></h5>
-				          <p>Date: <span th:text="${entry.getDate()}"></span></p>
-				          <p><span th:text="${entry.getDescription()}"></span></p>
-			          </div>
-			          <br />
-		          </th:block>
-	          </article>
-
-          </div>
-		</div>
-
-        <!--  COMMENTS CONTAINER  -->
-        <div class="comments-container">
-          <div class="comments-header">
-            <h2>Comments</h2>
-          </div>
-
-          <div class="comments-body" th:each="item : ${commentList}">
-            <div class="comment">
-              <div class="comment-header">
-                <h5>Username: <a th:href="@{https://www.map-share.net/viewprofile/{id}(id=${item.getUser().getId()})}" th:text="${item.getUser().getUsername()}"></a></h5>
-                <p>date: <span th:text="${item.getDate()}"></span></p>
-              </div>
-              <div class="comment-body">
-                <p th:text="${item.comment}"></p>
-              </div>
+            <div class="comment-body">
+              <p th:text="${item.comment}"></p>
             </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <!--    Modal-->
-    <div class="modal" id="sharelinkmodal">
-      <div class="modal-content">
-        <p>Share your travel map with your friends</p>
-        <span class="close">&times;</span>
-        <input type="text" id="link">
-        <div class="row">
-          <div class="icons">
-            <a id= "facebook" target="popup">
-              <img src="/assets/icons8-facebook.svg">
-            </a>
-          </div>
-          <div class="icons">
-            <a id="linkedin" target="popup">
-              <img src="/assets/icons8-linkedin.svg">
-            </a>
-          </div>
-          <div class="icons">
-            <a id="twitter" target="popup">
-              <img src="/assets/icons8-twitter.svg">
-            </a>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
   </div>
 
 
-  <!-- FileStack Upload Images -->
+  <!--    Modal-->
+  <div class="modal" id="sharelinkmodal">
+    <div class="modal-content">
+      <p>Share your travel map with your friends</p>
+      <span class="close">&times;</span>
+      <input type="text" id="link">
+      <div class="row">
+        <div class="icons">
+          <a id="facebook" target="popup">
+            <img src="/assets/icons8-facebook.svg">
+          </a>
+        </div>
+        <div class="icons">
+          <a id="linkedin" target="popup">
+            <img src="/assets/icons8-linkedin.svg">
+          </a>
+        </div>
+        <div class="icons">
+          <a id="twitter" target="popup">
+            <img src="/assets/icons8-twitter.svg">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- FileStack Upload Images hidden form -->
   <form id="img-form" th:action="@{/url-images}" th:method="POST" th:object="${image}">
     <input id="url-for-image" name="imageUrls" value="" type="hidden"/>
     <input name="countryName" id="clicked-country" type="hidden" value=""/>
@@ -200,10 +216,11 @@
 
 
 </main>
-<footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5" style="background-color: #080063">
+<footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3"
+        style="background-color: #080063">
 
   <ul class="nav col-md-12 justify-content-center mt-3 p-3">
-    <li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>
+    <li class="meet-us"><a th:href="@{/aboutUs}">Meet The Team</a></li>
   </ul>
 </footer>
 <!--<footer th:replace="~{partials/fragments :: footer}"></footer>-->
@@ -212,8 +229,10 @@
 <script th:type="module" src="/js/mapbox-map-utils.js"></script>
 <script src="/js/badges.js"></script>
 <script src="/js/sharelink.js"></script>
-<script type="module" src="/js/edit-profile.js"></script>
-<script src="/js/edit-journal.js"></script>
+<script src="/js/edit-profile.js"></script>
+<script type="module" src="/js/edit-journal.js"></script>
 </body>
 </html>
+
+
 
