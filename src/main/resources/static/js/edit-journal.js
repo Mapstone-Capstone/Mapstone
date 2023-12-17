@@ -37,27 +37,25 @@ const usersEntries = () => {
     const modalBody = userEntries.querySelector('.modal-body');
     getAllEntries(userId.value).then(function (response) {
 
-        for (let i = 0; i < response.length; i++) {
-            // console.log(response[i]);
+        response.forEach((object) => {
 
             modalBody.innerHTML += `
-                <button class="entry-title" type="button" value="${response[i].id}">${response[i].title}</button>
+                <button class="entry-title" type="button" value="${object.id}">${object.title}</button>
             `;
 
-            //use the value of the id to get the json response and add them to a form file
-
-            console.log("I am response:");
-            console.log(response[i]);
             const entryTitle = modalBody.querySelectorAll('.entry-title');
-            console.log(entryTitle);
+
             entryTitle.forEach((elementBtn) => {
+
                 elementBtn.addEventListener('click', () => {
 
-                    const userEntry = document.createElement("div");
-                    userEntry.classList.add("modal");
-                    userEntry.setAttribute("id", "user-entry");
+                    getEntryById(elementBtn.value).then(function(newResponse) {
 
-                    userEntry.innerHTML = `
+                        const userEntry = document.createElement("div");
+                        userEntry.classList.add("modal");
+                        userEntry.setAttribute("id", "user-entry");
+
+                        userEntry.innerHTML = `
                     <div class="modal-bg"></div>
 
                     <div class="modal-content">
@@ -67,9 +65,10 @@ const usersEntries = () => {
                             <span class="modal-close">&times;</span>
                         </div>
                         <div id="user-entries-body" class="modal-body">
-                            <input value="${response[i].title}" />
-                            <input value="${response[i].date}" type="date" />
-                            <input value="${response[i].description}" />
+                        <!--input values of the users entry data-->
+                            <input value="${newResponse.title}" />
+                            <input value="${newResponse.date}" type="date" />
+                            <input value="${newResponse.description}" />
                         </div>
                         <div class="modal-footer">
                             <button id="close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -78,28 +77,29 @@ const usersEntries = () => {
                     </div>
                 `;
 
-                    const modalClose = userEntry.querySelector(".modal-close");
-                    const modalBackground = userEntry.querySelector(".modal-bg");
-                    const close = userEntry.querySelector('#close');
+                        const modalClose = userEntry.querySelector(".modal-close");
+                        const modalBackground = userEntry.querySelector(".modal-bg");
+                        const close = userEntry.querySelector('#close');
 
-                    //close modal
-                    modalClose.addEventListener("click", () => {
-                        userEntry.remove();
-                    });
-                    modalBackground.addEventListener("click", () => {
-                        userEntry.remove();
-                    });
-                    close.addEventListener("click", () => {
-                        userEntry.remove();
+                        //close modal
+                        modalClose.addEventListener("click", () => {
+                            userEntry.remove();
+                        });
+                        modalBackground.addEventListener("click", () => {
+                            userEntry.remove();
+                        });
+                        close.addEventListener("click", () => {
+                            userEntry.remove();
+                        });
+
+                        document.body.appendChild(userEntry);
+
                     });
 
-                    document.body.appendChild(userEntry);
                 });
             });
 
-
-
-            }
+        });
         document.body.appendChild(userEntries);
     });
 }
@@ -165,6 +165,19 @@ const editModalPopup = () => {
 
 
 
+}
+
+const getEntryById = async (id) => {
+    const url = `${urlpattern}/api/entry/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let entry = await response.json();
+    return entry;
 }
 
 editJournalBtn.addEventListener('click', editModalPopup);

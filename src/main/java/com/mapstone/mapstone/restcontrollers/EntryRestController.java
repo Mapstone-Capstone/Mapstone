@@ -41,4 +41,9 @@ public class EntryRestController {
     public List<Entry> getAllEntries(@PathVariable long id) {
         return entryDao.getEntriesByUser_Id(id);
     }
+
+    @GetMapping("/api/entry"+"/{id}")
+    public Entry getEntryById(@PathVariable long id) {
+        return entryDao.getEntryById(id);
+    }
 }
