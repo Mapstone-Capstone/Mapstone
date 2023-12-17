@@ -1,5 +1,5 @@
 
-let urlpattern = `${window.location.protocol}//${window.location.host}`
+// let urlpattern = `${window.location.protocol}//${window.location.host}`
 
 const userId = document.getElementById("userId").value;
 const editProfileButton = document.getElementById("edit-profile-button");
