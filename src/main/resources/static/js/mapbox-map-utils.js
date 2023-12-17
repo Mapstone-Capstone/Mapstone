@@ -376,8 +376,10 @@ const onMapLoad = async () => {
             </div> 
         <div class="modal-body">
             <p class="text-center">You can always upload images later by clicking on the country on your map.</p>
+            <div class="modal-buttons">
             <button type="button" class="modal-button" id="yes">Upload Now</button>
             <button type="button" class="modal-button" id="no">Not Right Now</button>
+            </div>
         </div>
       </div>`;
 
@@ -500,8 +502,10 @@ const onMapLoad = async () => {
             </div> 
         <div class="modal-body">
             <p>Are you sure you want to reset your map? This will delete all of your saved countries on the map.</p>
+            <div class="modal-buttons">
             <button type="button" class="modal-button" id="yes">Yes</button>
             <button type="button" class="modal-button" id="no">No</button>
+            </div>
         </div>
         </div>`;
         //nodes from the modal for event listeners
@@ -592,7 +596,9 @@ function openUpdateModal() {
                   <option value="8">8</option>
                 </select>
               </div>
+              <div class="modal-buttons">
             <button type="button" class="update-map" id="update-map">Update Map</button>
+            </div>
         </div>
       </div>`;
 

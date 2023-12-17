@@ -1,7 +1,5 @@
-
 const userId = document.getElementById("userId").value;
 const editProfileButton = document.getElementById("edit-profile-button");
-
 
 
 async function postUpdatedUser(user) {
@@ -48,13 +46,10 @@ async function deleteUser(user) {
         }
         const responseData = await response.json();
         console.log("Successfully posted user :", responseData);
-    }
-    catch (error) {
+    } catch (error) {
         console.error("Error posting user:", error.message);
     }
 }
-
-
 
 
 function editUserModal() {
@@ -90,10 +85,10 @@ function editUserModal() {
                     <label for="email">Email:</label>
                     <input type="email" id="email" value="${email}" />
                 </div> 
+             <div class="modal-buttons">
                 <button class="update-user-button" type="submit">Update Profile</button>
-    
-                </form>
-          <button class="delete-btn" type="submit">Delete Profile</button>
+                <button class="delete-btn" type="submit">Delete Profile</button>
+                </div>
             </div>
         </div>`;
 
@@ -142,7 +137,6 @@ function editUserModal() {
 
     document.body.appendChild(editUserModal);
 }
-
 
 
 editProfileButton.addEventListener("click", editUserModal);
