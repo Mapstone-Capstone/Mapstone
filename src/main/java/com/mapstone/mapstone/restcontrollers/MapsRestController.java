@@ -180,6 +180,7 @@ public class MapsRestController {
     }
 
 
+    //gets the badges that the user has earned
     @GetMapping("/api/badges" + "/{id}")
     public List<Badge> getBadgesByUserId(@PathVariable long id) {
         //get the map from the id
@@ -188,6 +189,12 @@ public class MapsRestController {
         User user = userDao.getOne(userMap.getUser().getId());
         //return the list of badges that belong to the user with the given id
         return userDao.getOne(user.getId()).getBadges();
+    }
+
+    //gets the full list of obtainable badges
+    @GetMapping("/api/badges")
+    public List<Badge> getAllBadges() {
+        return badgesDao.findAll();
     }
 
     @GetMapping("/api/country" + "/{id}")

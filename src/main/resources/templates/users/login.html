@@ -6,15 +6,15 @@
 
 </head>
 <body>
-<nav th:replace="~{partials/fragments :: nav}"></nav>
 <main class="page-wrapper">
+  <nav th:replace="~{partials/fragments :: nav}"></nav>
   <div class="container">
 
     <div th:if="${param.logout}">
       You have been logged out.
     </div>
     <div class="login-form-wrapper">
-      <section class="right-side">
+      <section class="inner-wrapper">
         <div class="login-header">
           <h1 class="text-center">Log In</h1>
           <p class="text-center">Welcome to Map Share!</p>
