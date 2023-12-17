@@ -65,14 +65,19 @@ public class MapsController {
         mapDao.save(mapToReset);
         //get all the countries that belong to the user and delete them
         user.setCountries(new ArrayList<>());
+
+        //get the users list of badges and delete them
+        user.setBadges(new ArrayList<>());
+        loggedInUser.setBadges(new ArrayList<>());
         userDao.save(user);
         //update the logged-in user principal to reflect the changes when the user is redirected to the profile page
+
         loggedInUser.setCountries(new ArrayList<>());
         //now set default map values and save the map
         mapToReset.setColor("#0059ff");
         mapToReset.setStyle("light-v11");
-        mapToReset.setProjection("naturalEarth");
-        mapToReset.setZoom("1");
+        mapToReset.setProjection("mercator");
+        mapToReset.setZoom("2");
         mapDao.save(mapToReset);
         //send the new map to the profile page
         model.addAttribute("map", mapToReset);

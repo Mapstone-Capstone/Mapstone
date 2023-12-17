@@ -366,6 +366,7 @@ const onMapLoad = async () => {
 
 
     function renderImageUploadModal(countryName) {
+        console.log(countryName);
         const imageUploadModal = document.createElement("div");
         imageUploadModal.classList.add("modal");
         imageUploadModal.innerHTML = `<div class="modal-bg"></div>

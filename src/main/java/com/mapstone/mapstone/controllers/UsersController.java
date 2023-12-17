@@ -191,12 +191,23 @@ public class UsersController {
         return "redirect:/profile";
     }
 
+    //logout method
+  @PostMapping("/logout")
+    public String logout() {
+        return "redirect:/login?logout";
+    }
+
     // method to delete user profile
     @PostMapping("/delete-profile")
     public String deleteProfile() {
         System.out.println("did this work?");
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //delete the user from the database
         userDao.deleteById(loggedInUser.getId());
+       //logout the logged in principal
+        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+        SecurityContextHolder.clearContext();
+
         return "redirect:/login";
     }
 }
