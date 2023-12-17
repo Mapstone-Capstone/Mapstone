@@ -207,6 +207,7 @@ public class UsersController {
        //logout the logged in principal
         SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
         SecurityContextHolder.clearContext();
+//        SecurityContextHolder.getContext().setAuthentication(null);
 
         return "redirect:/login";
     }
