@@ -34,7 +34,7 @@ button {
     width: 100%;
     padding: 0;
 
-    @media (max-width: 768px) {
+    @media screen and (max-width: 780px) {
         flex-direction: column;
         gap: 0;
         height: auto;
@@ -55,7 +55,7 @@ aside {
     min-width: 500px;
     flex-grow: 1;
 
-    @media (max-width: 768px) {
+    @media screen and (max-width: 780px) {
         height: auto;
         gap: 0;
         padding: 10px 0;
@@ -158,7 +158,7 @@ aside {
     width: 100%;
     padding: 0;
 
-    @media (max-width: 768px) {
+    @media screen and (max-width: 780px) {
         flex-direction: column;
         gap: 0;
         height: auto;
