@@ -2,9 +2,14 @@ package com.mapstone.mapstone.controllers;
 
 import com.mapstone.mapstone.models.*;
 import com.mapstone.mapstone.repositories.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +24,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Controller
 @Validated
@@ -38,6 +45,7 @@ public class UsersController {
 
     private final BadgesRepository badgeDao;
     private PasswordEncoder passwordEncoder;
+
 
     public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao, EntriesRepository entryDao, BadgesRepository badgeDao) {
         this.userDao = userDao;
@@ -114,7 +122,7 @@ public class UsersController {
             userDao.save(userFromDb);
         }
 
-        model.addAttribute("loggedIn",true);
+        model.addAttribute("loggedIn", true);
         model.addAttribute("user", userDao.getOne(loggedInUser.getId()));
         //gets all comments made by logged-in user
         List<Comment> commentList = commentDao.findAllByMap_Id(loggedInUser.getMap().getId());
@@ -165,47 +173,18 @@ public class UsersController {
     }
 
 
-    // method to retrieve user profile for editing
-    @GetMapping("/edit-profile")
-    public String editProfile(Model model) {
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("user", userDao.getOne(loggedInUser.getId()));
-        return "users/edit"; // Return the view for editing the profile
-    }
 
-    // method to update user profile
-    @PostMapping("/edit-profile")
-    public String updateProfile(@ModelAttribute(name = "user") @Valid User updatedUser, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
-            model.addAttribute("user", updatedUser);
-            System.out.println("User password is: " + updatedUser.getPassword());
-            return "redirect:/edit-profile"; // Return to the edit-profile page if errors occur
-        }
-
-        User existingUser = userDao.getOne(updatedUser.getId());
-        existingUser.setUsername(updatedUser.getUsername());
-        existingUser.setFirstName(updatedUser.getFirstName());
-        existingUser.setLastName(updatedUser.getLastName());
-        existingUser.setEmail(updatedUser.getEmail());
-        userDao.save(existingUser);
-        return "redirect:/profile";
-    }
-
-
-    // method to delete user profile
     @PostMapping("/delete-profile")
-    public String deleteProfile() {
+    public String performLogout(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
         System.out.println("did this work?");
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //delete the user from the database
         userDao.deleteById(loggedInUser.getId());
-       //logout the logged in principal
-        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
-        SecurityContextHolder.clearContext();
-
-
+        // force logout
+       logoutHandler.logout(request, response, authentication);
         return "redirect:/login";
     }
+
 }
 

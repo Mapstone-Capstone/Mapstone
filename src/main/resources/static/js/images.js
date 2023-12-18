@@ -15,6 +15,7 @@ const uploadImages = (apiKey, valueHolder, form) => {
                 })
                 valueHolder.value = arrayOfImages;
                 form.submit();
+
             }
     };
     client.picker(options).open();
