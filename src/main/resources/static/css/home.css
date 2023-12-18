@@ -167,3 +167,14 @@ button.btn-link.btn {
 
 }
 /*---*/
+
+@media screen and (max-width: 425px) {
+    /* Adjust styles for specific elements or classes */
+    /* For example, modify the font size */
+    h1.map-share-title {
+        font-size: 24px; /* Modify the font size for smaller screens */
+    }
+
+    /* Add more responsive styles as needed */
+    /* Modify other elements' styles for better display on smaller screens */
+}
