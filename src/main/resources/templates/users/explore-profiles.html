@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"name="viewport" content="width=device-width, initial-scale=1" >
-  <head th:replace="~{partials/fragments :: head(Profile, '/css/explore-profiles.css')}">
+  <head th:replace="~{partials/fragments :: head('Explore Profiles', '/css/explore-profiles.css')}">
     <title>Profile</title>
   </head>
 <body>
@@ -57,8 +57,6 @@
 </footer>
 
 
-<!--<footer th:replace="~{partials/fragments :: footer} "></footer>-->
-<footer th:replace="~{partials/fragments :: footer} "></footer>
 <th:block th:replace="~{partials/fragments :: scripts('/js/search.js')}"></th:block>
 </body>
 </html>
