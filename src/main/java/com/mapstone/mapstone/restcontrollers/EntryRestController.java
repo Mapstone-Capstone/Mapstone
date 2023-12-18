@@ -7,9 +7,7 @@ import com.mapstone.mapstone.repositories.EntriesRepository;
 import com.mapstone.mapstone.repositories.MapRepository;
 import com.mapstone.mapstone.repositories.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,4 +39,10 @@ public class EntryRestController {
     public List<Entry> getAllEntries(@PathVariable long id) {
         return entryDao.getEntriesByUser_Id(id);
     }
+
+    @GetMapping("/api/entry"+"/{id}")
+    public Entry getEntryById(@PathVariable long id) {
+        return entryDao.getEntryById(id);
+    }
+
 }

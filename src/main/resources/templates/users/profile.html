@@ -80,6 +80,38 @@
           </div>
         </div>
 
+	    <!--Images Container (add a navbar for a journal instead of just image)-->
+        <div id="country-images-wrapper" class="hide-country-images-wrapper">
+          <div class="country-images-header w-100">
+            <h2>Images</h2>
+
+	          <div>
+		          <button type="button" id="edit-journal-btn">Edit Journal</button>
+	          </div>
+
+	          <div id="create-entries"></div>
+
+              <!--Dynamic Dropdown Filter-->
+	          <div class="dropdown">
+		          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			          Filter Images By Country
+		          </a>
+
+		          <ul class="dropdown-menu">
+			          <li>
+				          <button id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>
+			          </li>
+			          <li style="list-style: none">
+				          <form>
+					          <th:block th:each="country : ${user.getCountries()}">
+                      <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>
+						          <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}" type="button"></button>
+					          </th:block>
+				          </form>
+			          </li>
+		          </ul>
+	          </div>
+          </div>
 
         <div>
           <!--  FORM FOR UPDATING/EDITING MAP STYLE    -->
