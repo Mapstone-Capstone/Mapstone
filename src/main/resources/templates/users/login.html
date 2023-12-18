@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head th:replace="~{partials/fragments :: head('Login', '/css/login.css')}">
-  <style></style>
-	<title>Login</title>
-
 </head>
 <body>
 <main class="page-wrapper">
@@ -13,6 +10,7 @@
     <div th:if="${param.logout}">
       You have been logged out.
     </div>
+
     <div class="login-form-wrapper">
       <section class="inner-wrapper">
         <div class="login-header">
