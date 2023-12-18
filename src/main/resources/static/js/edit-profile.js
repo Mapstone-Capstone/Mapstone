@@ -1,3 +1,4 @@
+
 // This file contains the code for the edit profile modal
 
 const userId = document.getElementById("userId").value;
