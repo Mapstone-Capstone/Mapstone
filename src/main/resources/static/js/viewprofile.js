@@ -2,6 +2,7 @@
 import {
     getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getImagesByCountryIdAndUserId, getAllImages, getAllEntries, getEntriesByCountryIdAndMapId
 } from "./mapbox-map-utils.js";
+import {geocode} from "./mapbox-geocoder-utils.js";
 let urlpattern = `${window.location.protocol}//${window.location.host}`
 let opacity = 0.8;
 let id = document.getElementById("map-id").value;
@@ -101,70 +102,128 @@ const onMapLoad = async () => {
         console.log(allLayers);
         console.log(id)
     });
-};
 
-//event to display images
-const displayImages = () => {
 
-    const viewImagesBtn = document.getElementById('view-images-btn');
-    const countryImagesWrapper = document.getElementById('country-images-wrapper');
+    //event to display images
+    const displayImages = () => {
 
-    viewImagesBtn.addEventListener('click', () => {
+        const viewImagesBtn = document.getElementById('view-images-btn');
+        const countryImagesWrapper = document.getElementById('country-images-wrapper');
 
-        if (countryImagesWrapper.className === "hide-country-images-wrapper") {
+        viewImagesBtn.addEventListener('click', () => {
 
-            countryImagesWrapper.classList.remove("hide-country-images-wrapper");
-            countryImagesWrapper.classList.add("display-country-images-wrapper");
+            if (countryImagesWrapper.className === "hide-country-images-wrapper") {
 
-        } else if (countryImagesWrapper.className === "display-country-images-wrapper") {
+                countryImagesWrapper.classList.remove("hide-country-images-wrapper");
+                countryImagesWrapper.classList.add("display-country-images-wrapper");
 
-            countryImagesWrapper.classList.remove("display-country-images-wrapper");
-            countryImagesWrapper.classList.add("hide-country-images-wrapper");
+            } else if (countryImagesWrapper.className === "display-country-images-wrapper") {
+
+                countryImagesWrapper.classList.remove("display-country-images-wrapper");
+                countryImagesWrapper.classList.add("hide-country-images-wrapper");
+
+            }
+
+        })
+
+
+        //filter images
+        const viewAllImages = document.getElementById('all-images');
+        const filterImageBtn = document.getElementsByClassName('image-filter-btn');
+        const imageContainer = document.getElementById('image-container');
+        const viewEntries = document.getElementById('view-entries');
+
+        for (const btn of filterImageBtn) {
+
+            btn.addEventListener('click', () => {
+
+                imageContainer.innerHTML = "";
+                viewEntries.innerHTML = "";
+                //if the test layer exists, remove it from the map
+                //this is the layer that highlights the country that the user is viewing images for
+                if (map.getLayer("test")) {
+                    map.removeLayer("test");
+                }
+                getSingleCountry(btn.value).then(function (response) {
+                    //adds a line layer to the map, to highlight the country that the user is viewing images for
+                    map.addLayer({
+                        "id": "test",
+                        "type": "fill",
+                        "source": "world",
+                        "layout": {},
+                        "paint": {
+                            "line-color": "#fee900",
+                            "line-width": 5
+                        },
+                        //where the name is equal to the country name on the highlighted layer,set the opacity and color
+                        "filter": ["==", "NAME", response.name]
+
+                    });
+                    let mapLayers = map.getStyle().layers;
+                    //loop through layers and find the layer where the id is equal to the response.name
+                    //then fly to that country since the user is viewing images for that country
+                    for (let i = 0; i < mapLayers.length; i++) {
+                        if (mapLayers[i].id === response.name) {
+                            geocode(response.name, MAP_BOX_TOKEN).then(function (results) {
+                                map.flyTo({
+                                    center: results,
+                                    zoom: 2
+                                });
+                            });
+                        }
+                    }
+                });
+                getImagesByCountryIdAndUserId(btn.value, id).then(function (response) {
+                    response.forEach((image) => {
+                        imageContainer.innerHTML += `
+                        <div class="country-image">
+                            <img src="${image.imageUrl}" alt="country image">
+                        </div>
+                    `
+                    })
+                })
+
+                getEntriesByCountryIdAndMapId(btn.value, id).then(function (response){
+
+                    viewEntries.innerHTML = `<h3>Journal</h3>`
+
+                    response.forEach((entry) => {
+
+                        viewEntries.innerHTML += `
+                            <div>
+                                <h5>${entry.title}</h5>
+                                <p>Date: ${entry.date}</p>
+                                <p>${entry.description}</p>
+                            </div>
+                        `
+
+                    })
+
+                })
+
+            })
 
         }
 
-    })
-
-
-    //filter images
-    const viewAllImages = document.getElementById('all-images');
-    const filterImageBtn = document.getElementsByClassName('image-filter-btn');
-    const imageContainer = document.getElementById('image-container');
-    const viewEntries = document.getElementById('view-entries');
-
-    for (const btn of filterImageBtn) {
-
-        btn.addEventListener('click', () => {
+        viewAllImages.addEventListener('click', () => {
 
             imageContainer.innerHTML = "";
             viewEntries.innerHTML = "";
-            // getSingleCountry(btn.value).then(function (response) {
-            //     console.log(response);
-            //     map.addLayer({
-            //         "id": response.name,
-            //         "type": "fill",
-            //         "source": "world",
-            //         "layout": {},
-            //         "paint": {
-            //             "line-color": "#fe0000",
-            //             "line-width": 3
-            //         },
-            //         //where the name is equal to the country name on the highlighted layer,set the opacity and color
-            //         "filter": ["==", "NAME", response.name]
-            //
-            //     });
-            // });
-            getImagesByCountryIdAndUserId(btn.value, id).then(function (response) {
+
+            getAllImages(viewAllImages.value).then(function(response) {
+
                 response.forEach((image) => {
+
                     imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
                         </div>
                     `
                 })
+
             })
 
-            getEntriesByCountryIdAndMapId(btn.value, id).then(function (response){
+            getAllEntries(userId).then(function(response){
 
                 viewEntries.innerHTML = `<h3>Journal</h3>`
 
@@ -183,48 +242,11 @@ const displayImages = () => {
             })
 
         })
-
     }
+};
 
-    viewAllImages.addEventListener('click', () => {
 
-        imageContainer.innerHTML = "";
-        viewEntries.innerHTML = "";
-
-        getAllImages(viewAllImages.value).then(function(response) {
-
-            response.forEach((image) => {
-
-                imageContainer.innerHTML += `
-                        <div class="country-image">
-                            <img src="${image.imageUrl}" alt="country image">
-                        </div>
-                    `
-            })
-
-        })
-
-        getAllEntries(userId).then(function(response){
-
-            viewEntries.innerHTML = `<h3>Journal</h3>`
-
-            response.forEach((entry) => {
-
-                viewEntries.innerHTML += `
-                            <div>
-                                <h5>${entry.title}</h5>
-                                <p>Date: ${entry.date}</p>
-                                <p>${entry.description}</p>
-                            </div>
-                        `
-
-            })
-
-        })
-
-    })
-}
 
 export {
-    onMapLoad, displayImages
+    onMapLoad
 };
