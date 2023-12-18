@@ -110,6 +110,7 @@ public class UsersController {
             model.addAttribute("firstTime", true);
             User userFromDb = userDao.getOne(loggedInUser.getId());
             userFromDb.setHasLoggedIn(true);
+            loggedInUser.setHasLoggedIn(true);
             userDao.save(userFromDb);
         }
 
