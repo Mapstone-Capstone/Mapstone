@@ -107,7 +107,7 @@ async function addDefaultLayers(map, mapDetails) {
 async function addUserLayers(map, mapDetails) {
     // let userMapLayers = await getUserMapLayers(id);
     let userMapLayers = await getUserMapLayers();
-    console.log(userMapLayers);
+    //if the user has not added any layers to their map, return
     if (userMapLayers === null || userMapLayers.length === 0) {
         return;
     } else {
@@ -165,7 +165,7 @@ function addMarker(map) {
             let lngLat = newMarker.getLngLat();
 
             reverseGeocode(lngLat, MAP_BOX_TOKEN).then(function (results) {
-                console.log(results);
+                // console.log(results);
             });
         });
     });
@@ -327,7 +327,7 @@ const onMapLoad = async () => {
 
         // Get features at the clicked point
         let features = map.queryRenderedFeatures(e.point);
-        console.log(features[0]);
+
         // Log the name of the clicked layer to the console
         if (features.length > 0) {
             countryName = features[0].properties.NAME;
@@ -369,7 +369,7 @@ const onMapLoad = async () => {
 
 
     function renderImageUploadModal(countryName) {
-        console.log(countryName);
+
         const imageUploadModal = document.createElement("div");
         imageUploadModal.classList.add("modal");
         imageUploadModal.innerHTML = `<div class="modal-bg"></div>
@@ -446,7 +446,6 @@ const onMapLoad = async () => {
                 //then fly to that country since the user is viewing images for that country
                 for (let i = 0; i < mapLayers.length; i++) {
                     if (mapLayers[i].id === response.name) {
-                        console.log(mapLayers[i]);
                         geocode(response.name, MAP_BOX_TOKEN).then(function (results) {
                             map.flyTo({
                                 center: results,

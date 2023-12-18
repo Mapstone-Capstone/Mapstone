@@ -22,6 +22,9 @@ public class User {
     @Column(nullable = false)
     long id;
 
+    @Column(name = "has_logged_in", columnDefinition = "boolean default false")
+    private boolean hasLoggedIn;
+
     @Column(name = "username", length = 250, unique = true)
     @NotBlank(message = "Username cannot be blank")
     private String username;
@@ -98,9 +101,10 @@ public class User {
         images = copy.images;
         badges = copy.badges;
         entries = copy.entries;
+        hasLoggedIn = copy.hasLoggedIn;
     }
 
-    public User(long id, String username, String firstName, String lastName, String email, String password, String avatar) {
+    public User(long id, String username, String firstName, String lastName, String email, String password, String avatar, boolean hasLoggedIn) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
@@ -108,23 +112,26 @@ public class User {
         this.email = email;
         this.password = password;
         this.avatar = avatar;
+        this.hasLoggedIn = hasLoggedIn;
     }
 
-    public User(String username, String firstName, String lastName, String email, String password, String avatar) {
+    public User(String username, String firstName, String lastName, String email, String password, String avatar, boolean hasLoggedIn) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.avatar = avatar;
+        this.hasLoggedIn = hasLoggedIn;
     }
 
-    public User(String username, String firstName, String lastName, String email, String password) {
+    public User(String username, String firstName, String lastName, String email, String password, boolean hasLoggedIn) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.hasLoggedIn = hasLoggedIn;
     }
 
     public User(String username, String firstName, String lastName, String email) {
@@ -241,5 +248,13 @@ public class User {
 
     public void setEntries(List<Entry> entries) {
         this.entries = entries;
+    }
+
+    public boolean isHasLoggedIn() {
+        return hasLoggedIn;
+    }
+
+    public void setHasLoggedIn(boolean hasLoggedIn) {
+        this.hasLoggedIn = hasLoggedIn;
     }
 }
