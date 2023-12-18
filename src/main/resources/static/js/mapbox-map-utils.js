@@ -331,6 +331,9 @@ const onMapLoad = async () => {
         // Log the name of the clicked layer to the console
         if (features.length > 0) {
             countryName = features[0].properties.NAME;
+            if (countryName === undefined) {
+                return;
+            }
             countryId = features[0].id;
             let allLayers = map.getStyle().layers;
             for (let i = 0; i < allLayers.length; i++) {
