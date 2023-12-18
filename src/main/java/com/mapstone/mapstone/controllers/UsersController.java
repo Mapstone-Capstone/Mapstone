@@ -103,6 +103,16 @@ public class UsersController {
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //send the logged-in user to the profile page
+
+        //if first time logging in, set model attribute to first time and make boolean true
+        //this is how we will know to display the tutorial for the first time the user logs in
+        if (!loggedInUser.isHasLoggedIn()) {
+            model.addAttribute("firstTime", true);
+            User userFromDb = userDao.getOne(loggedInUser.getId());
+            userFromDb.setHasLoggedIn(true);
+            userDao.save(userFromDb);
+        }
+
         model.addAttribute("loggedIn",true);
         model.addAttribute("user", userDao.getOne(loggedInUser.getId()));
         //gets all comments made by logged-in user
