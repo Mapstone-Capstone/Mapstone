@@ -26,6 +26,7 @@ if (firstTime === "true") {
 
     const driverObj = driver({
         showProgress: true,
+        allowClose: false,
         steps: [
             {element: '#some-element', popover: {title: 'Welcome to Map-Share!', description: "Welcome to our interactive travel experience! As you embark on your journey, use this tutorial to learn how to mark countries you've visited on the map and share your memories by uploading photos from your trips.", position: 'bottom'}},
             {element: '#map', popover: {title: 'Map', description: "Begin by exploring the map. Click or tap on any country you've visited. Once selected, the country will be filled with a vibrant color, indicating your travel adventure. You'll also be given the opportunity to upload images from your trip!", side: 'left', align: 'center'}},
