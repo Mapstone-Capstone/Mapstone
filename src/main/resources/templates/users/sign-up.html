@@ -59,7 +59,7 @@
               </div>
             </form>
             <button id="register-button">
-              <img src="/assets/globe-icon.svg" alt="globe-icon">
+              <img src="/images/globe-icon.svg" alt="globe-icon">
               <span>Register</span>
             </button>
 
@@ -68,15 +68,15 @@
       </div>
     </div>
   </div>
-<!--  <footer th:replace="~{partials/fragments :: footer}"></footer>-->
 </main>
-<footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5" style="background-color: #080063">
+<!--<footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5" style="background-color: #080063">-->
 
-  <ul class="nav col-md-12 justify-content-center mt-3 p-3">
-    <li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>
-  </ul>
-</footer>
-
+<!--  <ul class="nav col-md-12 justify-content-center mt-3 p-3">-->
+<!--    <li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>-->
+<!--  </ul>-->
+<!--</footer>-->
+<footer th:replace="~{partials/fragments :: footer} "></footer>
 <th:block th:replace="~{partials/fragments :: scripts('/js/sign-up.js')}"></th:block>
+<script type="module" th:src="@{js/search.js}"></script>
 </body>
 </html>

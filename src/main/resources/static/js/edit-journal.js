@@ -1,4 +1,4 @@
-import {getAllEntries} from "./mapbox-map-utils";
+import {getAllEntries} from "./mapbox-map-utils.js";
 
 
 const editJournalBtn = document.getElementById('edit-journal-btn');

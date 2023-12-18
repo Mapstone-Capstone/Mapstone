@@ -19,4 +19,9 @@ public class HomeController {
         return "about-us";
     }
 
+    @GetMapping("/badges")
+    public String badges(){
+        return "explore-badges";
+    }
+
 }

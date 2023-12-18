@@ -89,7 +89,7 @@ public class UsersController {
         //save the user object to the database
         userDao.save(user);
         //create a new map object for the user with default values
-        Map userMap = new Map("#0059ff", "light-v11", "naturalEarth", "2");
+        Map userMap = new Map("#0059ff", "light-v11", "mercator", "2");
         userMap.setUser(user);
         userDao.save(user);
         mapDao.save(userMap);
@@ -99,6 +99,7 @@ public class UsersController {
 
     @GetMapping("/profile")
     public String getProfilePage(Model model) {
+        System.out.println("logged-in");
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //send the logged-in user to the profile page
@@ -152,17 +153,6 @@ public class UsersController {
         return "redirect:/profile";
     }
 
-//    @GetMapping("/view")
-//    public String viewImages(@RequestParam(name = "viewImage") Model model){
-//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//        String image = imageDao.getImageByUser(loggedInUser).getImageUrl();
-//
-////        List<Country> listOfCountries =
-////        model.addAttribute("image", image);
-//        return "/profile";
-//    }
-
 
     // method to retrieve user profile for editing
     @GetMapping("/edit-profile")
@@ -187,16 +177,23 @@ public class UsersController {
         existingUser.setFirstName(updatedUser.getFirstName());
         existingUser.setLastName(updatedUser.getLastName());
         existingUser.setEmail(updatedUser.getEmail());
-//        existingUser.setPassword(updatedUser.getPassword());
         userDao.save(existingUser);
         return "redirect:/profile";
     }
 
+
     // method to delete user profile
     @PostMapping("/delete-profile")
     public String deleteProfile() {
+        System.out.println("did this work?");
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //delete the user from the database
         userDao.deleteById(loggedInUser.getId());
+       //logout the logged in principal
+        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+        SecurityContextHolder.clearContext();
+
+
         return "redirect:/login";
     }
 }

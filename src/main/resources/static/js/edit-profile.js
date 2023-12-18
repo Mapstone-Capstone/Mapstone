@@ -1,5 +1,5 @@
 
-// let urlpattern = `${window.location.protocol}//${window.location.host}`
+// This file contains the code for the edit profile modal
 
 const userId = document.getElementById("userId").value;
 const editProfileButton = document.getElementById("edit-profile-button");
@@ -30,29 +30,6 @@ async function postUpdatedUser(user) {
     }
 }
 
-async function deleteUser(user) {
-    const csrfToken = document.querySelector("meta[name='_csrf']").content;
-
-    const backendEndpoint = `${urlpattern}/api/user/delete`;
-    try {
-        const response = await fetch(backendEndpoint, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": csrfToken,
-            },
-            body: JSON.stringify(user),
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to post user to backend");
-        }
-        const responseData = await response.json();
-        console.log("Successfully posted user :", responseData);
-    } catch (error) {
-        console.error("Error posting user:", error.message);
-    }
-}
 
 
 function editUserModal() {
@@ -99,6 +76,8 @@ function editUserModal() {
     const modalClose = editUserModal.querySelector(".modal-close");
     const modalBackground = editUserModal.querySelector(".modal-bg");
     const updateUserButton = editUserModal.querySelector(".update-user-button");
+    const deleteUserButton = editUserModal.querySelector(".delete-btn");
+    const deleteForm = document.getElementById("delete-user-form");
 
 
     //event listener for update map button
@@ -128,6 +107,59 @@ function editUserModal() {
         window.location.reload();
 
     });
+
+    //event listener for delete profile button
+    deleteUserButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        editUserModal.remove();
+        const deleteModal = document.createElement("div");
+        deleteModal.classList.add("modal");
+        deleteModal.setAttribute("id", "delete-modal");
+        deleteModal.innerHTML = `<div class="modal-bg"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Update Your Information</h2>
+                <span class="modal-close">&times;</span>
+            </div> 
+            <div class="modal-body"> 
+              <p>Are you sure you want to delete your profile?</p>
+             <div class="modal-buttons">
+                <button id="yes" type="submit">Yes</button>
+                <button id="cancel" type="submit">Cancel</button>
+                </div>
+            </div>
+        </div>`;
+        const modalClose = deleteModal.querySelector(".modal-close");
+        const modalBackground = deleteModal.querySelector(".modal-bg");
+        const yesButton = deleteModal.querySelector("#yes");
+        const cancelButton = deleteModal.querySelector("#cancel");
+        //event listener for yes button
+        yesButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            deleteForm.submit();
+        });
+        //event listener for cancel button
+        cancelButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            deleteModal.remove();
+        });
+        //event listener for close button
+        modalClose.addEventListener("click", function (e) {
+            e.preventDefault();
+            deleteModal.remove();
+        });
+        //event listener for modal background, allows user to click anywhere on background to close modal
+        modalBackground.addEventListener("click", function (e) {
+            e.preventDefault();
+            deleteModal.remove();
+        });
+        document.body.appendChild(deleteModal);
+
+
+
+
+    });
+
     // event listener for close button
     modalClose.addEventListener("click", () => {
         editUserModal.remove();

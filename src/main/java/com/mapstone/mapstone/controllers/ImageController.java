@@ -51,6 +51,8 @@ public class ImageController {
             image.setUser(user);
             //make this image belong to that country
             image.setCountry(country);
+            System.out.println(image.getCountry()+ "THIS IS THE COUNTRY ");
+
             //now the image has a user and country, so save it to the db
 
             System.out.println(image.getImageUrl());
@@ -59,6 +61,7 @@ public class ImageController {
 //            country.setImages(images);
 
             imageDao.save(image);
+
 
         }
 

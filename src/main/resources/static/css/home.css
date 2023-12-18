@@ -37,6 +37,10 @@ video {
     z-index: -1;
 }
 
+ul {
+    list-style: none;
+}
+
 .container.hero {
     width: 800px;
     height: 100vh;
@@ -44,22 +48,17 @@ video {
 
 .container.hero h1 {
     font-family: 'Kanit', sans-serif;
-    font-size: 77px;
+    font-size: 80px;
     font-weight: 400;
     position: relative;
     color: white;
-    text-shadow: rgba(0, 0, 0, 0.19) 0 10px 20px, rgba(0, 0, 0, 0.23) 0 6px 6px;
+    text-shadow: 5px 5px 5px white;
 }
 
-.container.hero h1 {
-    font-size: 80px;
-}
-h1, h3 {
-    color: whitesmoke;
-    margin: 10px;
-    padding: 10px;
-    /*text-shadow: 2px 2px 5px white;*/
-    z-index: 2;
+.container.hero h1{
+    font-size: 200px;
+    font-weight: 400;
+    font-family: 'Lilita One', sans-serif;
 }
 
 h3 {
@@ -76,26 +75,8 @@ p {
     font-size: 22px;
 }
 
-.container.hero h1{
-    font-size: 200px;
-    font-weight: 400;
-    font-family: 'Lilita One', sans-serif;
-}
-
 .container {
     min-width: 1100px;
-}
-
-/*Inputs*/
-input.btn , button.btn {
-    background-color: #080063;
-    color: whitesmoke;
-}
-
-input.btn:hover, button.btn:hover{
-    background-color: #080063;
-    color: whitesmoke;
-    transition: 0.3s;
 }
 
 .what-is-statement {
@@ -110,12 +91,12 @@ input.btn:hover, button.btn:hover{
     font-family: 'Lilita One', sans-serif;
 }
 
-/*Map Collage*/
-.various-maps {
-    height: 360px;
-    margin-top: 40px;
-    /*border: 5px solid darkblue;*/
-}
+/*!*Map Collage*!*/
+/*.various-maps {*/
+/*    height: 360px;*/
+/*    margin-top: 40px;*/
+/*    !*border: 5px solid darkblue;*!*/
+/*}*/
 
 
 a.hero-buttons {
@@ -133,11 +114,56 @@ a.hero-buttons {
     padding: 20px;
 }
 
-ul {
-    list-style: none;
-}
-
 .map-share-title {
     margin-bottom: 150px;
 }
 
+.tutorial-examples {
+    color: #080063;
+}
+
+.carousel-caption {
+    font-weight: 900;
+    font-style: italic;
+}
+
+.description {
+    font-size: 24px;
+}
+
+/*fragments navbar/footer design*/
+a.nav-link {
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    background: white;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-weight: 700;
+    height: 44px
+}
+
+a.nav-link:hover {
+    background-color: #080063;
+    color: whitesmoke;
+    transition: 0.3s;
+}
+
+button.btn-link.btn {
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    background: white;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+    line-height: normal;
+    margin: 0;
+    display: block;
+    height: 44px
+
+}
+/*---*/

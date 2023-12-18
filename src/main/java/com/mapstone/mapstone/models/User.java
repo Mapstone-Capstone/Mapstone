@@ -46,7 +46,7 @@ public class User {
     private String avatar;
 
     @JsonBackReference(value = "user-map")
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Map map;
 
     @JsonManagedReference(value = "user-comment")
@@ -54,7 +54,7 @@ public class User {
     private List<Comment> comments;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_countries",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -64,7 +64,7 @@ public class User {
 
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_badges",
             joinColumns = {@JoinColumn(name = "user_id")},
