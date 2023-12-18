@@ -2,8 +2,7 @@
 import {
     getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getImagesByCountryIdAndUserId, getAllImages, getAllEntries, getEntriesByCountryIdAndMapId
 } from "./mapbox-map-utils.js";
-
-let urlpattern = `http://localhost:8080`;
+let urlpattern = `${window.location.protocol}//${window.location.host}`
 let opacity = 0.8;
 let id = document.getElementById("map-id").value;
 let userId = document.getElementById("user-id").value;
@@ -26,7 +25,7 @@ const getViewOnlyUserMapLayers = async (id) => {
 async function addViewOnlyUserLayers(map, mapDetails) {
     // let userMapLayers = await getUserMapLayers(id);
     let userMapLayers = await getViewOnlyUserMapLayers(userId);
-    console.log(userMapLayers);
+    //if the user has no layers, return
     if (userMapLayers === null || userMapLayers.length === 0) {
         return;
     } else {

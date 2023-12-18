@@ -1,82 +1,76 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{partials/fragments :: head('Sign Up!', '/css/signup.css')}">
+<head th:replace="~{partials/fragments :: head('Sign Up!', '/css/login.css')}">
 
-  <title>Sign Up!</title>
 </head>
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
 <main>
   <div class="page-wrapper">
     <div class="container">
-      <div class="row">
-        <div class="col d-flex flex-column justify-content-center form-wrapper w-100">
-          <section>
-            <div class="login-header">
-              <h1 class="text-center">Sign Up!</h1>
-              <p class="text-center">Sign up and share your travel experiences with friends.</p>
+
+      <div class="register-form-wrapper">
+        <section class="inner-wrapper">
+          <div class="login-header">
+            <h1 class="text-center">Sign Up!</h1>
+            <p class="text-center">Sign up and share your travel experiences with friends.</p>
+          </div>
+          <form th:method="POST" th:action="@{/sign-up}" th:object="${user}" class="register-form"
+                id="register-form">
+            <div class="register-col">
+              <label for="username">Username </label>
+              <input th:field="*{username}" name="username" id="username"
+                     placeholder="Enter username">
+              <p id="username-error" class="errors"></p>
+              <p th:text="${usernameError}"></p>
+
+              <label for="firstname">First Name</label>
+              <input th:field="*{firstName}" name="firstname" id="firstname"
+                     placeholder="Your First Name">
+              <p id="firstName-error" class="errors"></p>
+
+              <label for="lastname">Last Name</label>
+              <input th:field="*{lastName}" name="lastname" id="lastname"
+                     placeholder="Your Last Name">
+              <p id="lastName-error" class="errors"></p>
             </div>
-            <form th:method="POST" th:action="@{/sign-up}" th:object="${user}" class="d-flex flex-column"
-                  id="register-form">
-              <div class="d-flex flex-column gap-2 register-form">
-                <label for="username">Username
-                  <input th:field="*{username}" name="username" id="username"
-                         placeholder="Enter username">
-                  <p id="username-error" class="errors"></p>
-                  <p th:text="${usernameError}"></p>
-                </label>
-                <label for="firstname">First Name
-                  <input th:field="*{firstName}" name="firstname" id="firstname"
-                         placeholder="Your First Name">
-                  <p id="firstName-error" class="errors"></p>
-                </label>
 
-                <label for="lastname">Last Name
-                  <input th:field="*{lastName}" name="lastname" id="lastname"
-                         placeholder="Your Last Name">
-                  <p id="lastName-error" class="errors"></p>
-                </label>
+            <div class="register-col">
+              <label for="email">Email</label>
+              <input type="email" th:field="*{email}" name="email" id="email"
+                     placeholder="Your email">
+              <p id="email-error" class="errors"></p>
+              <p th:text="${emailError}"></p>
 
-                <label for="email">Email
-                  <input type="email" th:field="*{email}" name="email" id="email"
-                         placeholder="Your email">
-                  <p id="email-error" class="errors"></p>
-                  <p th:text="${emailError}"></p>
-                </label>
+              <label for="password">Password</label>
+              <input type="password" th:field="*{password}" name="password" id="password"
+                     placeholder="Enter Password">
 
-                <label for="password">Password
-                  <input type="password" th:field="*{password}" name="password" id="password"
-                         placeholder="Enter Password">
-                </label>
+              <!--              refactor applied-->
 
-                <!--              refactor applied-->
-                <label for="password-confirm">Confirm Password
-                  <input type="password" name="password-confirm" id="password-confirm"
-                         placeholder="Enter Password">
-                  <!--  Populates if password does not meet custom javascript regex parameters      -->
-                  <p id="password-error" class="errors"></p>
-                </label>
-              </div>
-            </form>
-            <button id="register-button">
-              <img src="/assets/globe-icon.svg" alt="globe-icon">
-              <span>Register</span>
-            </button>
+              <label for="password-confirm">Confirm Password</label>
+              <input type="password" name="password-confirm" id="password-confirm"
+                     placeholder="Enter Password">
+              <!--  Populates if password does not meet custom javascript regex parameters      -->
+              <p id="password-error" class="errors"></p>
+            </div>
 
-          </section>
-        </div>
+          </form>
+          <button type="submit" id="register-button" class="register-button">
+            <img src="/assets/images/globe-icon.svg" alt="globe-icon">
+            <span>Register</span>
+          </button>
+          <div class="login-footer">
+            <p>Already have an account? <a th:href="@{/login}">Login!</a></p>
+          </div>
+
+        </section>
       </div>
     </div>
   </div>
-<!--  <footer th:replace="~{partials/fragments :: footer}"></footer>-->
+  </div>
+  <footer th:replace="~{partials/fragments :: footer} "></footer>
 </main>
-<footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5" style="background-color: #080063">
-
-  <ul class="nav col-md-12 justify-content-center mt-3 p-3">
-    <li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>
-  </ul>
-</footer>
-
 <th:block th:replace="~{partials/fragments :: scripts('/js/sign-up.js')}"></th:block>
 </body>
 </html>

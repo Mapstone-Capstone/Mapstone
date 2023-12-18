@@ -44,10 +44,12 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requests) -> requests
                         /* Pages that require authentication
                          * only authenticated users can create and edit ads */
+
                         .requestMatchers("/profile", "/update", "/update/*", "/reset", "/reset/*", "/saveMap", "/profile-picture","/viewprofile", "/test","/comment","/url-images", "/saveMap", "/edit-profile", "/create-entries", "/edit-entries/{id}", "/edit-entries").authenticated()
+
                         /* Pages that do not require authentication
                          * anyone can visit the home page, register, login, and view ads */
-                        .requestMatchers("/", "/login", "/sign-up","/viewprofile/*","/viewprofile/**","/search","/api/**", "/country","/users/viewprofile/*", "/aboutUs", "/explore-profiles","/error", "/keys.js").permitAll()
+                        .requestMatchers("/", "/login", "/sign-up","/viewprofile/*","/viewprofile/**","/search","/api/**", "/country","/users/viewprofile/*", "/aboutUs", "/explore-profiles","/error", "/keys.js", "/badges").permitAll()
                         // allow loading of static resources
                         .requestMatchers("/js/**", "/assets/**", "/css/**", "/data/**", "/api/**", "/media/**", "/images/*").permitAll()
                 )

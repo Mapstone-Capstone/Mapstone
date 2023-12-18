@@ -107,7 +107,7 @@ async function addDefaultLayers(map, mapDetails) {
 async function addUserLayers(map, mapDetails) {
     // let userMapLayers = await getUserMapLayers(id);
     let userMapLayers = await getUserMapLayers();
-    console.log(userMapLayers);
+    //if the user has not added any layers to their map, return
     if (userMapLayers === null || userMapLayers.length === 0) {
         return;
     } else {
@@ -165,7 +165,7 @@ function addMarker(map) {
             let lngLat = newMarker.getLngLat();
 
             reverseGeocode(lngLat, MAP_BOX_TOKEN).then(function (results) {
-                console.log(results);
+                // console.log(results);
             });
         });
     });
@@ -327,16 +327,19 @@ const onMapLoad = async () => {
 
         // Get features at the clicked point
         let features = map.queryRenderedFeatures(e.point);
-        console.log(features[0]);
+
         // Log the name of the clicked layer to the console
         if (features.length > 0) {
             countryName = features[0].properties.NAME;
+            if (countryName === undefined) {
+                return;
+            }
             countryId = features[0].id;
             let allLayers = map.getStyle().layers;
             for (let i = 0; i < allLayers.length; i++) {
                 //if the country is already filled (already clicked), and the user clicks it again, remove the fill layer
                 if (allLayers[i].id === countryName) {
-                    uploadImagesOnMap(countryName);
+                    renderImageUploadModal(countryName);
                     return;
                 }
             }
@@ -359,8 +362,58 @@ const onMapLoad = async () => {
 
             });
         }
-        uploadImagesOnMap(countryName);
+
+
+        renderImageUploadModal(countryName);
     });
+
+
+    function renderImageUploadModal(countryName) {
+
+        const imageUploadModal = document.createElement("div");
+        imageUploadModal.classList.add("modal");
+        imageUploadModal.innerHTML = `<div class="modal-bg"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title text-center">Would you like to upload images from your trip to ${countryName}?</h2>
+                <span class="modal-close">&times;</span>
+            </div> 
+        <div class="modal-body">
+            <p class="text-center">You can always upload images later by clicking on the country on your map.</p>
+            <div class="modal-buttons">
+            <button type="button" class="modal-button" id="yes">Upload Now</button>
+            <button type="button" class="modal-button" id="no">Not Right Now</button>
+            </div>
+        </div>
+      </div>`;
+
+        //nodes from the modal for event listeners
+        const modalClose = imageUploadModal.querySelector(".modal-close");
+        const modalBackground = imageUploadModal.querySelector(".modal-bg");
+        const yesButton = imageUploadModal.querySelector("#yes");
+        const noButton = imageUploadModal.querySelector("#no");
+
+        yesButton.addEventListener("click", () => {
+            uploadImagesOnMap(countryName);
+        });
+
+        noButton.addEventListener("click", () => {
+            imageUploadModal.remove();
+        });
+
+        modalBackground.addEventListener("click", () => {
+            imageUploadModal.remove();
+        });
+
+        modalClose.addEventListener("click", () => {
+            imageUploadModal.remove();
+        });
+
+        document.body.appendChild(imageUploadModal);
+
+    }
+
+
 
 
     //filter images
@@ -393,7 +446,6 @@ const onMapLoad = async () => {
                 //then fly to that country since the user is viewing images for that country
                 for (let i = 0; i < mapLayers.length; i++) {
                     if (mapLayers[i].id === response.name) {
-                        console.log(mapLayers[i]);
                         geocode(response.name, MAP_BOX_TOKEN).then(function (results) {
                             map.flyTo({
                                 center: results,
@@ -437,19 +489,52 @@ const onMapLoad = async () => {
         });
     }
 
-
+    // Are you sure you want to reset your map? This will delete all of your saved countries on the map.
     //event listener for the reset map button
     const resetMapForm = document.getElementById("reset-map-form");
     const resetMapButton = document.getElementById("reset-map-button");
     resetMapButton.addEventListener("click", async function (e) {
         e.preventDefault();
-        let userAnswer = confirm("Are you sure you want to reset your map? This will delete all of your saved countries on the map.");
+       const resetMapModal = document.createElement("div");
+        resetMapModal.classList.add("modal");
+        resetMapModal.innerHTML = `<div class="modal-bg"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Reset Map</h2>
+                <span class="modal-close">&times;</span>
+            </div> 
+        <div class="modal-body">
+            <p>Are you sure you want to reset your map? This will delete all of your saved countries on the map.</p>
+            <div class="modal-buttons">
+            <button type="button" class="modal-button" id="yes">Yes</button>
+            <button type="button" class="modal-button" id="no">No</button>
+            </div>
+        </div>
+        </div>`;
+        //nodes from the modal for event listeners
+        const modalClose = resetMapModal.querySelector(".modal-close");
+        const modalBackground = resetMapModal.querySelector(".modal-bg");
+        const yesButton = resetMapModal.querySelector("#yes");
+        const noButton = resetMapModal.querySelector("#no");
 
-        if (userAnswer === true) {
+        yesButton.addEventListener("click", async function (e) {
+            e.preventDefault();
             resetMapForm.submit();
-        } else {
-            return;
-        }
+        });
+
+        noButton.addEventListener("click", () => {
+            resetMapModal.remove();
+        });
+
+        modalBackground.addEventListener("click", () => {
+            resetMapModal.remove();
+        });
+
+        modalClose.addEventListener("click", () => {
+            resetMapModal.remove();
+        });
+
+        document.body.appendChild(resetMapModal);
     });
 
 
@@ -505,16 +590,18 @@ function openUpdateModal() {
                 <label for="map-zoom-select">Zoom:</label>
                 <select id="map-zoom-select">
                 <option value="${mapZoom.value}">${mapZoom.value}</option>
-                  <option value="0">0</option>
-                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
                   <option value="6">6</option>
+                  <option value="7">7</option>
                   <option value="8">8</option>
-                  <option value="10">10</option>
-                  <option value="12">12</option>
-                  <option value="15">15</option>
                 </select>
               </div>
+              <div class="modal-buttons">
             <button type="button" class="update-map" id="update-map">Update Map</button>
+            </div>
         </div>
       </div>`;
 
@@ -540,10 +627,6 @@ function openUpdateModal() {
             alert("Please fill out all fields.");
             return;
         }
-
-        console.log(mapStyle.value);
-        console.log(mapColor.value);
-        console.log(mapId.value);
 
         const mapToUpdate =
             {

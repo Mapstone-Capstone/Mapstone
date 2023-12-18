@@ -1,15 +1,24 @@
-/*li.meet-us {*/
-/*    width: 350px;*/
-/*    height: 69px;*/
-/*    padding: 20px 15px;*/
-/*    !*flex-shrink: 0;*!*/
-/*    border-radius: 6px;*/
-/*    background: #8DE189;*/
-/*    color: #080063;*/
-/*    text-align: center;*/
-/*    font-family: Mada sans-serif;*/
-/*    font-size: 24px;*/
-/*    font-style: normal;*/
-/*    font-weight: 700;*/
-/*    line-height: normal;*/
-/*}*/
+/*fragments navbar/footer design*/
+a.nav-link {
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    background: white;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-weight: 700;
+}
+
+a.nav-link:hover {
+    background-color: #080063;
+    color: whitesmoke;
+    transition: 0.3s;
+}
+
+a.nav-link {
+    font-size: 20px;
+    padding: 10px;
+}
+
+/*---*/
