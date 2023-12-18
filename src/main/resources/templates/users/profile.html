@@ -11,6 +11,8 @@
         <h4>Welcome <span th:text="${#authentication.principal.username}"></span></h4>
         <!-- upload avatar click event -->
         <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar"/>
+      <!--   if the firstTime attribute is true, then set hidden input to true, else set it to false-->
+        <input th:hidden="true" id="first-time" th:value="${firstTime}"/>
 
         <!-- upload avatar form -->
         <form id="upload-avatar-form" th:action="@{/profile-picture}" th:method="POST">
@@ -228,6 +230,7 @@
 
 <footer th:replace="~{partials/fragments :: footer}"></footer>
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
+<script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
 <script th:type="module" src="/js/mapbox-map-utils.js"></script>
 <script src="/js/badges.js"></script>
 <script src="/js/sharelink.js"></script>

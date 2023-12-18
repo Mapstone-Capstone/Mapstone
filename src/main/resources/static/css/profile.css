@@ -3,6 +3,31 @@
     box-sizing: border-box;
 }
 
+.driver-popover {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background: var(--white);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: auto;
+    max-width: 400px;
+}
+
+.driver-popover-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.driver-popover-description {
+    font-size: 1.2rem;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+
 /*DEFAULT PROFILE BUTTONS*/
 button {
     display: flex;

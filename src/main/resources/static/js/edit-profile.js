@@ -65,7 +65,7 @@ function editUserModal() {
                     <label for="email">Email:</label>
                     <input type="email" id="email" value="${email}" />
                 </div> 
-             <div class="modal-buttons">
+               <div class="modal-buttons">
                 <button class="update-user-button" type="submit">Update Profile</button>
                 <button class="delete-btn" type="submit">Delete Profile</button>
                 </div>
