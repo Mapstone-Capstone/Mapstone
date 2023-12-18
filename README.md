@@ -1,6 +1,6 @@
 # Welcome to Map-Share 
 
-//TODO: Add Screenshot
+<img width="1710" alt="Screenshot " src="https://github.com/Mapstone-Capstone/Mapstone/assets/140553893/02a122e4-95f4-42cc-9b8d-efe21b099e01">
 
 Map-Share is an immersive and feature-rich full-stack web application developed using an impressive stack of technologies, including HTML/CSS, JavaScript, Java, Spring Boot, Bootstrap, and MySql. With a user-friendly interface, Map Share empowers users to explore a vast array of profiles, share their valuable travel experiences through personalized maps and photos, comment on other user profiles, and earn badges based on their travels. This engaging platform seamlessly combines the love of traveling with a rewarding experience for its users.
 
