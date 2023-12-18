@@ -71,10 +71,31 @@ public class EntriesController {
 
     }
 
-//    @GetMapping("/api/entry/country"+"/{id}")
-//    public List<Entry> getEntriesByCountryId(@PathVariable long id) {
-//        System.out.println(id);
-//        return entryDao.getEntriesByCountry_Id(id);
-//    }
+    @GetMapping("/edit-entries/{id}")
+    public String displayEditEntryForm(@PathVariable long id, Model model) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Entry userEntry = entryDao.getEntryByIdAndUser_Id(id, loggedInUser.getId());
+
+        //send a new empty user object to the create entry form
+        model.addAttribute("entry", userEntry);
+
+        return "/users/edit-entry";
+    }
+
+    @PostMapping("/edit-entries")
+    public String editEntry(@ModelAttribute Entry entry, @RequestParam (name = "entry-id") long id) {
+
+        Entry userEntry = entryDao.getOne(id);
+
+        userEntry.setTitle(entry.getTitle());
+        userEntry.setDate(entry.getDate());
+        userEntry.setDescription(entry.getDescription());
+
+        entryDao.save(userEntry);
+
+
+        return "redirect:/profile";
+    }
 
 }

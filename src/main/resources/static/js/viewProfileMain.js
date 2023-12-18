@@ -1,11 +1,11 @@
 import {
-    onMapLoad, displayImages
+    onMapLoad
 } from "./viewprofile.js";
 
 
 (async function () {
 
     await onMapLoad();
-    displayImages();
+
 
 })();

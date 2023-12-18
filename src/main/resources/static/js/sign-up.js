@@ -4,8 +4,8 @@ const passwordConfirm = document.getElementById("password-confirm");
 const passwordError = document.getElementById("password-error");
 const registerForm = document.getElementById("register-form");
 //regex for password that must be at least 8 characters long, contain one uppercase, one number, and one special character
-// const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
-// const isValid = regex.test(password.value);
+const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
+const isValid = regex.test(password.value);
 const username = document.getElementById("username");
 const firstName = document.getElementById("firstname");
 const lastName = document.getElementById("lastname");

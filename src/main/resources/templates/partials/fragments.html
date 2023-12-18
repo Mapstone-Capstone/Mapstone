@@ -26,19 +26,14 @@
 
 <nav th:fragment="nav" class="navbar navbar-expand-lg" style="background-color: #080063" >
   <div class="container-fluid d-flex">
-
+      <a class="navbar-brand col-xs-9" th:href="@{/}"><img th:src="@{/assets/images/logo.svg}" style="width: 100px; height: auto" alt="logo"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <div class="collapse navbar-collapse col-xs-3" id="navbarNavDropdown">
 
-      <ul class="navbar-nav ms-auto d-flex gap-5 align-items-center ">
-        <li class="nav-item">
-          <a th:href="@{/}" id="logo">
-            <img src="/assets/images/logo.svg" alt="logo" class="nav-img" style="width: 100px; height: auto">
-          </a>
-        </li>
+      <ul class="navbar-nav ms-auto d-flex gap-5 align-items-center justify-content-end ">
         <li class="nav-item">
           <a class="nav-link" th:href="@{/explore-profiles}">Explore Profiles</a>
         </li>
