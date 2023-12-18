@@ -49,50 +49,7 @@ const usersEntries = () => {
 
                 elementBtn.addEventListener('click', () => {
 
-                    getEntryById(elementBtn.value).then(function(newResponse) {
-
-                        const userEntry = document.createElement("div");
-                        userEntry.classList.add("modal");
-                        userEntry.setAttribute("id", "user-entry");
-
-                        userEntry.innerHTML = `
-                    <div class="modal-bg"></div>
-
-                    <div class="modal-content">
-
-                        <div class="modal-header">
-                            <h2 class="modal-title">Pick an Entry to edit</h2>
-                            <span class="modal-close">&times;</span>
-                        </div>
-                        <div id="user-entries-body" class="modal-body">
-                        <!--input values of the users entry data-->
-                            <input value="${newResponse.title}" />
-                            <input value="${newResponse.date}" type="date" />
-                            <input value="${newResponse.description}" />
-                        </div>
-                        <div class="modal-footer">
-                            <button id="close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button id="save-changes" type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                `;
-
-                        const modalClose = userEntry.querySelector(".modal-close");
-                        const modalBackground = userEntry.querySelector(".modal-bg");
-                        const close = userEntry.querySelector('#close');
-
-                        //close modal
-                        modalClose.addEventListener("click", () => {
-                            userEntry.remove();
-                        });
-                        modalBackground.addEventListener("click", () => {
-                            userEntry.remove();
-                        });
-                        close.addEventListener("click", () => {
-                            userEntry.remove();
-                        });
-
-                        document.body.appendChild(userEntry);
+                    window.location = `/edit-entries/${elementBtn.value}`;
 
                     });
 
@@ -101,7 +58,6 @@ const usersEntries = () => {
 
         });
         document.body.appendChild(userEntries);
-    });
 }
 const editModalPopup = () => {
 
@@ -166,6 +122,8 @@ const editModalPopup = () => {
 
 
 }
+
+
 
 const getEntryById = async (id) => {
     const url = `${urlpattern}/api/entry/${id}`;

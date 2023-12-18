@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}">
+	<title>Edit Entry</title>
+</head>
+<body>
+
+<h1>Edit: <span th:text="${entry.getTitle()}"></span></h1>
+<br />
+<form th:action="@{/edit-entries}" th:method="post" th:object="${entry}">x
+	<input type="hidden" name="entry-id" th:value="${entry.getId()}">
+	<label for="entry-title">Title:
+		<input name="entry-title" id="entry-title" th:value="${entry.getTitle()}" th:field="*{title}"/>
+	</label>
+	<label for="entry-date">Date:
+		<input name="entry-date" id="entry-date" type="date" th:value="${entry.getDate()}" th:field="*{date}"/>
+	</label>
+	<label for="entry-description">Date:
+		<input name="entry-description" id="entry-description" th:value="${entry.getDescription()}" th:field="*{description}"/>
+	</label>
+	
+	<button type="submit">Save Changes</button>
+</form>
+
+<th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
+<script src="/js/badges.js"></script>
+<script src="/js/sharelink.js"></script>
+<script src="/js/entries.js"></script>
+<script src="/js/edit-journal.js"></script>
+</body>
+</html>
