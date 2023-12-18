@@ -265,6 +265,8 @@ const uploadAvatar = () => {
 
         const client = filestack.init(FILE_STACK_TOKEN);
         const options = {
+            accept: ["image/*"],
+            maxFiles: 1,
             onUploadDone:
                 function (response) {
                     console.log(response.filesUploaded[0].url);
@@ -425,7 +427,11 @@ const onMapLoad = async () => {
     for (const btn of filterImageBtn) {
         btn.addEventListener("click", () => {
             imageContainer.innerHTML = "";
-            map.removeLayer("test");
+           //if the test layer exists, remove it from the map
+            //this is the layer that highlights the country that the user is viewing images for
+            if (map.getLayer("test")) {
+                map.removeLayer("test");
+            }
             getSingleCountry(btn.value).then(function (response) {
                 //adds a line layer to the map, to highlight the country that thr uer is viewing images for
                 map.addLayer({

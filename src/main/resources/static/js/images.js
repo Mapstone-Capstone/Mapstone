@@ -3,6 +3,8 @@ const uploadImages = (apiKey, valueHolder, form) => {
     // event for image upload
     const client = filestack.init(apiKey);
     const options = {
+        // only allow images to be uploaded, prevent other file types like videos
+        accept: 'image/*',
         maxFiles: 10,
         onUploadDone:
             function (response) {
