@@ -66,11 +66,7 @@ body{
     /*background-repeat: no-repeat;*/
     /*background-size: cover;*/
 }
-.page-wrapper {
-    /*min-height: 57.5vh;*/
-    min-height: 70.5vh
-;
-}
+
 .user-wrapper{
     opacity: .5;
     color: var(--white);
@@ -221,11 +217,12 @@ button.btn-link {
     font-weight: 700;
     text-decoration: none;
 
-/* Medium devices (landscape tablets, 768px and up) */
-@media screen and (min-width: 768px) and (max-width: 991px){
-    /*body {background: blue;}*/
+    /* Medium devices (landscape tablets, 768px and up) */
+    @media screen and (min-width: 768px) and (max-width: 991px) {
+        /*body {background: blue;}*/
+    }
+    /*min-height: 93.5vh;*/
 }
-/*min-height: 93.5vh;*/
 
 
 
