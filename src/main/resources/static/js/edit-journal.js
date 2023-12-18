@@ -1,4 +1,4 @@
-import {getAllEntries} from "./mapbox-map-utils";
+import {getAllEntries} from "./mapbox-map-utils.js";
 
 
 const editJournalBtn = document.getElementById('edit-journal-btn');
@@ -9,8 +9,6 @@ const usersEntries = () => {
     const userEntries = document.createElement("div");
     userEntries.classList.add("modal");
     userEntries.setAttribute("id", "user-entries");
-
-
 
     userEntries.innerHTML = `
         <div class="modal-bg"></div>
@@ -26,29 +24,42 @@ const usersEntries = () => {
         </div>
     `;
 
-    const modalBody = userEntries.querySelector('.modal-body');
+    const modalClose = userEntries.querySelector(".modal-close");
+    const modalBackground = userEntries.querySelector(".modal-bg");
 
+    //close modal
+    modalClose.addEventListener("click", () => {
+        userEntries.remove();
+    });
+    modalBackground.addEventListener("click", () => {
+        userEntries.remove();
+    });
+
+    const modalBody = userEntries.querySelector('.modal-body');
     getAllEntries(userId.value).then(function (response) {
-        response.forEach((entry) => {
+
+        response.forEach((object) => {
 
             modalBody.innerHTML += `
-            <button class="entry-title" type="button">${entry.title}</button>
-        `;
-            let entryBtn = usersEntries.querySelector(".entry-title");
+                <button class="entry-title" type="button" value="${object.id}">${object.title}</button>
+            `;
 
-            entryBtn.forEach((btn) => {
+            const entryTitle = modalBody.querySelectorAll('.entry-title');
 
-                btn.addEventListener("click", () => {
-                    //pull up edit modal
+            entryTitle.forEach((elementBtn) => {
+
+                elementBtn.addEventListener('click', () => {
+
+                    window.location = `/edit-entries/${elementBtn.value}`;
+
+                    });
+
                 });
-
             });
 
         });
-    });
-
+        document.body.appendChild(userEntries);
 }
-
 const editModalPopup = () => {
 
     const editJournalModal = document.createElement("div");
@@ -100,18 +111,33 @@ const editModalPopup = () => {
     });
 
     //popup edit entry modal
-    editEntry.addEventListener("click", () => {
-
-    });
+    editEntry.addEventListener("click", usersEntries);
 
     //popup delete entry modal
     deleteEntry.addEventListener("click", () => {
 
     })
 
-
     document.body.appendChild(editJournalModal);
+
+
 
 }
 
+
+
+const getEntryById = async (id) => {
+    const url = `${urlpattern}/api/entry/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let entry = await response.json();
+    return entry;
+}
+
 editJournalBtn.addEventListener('click', editModalPopup);
+

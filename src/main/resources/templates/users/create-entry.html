@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{partials/fragments :: head(Profile, '/css/profile.css')}">
-	<title>Create Entry</title>
+<head th:replace="~{partials/fragments :: head('Create Entry', '/css/profile.css')}">
 </head>
 <body>
 <nav th:replace="~{partials/fragments :: nav}"></nav>
+<main class="page-wrapper">
 <h1>Create A Journal Entry</h1>
 <form th:action="@{/create-entries}" th:method="post" th:object="${entry}">
 	
@@ -46,14 +46,9 @@
 	</div>
 </form>
 
-<footer th:fragment="footer" class="d-flex flex-wrap justify-content-center align-items-center py-3 mt-5 fixed-bottom" style="background-color: #080063">
 
-	<ul class="nav col-md-12 justify-content-center mt-1 p-3">
-		<li class="meet-us"><a th:href="@{/aboutUs}" >Meet The Team</a></li>
-	</ul>
-</footer>
 <footer th:replace="~{partials/fragments :: footer} "></footer>
-<footer th:replace="~{partials/fragments :: scripts(filepath)} "></footer>
+</main>
 <th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
 <script src="/js/badges.js"></script>
 <script src="/js/sharelink.js"></script>

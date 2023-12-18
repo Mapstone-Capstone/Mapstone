@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head th:replace="~{partials/fragments :: head('Login', '/css/login.css')}">
-  <style></style>
-	<title>Login</title>
-
 </head>
 <body>
 <main class="page-wrapper">
@@ -13,6 +10,7 @@
     <div th:if="${param.logout}">
       You have been logged out.
     </div>
+
     <div class="login-form-wrapper">
       <section class="inner-wrapper">
         <div class="login-header">
@@ -32,7 +30,7 @@
 	        <input id="password" name="password" type="password"/>
 
           <button class="login-button" type="submit">
-            <img src="/assets/globe-icon.svg" alt="globe-icon">
+            <img src="/assets/images/globe-icon.svg" alt="globe-icon">
             <span>Login</span>
           </button>
         </form>
@@ -44,6 +42,6 @@
   </div>
 </main>
 <footer th:replace="~{partials/fragments :: footer} "></footer>
-<footer th:replace="~{partials/fragments :: scripts(filepath)} "></footer>
+<th:block th:replace="~{partials/fragments :: scripts('/js/login.js')}"></th:block>
 </body>
 </html>

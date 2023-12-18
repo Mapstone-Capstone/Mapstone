@@ -81,33 +81,37 @@ public class MapsRestController {
         List<Country> updatedCountries = user.getCountries();
         //Also get the list of badges that user already has
         List<Badge> userBadges = user.getBadges();
-        //user has visited at least one country
-        if (updatedCountries.size() >= 1 && !userBadges.contains(badgesDao.getReferenceById(1))) {
-            userBadges.add(badgesDao.getOne(1));
-            loggedInUser.getBadges().add(badgesDao.getOne(1));
-        }
-        //user has visited at least 5 countries
-        if (updatedCountries.size() >= 5 && !userBadges.contains(badgesDao.getReferenceById(4))) {
-            userBadges.add(badgesDao.getOne(4));
-            loggedInUser.getBadges().add(badgesDao.getOne(4));
-        }
-        //user has visited at least 10 countries
-        if (updatedCountries.size() >= 10 && !userBadges.contains(badgesDao.getReferenceById(5))) {
-            userBadges.add(badgesDao.getOne(5));
-            loggedInUser.getBadges().add(badgesDao.getOne(5));
-        }
 
-        //user has visited one country in each continent nd does not already have this badge
-        if (updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Africa")) &&
-                updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Asia")) &&
-                updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Europe")) &&
-                updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("North America")) &&
-                updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("South America")) &&
-                updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Oceania")) &&
-                !userBadges.contains(badgesDao.getReferenceById(2))) {
-            userBadges.add(badgesDao.getOne(2));
-            loggedInUser.getBadges().add(badgesDao.getOne(2));
-        }
+
+            //user has visited at least one country
+            if (updatedCountries.size() >= 1 && !userBadges.contains(badgesDao.getReferenceById(1))) {
+                userBadges.add(badgesDao.getOne(1));
+                loggedInUser.getBadges().add(badgesDao.getOne(1));
+            }
+            //user has visited at least 5 countries
+            if (updatedCountries.size() >= 5 && !userBadges.contains(badgesDao.getReferenceById(4))) {
+                userBadges.add(badgesDao.getOne(4));
+                loggedInUser.getBadges().add(badgesDao.getOne(4));
+            }
+            //user has visited at least 10 countries
+            if (updatedCountries.size() >= 10 && !userBadges.contains(badgesDao.getReferenceById(5))) {
+                userBadges.add(badgesDao.getOne(5));
+                loggedInUser.getBadges().add(badgesDao.getOne(5));
+            }
+
+
+            //user has visited one country in each continent nd does not already have this badge
+            if (updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Africa")) &&
+                    updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Asia")) &&
+                    updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Europe")) &&
+                    updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("North America")) &&
+                    updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("South America")) &&
+                    updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("Oceania")) &&
+                    !userBadges.contains(badgesDao.getReferenceById(2))) {
+                userBadges.add(badgesDao.getOne(2));
+                loggedInUser.getBadges().add(badgesDao.getOne(2));
+            }
+
         userDao.save(user);
         //return the list of countries
         return countryDao.getAllByUsers_Id(loggedInUser.getId());
@@ -203,8 +207,6 @@ public class MapsRestController {
 
         return countryDao.getCountryById(id);
     }
-
-
 
 
 }
