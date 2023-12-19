@@ -151,9 +151,22 @@ aside {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    max-width: 350px;
 
     .badge-wrapper {
         min-height: 100px;
+
+        .badge-name {
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .badge-description {
+            font-size: 1rem;
+            margin-bottom: 0;
+            text-align: center;
+        }
 
         &:hover {
             cursor: pointer;
@@ -162,6 +175,7 @@ aside {
         .badge-img {
             width: 75px;
             height: 75px;
+            object-fit: cover;
         }
     }
 }
