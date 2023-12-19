@@ -1,6 +1,7 @@
 import {getAllEntries} from "./mapbox-map-utils.js";
 
 const editJournalBtn = document.getElementById('edit-journal-btn');
+const editEntry = document.getElementById('entry-value');
 
 const usersEntries = () => {
 
@@ -111,7 +112,9 @@ const editModalPopup = () => {
     });
 
     //popup edit entry modal
-    editEntry.addEventListener("click", usersEntries);
+    editEntry.addEventListener("click", () => {
+        window.location = '/edit-entries';
+    });
 
     //popup delete entry modal
     deleteEntry.addEventListener("click", () => {
@@ -187,4 +190,6 @@ const editModalPopup = () => {
 
 
 editJournalBtn.addEventListener('click', editModalPopup);
+
+
 
