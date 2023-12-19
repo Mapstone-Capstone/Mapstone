@@ -98,4 +98,14 @@ public class EntriesController {
         return "redirect:/profile";
     }
 
+    @PostMapping("/delete-entries")
+    public String deleteEntries(@RequestParam (name = "entry-id") long id){
+
+        System.out.println("I made it to the controller with the id: " + id);
+
+//        entryDao.deleteById(id);
+
+        return "redirect:/login";
+    }
+
 }
