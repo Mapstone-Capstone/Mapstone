@@ -5,25 +5,49 @@
 </head>
 <body>
 <div class="page-wrapper">
-<nav class="nav-bar" th:replace="~{partials/fragments :: nav}"></nav>
+
+<nav th:replace="~{partials/fragments :: nav}"></nav>
 	
 	<div class="container">
-		
-		<h1>Edit: <span th:text="${entry.getTitle()}"></span></h1>
-		<form th:action="@{/edit-entries}" th:method="post" th:object="${entry}">x
-			<input type="hidden" name="entry-id" th:value="${entry.getId()}">
-			<label for="entry-title">Title:
-				<input name="entry-title" id="entry-title" th:value="${entry.getTitle()}" th:field="*{title}"/>
-			</label>
-			<label for="entry-date">Date:
-				<input name="entry-date" id="entry-date" type="date" th:value="${entry.getDate()}" th:field="*{date}"/>
-			</label>
-			<label for="entry-description">Date:
-				<input name="entry-description" id="entry-description" th:value="${entry.getDescription()}" th:field="*{description}"/>
-			</label>
+<!--		<span th:text="${entry.getTitle()}"></span>-->
+		<main>
+			<h1>Edit your Journal Entry</h1>
+			<form th:action="@{/edit-entries}" th:method="post" th:object="${entries}">
+				
+				<p>Choose an entry you want to edit: <strong><span id="entry-value"></span></strong></p>
+				
+				<div class="dropdown">
+					<a class="btn btn-body dropdown-toggle border border-1 border-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Dropdown link
+					</a>
+					<ul class="dropdown-menu">
+						<th:block th:each="entry : ${entries}">
+							<li>
+								<button class="dropdown-item entry-select" th:text="${entry.getTitle()}" th:value="${entry.getId()}" type="button"></button>
+							</li>
+						</th:block>
+					</ul>
+				</div>
+				
+<!--				<input type="hidden" name="entry-id" th:value="${entry.getId()}">-->
+<!--				-->
+<!--				<label for="entry-title"><strong>Title: </strong>-->
+<!--					<input name="entry-title" id="entry-title" th:value="${entry.getTitle()}" th:field="*{title}"/>-->
+<!--				</label>-->
+<!--				-->
+<!--				<label for="entry-date"><strong>Date: </strong>-->
+<!--					<input name="entry-date" id="entry-date" type="date" th:value="${entry.getDate()}" th:field="*{date}"/>-->
+<!--				</label>-->
+<!--				-->
+<!--				<label for="entry-description"><strong>Description: </strong>-->
+<!--					<textarea name="entry-description" id="entry-description" th:value="${entry.getDescription()}" th:field="*{description}"></textarea>-->
+<!--				</label>-->
+				
+<!--				<button class="entry-buttons" type="submit"><strong>Save Changes</strong></button>-->
+			</form>
 			
-			<button type="submit">Save Changes</button>
-		</form>
+		</main>
+		
 	</div>
 	
 <footer th:replace="~{partials/fragments :: footer} "></footer>

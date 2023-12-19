@@ -71,14 +71,14 @@ public class EntriesController {
 
     }
 
-    @GetMapping("/edit-entries/{id}")
-    public String displayEditEntryForm(@PathVariable long id, Model model) {
+    @GetMapping("/edit-entries")
+    public String displayEditEntryForm(Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Entry userEntry = entryDao.getEntryByIdAndUser_Id(id, loggedInUser.getId());
+        List<Entry> userEntries = entryDao.getEntriesByUser_Id(loggedInUser.getId());
 
         //send a new empty user object to the create entry form
-        model.addAttribute("entry", userEntry);
+        model.addAttribute("entries", userEntries);
 
         return "/users/edit-entry";
     }
