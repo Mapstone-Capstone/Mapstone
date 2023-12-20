@@ -71,14 +71,14 @@ public class EntriesController {
 
     }
 
-    @GetMapping("/edit-entries/{id}")
-    public String displayEditEntryForm(@PathVariable long id, Model model) {
+    @GetMapping("/edit-entries")
+    public String displayEditEntryForm(Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Entry userEntry = entryDao.getEntryByIdAndUser_Id(id, loggedInUser.getId());
+        List<Entry> userEntries = entryDao.getEntriesByUser_Id(loggedInUser.getId());
 
         //send a new empty user object to the create entry form
-        model.addAttribute("entry", userEntry);
+        model.addAttribute("entries", userEntries);
 
         return "/users/edit-entry";
     }
@@ -96,6 +96,16 @@ public class EntriesController {
 
 
         return "redirect:/profile";
+    }
+
+    @PostMapping("/delete-entries")
+    public String deleteEntries(@RequestParam (name = "entry-id") long id){
+
+        System.out.println("I made it to the controller with the id: " + id);
+
+//        entryDao.deleteById(id);
+
+        return "redirect:/login";
     }
 
 }

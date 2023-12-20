@@ -1,24 +1,79 @@
-/*fragments navbar/footer design*/
-a.nav-link {
-    font-size: 20px;
-    padding: 10px;
-    border-radius: 6px;
-    background: white;
-    color: #080063;
+.page-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    /*border: 1px solid black;*/
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
     text-align: center;
-    font-family: Mada sans-serif;
-    font-weight: 700;
 }
 
-a.nav-link:hover {
-    background-color: #080063;
-    color: whitesmoke;
-    transition: 0.3s;
+input {
+    width: 100%;
+    padding: 5px;
 }
 
-a.nav-link {
-    font-size: 20px;
-    padding: 10px;
+textarea {
+    padding: 5px;
+    width: 100%;
+    height: 100px;
 }
 
-/*---*/
+nav {
+    width: 100vw;
+}
+
+footer {
+    width: 100vw;
+    height: 75px;
+}
+
+.entry-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 5px 10px;
+    color: #0d0149ff;
+    background: white;
+    border: 1px solid #0d0149ff;
+    letter-spacing: 0.05em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all ease 0.3s;
+
+    &:hover {
+        background: #0d0149ff;
+        color: white;
+        border: 1px solid white;
+    }
+}
