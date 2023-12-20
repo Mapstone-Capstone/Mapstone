@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -52,4 +53,20 @@ public class ImageRestController {
 
         return imageDao.getImagesByUser_Id(id);
     }
+
+    //get all images with associated country by user id
+    @GetMapping("/api/images/map"+"/{id}")
+    public HashMap<String, String> getAllImagesByUserId(@PathVariable long id) {
+
+        //get all images by user id and country id
+        //create a hashmap with the image url as the key and the country name as the value
+        HashMap<String, String> imageMap = new HashMap<>();
+        List<Image> images = imageDao.getImagesByUser_Id(id);
+        for (Image image : images) {
+            imageMap.put(image.getImageUrl(), image.getCountry().getName());
+        }
+
+        return imageMap;
+    }
+
 }

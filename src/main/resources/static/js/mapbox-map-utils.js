@@ -64,8 +64,14 @@ const generateUserMap = async (mapDetails) => {
 
     map.addControl(new mapboxgl.NavigationControl());
 
+    //get all the images that belong to the logged-in user and create markers for each country that has images
+    let userImages = await getImagesByMapId(id);
+    console.log(userImages);
+
     return map;
 };
+
+
 
 async function addDefaultLayers(map, mapDetails) {
 
@@ -821,6 +827,19 @@ const getAllEntries = async (id) => {
     let response = await fetch(url, options);
     let entries = await response.json();
     return entries;
+};
+
+const getImagesByMapId = async (id) => {
+    const url = `${urlpattern}/api/images/map/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let images = await response.json();
+    return images;
 };
 
 export {
