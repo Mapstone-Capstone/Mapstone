@@ -3,6 +3,29 @@
     box-sizing: border-box;
 }
 
+
+
+.mapboxgl-popup-content {
+    width: auto;
+    max-height: 100px;
+    overflow-y: auto;
+    border-radius: 10px;
+    background: var(--white);
+
+    & .mapboxgl-popup-close-button {
+
+
+    }
+
+
+    & img {
+        width: 100px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+}
+
 .driver-popover {
     display: flex;
     flex-direction: column;
@@ -540,6 +563,4 @@ a.nav-link {
         display: block;
     }
 }
-
-
 

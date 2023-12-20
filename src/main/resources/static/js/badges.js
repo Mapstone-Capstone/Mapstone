@@ -21,7 +21,6 @@ const getBadgesByMapId = async (id) => {
 
 async function getBadges(mapId) {
     const badges = await getBadgesByMapId(mapId);
-    console.log(badges)
     badges.forEach((badge) => {
         const badgeDiv = document.createElement("div");
         badgeDiv.classList.add("badge-wrapper");
