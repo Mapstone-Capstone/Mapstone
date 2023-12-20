@@ -99,8 +99,7 @@ const onMapLoad = async () => {
 
         await addViewOnlyUserLayers(map, mapDetails);
         let allLayers = map.getStyle().layers;
-        console.log(allLayers);
-        console.log(id)
+
         //add user markers to the map
         await addMapMarkers(map, id);
     });
