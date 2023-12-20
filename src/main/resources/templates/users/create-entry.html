@@ -21,7 +21,7 @@
 				
 				<div class="dropdown">
 					<a class="btn btn-body dropdown-toggle border border-1 border-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Dropdown link
+						Select Country
 					</a>
 					<ul class="dropdown-menu">
 						<th:block th:each="country : ${countries}">
@@ -59,9 +59,9 @@
 	</div>
 <footer th:replace="~{partials/fragments :: footer} "></footer>
 </div>
-<th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
-<script src="/js/badges.js"></script>
-<script src="/js/sharelink.js"></script>
-<script src="/js/entries.js"></script>
+<th:block th:replace="~{partials/fragments :: scripts('/js/entries.js')}"></th:block>
+<!--<script src="/js/badges.js"></script>-->
+<!--<script src="/js/sharelink.js"></script>-->
+<!--<script src="/js/entries.js"></script>-->
 </body>
 </html>

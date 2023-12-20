@@ -3,6 +3,7 @@
     box-sizing: border-box;
 }
 
+/* TUTORIAL POPOVER STYLING  */
 .driver-popover {
     display: flex;
     flex-direction: column;
@@ -541,6 +542,7 @@ a.nav-link {
     }
 }
 
+
 button.btn-link {
     font-size: 20px;
     padding: 10px;
@@ -552,4 +554,5 @@ button.btn-link {
     font-weight: 700;
     text-decoration: none;
 }
+
 
