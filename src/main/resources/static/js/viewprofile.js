@@ -1,6 +1,6 @@
 
 import {
-    getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getImagesByCountryIdAndUserId, getAllImages, getAllEntries, getEntriesByCountryIdAndMapId
+    getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getImagesByCountryIdAndUserId, getAllImages, getAllEntries, getEntriesByCountryIdAndMapId, addMapMarkers
 } from "./mapbox-map-utils.js";
 import {geocode} from "./mapbox-geocoder-utils.js";
 let urlpattern = `${window.location.protocol}//${window.location.host}`
@@ -101,6 +101,8 @@ const onMapLoad = async () => {
         let allLayers = map.getStyle().layers;
         console.log(allLayers);
         console.log(id)
+        //add user markers to the map
+        await addMapMarkers(map, id);
     });
 
 

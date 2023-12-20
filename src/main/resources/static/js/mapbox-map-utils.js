@@ -935,7 +935,8 @@ export {
     getAllImages,
     getAllEntries,
     getEntriesByCountryIdAndMapId,
-    getImagesByCountryIdAndUserId
+    getImagesByCountryIdAndUserId,
+    addMapMarkers,
 
 };
 
