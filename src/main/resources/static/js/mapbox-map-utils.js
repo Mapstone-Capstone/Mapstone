@@ -859,16 +859,16 @@ async function addMapMarkers(map, id) {
     //get all the images that belong to the logged-in user //uses the map id to get the images
     let userImages = await getImagesByMapId(id);
     //the response is a hashmap with the image url as the key, and the country name as the value
-    //loops through the hashmap and passes the key through the geocode function to get the lngLat
-    //then creates a marker for each lngLat and a popup with the images for that country
+    //loops through the hashmap and passes the key through the geocode function to get the lngLat then creates a marker for each lngLat and a popup with the images for that country
+    //initialize a geojson object
     const geojson = {
         "type": "FeatureCollection",
         "features": []
     };
+
     for (let [key, value] of Object.entries(userImages)) {
         geocode(key, MAP_BOX_TOKEN).then(function (results) {
-
-            //store the arry of images in the feature
+            //create a feature for each image //the feature will be a marker
             let feature = {
                 "type": "Feature",
                 "geometry": {
@@ -881,13 +881,14 @@ async function addMapMarkers(map, id) {
                     "iconSize": [50, 50]
                 }
             };
-
+            //push the feature to the geojson object
             geojson.features.push(feature);
-
+            //loop through the geojson features and add a marker for each feature
             for (const marker of geojson.features) {
-                 console.log(marker.properties.images);
-// Create a DOM element for each marker.
+                console.log(marker.properties.images);
+                // Create a DOM element for each marker.
                 let el = document.createElement("div");
+                el.classList.add("img-marker");
                 el.className = "marker";
                 el.innerHTML = `<p style="text-align: center; color: white; background-color: var(--bright-blue); padding: 0; margin: 0; border-radius: 999px; position: relative; top: -10px; right: -25px; height: 30px; width: 30px; font-size: 15px">${marker.properties.images.length}</p>`;
                 el.style.backgroundImage = `url(${marker.properties.images[0]})`;
@@ -899,18 +900,10 @@ async function addMapMarkers(map, id) {
                 el.style.cursor = "pointer";
                 el.style.zIndex = "9";
 
-
                 // Add markers to the map.
                 new mapboxgl.Marker(el)
                     .setLngLat(marker.geometry.coordinates)
                     .addTo(map);
-
-                //when a marker is clicked, display a modal with the images for that country in a carousel
-                el.addEventListener("mouseenter", function (e) {
-                    e.preventDefault();
-                    alert("test");
-                });
-
             }
         });
     }
