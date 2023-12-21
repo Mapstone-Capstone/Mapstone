@@ -503,7 +503,6 @@ button.btn-link {
 /*COMMENTS CONTAINER STYLING*/
 .secondary-row {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
@@ -517,6 +516,23 @@ button.btn-link {
         gap: 0;
         height: auto;
     }
+
+    section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        width: 100%;
+        height: 100%;
+
+        @media screen and (max-width: 780px) {
+            width: 100%;
+        }
+
+    }
 }
 
 
@@ -525,8 +541,6 @@ button.btn-link {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow-x: hidden;
-    overflow-y: auto;
     width: 100%;
 
 
@@ -584,10 +598,33 @@ button.btn-link {
         gap: 10px;
         padding: 10px;
         border-radius: 5px;
-        border: 1px solid var(--white);
         background-color: var(--dark-blue);
-        height: auto;
+        max-height: 500px;
         width: 75%;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        @media screen and (max-width: 780px) {
+            width: 100%;
+        }
+
+        /*CUSTOM SCROLLBAR*/
+
+        &::-webkit-scrollbar {
+            width: 15px;
+        }
+
+        &::-webkit-scrollbar-track {
+            border: 1px solid var(--white);
+            border-radius: 10px;
+        }
+
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--light-green);
+            border-radius: 10px;
+        }
+
 
         .comment {
             display: flex;
@@ -598,6 +635,50 @@ button.btn-link {
             background-color: var(--dark-blue);
             height: auto;
             width: 100%;
+            border: 1px solid var(--white);
+
+            .comment-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                height: auto;
+                width: 100%;
+
+
+                h5 {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 15px;
+                    margin-bottom: 0.5rem;
+
+
+                    /*username link to profile*/
+                    a {
+
+                    }
+
+                    /*avatar in comment*/
+                    img {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+
+                }
+
+                /*comment date*/
+                p {
+
+                }
+
+
+            }
 
         }
     }

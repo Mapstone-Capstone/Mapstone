@@ -1,6 +1,6 @@
 
 import {
-    getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getImagesByCountryIdAndUserId, getAllImages, getAllEntries, getEntriesByCountryIdAndMapId, addMapMarkers
+    getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getImagesByCountryIdAndUserId, getAllImages, getAllEntries, getEntriesByCountryIdAndMapId, addMapMarkers, getSingleCountry
 } from "./mapbox-map-utils.js";
 import {geocode} from "./mapbox-geocoder-utils.js";
 let urlpattern = `${window.location.protocol}//${window.location.host}`
@@ -181,7 +181,7 @@ const onMapLoad = async () => {
                     //adds a line layer to the map, to highlight the country that the user is viewing images for
                     map.addLayer({
                         "id": "test",
-                        "type": "fill",
+                        "type": "line",
                         "source": "world",
                         "layout": {},
                         "paint": {

@@ -79,165 +79,119 @@
             <button id="view-images-btn" type="button">View Images</button>
           </div>
         </div>
-
-        <!--Images Container (add a navbar for a journal instead of just image)-->
-        <div id="country-images-wrapper" class="hide-country-images-wrapper">
-          <div class="country-images-header w-100">
-            <h2>Images</h2>
-
-            <div>
-              <button type="button" id="edit-journal-btn">Edit Journal</button>
-            </div>
-
-            <div id="create-entries"></div>
-
-            <!--Dynamic Dropdown Filter-->
-            <div class="dropdown">
-              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                 aria-expanded="false">
-                Filter Images By Country
-              </a>
-
-              <ul class="dropdown-menu">
-                <li>
-                  <button id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>
-                </li>
-                <li style="list-style: none">
-                  <form>
-                    <th:block th:each="country : ${user.getCountries()}">
-                      <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>
-                      <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}"
-                              type="button"></button>
-                    </th:block>
-                  </form>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="country-images-body w-100">
-            <div id="image-container" class="country-images w-100">
-              <th:block th:each="image : ${user.getImages()}">
-                <div class="country-image">
-                  <img th:src="${image.getImageUrl()}" alt="country image">
-                </div>
-              </th:block>
-            </div>
-
-            <article id="view-entries">
-              <h3>Journal</h3>
-              <th:block th:each="entry : ${user.getEntries()}">
-                <div>
-                  <h5 th:text="${entry.getTitle()}"></h5>
-                  <p>Date: <span th:text="${entry.getDate()}"></span></p>
-                  <p><span th:text="${entry.getDescription()}"></span></p>
-                </div>
-                <br/>
-              </th:block>
-            </article>
-          </div>
-          <div>
-
-            <!--  FORM FOR UPDATING/EDITING MAP STYLE    -->
-            <form id="update-map-form" th:object="${map}">
-              <input id="map-id" th:hidden="true" th:field="*{id}"/>
-              <input id="user-id" th:hidden="true" th:field="*{user}"/>
-              <input id="current-style" value="" th:hidden="true" th:field="*{style}">
-              <input id="current-color" value="" th:hidden="true" th:field="*{color}">
-              <input id="current-projection" value="" th:hidden="true" th:field="*{projection}">
-              <input id="current-zoom" value="" th:hidden="true" th:field="*{zoom}">
-            </form>
-          </div>
-        </div>
       </div>
     </section>
   </div>
 
   <!--  WILL DON'T CHANGE ANYTHING ABOVE THIS COMMENT - EVERYTHING ABOVE THIS IS RESPONSIVE FOR MOBILE-->
 
-
-  <div class="images-comment-row">
+  <div class="secondary-row">
     <section>
-      <!--Images Container (add a navbar for a journal instead of just image)-->
-<!--      <div id="country-images-wrapper" class="hide-country-images-wrapper">-->
-<!--        <div class="country-images-header w-100">-->
-<!--          <h2>Images</h2>-->
-
-<!--          &lt;!&ndash;	          <div>&ndash;&gt;-->
-<!--          &lt;!&ndash;		          <button type="button" id="edit-journal-btn">Edit Journal</button>&ndash;&gt;-->
-<!--          &lt;!&ndash;	          </div>&ndash;&gt;-->
-
-<!--          <div id="create-entries"></div>-->
-
-<!--          &lt;!&ndash;Dynamic Dropdown Filter&ndash;&gt;-->
-<!--          <div class="dropdown">-->
-<!--            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"-->
-<!--               aria-expanded="false">-->
-<!--              Filter Images By Country-->
-<!--            </a>-->
-
-<!--            <ul class="dropdown-menu">-->
-<!--              <li>-->
-<!--                <button id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>-->
-<!--              </li>-->
-<!--              <li style="list-style: none">-->
-<!--                <form>-->
-<!--                  <th:block th:each="country : ${user.getCountries()}">-->
-<!--                    <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>-->
-<!--                    <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}"-->
-<!--                            type="button"></button>-->
-<!--                  </th:block>-->
-<!--                </form>-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="country-images-body w-100">-->
-<!--          <div id="image-container" class="country-images w-100">-->
-<!--            <th:block th:each="image : ${user.getImages()}">-->
-<!--              <div class="country-image">-->
-<!--                <img th:src="${image.getImageUrl()}" alt="country image">-->
-<!--              </div>-->
-<!--            </th:block>-->
-<!--          </div>-->
-
-<!--          <article id="view-entries">-->
-<!--            <h3>Journal</h3>-->
-<!--            <th:block th:each="entry : ${user.getEntries()}">-->
-<!--              <div>-->
-<!--                <h5 th:text="${entry.getTitle()}"></h5>-->
-<!--                <p>Date: <span th:text="${entry.getDate()}"></span></p>-->
-<!--                <p><span th:text="${entry.getDescription()}"></span></p>-->
-<!--              </div>-->
-<!--              <br/>-->
-<!--            </th:block>-->
-<!--          </article>-->
-<!--        </div>-->
-<!--      </div>-->
-
       <!--  COMMENTS CONTAINER  -->
-      <div class="comments-container">
-        <div class="comments-header">
-          <h2>Comments: </h2>
-        </div>
+      <div class="comments-container display-comments-container">
+        <!--   DISPLAYS ALL THE COMMENTS THAT EXIST FOR THE MAP -->
+        <!--   if the map has comments display them if not displays text that says no comments to show-->
+        <div class="comments-body" th:switch="${commentList.size()}">
+          <div th:case="0">
+            <p class="text-center">No comments to show</p>
+          </div>
+          <div th:case="*">
+            <th:block th:each="item : ${commentList}">
+              <div class="comment">
+                <div class="comment-header">
+                  <h5>Username:
+                    <a th:href="@{https://www.map-share.net/viewprofile/{id}(id=${item.getUser().getId()})}"
+                       th:text="${item.getUser().getUsername()}">
+                    </a>
+                    <img th:src="${item.getUser().getAvatar()}"/>
+                  </h5>
+                  <!-- format the date-->
+                  <p>Date: <span th:text="${item.getDate()}"></span></p>
 
-        <div class="comments-body" th:each="item : ${commentList}">
-          <div class="comment w-50 p-3">
-            <div class="comment-header">
-              <h5>Username: <img th:src="${item.getUser().getAvatar()}" style="width: 50px; height: auto"/><a
-                  th:href="@{https://www.map-share.net/viewprofile/{id}(id=${item.getUser().getId()})}"
-                  th:text="${item.getUser().getUsername()}"></a>
-              </h5>
-              <p>date: <span th:text="${item.getDate()}"></span></p>
-            </div>
-            <div class="comment-body">
-              <p th:text="${item.comment}"></p>
-            </div>
+                </div>
+                <div class="comment-body">
+                  <p th:text="${item.comment}"></p>
+                </div>
+              </div>
+            </th:block>
           </div>
         </div>
       </div>
+      <!-- END OF COMMENTS CONTAINER -->
+
+      <!--Images Container (add a navbar for a journal instead of just image)-->
+      <div id="country-images-wrapper" class="hide-country-images-wrapper">
+        <div class="country-images-header w-100">
+          <h2>Images</h2>
+
+          <div>
+            <button type="button" id="edit-journal-btn">Edit Journal</button>
+          </div>
+
+          <div id="create-entries"></div>
+
+          <!--Dynamic Dropdown Filter-->
+          <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Filter Images By Country
+            </a>
+
+            <ul class="dropdown-menu">
+              <li>
+                <button id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>
+              </li>
+              <li style="list-style: none">
+                <form>
+                  <th:block th:each="country : ${user.getCountries()}">
+                    <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>
+                    <button class="image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}"
+                            type="button"></button>
+                  </th:block>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="country-images-body w-100">
+          <div id="image-container" class="country-images w-100">
+            <th:block th:each="image : ${user.getImages()}">
+              <div class="country-image">
+                <img th:src="${image.getImageUrl()}" alt="country image">
+              </div>
+            </th:block>
+          </div>
+
+          <article id="view-entries">
+            <h3>Journal</h3>
+            <th:block th:each="entry : ${user.getEntries()}">
+              <div>
+                <h5 th:text="${entry.getTitle()}"></h5>
+                <p>Date: <span th:text="${entry.getDate()}"></span></p>
+                <p><span th:text="${entry.getDescription()}"></span></p>
+              </div>
+              <br/>
+            </th:block>
+          </article>
+        </div>
+        <div>
+
+          <!--  FORM FOR UPDATING/EDITING MAP STYLE    -->
+          <form id="update-map-form" th:object="${map}">
+            <input id="map-id" th:hidden="true" th:field="*{id}"/>
+            <input id="user-id" th:hidden="true" th:field="*{user}"/>
+            <input id="current-style" value="" th:hidden="true" th:field="*{style}">
+            <input id="current-color" value="" th:hidden="true" th:field="*{color}">
+            <input id="current-projection" value="" th:hidden="true" th:field="*{projection}">
+            <input id="current-zoom" value="" th:hidden="true" th:field="*{zoom}">
+          </form>
+        </div>
+      </div>
+
     </section>
+  </div>
+
 
   </div>
 
@@ -257,7 +211,7 @@
             <i class="bi bi-facebook"></i>
           </a>
 
-          <a id="linkedin" target="popup" class="btn btn-primary" style="background-color: #0082ca;"  role="button">
+          <a id="linkedin" target="popup" class="btn btn-primary" style="background-color: #0082ca;" role="button">
             <i class="bi bi-linkedin"></i>
           </a>
 
