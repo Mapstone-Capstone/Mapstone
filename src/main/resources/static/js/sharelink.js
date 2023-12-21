@@ -2,7 +2,8 @@ let Sharelink = document.getElementById("share")
 let id = document.getElementById("share").value
 let text = document.getElementById("link")
 let modal = document.getElementById("sharelinkmodal")
-let close = document.getElementsByClassName("close")[0]
+let close = document.getElementsByClassName("modal-close")[0]
+let backdrop = document.getElementsByClassName("modal-bg")[0]
 let facebook = document.getElementById("facebook")
 let linkedin = document.getElementById("linkedin")
 let twiiter = document.getElementById("twitter")
@@ -23,3 +24,7 @@ Sharelink.addEventListener("click", async (event)=>{
 close.addEventListener("click", (event)=>{
     modal.style.display="none";
 })
+
+backdrop.addEventListener("click", (event)=>{
+    modal.style.display="none";
+});
