@@ -1,57 +1,68 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{partials/fragments :: head('Create Entry', '/css/profile.css')}">
+<head th:replace="~{partials/fragments :: head('Create Entry', '/css/create-entry.css')}">
+	<title>Create Entries</title>
 </head>
 <body>
+<div class="page-wrapper">
+
 <nav th:replace="~{partials/fragments :: nav}"></nav>
-<main class="page-wrapper">
-<h1>Create A Journal Entry</h1>
-<form th:action="@{/create-entries}" th:method="post" th:object="${entry}">
-	
-	<p>Choose a trip to country you want to talk about: <strong><span id="country-value"></span></strong></p>
-	
-	<div class="dropdown">
-		<a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-			Dropdown link
-		</a>
-		<ul class="dropdown-menu">
-			<th:block th:each="country : ${countries}">
-				<li>
-					<button class="dropdown-item country-entry" th:text="${country.getName()}" th:value="${country.getId()}" type="button"></button>
-				</li>
-			</th:block>
-		</ul>
-	</div>
-	<input name="country-id" id="country-id" type="hidden" />
-	<br />
-	
-	<label for="entry-title">Title:
-		<input th:field="*{title}" id="entry-title" name="entry-title"/>
-	</label>
-	<br />
-	
-	<label for="entry-description">Description:
-		<input th:field="*{description}" id="entry-description" name="entry-description"/>
-	</label>
-	
-	<label for="start">When was the trip:
-		<input type="date" id="start" name="entry-date" min="1990-01-01" max="2025-12-31" />
-	</label>
-	
-	<br />
-	<input type="submit" />
-	
-	
-	<div id="image-container" class="country-images">
-	</div>
-</form>
 
-
+	<div class="container">
+		
+		<main>
+			
+			<h1>Create A Journal Entry</h1>
+			
+			<form th:action="@{/create-entries}" th:method="post" th:object="${entry}">
+				
+				<p>Choose a trip to country you want to talk about: <strong><span id="country-value"></span></strong></p>
+				
+				<div class="dropdown">
+					<a class="btn btn-body dropdown-toggle border border-1 border-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Select Country
+					</a>
+					<ul class="dropdown-menu">
+						<th:block th:each="country : ${countries}">
+							<li>
+								<button class="dropdown-item country-entry" th:text="${country.getName()}" th:value="${country.getId()}" type="button"></button>
+							</li>
+						</th:block>
+					</ul>
+				</div>
+				
+				<input name="country-id" id="country-id" type="hidden" />
+				<br />
+				
+				<label for="entry-title"><strong>Title: </strong>
+					<input th:field="*{title}" id="entry-title" name="entry-title"/>
+				</label>
+				<br />
+				
+				<label for="entry-description"><strong>Description: </strong>
+					<textarea th:field="*{description}" id="entry-description" name="entry-description"></textarea>
+				</label>
+				
+				<label for="start"><strong>When was the trip: </strong>
+					<input type="date" id="start" name="entry-date" min="1990-01-01" max="2025-12-31" />
+				</label>
+				
+				<br />
+				<button class="entry-buttons" type="submit"><strong>Submit</strong></button>
+				
+			</form>
+		</main>
+		
+		<div id="image-container" class="image-container-hide">
+			<h1>Images of your trip</h1>
+		</div>
+		
+	</div>
 <footer th:replace="~{partials/fragments :: footer} "></footer>
-</main>
-<th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
-<script src="/js/badges.js"></script>
-<script src="/js/sharelink.js"></script>
-<script src="/js/entries.js"></script>
+</div>
+<th:block th:replace="~{partials/fragments :: scripts('/js/entries.js')}"></th:block>
+<!--<script src="/js/badges.js"></script>-->
+<!--<script src="/js/sharelink.js"></script>-->
+<!--<script src="/js/entries.js"></script>-->
 </body>
 </html>

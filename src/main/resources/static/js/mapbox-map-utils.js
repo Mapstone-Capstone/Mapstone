@@ -1,7 +1,7 @@
 import {geocode, reverseGeocode} from "./mapbox-geocoder-utils.js";
 import {uploadImages} from "./images.js";
 
-let urlpattern = `${window.location.protocol}//${window.location.host}`
+let urlpattern = `${window.location.protocol}//${window.location.host}`;
 // let urlpattern = `http://localhost:8080`;
 let countriesVisited = [];
 let countryName;
@@ -64,8 +64,10 @@ const generateUserMap = async (mapDetails) => {
 
     map.addControl(new mapboxgl.NavigationControl());
 
+
     return map;
 };
+
 
 async function addDefaultLayers(map, mapDetails) {
 
@@ -126,12 +128,22 @@ async function addUserLayers(map, mapDetails) {
                 "filter": ["==", "NAME", `${userMapLayers[i].name}`]
             });
         }
+
+        //create a layer for the markers to be added to
+        map.addSource("markers", {
+            type: "geojson",
+            data: {
+                type: "FeatureCollection",
+                features: []
+            }
+        });
+
     }
 
 }
 
 function searchForCountry(map) {
-const searchForm = document.querySelector(".geocode-search");
+    const searchForm = document.querySelector(".geocode-search");
     //get user search input and pass in through geocode function
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-button");
@@ -185,74 +197,85 @@ const uploadImagesOnMap = (countryName) => {
 
 //event to display images
 const displayImages = () => {
-
+    const commentsContainer = document.querySelector(".comments-container");
     const viewImagesBtn = document.getElementById("view-images-btn");
     const countryImagesWrapper = document.getElementById("country-images-wrapper");
 
     viewImagesBtn.addEventListener("click", () => {
 
+        //if the country images wrapper is hidden, display it and hide the comments container
         if (countryImagesWrapper.className === "hide-country-images-wrapper") {
 
             countryImagesWrapper.classList.remove("hide-country-images-wrapper");
+            commentsContainer.classList.remove(("display-comments-container"));
+
+            viewImagesBtn.innerHTML = `View Comments <i class="bi bi-chat"></i>`;
+
+            commentsContainer.classList.add("hide-comments-container");
             countryImagesWrapper.classList.add("display-country-images-wrapper");
 
+            //if the country images wrapper is displayed, hide it and display the comments container
         } else if (countryImagesWrapper.className === "display-country-images-wrapper") {
 
             countryImagesWrapper.classList.remove("display-country-images-wrapper");
-            countryImagesWrapper.classList.add("hide-country-images-wrapper");
+            commentsContainer.classList.remove("hide-comments-container");
+            viewImagesBtn.innerHTML = `View Images <i class="bi bi-images"></i>`;
 
+            commentsContainer.classList.add("display-comments-container");
+            countryImagesWrapper.classList.add("hide-country-images-wrapper");
         }
     });
-};
 
-//filter images
-const viewAllImages = document.getElementById("all-images");
-const imageContainer = document.getElementById("image-container");
-const createEntries = document.getElementById("create-entries");
-const viewEntries = document.getElementById("view-entries");
+    //filter images
+    const viewAllImages = document.getElementById("all-images");
+    const imageContainer = document.getElementById("image-container");
+    const createEntries = document.getElementById("create-entries");
+    const viewEntries = document.getElementById("view-entries");
 
-viewAllImages.addEventListener("click", () => {
+    viewAllImages.addEventListener("click", () => {
 
-    createEntries.innerHTML = "";
-    imageContainer.innerHTML = "";
-    viewEntries.innerHTML = "";
+        createEntries.innerHTML = "";
+        imageContainer.innerHTML = "";
+        viewEntries.innerHTML = "";
 
-});
+    });
 
-//filter images
-viewAllImages.addEventListener("click", () => {
-    imageContainer.innerHTML = "";
-    getAllImages(viewAllImages.value).then(function (response) {
-        response.forEach((image) => {
+    //filter images
+    viewAllImages.addEventListener("click", () => {
+        imageContainer.innerHTML = "";
+        getAllImages(viewAllImages.value).then(function (response) {
+            response.forEach((image) => {
 
-            createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
-            imageContainer.innerHTML += `
+                createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
+                imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
                         </div>
                     `;
+            });
+
         });
 
-    });
 
+        getAllEntries(viewAllImages.value).then(function (response) {
 
-getAllEntries(viewAllImages.value).then(function (response) {
+            viewEntries.innerHTML = `<h3>Journal</h3>`;
 
-    viewEntries.innerHTML = `<h3>Journal</h3>`;
+            response.forEach((entry) => {
 
-    response.forEach((entry) => {
-
-        viewEntries.innerHTML += `
+                viewEntries.innerHTML += `
                             <div>
                                 <h5>${entry.title}</h5>
                                 <p>Date: ${entry.date}</p>
                                 <p>${entry.description}</p>
                             </div>
                         `;
-    });
-});
+            });
+        });
 
-});
+    });
+
+};
 
 //upload profile avatar
 const uploadAvatar = () => {
@@ -290,7 +313,11 @@ const onMapLoad = async () => {
         await addDefaultLayers(map, mapDetails);
         await addUserLayers(map, mapDetails, id);
         let allLayers = map.getStyle().layers;
-        console.log(allLayers);
+
+        //adds the markers to the map
+        await addMapMarkers(map, id);
+
+
         //reveals the highlighted layer when the user hovers over a country
         let hoveredPolygonId = null;
         map.on("mousemove", "highlighted", (e) => {
@@ -333,9 +360,14 @@ const onMapLoad = async () => {
         // Log the name of the clicked layer to the console
         if (features.length > 0) {
             countryName = features[0].properties.NAME;
+            console.log(features[0]);
+            //if the user clicks on the ocean
             if (countryName === undefined) {
                 return;
             }
+
+            //if th user clicks on a map marker
+
             countryId = features[0].id;
             let allLayers = map.getStyle().layers;
             for (let i = 0; i < allLayers.length; i++) {
@@ -416,8 +448,6 @@ const onMapLoad = async () => {
     }
 
 
-
-
     //filter images
     const viewAllImages = document.getElementById("all-images");
     const filterImageBtn = document.getElementsByClassName("image-filter-btn");
@@ -427,7 +457,7 @@ const onMapLoad = async () => {
     for (const btn of filterImageBtn) {
         btn.addEventListener("click", () => {
             imageContainer.innerHTML = "";
-           //if the test layer exists, remove it from the map
+            //if the test layer exists, remove it from the map
             //this is the layer that highlights the country that the user is viewing images for
             if (map.getLayer("test")) {
                 map.removeLayer("test");
@@ -501,7 +531,7 @@ const onMapLoad = async () => {
     const resetMapButton = document.getElementById("reset-map-button");
     resetMapButton.addEventListener("click", async function (e) {
         e.preventDefault();
-       const resetMapModal = document.createElement("div");
+        const resetMapModal = document.createElement("div");
         resetMapModal.classList.add("modal");
         resetMapModal.innerHTML = `<div class="modal-bg"></div>
         <div class="modal-content">
@@ -823,6 +853,73 @@ const getAllEntries = async (id) => {
     return entries;
 };
 
+const getImagesByMapId = async (id) => {
+    const url = `${urlpattern}/api/images/map/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let images = await response.json();
+    return images;
+};
+
+async function addMapMarkers(map, id) {
+    //get all the images that belong to the logged-in user //uses the map id to get the images
+    let userImages = await getImagesByMapId(id);
+    //the response is a hashmap with the image url as the key, and the country name as the value
+    //loops through the hashmap and passes the key through the geocode function to get the lngLat then creates a marker for each lngLat and a popup with the images for that country
+    //initialize a geojson object
+    const geojson = {
+        "type": "FeatureCollection",
+        "features": []
+    };
+
+    for (let [key, value] of Object.entries(userImages)) {
+        geocode(key, MAP_BOX_TOKEN).then(function (results) {
+            //create a feature for each image //the feature will be a marker
+            let feature = {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": results
+                },
+                "properties": {
+                    "images": value,
+                    "message": key,
+                    "iconSize": [50, 50]
+                }
+            };
+            //push the feature to the geojson object
+            geojson.features.push(feature);
+            //loop through the geojson features and add a marker for each feature
+            for (const marker of geojson.features) {
+                console.log(marker.properties.images);
+                // Create a DOM element for each marker.
+                let el = document.createElement("div");
+                el.classList.add("img-marker");
+                el.className = "marker";
+                el.innerHTML = `<p style="text-align: center; color: white; background-color: var(--bright-blue); padding: 0; margin: 0; border-radius: 999px; position: relative; top: -10px; right: -25px; height: 30px; width: 30px; font-size: 15px">${marker.properties.images.length}</p>`;
+                el.style.backgroundImage = `url(${marker.properties.images[0]})`;
+                el.style.width = "50px";
+                el.style.height = "50px";
+                el.style.backgroundSize = "cover";
+                el.style.borderRadius = "6px";
+                el.style.border = "2px solid var(--white)";
+                el.style.cursor = "pointer";
+                el.style.zIndex = "9";
+
+                // Add markers to the map.
+                new mapboxgl.Marker(el)
+                    .setLngLat(marker.geometry.coordinates)
+                    .addTo(map);
+            }
+        });
+    }
+}
+
 export {
 
     onMapLoad,
@@ -842,6 +939,9 @@ export {
     getAllImages,
     getAllEntries,
     getEntriesByCountryIdAndMapId,
-    getImagesByCountryIdAndUserId
+    getImagesByCountryIdAndUserId,
+    addMapMarkers,
+    getSingleCountry,
 
 };
+

@@ -1,15 +1,33 @@
 
 import {
-    getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getImagesByCountryIdAndUserId, getAllImages, getAllEntries, getEntriesByCountryIdAndMapId
+    getUserMapDetails, generateUserMap, addUserLayers, getUserMapLayers, getImagesByCountryId, getImagesByCountryIdAndUserId, getAllImages, getAllEntries, getEntriesByCountryIdAndMapId, addMapMarkers, getSingleCountry
 } from "./mapbox-map-utils.js";
 import {geocode} from "./mapbox-geocoder-utils.js";
 let urlpattern = `${window.location.protocol}//${window.location.host}`
 let opacity = 0.8;
 let id = document.getElementById("map-id").value;
 let userId = document.getElementById("user-id").value;
+let commentTextArea = document.querySelector(".comment-textarea");
+let isLoggedIn = document.getElementById("isLoggedIn").value;
 let countryName;
-//get the map id of the map that belongs to the logged-in user from the hidden input field
 
+
+
+//allows the textarea to grow as the user types
+//must check if the user is logged in, because if they are not, the textarea does not exist and the code will break
+if (isLoggedIn === "true") {
+
+    commentTextArea.addEventListener("input", function (e){
+        e.preventDefault();
+        commentTextArea.style.height = "auto";
+        commentTextArea.style.height = commentTextArea.scrollHeight + "px";
+    });
+}
+
+
+
+
+//get the map id of the map that belongs to the logged-in user from the hidden input field
 const getViewOnlyUserMapLayers = async (id) => {
     const url = `${urlpattern}/api/map/layers/${id}`;
     let options = {
@@ -99,27 +117,42 @@ const onMapLoad = async () => {
 
         await addViewOnlyUserLayers(map, mapDetails);
         let allLayers = map.getStyle().layers;
-        console.log(allLayers);
-        console.log(id)
+
+        //displays the image and journal entries for the first country in the list
+        displayImages();
+
+        //add user markers to the map
+        await addMapMarkers(map, id);
     });
 
 
     //event to display images
     const displayImages = () => {
-
+        const commentsContainer = document.querySelector(".comments-container");
         const viewImagesBtn = document.getElementById('view-images-btn');
         const countryImagesWrapper = document.getElementById('country-images-wrapper');
 
         viewImagesBtn.addEventListener('click', () => {
 
+            //if the country images wrapper is hidden, display it and hide the comments container
             if (countryImagesWrapper.className === "hide-country-images-wrapper") {
 
                 countryImagesWrapper.classList.remove("hide-country-images-wrapper");
+                commentsContainer.classList.remove(("display-comments-container"));
+
+                viewImagesBtn.innerHTML = `View Comments <i class="bi bi-chat"></i>`
+
+                commentsContainer.classList.add("hide-comments-container");
                 countryImagesWrapper.classList.add("display-country-images-wrapper");
 
+                //if the country images wrapper is displayed, hide it and display the comments container
             } else if (countryImagesWrapper.className === "display-country-images-wrapper") {
 
                 countryImagesWrapper.classList.remove("display-country-images-wrapper");
+                commentsContainer.classList.remove("hide-comments-container");
+                viewImagesBtn.innerHTML = `View Images <i class="bi bi-images"></i>`
+
+                commentsContainer.classList.add("display-comments-container");
                 countryImagesWrapper.classList.add("hide-country-images-wrapper");
 
             }
@@ -148,7 +181,7 @@ const onMapLoad = async () => {
                     //adds a line layer to the map, to highlight the country that the user is viewing images for
                     map.addLayer({
                         "id": "test",
-                        "type": "fill",
+                        "type": "line",
                         "source": "world",
                         "layout": {},
                         "paint": {

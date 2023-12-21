@@ -112,6 +112,62 @@ public class MapsRestController {
                 loggedInUser.getBadges().add(badgesDao.getOne(2));
             }
 
+            //user has visited at least 5 countries in Europe and does not already have this badge
+            if (updatedCountries.stream().filter(country1 -> country1.getContinent().equals("Europe")).count() >= 5 &&
+                    !userBadges.contains(badgesDao.getReferenceById(6))) {
+                userBadges.add(badgesDao.getOne(6));
+                loggedInUser.getBadges().add(badgesDao.getOne(6));
+            }
+
+            //user has visited at least 5 countries in Asia and does not already have this badge
+            if (updatedCountries.stream().filter(country1 -> country1.getContinent().equals("Asia")).count() >= 5 &&
+                    !userBadges.contains(badgesDao.getReferenceById(7))) {
+                userBadges.add(badgesDao.getOne(7));
+                loggedInUser.getBadges().add(badgesDao.getOne(7));
+            }
+
+            //user has visited at least 5 countries in Africa and does not already have this badge
+            if (updatedCountries.stream().filter(country1 -> country1.getContinent().equals("Africa")).count() >= 5 &&
+                    !userBadges.contains(badgesDao.getReferenceById(8))) {
+                userBadges.add(badgesDao.getOne(8));
+                loggedInUser.getBadges().add(badgesDao.getOne(8));
+            }
+
+            //user has visited at least 5 countries in North America and does not already have this badge
+            if (updatedCountries.stream().filter(country1 -> country1.getContinent().equals("North America")).count() >= 5 &&
+                    !userBadges.contains(badgesDao.getReferenceById(9))) {
+                userBadges.add(badgesDao.getOne(9));
+                loggedInUser.getBadges().add(badgesDao.getOne(9));
+            }
+
+            //user has visited at least 5 countries in South America and does not already have this badge
+            if (updatedCountries.stream().filter(country1 -> country1.getContinent().equals("South America")).count() >= 5 &&
+                    !userBadges.contains(badgesDao.getReferenceById(10))) {
+                userBadges.add(badgesDao.getOne(10));
+                loggedInUser.getBadges().add(badgesDao.getOne(10));
+            }
+
+            //user has visited at least 5 countries in Oceania and does not already have this badge
+            if (updatedCountries.stream().filter(country1 -> country1.getContinent().equals("Oceania")).count() >= 5 &&
+                    !userBadges.contains(badgesDao.getReferenceById(11))) {
+                userBadges.add(badgesDao.getOne(11));
+                loggedInUser.getBadges().add(badgesDao.getOne(11));
+            }
+
+            //user has visited at least 1 country in North America and South America and does not already have this badge
+            if (updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("North America")) &&
+                    updatedCountries.stream().anyMatch(country1 -> country1.getContinent().equals("South America")) &&
+                    !userBadges.contains(badgesDao.getReferenceById(3))) {
+                userBadges.add(badgesDao.getOne(3));
+                loggedInUser.getBadges().add(badgesDao.getOne(3));
+            }
+
+            //user has obtained all other 11 badges
+            if (userBadges.size() == 11 && !userBadges.contains(badgesDao.getReferenceById(12))) {
+                userBadges.add(badgesDao.getOne(12));
+                loggedInUser.getBadges().add(badgesDao.getOne(12));
+            }
+
         userDao.save(user);
         //return the list of countries
         return countryDao.getAllByUsers_Id(loggedInUser.getId());

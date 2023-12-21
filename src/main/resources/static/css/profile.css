@@ -3,6 +3,15 @@
     box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Mada', sans-serif;
+    background-color: var(--dark-blue);
+    color: var(--white);
+}
+
+/* TUTORIAL POPOVER STYLING  */
 .driver-popover {
     display: flex;
     flex-direction: column;
@@ -21,6 +30,7 @@
     margin-bottom: 0.5rem;
     text-align: center;
 }
+
 .driver-popover-description {
     font-size: 1.2rem;
     margin-bottom: 0;
@@ -52,7 +62,8 @@ button {
     }
 }
 
-.main-row {
+/*PROFILE PAGE CONTAINER*/
+.main-row, .secondary-row {
     display: flex;
     flex-direction: row;
     height: 100%;
@@ -67,6 +78,7 @@ button {
 
 }
 
+/*LEFT COLUMN CONTAINER WITH USER INFO*/
 aside {
     background-color: var(--federal-blue);
     color: white;
@@ -146,14 +158,28 @@ aside {
 
 }
 
+/*BADGES CONTAINER*/
 .badges {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    max-width: 350px;
 
     .badge-wrapper {
         min-height: 100px;
+
+        .badge-name {
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .badge-description {
+            font-size: 1rem;
+            margin-bottom: 0;
+            text-align: center;
+        }
 
         &:hover {
             cursor: pointer;
@@ -162,11 +188,13 @@ aside {
         .badge-img {
             width: 75px;
             height: 75px;
+            object-fit: cover;
         }
     }
 }
 
 
+/*RIGHT COLUMN CONTAINER HOLDING THE MAP*/
 .map-column {
     display: flex;
     flex-direction: column;
@@ -256,77 +284,23 @@ aside {
 
 }
 
-
-.images-comment-row {
-    display: flex;
-    flex-direction: row;
-}
-
-
+/*HIDES THE SHARE LINK MODAL UNTIL THE SHARE BUTTON IS CLICKED*/
 #sharelinkmodal {
     display: none;
 }
 
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
+/*MAKES THE MOUSE CURSOR A POINTER WHEN HOVERING OVER THE SOCIAL MEDIA ICONS IN THE SHARE LINK MODAL*/
 .icons a {
     cursor: pointer;
 }
 
 
-.hide-country-images-wrapper {
+/*EITHER HIDES OR DISPLAYS THE COUNTRY IMAGES AND COMMENTS CONTAINER BASED ON THE BUTTON CLICKED*/
+.hide-country-images-wrapper, .hide-comments-container {
     display: none;
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    background: var(--white);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
-    & .country-images-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    & .country-images-body {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-
-        & .country-images {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            height: auto;
-            padding: 10px;
-            background: var(--white);
-
-            & .country-image {
-                flex-wrap: wrap;
-                width: 250px;
-                height: auto;
-                object-fit: cover;
-                border-radius: 5px;
-
-                & img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    border-radius: 5px;
-                }
-            }
-        }
-    }
 }
 
+/*COUNTRY IMAGES CONTAINER STYLING*/
 .display-country-images-wrapper {
     display: flex;
     width: 100%;
@@ -373,24 +347,11 @@ aside {
     }
 }
 
-.comment {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    background: var(--white);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
 #edit-journal-modal {
-
     justify-content: center;
     align-items: center;
-
 }
-
-
 
 
 article h3 {
@@ -399,12 +360,10 @@ article h3 {
 }
 
 
-
-
 /*Navbar Buttons*/
 a.nav-link {
 
-    button.btn-link {
+    & button.btn-link {
 
         color: #080063;
         border-radius: 6px;
@@ -505,13 +464,13 @@ a.nav-link {
 
     }
 
-    a.nav-link:hover {
+    & a.nav-link:hover {
         background-color: #080063;
         color: whitesmoke;
         transition: 0.3s;
     }
 
-    button.btn-link {
+    & button.btn-link {
         font-size: 19px;
         padding: 10px;
         border-radius: 6px;
@@ -526,6 +485,205 @@ a.nav-link {
         display: block;
     }
 }
+
+
+button.btn-link {
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    background: white;
+    color: #080063;
+    text-align: center;
+    font-family: Mada sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+
+/*COMMENTS CONTAINER STYLING*/
+.secondary-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    background-color: var(--dark-blue);
+    color: var(--white);
+
+    @media screen and (max-width: 780px) {
+        flex-direction: column;
+        gap: 0;
+        height: auto;
+    }
+
+    section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        width: 100%;
+        height: 100%;
+
+        @media screen and (max-width: 780px) {
+            width: 100%;
+        }
+
+    }
+}
+
+
+.display-comments-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+
+    /*ADD COMMENT FORM*/
+
+    .comment-form-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 75%;
+        gap: 10px;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid var(--white);
+
+        #add-comments {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+            padding: 5px 50px;
+            border-radius: 5px;
+            background: var(--dark-blue);
+            color: var(--light-green);
+
+            textarea {
+                padding: 5px;
+                border-radius: 5px;
+                font-family: inherit;
+                font-size: 17px;
+                font-weight: 500;
+                width: 100%;
+                color: var(--light-green);
+                background: var(--dark-blue);
+                outline: var(--light-green);
+                border: 1px solid var(--light-green);
+
+                &::placeholder {
+                    color: var(--light-green);
+                }
+            }
+
+            button {
+                max-width: 200px;
+            }
+        }
+    }
+
+    .comments-body {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: var(--dark-blue);
+        max-height: 500px;
+        width: 75%;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        @media screen and (max-width: 780px) {
+            width: 100%;
+        }
+
+        /*CUSTOM SCROLLBAR*/
+
+        &::-webkit-scrollbar {
+            width: 15px;
+        }
+
+        &::-webkit-scrollbar-track {
+            border: 1px solid var(--white);
+            border-radius: 10px;
+        }
+
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--light-green);
+            border-radius: 10px;
+        }
+
+
+        .comment {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: var(--dark-blue);
+            height: auto;
+            width: 100%;
+            border: 1px solid var(--white);
+
+            .comment-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                height: auto;
+                width: 100%;
+
+
+                h5 {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 15px;
+                    margin-bottom: 0.5rem;
+
+
+                    /*username link to profile*/
+                    a {
+
+                    }
+
+                    /*avatar in comment*/
+                    img {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+
+                }
+
+                /*comment date*/
+                p {
+
+                }
+
+
+            }
+
+        }
+    }
+}
+
 
 
 

@@ -52,7 +52,7 @@ public class EntriesController {
     }
 
     @PostMapping("/create-entries")
-    public String createEntry(@ModelAttribute Entry entry, @RequestParam(name = "entry-date") String date, @RequestParam(name = "country-id") long id, Model model) {
+    public String createEntry(@ModelAttribute Entry entry, @RequestParam(name = "entry-date") String date, @RequestParam(name = "country-id") long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         System.out.println("TEST");
@@ -71,29 +71,37 @@ public class EntriesController {
 
     }
 
-    @GetMapping("/edit-entries/{id}")
-    public String displayEditEntryForm(@PathVariable long id, Model model) {
+    @GetMapping("/edit-entries")
+    public String displayEditEntryForm(Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Entry userEntry = entryDao.getEntryByIdAndUser_Id(id, loggedInUser.getId());
+        List<Entry> userEntries = entryDao.getEntriesByUser_Id(loggedInUser.getId());
 
         //send a new empty user object to the create entry form
-        model.addAttribute("entry", userEntry);
+        model.addAttribute("entries", userEntries);
 
         return "/users/edit-entry";
     }
 
     @PostMapping("/edit-entries")
-    public String editEntry(@ModelAttribute Entry entry, @RequestParam (name = "entry-id") long id) {
+    public String editEntry(@RequestParam (name = "entry-id") long id, @RequestParam (name = "entry-title") String title, @RequestParam (name = "entry-date") String date, @RequestParam (name = "entry-description") String description) {
 
         Entry userEntry = entryDao.getOne(id);
 
-        userEntry.setTitle(entry.getTitle());
-        userEntry.setDate(entry.getDate());
-        userEntry.setDescription(entry.getDescription());
+        userEntry.setTitle(title);
+        userEntry.setDate(date);
+        userEntry.setDescription(description);
 
         entryDao.save(userEntry);
 
+
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/delete-entries")
+    public String deleteEntries(@RequestParam (name = "entry-id") long id){
+
+        entryDao.deleteById(id);
 
         return "redirect:/profile";
     }
