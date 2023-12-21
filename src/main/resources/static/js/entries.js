@@ -52,6 +52,9 @@ countryEntry.forEach((country) => {
 
    country.addEventListener('click', () => {
 
+       imageContainer.innerHTML = "";
+       imageContainer.innerHTML = `<h1>Images of your trip</h1>`;
+
        getImagesByCountryId(country.value).then((response) => {
 
            response.forEach((imageObject) => {
