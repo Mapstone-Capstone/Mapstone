@@ -1,7 +1,8 @@
 const entrySelect = document.getElementsByClassName('entry-select');
 const entryValue = document.getElementById('entry-value');
 const inputContainer = document.getElementById('input-container');
-const editPageImages = document.getElementById('image-container-editor');
+const entryDeleteForm = document.getElementById('delete-entry-form');
+const entryId = document.getElementById('entry-id');
 
 
 const countryId = document.getElementById('country-id');
@@ -32,13 +33,18 @@ for (let entry of entrySelect) {
                 <label for="entry-description"><strong>Description: </strong>
                     <textarea name="entry-description" id="entry-description"></textarea>
                 </label>
-                
+               
                 <button class="entry-buttons" type="submit"><strong>Save Changes</strong></button>
                 
             `
+
             const entryDescription = document.getElementById('entry-description');
 
             entryDescription.innerText = response.description;
+
+            entryId.value = response.id;
+            entryDeleteForm.classList.remove('delete-btn-hide');
+            entryDeleteForm.classList.add('delete-entry-display');
 
         })
 

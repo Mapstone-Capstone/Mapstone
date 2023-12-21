@@ -7,13 +7,20 @@
 <div class="page-wrapper">
 
 <nav th:replace="~{partials/fragments :: nav}"></nav>
-	<!--TODO: Get rid of existing code for modal-->
+
 	<!--TODO: possible delete button of edit entry page-->
 	
 	<div class="container">
 
 		<main>
+			<div>
+				<form th:action="@{/delete-entries}" th:method="post" id="delete-entry-form" class="delete-btn-hide">
+					<input type="hidden" name="entry-id" id="entry-id">
+					<button type="submit" id="delete-entry-btn">Delete Entry</button>
+				</form>
+			</div>
 			<h1>Edit your Journal Entry</h1>
+			
 			<form id="edit-form" th:action="@{/edit-entries}" th:method="post" th:object="${entries}">
 				
 				<p>Choose an entry you want to edit: <strong><span id="entry-value"></span></strong></p>
@@ -35,10 +42,6 @@
 			</form>
 			
 		</main>
-		
-		<div id="image-container-editor" class="image-container-hide">
-			<h1>Images of your trip</h1>
-		</div>
 		
 	</div>
 	

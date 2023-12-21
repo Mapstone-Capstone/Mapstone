@@ -114,3 +114,11 @@ footer {
     object-fit: cover;
 
 }
+
+.delete-btn-hide {
+    display: none;
+}
+
+.delete-btn-show {
+    display: block;
+}
