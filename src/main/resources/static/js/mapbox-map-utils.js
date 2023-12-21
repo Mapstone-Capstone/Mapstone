@@ -214,57 +214,55 @@ const displayImages = () => {
             countryImagesWrapper.classList.add("hide-country-images-wrapper");
 
         }
+
+        filterAllImages();
     });
 };
 
-//filter images
-const viewAllImages = document.getElementById("all-images");
-const imageContainer = document.getElementById("image-container");
-const createEntries = document.getElementById("create-entries");
-const viewEntries = document.getElementById("view-entries");
+const filterAllImages = () => {
 
-viewAllImages.addEventListener("click", () => {
+    //filter images
+    const viewAllImages = document.getElementById("all-images");
+    const imageContainer = document.getElementById("image-container");
+    const viewEntries = document.getElementById("view-entries");
 
-    createEntries.innerHTML = "";
-    imageContainer.innerHTML = "";
-    viewEntries.innerHTML = "";
+    viewAllImages.addEventListener("click", () => {
 
-});
+        imageContainer.innerHTML = "";
+        viewEntries.innerHTML = "";
 
-//filter images
-viewAllImages.addEventListener("click", () => {
-    imageContainer.innerHTML = "";
-    getAllImages(viewAllImages.value).then(function (response) {
-        response.forEach((image) => {
+        getAllImages(viewAllImages.value).then(function (response) {
+            response.forEach((image) => {
 
-            createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
-            imageContainer.innerHTML += `
+                imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
                         </div>
                     `;
+            });
+
         });
 
-    });
 
+        getAllEntries(viewAllImages.value).then(function (response) {
 
-    getAllEntries(viewAllImages.value).then(function (response) {
+            viewEntries.innerHTML = `<h3>Journal</h3>`;
 
-        viewEntries.innerHTML = `<h3>Journal</h3>`;
+            response.forEach((entry) => {
 
-        response.forEach((entry) => {
-
-            viewEntries.innerHTML += `
+                viewEntries.innerHTML += `
                             <div>
                                 <h5>${entry.title}</h5>
                                 <p>Date: ${entry.date}</p>
                                 <p>${entry.description}</p>
                             </div>
                         `;
+            });
         });
+
     });
 
-});
+}
 
 //upload profile avatar
 const uploadAvatar = () => {
