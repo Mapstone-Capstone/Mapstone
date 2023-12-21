@@ -7,16 +7,14 @@
 <div class="page-wrapper">
 
 <nav th:replace="~{partials/fragments :: nav}"></nav>
-	<!--TODO: Make a dynamic form populate with user entry info is clicked-->
 	<!--TODO: Get rid of existing code for modal-->
 	<!--TODO: possible delete button of edit entry page-->
-	<!--TODO: fix image container, possible slide image container next to create entry form-->
 	
 	<div class="container">
-<!--		<span th:text="${entry.getTitle()}"></span>-->
+
 		<main>
 			<h1>Edit your Journal Entry</h1>
-			<form th:action="@{/edit-entries}" th:method="post" th:object="${entries}">
+			<form id="edit-form" th:action="@{/edit-entries}" th:method="post" th:object="${entries}">
 				
 				<p>Choose an entry you want to edit: <strong><span id="entry-value"></span></strong></p>
 				
@@ -33,24 +31,14 @@
 					</ul>
 				</div>
 				
-<!--				<input type="hidden" name="entry-id" th:value="${entry.getId()}">-->
-<!--				-->
-<!--				<label for="entry-title"><strong>Title: </strong>-->
-<!--					<input name="entry-title" id="entry-title" th:value="${entry.getTitle()}" th:field="*{title}"/>-->
-<!--				</label>-->
-<!--				-->
-<!--				<label for="entry-date"><strong>Date: </strong>-->
-<!--					<input name="entry-date" id="entry-date" type="date" th:value="${entry.getDate()}" th:field="*{date}"/>-->
-<!--				</label>-->
-<!--				-->
-<!--				<label for="entry-description"><strong>Description: </strong>-->
-<!--					<textarea name="entry-description" id="entry-description" th:value="${entry.getDescription()}" th:field="*{description}"></textarea>-->
-<!--				</label>-->
-				
-<!--				<button class="entry-buttons" type="submit"><strong>Save Changes</strong></button>-->
+				<div id="input-container"></div>
 			</form>
 			
 		</main>
+		
+		<div id="image-container-editor" class="image-container-hide">
+			<h1>Images of your trip</h1>
+		</div>
 		
 	</div>
 	

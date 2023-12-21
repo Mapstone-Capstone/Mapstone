@@ -52,7 +52,7 @@ public class EntriesController {
     }
 
     @PostMapping("/create-entries")
-    public String createEntry(@ModelAttribute Entry entry, @RequestParam(name = "entry-date") String date, @RequestParam(name = "country-id") long id, Model model) {
+    public String createEntry(@ModelAttribute Entry entry, @RequestParam(name = "entry-date") String date, @RequestParam(name = "country-id") long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         System.out.println("TEST");
@@ -84,13 +84,13 @@ public class EntriesController {
     }
 
     @PostMapping("/edit-entries")
-    public String editEntry(@ModelAttribute Entry entry, @RequestParam (name = "entry-id") long id) {
+    public String editEntry(@RequestParam (name = "entry-id") long id, @RequestParam (name = "entry-title") String title, @RequestParam (name = "entry-date") String date, @RequestParam (name = "entry-description") String description) {
 
         Entry userEntry = entryDao.getOne(id);
 
-        userEntry.setTitle(entry.getTitle());
-        userEntry.setDate(entry.getDate());
-        userEntry.setDescription(entry.getDescription());
+        userEntry.setTitle(title);
+        userEntry.setDate(date);
+        userEntry.setDescription(description);
 
         entryDao.save(userEntry);
 
