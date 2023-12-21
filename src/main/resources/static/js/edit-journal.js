@@ -1,65 +1,7 @@
 import {getAllEntries} from "./mapbox-map-utils.js";
 
 const editJournalBtn = document.getElementById('edit-journal-btn');
-const editEntry = document.getElementById('entry-value');
 
-const usersEntries = () => {
-
-    const userId = document.getElementById('all-images');
-    const userEntries = document.createElement("div");
-    userEntries.classList.add("modal");
-    userEntries.setAttribute("id", "user-entries");
-
-    userEntries.innerHTML = `
-        <div class="modal-bg"></div>
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h2 class="modal-title">Pick an Entry to edit</h2>
-                <span class="modal-close">&times;</span>
-            </div>
-            <div id="user-entries-body" class="modal-body">
-            </div>
-        </div>
-    `;
-
-    const modalClose = userEntries.querySelector(".modal-close");
-    const modalBackground = userEntries.querySelector(".modal-bg");
-
-    //close modal
-    modalClose.addEventListener("click", () => {
-        userEntries.remove();
-    });
-    modalBackground.addEventListener("click", () => {
-        userEntries.remove();
-    });
-
-    const modalBody = userEntries.querySelector('.modal-body');
-    getAllEntries(userId.value).then(function (response) {
-
-        response.forEach((object) => {
-
-            modalBody.innerHTML += `
-                <button class="entry-title" type="button" value="${object.id}">${object.title}</button>
-            `;
-
-            const entryTitle = modalBody.querySelectorAll('.entry-title');
-
-            entryTitle.forEach((elementBtn) => {
-
-                elementBtn.addEventListener('click', () => {
-
-                    window.location = `/edit-entries/${elementBtn.value}`;
-
-                    });
-
-                });
-            });
-
-        });
-        document.body.appendChild(userEntries);
-}
 
 const editModalPopup = () => {
 
@@ -186,8 +128,6 @@ const editModalPopup = () => {
 
 
 }
-
-
 
 editJournalBtn.addEventListener('click', editModalPopup);
 

@@ -132,6 +132,8 @@ public class UsersController {
 
         model.addAttribute("image", new Image());
 
+        model.addAttribute("entry", new Entry());
+
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
         return "users/profile";

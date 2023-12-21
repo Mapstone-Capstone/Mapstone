@@ -9,7 +9,6 @@
 .container {
     height: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -18,6 +17,7 @@ main {
     /*border: 1px solid black;*/
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    height: 600px;
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -30,6 +30,19 @@ form {
     display: flex;
     flex-direction: column;
 }
+#input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.dropdown-toggle {
+    margin-bottom: 20px;
+}
+
+#entry-description {
+    text-wrap: normal;
+}
 
 h1 {
     text-align: center;
@@ -40,7 +53,7 @@ input {
     padding: 5px;
 }
 
-textarea {
+#entry-description {
     padding: 5px;
     width: 100%;
     height: 100px;
@@ -76,4 +89,36 @@ footer {
         color: white;
         border: 1px solid white;
     }
+}
+
+.image-container-display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: start;
+    padding: 30px;
+    max-width: 500px;
+    height: 600px;
+    gap: 10px;
+    overflow: scroll;
+    scrollbar-width: thin;
+}
+
+.image-container-hide {
+    display: none;
+}
+
+.country-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+
+}
+
+.delete-btn-hide {
+    display: none;
+}
+
+.delete-btn-show {
+    display: block;
 }
