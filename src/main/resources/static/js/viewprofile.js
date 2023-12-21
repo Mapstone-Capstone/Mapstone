@@ -128,20 +128,31 @@ const onMapLoad = async () => {
 
     //event to display images
     const displayImages = () => {
-
+        const commentsContainer = document.querySelector(".comments-container");
         const viewImagesBtn = document.getElementById('view-images-btn');
         const countryImagesWrapper = document.getElementById('country-images-wrapper');
 
         viewImagesBtn.addEventListener('click', () => {
 
+            //if the country images wrapper is hidden, display it and hide the comments container
             if (countryImagesWrapper.className === "hide-country-images-wrapper") {
 
                 countryImagesWrapper.classList.remove("hide-country-images-wrapper");
+                commentsContainer.classList.remove(("display-comments-container"));
+
+                viewImagesBtn.innerHTML = `View Comments <i class="bi bi-chat"></i>`
+
+                commentsContainer.classList.add("hide-comments-container");
                 countryImagesWrapper.classList.add("display-country-images-wrapper");
 
+                //if the country images wrapper is displayed, hide it and display the comments container
             } else if (countryImagesWrapper.className === "display-country-images-wrapper") {
 
                 countryImagesWrapper.classList.remove("display-country-images-wrapper");
+                commentsContainer.classList.remove("hide-comments-container");
+                viewImagesBtn.innerHTML = `View Images <i class="bi bi-images"></i>`
+
+                commentsContainer.classList.add("display-comments-container");
                 countryImagesWrapper.classList.add("hide-country-images-wrapper");
 
             }
