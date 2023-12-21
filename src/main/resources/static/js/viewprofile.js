@@ -7,9 +7,27 @@ let urlpattern = `${window.location.protocol}//${window.location.host}`
 let opacity = 0.8;
 let id = document.getElementById("map-id").value;
 let userId = document.getElementById("user-id").value;
+let commentTextArea = document.querySelector(".comment-textarea");
+let isLoggedIn = document.getElementById("isLoggedIn").value;
 let countryName;
-//get the map id of the map that belongs to the logged-in user from the hidden input field
 
+
+
+//allows the textarea to grow as the user types
+//must check if the user is logged in, because if they are not, the textarea does not exist and the code will break
+if (isLoggedIn === "true") {
+
+    commentTextArea.addEventListener("input", function (e){
+        e.preventDefault();
+        commentTextArea.style.height = "auto";
+        commentTextArea.style.height = commentTextArea.scrollHeight + "px";
+    });
+}
+
+
+
+
+//get the map id of the map that belongs to the logged-in user from the hidden input field
 const getViewOnlyUserMapLayers = async (id) => {
     const url = `${urlpattern}/api/map/layers/${id}`;
     let options = {
@@ -99,6 +117,9 @@ const onMapLoad = async () => {
 
         await addViewOnlyUserLayers(map, mapDetails);
         let allLayers = map.getStyle().layers;
+
+        //displays the image and journal entries for the first country in the list
+        displayImages();
 
         //add user markers to the map
         await addMapMarkers(map, id);

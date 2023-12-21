@@ -3,6 +3,14 @@
     box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Mada', sans-serif;
+    background-color: var(--dark-blue);
+    color: var(--white);
+}
+
 /* TUTORIAL POPOVER STYLING  */
 .driver-popover {
     display: flex;
@@ -22,6 +30,7 @@
     margin-bottom: 0.5rem;
     text-align: center;
 }
+
 .driver-popover-description {
     font-size: 1.2rem;
     margin-bottom: 0;
@@ -53,7 +62,7 @@ button {
     }
 }
 
-.main-row {
+.main-row, .secondary-row {
     display: flex;
     flex-direction: row;
     height: 100%;
@@ -406,14 +415,10 @@ aside {
 }
 
 
-
-
 article h3 {
     text-align: center;
     text-decoration: underline;
 }
-
-
 
 
 /*Navbar Buttons*/
@@ -554,6 +559,119 @@ button.btn-link {
     font-weight: 700;
     text-decoration: none;
 }
+
+
+/*STYLES SPECIFIC TO VIEW PROFILE HTML*/
+
+.secondary-aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+    flex-grow: 1;
+    max-width: 50%;
+    box-sizing: border-box;
+}
+
+/*ADD COMMENT FORM*/
+
+.secondary-row {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    background-color: var(--dark-blue);
+    color: var(--white);
+
+    @media screen and (max-width: 780px) {
+        flex-direction: column;
+        gap: 0;
+        height: auto;
+    }
+}
+
+.comment-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--white);
+
+    #add-comments {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        gap: 10px;
+        padding: 5px 50px;
+        border-radius: 5px;
+        background: var(--dark-blue);
+        color: var(--light-green);
+
+        textarea {
+            padding: 5px;
+            border-radius: 5px;
+            border-bottom: 1px solid var(--dark-blue);
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 500;
+            width: 100%;
+            color: var(--light-green);
+            background: var(--dark-blue);
+            outline: var(--light-green);
+            border: 1px solid var(--light-green);
+
+            &::placeholder {
+                color: var(--light-green);
+            }
+        }
+
+        button {
+            max-width: 200px;
+        }
+    }
+}
+
+.comments-container {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 500px;
+    width: 100%;
+
+    .comments-body {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid var(--white);
+        background-color: var(--dark-blue);
+        height: auto;
+
+        .comment {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: var(--dark-blue);
+            height: auto;
+
+            p {
+                text-wrap: wrap;
+            }
+        }
+    }
+}
+
 
 
 
