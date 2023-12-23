@@ -2,6 +2,8 @@ package com.mapstone.mapstone.controllers;
 
 import com.mapstone.mapstone.models.*;
 import com.mapstone.mapstone.repositories.*;
+import com.mapstone.mapstone.services.EmailService;
+import com.mapstone.mapstone.services.RandomPasswordGenerator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -46,8 +48,12 @@ public class UsersController {
     private final BadgesRepository badgeDao;
     private PasswordEncoder passwordEncoder;
 
+    private final EmailService emailService;
 
-    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao, EntriesRepository entryDao, BadgesRepository badgeDao) {
+    private final RandomPasswordGenerator randomPasswordGenerator;
+
+
+    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao, EntriesRepository entryDao, BadgesRepository badgeDao, EmailService emailService, RandomPasswordGenerator randomPasswordGenerator) {
         this.userDao = userDao;
         this.mapDao = mapDao;
         this.passwordEncoder = passwordEncoder;
@@ -57,6 +63,8 @@ public class UsersController {
         this.commentDao = commentDao;
         this.entryDao = entryDao;
         this.badgeDao = badgeDao;
+        this.emailService = emailService;
+        this.randomPasswordGenerator = randomPasswordGenerator;
     }
 
     @GetMapping("/sign-up")
@@ -93,6 +101,8 @@ public class UsersController {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         //set the hashed password on the user object
         user.setPassword(hashedPassword);
+        //set a default avatar for the user using the default avatars api
+        //default avatars will be in image with the users first initial of their first and last name
         user.setAvatar("https://ui-avatars.com/api/?name="+user.getFirstName()+"+"+user.getLastName()+"&background=0059ff&color=fff");
         //save the user object to the database
         userDao.save(user);
@@ -175,7 +185,6 @@ public class UsersController {
     }
 
 
-
     @PostMapping("/delete-profile")
     public String performLogout(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
         SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
@@ -187,6 +196,67 @@ public class UsersController {
        logoutHandler.logout(request, response, authentication);
         return "redirect:/login";
     }
+
+
+    @GetMapping("/forgot-password")
+    public String displayForgotPasswordForm() {
+        return "users/password-reset";
+    }
+
+    @PostMapping("/password-reset")
+    public String resetPassword(@RequestParam(name = "email") String email, Model model) {
+        //check if the email exists in the database
+        User existingEmail = userDao.findByEmail(email);
+        if (existingEmail == null) {
+            model.addAttribute("emailError", "Email does not exist");
+            //if the email does not exist, send the user back to the login page
+            return "users/password-reset";
+        }
+        //generate a random password
+        String randomPassword = RandomPasswordGenerator.generateRandomPassword();
+        //hash the random password
+        String hashedPassword = passwordEncoder.encode(randomPassword);
+        //set the hashed password on the user object
+        existingEmail.setPassword(hashedPassword);
+        //save the user object to the database
+        userDao.save(existingEmail);
+        //send the user an email with the new password
+        emailService.prepareAndSend(existingEmail, "Password Reset", "Your temporary password is: " + randomPassword + "Please return to the 'Finish retting your password' page or use this link to complete your password reset localhost/8080/change-password");
+
+        //if the above was successful, send this user to the user to the change password page alon with this message
+        model.addAttribute("success", "Check your email to retrieve your temporary password, then comeback here to set a new password.");
+
+        return "users/change-password";
+    }
+
+    @PostMapping("/change-password")
+    public String setPassword(@RequestParam(name="email") String email, @RequestParam(name="password") String password, @RequestParam(name="tempPassword") String tempPassword, Model model) {
+
+        User existingUser = userDao.findByEmail(email);
+
+        if (existingUser == null) {
+            model.addAttribute("emailError", "Email does not exist.");
+            return "users/change-password";
+        }
+
+        if (!existingUser.getPassword().equals(tempPassword)) {
+
+            model.addAttribute("tempPasswordError", "Invalid temporary password.");
+             return "users/change-password";
+
+        }
+
+        String hashedPassword = passwordEncoder.encode(password);
+
+        existingUser.setPassword(hashedPassword);
+
+        userDao.save(existingUser);
+
+        model.addAttribute("passwordSetSuccess", "Your password has been updated successfully! Please log in!");
+
+        return "users/login";
+    }
+
 
 }
 

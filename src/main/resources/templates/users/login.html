@@ -14,6 +14,9 @@
     <div class="login-form-wrapper">
       <section class="inner-wrapper">
         <div class="login-header">
+        <!-- if the user was redirected to this page after a successful password reset  -->
+          <p th:if="${passwordSetSuccess}" th:text="${passwordSetSuccess}"></p>
+
           <h1 class="text-center">Log In</h1>
           <p class="text-center">Welcome to Map Share!</p>
           <p class="text-center">Login to begin sharing your favorite places with friends.</p>
@@ -36,6 +39,7 @@
         </form>
         <div class="login-footer">
           <p>Don't have an account? <a th:href="@{/sign-up}">Sign-up!</a></p>
+          <p>Forgot your password? <a th:href="@{/forgot-password}">Reset it!</a></p>
         </div>
       </section>
     </div>
