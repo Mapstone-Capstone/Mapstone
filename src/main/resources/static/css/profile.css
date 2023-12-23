@@ -380,6 +380,9 @@ aside {
 
 #view-entries {
     color: black;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 
@@ -393,6 +396,16 @@ article h3 {
     text-align: center;
     text-decoration: underline;
 }
+
+#images-header {
+    width: 100%;
+
+    & h3 {
+        text-align: center;
+        text-decoration: underline;
+    }
+}
+
 
 
 /*Navbar Buttons*/
