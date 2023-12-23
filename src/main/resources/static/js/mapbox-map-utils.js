@@ -197,42 +197,59 @@ const uploadImagesOnMap = (countryName) => {
 
 //event to display images
 const displayImages = () => {
-
+    const commentsContainer = document.querySelector(".comments-container");
     const viewImagesBtn = document.getElementById("view-images-btn");
     const countryImagesWrapper = document.getElementById("country-images-wrapper");
 
     viewImagesBtn.addEventListener("click", () => {
 
+        //if the country images wrapper is hidden, display it and hide the comments container
         if (countryImagesWrapper.className === "hide-country-images-wrapper") {
 
             countryImagesWrapper.classList.remove("hide-country-images-wrapper");
+            commentsContainer.classList.remove(("display-comments-container"));
+
+            viewImagesBtn.innerHTML = `View Comments <i class="bi bi-chat"></i>`;
+
+            commentsContainer.classList.add("hide-comments-container");
             countryImagesWrapper.classList.add("display-country-images-wrapper");
 
+            //if the country images wrapper is displayed, hide it and display the comments container
         } else if (countryImagesWrapper.className === "display-country-images-wrapper") {
 
             countryImagesWrapper.classList.remove("display-country-images-wrapper");
-            countryImagesWrapper.classList.add("hide-country-images-wrapper");
+            commentsContainer.classList.remove("hide-comments-container");
+            viewImagesBtn.innerHTML = `View Images <i class="bi bi-images"></i>`;
 
+            commentsContainer.classList.add("display-comments-container");
+            countryImagesWrapper.classList.add("hide-country-images-wrapper");
         }
 
         filterAllImages();
     });
-};
 
-const filterAllImages = () => {
 
     //filter images
     const viewAllImages = document.getElementById("all-images");
     const imageContainer = document.getElementById("image-container");
+    const createEntries = document.getElementById("create-entries");
     const viewEntries = document.getElementById("view-entries");
 
     viewAllImages.addEventListener("click", () => {
 
+        createEntries.innerHTML = "";
         imageContainer.innerHTML = "";
         viewEntries.innerHTML = "";
 
+    });
+
+    //filter images
+    viewAllImages.addEventListener("click", () => {
+        imageContainer.innerHTML = "";
         getAllImages(viewAllImages.value).then(function (response) {
             response.forEach((image) => {
+
+                createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
 
                 imageContainer.innerHTML += `
                         <div class="country-image">
@@ -262,7 +279,9 @@ const filterAllImages = () => {
 
     });
 
-}
+
+};
+
 
 //upload profile avatar
 const uploadAvatar = () => {
@@ -928,6 +947,7 @@ export {
     getEntriesByCountryIdAndMapId,
     getImagesByCountryIdAndUserId,
     addMapMarkers,
+    getSingleCountry,
 
 };
 
