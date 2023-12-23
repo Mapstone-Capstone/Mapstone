@@ -319,6 +319,9 @@ aside {
 
     & .country-images-body {
         display: flex;
+        max-height: 700px;
+        overflow: scroll;
+        scrollbar-width: thin;
         gap: 10px;
 
         & .country-images {

@@ -224,7 +224,10 @@ const displayImages = () => {
             commentsContainer.classList.add("display-comments-container");
             countryImagesWrapper.classList.add("hide-country-images-wrapper");
         }
+
+        filterAllImages();
     });
+
 
     //filter images
     const viewAllImages = document.getElementById("all-images");
@@ -247,6 +250,7 @@ const displayImages = () => {
             response.forEach((image) => {
 
                 createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
+
                 imageContainer.innerHTML += `
                         <div class="country-image">
                             <img src="${image.imageUrl}" alt="country image">
@@ -275,7 +279,9 @@ const displayImages = () => {
 
     });
 
+
 };
+
 
 //upload profile avatar
 const uploadAvatar = () => {
