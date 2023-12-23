@@ -225,37 +225,67 @@ const displayImages = () => {
             countryImagesWrapper.classList.add("hide-country-images-wrapper");
         }
 
-        filterAllImages();
     });
 
 
     //filter images
     const viewAllImages = document.getElementById("all-images");
+    const filterOptions = document.getElementsByClassName('image-filter-btn');
     const imageContainer = document.getElementById("image-container");
-    const createEntries = document.getElementById("create-entries");
     const viewEntries = document.getElementById("view-entries");
 
-    viewAllImages.addEventListener("click", () => {
+    for (let btn of filterOptions) {
+        btn.addEventListener('click', () => {
 
-        createEntries.innerHTML = "";
-        imageContainer.innerHTML = "";
-        viewEntries.innerHTML = "";
+            imageContainer.innerHTML = "";
+            viewEntries.innerHTML = "";
 
-    });
+            getImagesByCountryId(btn.value).then(function (response) {
+                response.forEach((image) => {
+
+                    imageContainer.innerHTML += `
+                   <div class="country-image">
+                       <img src="${image.imageUrl}" alt="country image">
+                   </div>
+                `;
+                });
+
+            });
+
+
+            getEntriesByCountry(btn.value).then(function (response) {
+
+                viewEntries.innerHTML = `<h3>Journal</h3>`;
+
+                response.forEach((entry) => {
+
+                    viewEntries.innerHTML += `
+                    <div>
+                        <h5>${entry.title}</h5>
+                        <p>Date: ${entry.date}</p>
+                        <p>${entry.description}</p>
+                    </div>
+                `;
+                });
+            });
+
+        })
+    }
 
     //filter images
     viewAllImages.addEventListener("click", () => {
+
         imageContainer.innerHTML = "";
+        viewEntries.innerHTML = "";
+
         getAllImages(viewAllImages.value).then(function (response) {
             response.forEach((image) => {
 
-                createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
-
                 imageContainer.innerHTML += `
-                        <div class="country-image">
-                            <img src="${image.imageUrl}" alt="country image">
-                        </div>
-                    `;
+                   <div class="country-image">
+                       <img src="${image.imageUrl}" alt="country image">
+                   </div>
+                `;
             });
 
         });
@@ -268,12 +298,12 @@ const displayImages = () => {
             response.forEach((entry) => {
 
                 viewEntries.innerHTML += `
-                            <div>
-                                <h5>${entry.title}</h5>
-                                <p>Date: ${entry.date}</p>
-                                <p>${entry.description}</p>
-                            </div>
-                        `;
+                    <div>
+                        <h5>${entry.title}</h5>
+                        <p>Date: ${entry.date}</p>
+                        <p>${entry.description}</p>
+                    </div>
+                `;
             });
         });
 
@@ -281,7 +311,6 @@ const displayImages = () => {
 
 
 };
-
 
 //upload profile avatar
 const uploadAvatar = () => {
@@ -455,7 +484,6 @@ const onMapLoad = async () => {
 
 
     //filter images
-    const viewAllImages = document.getElementById("all-images");
     const filterImageBtn = document.getElementsByClassName("image-filter-btn");
     const imageContainer = document.getElementById("image-container");
 
@@ -845,6 +873,18 @@ const getEntriesByCountryIdAndMapId = async (entryId, mapId) => {
     return entries;
 };
 
+const getEntriesByCountry = async (id) => {
+    const url = `${urlpattern}/api/entry/country/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let entries = await response.json();
+    return entries;
+};
 
 const getAllEntries = async (id) => {
     const url = `${urlpattern}/api/entry/user/${id}`;
