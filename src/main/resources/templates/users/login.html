@@ -31,6 +31,7 @@
 	        
 	        <label for="password">Password</label>
 	        <input id="password" name="password" type="password"/>
+          <p>Forgot your password? <a th:href="@{/forgot-password}">Reset it!</a></p>
 
           <button class="login-button" type="submit">
             <img src="/assets/images/globe-icon.svg" alt="globe-icon">
@@ -39,7 +40,6 @@
         </form>
         <div class="login-footer">
           <p>Don't have an account? <a th:href="@{/sign-up}">Sign-up!</a></p>
-          <p>Forgot your password? <a th:href="@{/forgot-password}">Reset it!</a></p>
         </div>
       </section>
     </div>
