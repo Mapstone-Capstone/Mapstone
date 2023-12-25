@@ -214,8 +214,10 @@ public class UsersController {
         }
         //generate a random password
         String randomPassword = RandomPasswordGenerator.generateRandomPassword();
+
         //hash the random password
         String hashedPassword = passwordEncoder.encode(randomPassword);
+
         //set the hashed password on the user object
         existingEmail.setPassword(hashedPassword);
         //save the user object to the database
@@ -239,8 +241,11 @@ public class UsersController {
             return "users/change-password";
         }
 
-        if (!existingUser.getPassword().equals(tempPassword)) {
+        //check if the temp password matches the hash of the password in the database
+        boolean matches = passwordEncoder.matches(tempPassword, existingUser.getPassword());
 
+
+        if (!matches) {
             model.addAttribute("tempPasswordError", "Invalid temporary password.");
              return "users/change-password";
 

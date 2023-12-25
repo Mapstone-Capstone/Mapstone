@@ -1,4 +1,4 @@
-const newPassword = document.getElementById("password").value;
+const newPassword = document.getElementById("password");
 const newPasswordConfirm = document.getElementById("confirm");
 let passwordValidation = document.getElementById("password-validation");
 
@@ -7,8 +7,8 @@ const submitBtn = document.getElementById("submit-btn");
 
 let validated = false;
 
-newPasswordConfirm.addEventListener("", (e)=> {
-    if (newPasswordConfirm.value === newPassword) {
+newPasswordConfirm.addEventListener("focus", ()=> {
+    if (newPasswordConfirm.value === newPassword.value) {
 
        passwordValidation.innerText = "Passwords match!"
 
@@ -16,11 +16,4 @@ newPasswordConfirm.addEventListener("", (e)=> {
     }
 });
 
-submitBtn.addEventListener("click", (e)=> {
-    e.preventDefault();
-    if (!validated) {
-        passwordValidation.innerText = "Passwords do not match!";
-    } else {
-        console.log("click");
-    }
-})
+
