@@ -67,6 +67,13 @@ li.meet-us {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+
+}
+
+/*    INPUT ERROR STYLE */
+.error {
+    color: red;
+    font-weight: bold;
 }
 
 /*STYLE FOR ALL MODALS - EVERY HTML PAGE I INHERITS FROM THIS CSS FILE*/
