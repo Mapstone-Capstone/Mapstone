@@ -7,12 +7,23 @@ const submitBtn = document.getElementById("submit-btn");
 
 let validated = false;
 
-newPasswordConfirm.addEventListener("focus", ()=> {
-    if (newPasswordConfirm.value === newPassword.value) {
+newPasswordConfirm.addEventListener("keyup", () => {
+    if (newPassword.value !== newPasswordConfirm.value) {
+        passwordValidation.innerHTML = "Passwords do not match";
+        validated = false;
+    } else {
+        passwordValidation.innerHTML = "";
+        validated = true;
+    }
+});
 
-       passwordValidation.innerText = "Passwords match!"
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!validated) {
+        passwordValidation.innerHTML = "Passwords do not match";
+    } else {
 
-      validated = true;
+        form.submit();
     }
 });
 

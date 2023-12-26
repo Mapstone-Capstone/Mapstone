@@ -223,11 +223,16 @@ public class UsersController {
         //save the user object to the database
         userDao.save(existingEmail);
         //send the user an email with the new password
-        emailService.prepareAndSend(existingEmail, "Password Reset", "Your temporary password is: " + randomPassword + "Please return to the 'Finish retting your password' page or use this link to complete your password reset localhost/8080/change-password");
+        emailService.prepareAndSend(existingEmail, "Password Reset", "<h5>Hello " + existingEmail.getFirstName() + ",</h5><p>Your temporary password is: " + randomPassword + "</p><p>Please return to the site to change your password or visit this link: <a href='http://localhost:8080/change-password'>Change Password</a></p>");
 
         //if the above was successful, send this user to the user to the change password page alon with this message
-        model.addAttribute("success", "Check your email to retrieve your temporary password, then comeback here to set a new password.");
+        model.addAttribute("success", "Check your email to retrieve your temporary password, then return to this page to finish resetting your password.");
 
+        return "users/change-password";
+    }
+
+    @GetMapping("/change-password")
+   public String displayChangePasswordForm() {
         return "users/change-password";
     }
 

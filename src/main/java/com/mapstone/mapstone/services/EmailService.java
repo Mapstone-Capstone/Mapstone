@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.stereotype.Service;
 
 @Service("mailService")
@@ -18,17 +19,15 @@ public class EmailService {
     private String from;
 
     public void prepareAndSend(User user, String subject, String body) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom(from);
+       MimeMailMessage msg = new MimeMailMessage(this.emailSender.createMimeMessage());
+        msg.setFrom(this.from);
         msg.setTo(user.getEmail());
         msg.setSubject(subject);
         msg.setText(body);
 
-        try{
-            this.emailSender.send(msg);
-        }
-        catch (MailException ex) {
-            // simply log it and go on...
+        try {
+            this.emailSender.send(msg.getMimeMessage());
+        } catch (MailException ex) {
             System.err.println(ex.getMessage());
         }
     }
