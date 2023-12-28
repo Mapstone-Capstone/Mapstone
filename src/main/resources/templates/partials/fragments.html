@@ -37,17 +37,19 @@
         <li class="nav-item">
           <a class="nav-link" th:href="@{/explore-profiles}">Explore Profiles</a>
         </li>
-        <li class="nav-item ">
+        <!--        TODO Write if statement for principal user-->
+        <li th:if="${#authentication.getPrincipal()=='anonymousUser'}" class="nav-item ">
           <a class="nav-link " th:href="@{/sign-up}">Sign-up</a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link " th:href="@{/login}">Login</a>
-        </li>
-        <li class="nav-item">
+        <li th:unless="${#authentication.getPrincipal()=='anonymousUser'}" class="nav-item">
           <form th:action="@{/logout}" th:method="post" sec:authorize="isAuthenticated()">
             <button class="btn-link btn m-0" style="margin-top: 8px">Logout</button>
           </form>
         </li>
+        <li th:if="${#authentication.getPrincipal()=='anonymousUser'}" class="nav-item ">
+          <a class="nav-link " th:href="@{/login}">Login</a>
+        </li>
+<!--        TODO end of if statement -->
         <li class="nav-item">
           <a class="nav-link" th:href="@{/forgetPassword.html}" th:text="#{message.resetPassword}" sec:authorize="isAuthenticated()">
             Reset Password
