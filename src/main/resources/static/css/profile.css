@@ -308,6 +308,7 @@ aside {
     gap: 10px;
     padding: 10px;
     border-radius: 5px;
+    color: black;
     background: var(--white);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
@@ -319,6 +320,7 @@ aside {
 
     & .country-images-body {
         display: flex;
+        flex-direction: row;
         max-height: 700px;
         overflow: scroll;
         scrollbar-width: thin;
@@ -327,8 +329,11 @@ aside {
         & .country-images {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            justify-content: center;
+            overflow: scroll;
+            gap: 20px;
             height: auto;
+            width: 100%;
             padding: 10px;
             background: var(--white);
 
@@ -340,8 +345,8 @@ aside {
                 border-radius: 5px;
 
                 & img {
-                    width: 100%;
-                    height: 100%;
+                    width: 300px;
+                    height: 300px;
                     object-fit: cover;
                     border-radius: 5px;
                 }
@@ -350,8 +355,91 @@ aside {
     }
 }
 
+.journal-navbar {
+    display: flex;
+    gap: 30%;
+}
+
+#journal-header {
+    margin: 0;
+}
+
+.journal-navbar-btn {
+    display: flex;
+    gap: 10px;
+}
+
+#view-images-btn {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 5px 10px;
+    color: var(--dark-blue);
+    background: var(--white);
+    border: none;
+    letter-spacing: 0.05em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all ease 0.3s;
+
+    &:hover {
+        background: var(--dark-blue);
+        color: var(--white);
+        border: 1px solid var(--white);
+    }
+
+}
+
+#view-entries {
+    color: black;
+    display: flex;
+    overflow: scroll;
+    flex-direction: column;
+    gap: 20px;
+    width: 700px;
+    padding: 10px;
+}
+
+#user-entries {
+    padding: 10px;
+
+    & h5 {
+        font-weight: bold;
+    }
+}
+
+#edit-journal-btn {
+
+    color: #080063;
+    border-radius: 6px;
+    border: 1px solid #000;
+    background: #FEFFFF;
+    text-align: center;
+    font-family: Mada, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    height: 100%;
+
+}
+
+#edit-journal-btn:hover {
+    background-color: #080063;
+    color: whitesmoke;
+    transition: 0.3s;
+}
 
 #edit-journal-modal {
+    justify-content: center;
+    align-items: center;
+}
+#edit-journal-body {
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -361,6 +449,16 @@ article h3 {
     text-align: center;
     text-decoration: underline;
 }
+
+#images-header {
+    width: 100%;
+
+    & h3 {
+        text-align: center;
+        text-decoration: underline;
+    }
+}
+
 
 
 /*Navbar Buttons*/

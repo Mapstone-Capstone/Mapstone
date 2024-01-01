@@ -35,6 +35,11 @@ public class EntryRestController {
         return entryDao.getImagesByCountry_IdAndUser_Id(entryId, user.getId());
     }
 
+    @GetMapping("/api/entry/country"+"/{countryId}")
+    public List<Entry> getEntriesByCountryId(@PathVariable long countryId) {
+        return entryDao.getEntriesByCountry_Id(countryId);
+    }
+
     @GetMapping("/api/entry/user"+"/{id}")
     public List<Entry> getAllEntries(@PathVariable long id) {
         return entryDao.getEntriesByUser_Id(id);
