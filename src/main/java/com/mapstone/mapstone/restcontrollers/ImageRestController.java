@@ -36,7 +36,7 @@ public class ImageRestController {
 
     @GetMapping("/api/image/country"+"/{id}")
     public List<Image> getImagesByCountryId(@PathVariable long id) {
-        System.out.println(id);
+        System.out.println("this is the id for the country images" + id);
         return imageDao.getImagesByCountry_Id(id);
     }
 

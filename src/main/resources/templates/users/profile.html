@@ -8,7 +8,7 @@
   <div class="main-row">
     <aside>
       <div class="user-info">
-        <h4>Welcome <span th:text="${#authentication.principal.username}"></span></h4>
+        <h3>Welcome <span th:text="${#authentication.principal.username}"></span></h3>
         <!-- upload avatar click event -->
         <img th:src="${user.getAvatar()}" name="avatar" alt="avatar" class="avatar"/>
         <!--   if the firstTime attribute is true, then set hidden input to true, else set it to false-->
@@ -123,51 +123,14 @@
       <div id="country-images-wrapper" class="hide-country-images-wrapper">
         <div class="country-images-header w-100">
 	        
-	        <!--Journal NavBar-->
-<!--	        <nav class="navbar navbar-expand-lg bg-body-tertiary w-100">-->
-<!--		        <div class="container-fluid">-->
-<!--			        <a class="navbar-brand" href="#country-images-wrapper">Your Journal</a>-->
-<!--			        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--				        <span class="navbar-toggler-icon"></span>-->
-<!--			        </button>-->
-<!--			        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">-->
-<!--				        <div class="navbar-nav">-->
-<!--					        -->
-<!--					        &lt;!&ndash;Dynamic Dropdown Filter&ndash;&gt;-->
-<!--					        <div class="nav-item dropdown">-->
-<!--						        <button class="btn dropdown-toggle filter-btn" type="button" data-bs-toggle="dropdown"-->
-<!--						           aria-expanded="false">-->
-<!--							        Filter Images By Country-->
-<!--						        </button>-->
-<!--						        -->
-<!--						        <ul class="dropdown-menu">-->
-<!--							        <li>-->
-<!--								        <button class="dropdown-item" id="all-images" th:value="${user.getId()}" name="view-all-images" type="button">All</button>-->
-<!--							        </li>-->
-<!--							        -->
-<!--							        <th:block th:each="country : ${user.getCountries()}">-->
-<!--							            <li style="list-style: none">-->
-<!--&lt;!&ndash;									            <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>&ndash;&gt;-->
-<!--								            <button class="image-filter-btn dropdown-item" th:text="${country.getName()}" th:value="${country.getId()}"-->
-<!--									                    type="button"></button>-->
-<!--							            </li>-->
-<!--							        </th:block>-->
-<!--						        </ul>-->
-<!--					        </div>-->
-<!--					        <button class="nav-item" type="button" id="edit-journal-btn">Edit Journal</button>-->
-<!--				        </div>-->
-<!--			        </div>-->
-<!--		        </div>-->
-<!--	        </nav>-->
-	        
 	        <nav class="navbar navbar-expand-lg bg-body-tertiary w-100">
-		        <div class="container-fluid">
-			        <a class="navbar-brand" href="#">Your Journal</a>
+		        <div class="container-fluid journal-navbar">
+			        <h4 id="journal-header"><strong>Your Journal</strong></h4>
 			        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				        <span class="navbar-toggler-icon"></span>
 			        </button>
 			        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-				        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				        <ul class="navbar-nav journal-navbar-btn me-auto mb-2 mb-lg-0">
 					       
 					        <li class="nav-item dropdown">
 						        <a class="nav-link dropdown-toggle filter-btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -179,8 +142,7 @@
 							        </li>
 							        <th:block th:each="country : ${user.getCountries()}">
 								        <li>
-									        <!--									            <input type="hidden" name="hiddenCountryName" th:value="${country.getName()}"/>-->
-									        <button class="image-filter-btn dropdown-item" th:text="${country.getName()}" th:value="${country.getId()}"
+									        <button class="dropdown-item image-filter-btn" th:text="${country.getName()}" th:value="${country.getId()}"
 									                type="button"></button>
 								        </li>
 							        </th:block>
@@ -198,7 +160,7 @@
 
         <div class="country-images-body w-100">
 	        
-          <div id="image-container" class="country-images w-100">
+          <div id="image-container" class="country-images">
 	          <div id="images-header">
 		          <h3>Images</h3>
 	          </div>
@@ -212,10 +174,11 @@
           <article id="view-entries">
             <h3>Entries</h3>
             <th:block th:each="entry : ${user.getEntries()}">
-              <div>
-                <h5 th:text="${entry.getTitle()}"></h5>
-                <p>Date: <span th:text="${entry.getDate()}"></span></p>
-                <p><span th:text="${entry.getDescription()}"></span></p>
+              <div id="user-entries">
+	              <h5 th:text="${entry.getTitle()}"></h5>
+	              <p>Date: <span th:text="${entry.getDate()}"></span></p>
+	              <p><span th:text="${entry.getDescription()}"></span></p>
+	              <hr>
               </div>
               <br/>
             </th:block>

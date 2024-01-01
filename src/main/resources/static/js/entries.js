@@ -64,6 +64,9 @@ countryEntry.forEach((country) => {
        getImagesByCountryId(country.value).then((response) => {
 
            response.forEach((imageObject) => {
+
+               console.log(imageObject)
+
                imageContainer.innerHTML += `
                 <img class="country-image" src="${imageObject.imageUrl}" alt="country image">
                `
