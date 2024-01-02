@@ -234,9 +234,9 @@ const displayImages = () => {
 
 
     //filter images
-    const viewAllImages = document.getElementById("all-images");
+    // const viewAllImages = document.getElementById("all-images");
     const filterOptions = document.getElementsByClassName('image-filter-btn');
-    const imageContainer = document.getElementById("image-container");
+    // const imageContainer = document.getElementById("image-container");
 
     const viewEntries = document.getElementById("view-entries");
 
