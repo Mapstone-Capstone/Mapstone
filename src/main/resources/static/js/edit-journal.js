@@ -26,10 +26,6 @@ const editModalPopup = () => {
             <div>
                 <button id="edit-journal-entry" class="button"> Edit an Entry</button>
             </div>
-
-            <div>
-                <button id="delete-journal-entry" class="button">Delete an Entry</button>
-            </div>
         </div>
     </div>
 `
