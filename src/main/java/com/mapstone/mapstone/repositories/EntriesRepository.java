@@ -14,8 +14,6 @@ public interface EntriesRepository extends JpaRepository<Entry, Long> {
 
     Entry getEntryById(long id);
 
-    Entry getEntryByIdAndUser_Id(long entry_id, long user_id);
-
-    Entry getEntryByTitle(String title);
+    List<Entry> getEntriesByCountry_Id(long id);
 
 }

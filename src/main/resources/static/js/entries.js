@@ -1,3 +1,4 @@
+let urlpattern = `${window.location.protocol}//${window.location.host}`
 const entrySelect = document.getElementsByClassName('entry-select');
 const entryValue = document.getElementById('entry-value');
 const inputContainer = document.getElementById('input-container');
@@ -63,7 +64,12 @@ countryEntry.forEach((country) => {
 
        getImagesByCountryId(country.value).then((response) => {
 
+           console.log(response)
+
            response.forEach((imageObject) => {
+
+               console.log(imageObject)
+
                imageContainer.innerHTML += `
                 <img class="country-image" src="${imageObject.imageUrl}" alt="country image">
                `

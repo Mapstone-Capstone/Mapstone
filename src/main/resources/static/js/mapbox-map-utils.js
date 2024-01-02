@@ -228,19 +228,55 @@ const displayImages = () => {
             commentsContainer.classList.add("display-comments-container");
             countryImagesWrapper.classList.add("hide-country-images-wrapper");
         }
+
     });
 
-    // //filter images
-    const createEntries = document.getElementById("create-entries");
+
+
+    //filter images
+    const viewAllImages = document.getElementById("all-images");
+    const filterOptions = document.getElementsByClassName('image-filter-btn');
+    const imageContainer = document.getElementById("image-container");
+
     const viewEntries = document.getElementById("view-entries");
 
-    viewAllImages.addEventListener("click", () => {
+    for (let btn of filterOptions) {
+        btn.addEventListener('click', () => {
 
-        createEntries.innerHTML = "";
-        imageContainer.innerHTML = "";
-        viewEntries.innerHTML = "";
+            imageContainer.innerHTML = "";
+            viewEntries.innerHTML = "";
 
-    });
+            getImagesByCountryId(btn.value).then(function (response) {
+                response.forEach((image) => {
+
+                    imageContainer.innerHTML += `
+                   <div class="country-image">
+                       <img src="${image.imageUrl}" alt="country image">
+                   </div>
+                `;
+                });
+
+            });
+
+
+            getEntriesByCountry(btn.value).then(function (response) {
+
+                viewEntries.innerHTML = `<h3>Journal</h3>`;
+
+                response.forEach((entry) => {
+
+                    viewEntries.innerHTML += `
+                    <div>
+                        <h5>${entry.title}</h5>
+                        <p>Date: ${entry.date}</p>
+                        <p>${entry.description}</p>
+                    </div>
+                `;
+                });
+            });
+
+        })
+    }
 
 
     //event listener for filtering images by country
@@ -321,18 +357,19 @@ const displayImages = () => {
 
     //filter images
     viewAllImages.addEventListener("click", () => {
+
         imageContainer.innerHTML = "";
         viewEntries.innerHTML = "";
 
         getAllImages(viewAllImages.value).then(function (response) {
             response.forEach((image) => {
 
-                // createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
+
                 imageContainer.innerHTML += `
-                        <div class="country-image">
-                            <img src="${image.imageUrl}" alt="country image">
-                        </div>
-                    `;
+                   <div class="country-image">
+                       <img src="${image.imageUrl}" alt="country image">
+                   </div>
+                `;
             });
 
         });
@@ -345,16 +382,17 @@ const displayImages = () => {
             response.forEach((entry) => {
 
                 viewEntries.innerHTML += `
-                            <div>
-                                <h5>${entry.title}</h5>
-                                <p>Date: ${entry.date}</p>
-                                <p>${entry.description}</p>
-                            </div>
-                        `;
+                    <div>
+                        <h5>${entry.title}</h5>
+                        <p>Date: ${entry.date}</p>
+                        <p>${entry.description}</p>
+                    </div>
+                `;
             });
         });
 
     });
+
 
 };
 
@@ -526,6 +564,83 @@ const onMapLoad = async () => {
 
         document.body.appendChild(imageUploadModal);
 
+    }
+
+
+    //filter images
+    const filterImageBtn = document.getElementsByClassName("image-filter-btn");
+    const imageContainer = document.getElementById("image-container");
+
+    //event listener for filtering images by country
+    for (const btn of filterImageBtn) {
+        btn.addEventListener("click", () => {
+            imageContainer.innerHTML = "";
+            //if the test layer exists, remove it from the map
+            //this is the layer that highlights the country that the user is viewing images for
+            if (map.getLayer("test")) {
+                map.removeLayer("test");
+            }
+            getSingleCountry(btn.value).then(function (response) {
+                //adds a line layer to the map, to highlight the country that thr uer is viewing images for
+                map.addLayer({
+                    "id": "test",
+                    "type": "line",
+                    "source": "world",
+                    "layout": {},
+                    "paint": {
+                        "line-color": "#fee900",
+                        "line-width": 5
+                    },
+                    //where the name is equal to the country name on the highlighted layer,set the opacity and color
+                    "filter": ["==", "NAME", response.name]
+
+                });
+                let mapLayers = map.getStyle().layers;
+                //loop through layers and find the layer where the id is equal to the response.name
+                //then fly to that country since the user is viewing images for that country
+                for (let i = 0; i < mapLayers.length; i++) {
+                    if (mapLayers[i].id === response.name) {
+                        geocode(response.name, MAP_BOX_TOKEN).then(function (results) {
+                            map.flyTo({
+                                center: results,
+                                zoom: 2
+                            });
+                        });
+                    }
+                }
+
+            });
+            getImagesByCountryIdAndUserId(btn.value, id).then(function (response) {
+                response.forEach((image) => {
+                    console.log(response);
+                    createEntries.innerHTML = `<a href="/create-entries">Create Entries</a>`;
+                    imageContainer.innerHTML += `
+                        <div class="country-image">
+                            <img src="${image.imageUrl}" alt="country image">
+                        </div>
+                    `;
+                });
+            });
+
+            getEntriesByCountryIdAndMapId(btn.value, id).then(function (response) {
+
+                viewEntries.innerHTML = `<h3>Journal</h3>`;
+
+                response.forEach((entry) => {
+
+                    viewEntries.innerHTML += `
+                            <div>
+                                <h5>${entry.title}</h5>
+                                <p>Date: ${entry.date}</p>
+                                <p>${entry.description}</p>
+                            </div>
+                        `;
+
+                });
+
+            });
+
+        });
     }
 
 
@@ -843,6 +958,18 @@ const getEntriesByCountryIdAndMapId = async (entryId, mapId) => {
     return entries;
 };
 
+const getEntriesByCountry = async (id) => {
+    const url = `${urlpattern}/api/entry/country/${id}`;
+    let options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    let response = await fetch(url, options);
+    let entries = await response.json();
+    return entries;
+};
 
 const getAllEntries = async (id) => {
     const url = `${urlpattern}/api/entry/user/${id}`;
