@@ -52,7 +52,7 @@ public class EntriesController {
     }
 
     @PostMapping("/create-entries")
-    public String createEntry(@ModelAttribute Entry entry, @RequestParam(name = "entry-date") String date, @RequestParam(name = "country-id") long id, Model model) {
+    public String createEntry(@ModelAttribute Entry entry, @RequestParam(name = "entry-date") String date, @RequestParam(name = "country-id") long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         System.out.println("TEST");
@@ -71,10 +71,39 @@ public class EntriesController {
 
     }
 
-//    @GetMapping("/api/entry/country"+"/{id}")
-//    public List<Entry> getEntriesByCountryId(@PathVariable long id) {
-//        System.out.println(id);
-//        return entryDao.getEntriesByCountry_Id(id);
-//    }
+    @GetMapping("/edit-entries")
+    public String displayEditEntryForm(Model model) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        List<Entry> userEntries = entryDao.getEntriesByUser_Id(loggedInUser.getId());
+
+        //send a new empty user object to the create entry form
+        model.addAttribute("entries", userEntries);
+
+        return "/users/edit-entry";
+    }
+
+    @PostMapping("/edit-entries")
+    public String editEntry(@RequestParam (name = "entry-id") long id, @RequestParam (name = "entry-title") String title, @RequestParam (name = "entry-date") String date, @RequestParam (name = "entry-description") String description) {
+
+        Entry userEntry = entryDao.getOne(id);
+
+        userEntry.setTitle(title);
+        userEntry.setDate(date);
+        userEntry.setDescription(description);
+
+        entryDao.save(userEntry);
+
+
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/delete-entries")
+    public String deleteEntries(@RequestParam (name = "entry-id") long id){
+
+        entryDao.deleteById(id);
+
+        return "redirect:/profile";
+    }
 
 }

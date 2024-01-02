@@ -1,11 +1,13 @@
+
+
 let urlpattern = `${window.location.protocol}//${window.location.host}`
-const mapId = document.getElementById("map-id").value;
-const badgeContainer = document.querySelector(".badges");
+
+const badgeContainer = document.querySelector(".badge-container");
 
 
 
-const getBadgesByMapId = async (id) => {
-    const url = `${urlpattern}/api/badges/${id}`;
+const getAllBadges = async (id) => {
+    const url = `${urlpattern}/api/badges`;
     let options = {
         method: "GET",
         headers: {
@@ -13,14 +15,15 @@ const getBadgesByMapId = async (id) => {
         },
     };
     let response = await fetch(url, options);
-    let images = await response.json();
-    return images;
+    let badges = await response.json();
+    return badges;
 };
 
 
 
-async function getBadges(mapId) {
-    const badges = await getBadgesByMapId(mapId);
+async function getAllObtainableBadges() {
+    const badges = await getAllBadges();
+    console.log(badges)
     badges.forEach((badge) => {
         const badgeDiv = document.createElement("div");
         badgeDiv.classList.add("badge-wrapper");
@@ -66,7 +69,7 @@ async function getBadges(mapId) {
     });
 }
 
-getBadges(mapId).then(() => {
+getAllObtainableBadges().then(() => {
     console.log("Badges loaded");
 });
 

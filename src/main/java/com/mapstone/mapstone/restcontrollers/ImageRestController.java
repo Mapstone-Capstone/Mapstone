@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -34,7 +36,7 @@ public class ImageRestController {
 
     @GetMapping("/api/image/country"+"/{id}")
     public List<Image> getImagesByCountryId(@PathVariable long id) {
-        System.out.println(id);
+        System.out.println("this is the id for the country images" + id);
         return imageDao.getImagesByCountry_Id(id);
     }
 
@@ -52,4 +54,32 @@ public class ImageRestController {
 
         return imageDao.getImagesByUser_Id(id);
     }
+
+    //get all images with associated country by user id
+    @GetMapping("/api/images/map"+"/{id}")
+    public HashMap<String, ArrayList> getAllImagesByUserId(@PathVariable long id) {
+
+        //get all images by user id and country id
+
+        List<Image> images = imageDao.getImagesByUser_Id(id);
+        //create an arraylist of country names and corresponding image urls
+        HashMap<String, ArrayList> imageMap = new HashMap<>();
+        for (Image image : images) {
+            String countryName = image.getCountry().getName();
+            String imageUrl = image.getImageUrl();
+            if (imageMap.containsKey(countryName)) {
+                ArrayList<String> imageUrls = imageMap.get(countryName);
+                imageUrls.add(imageUrl);
+                imageMap.put(countryName, imageUrls);
+            } else {
+                ArrayList<String> imageUrls = new ArrayList<>();
+                imageUrls.add(imageUrl);
+                imageMap.put(countryName, imageUrls);
+            }
+        }
+
+        return imageMap;
+
+    }
+
 }

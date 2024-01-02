@@ -11,10 +11,13 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 
     Image getImageByUser(User user);
 
+    Image getImageById(long id);
+
     List<Image> getImagesByCountry_Id(long id);
 
     List<Image> getImagesByUser_Id(long id);
 
 
     List<Image> getImagesByCountry_IdAndUser_Id(long countryId, long userId);
+
 }

@@ -2,9 +2,16 @@ package com.mapstone.mapstone.controllers;
 
 import com.mapstone.mapstone.models.*;
 import com.mapstone.mapstone.repositories.*;
+import com.mapstone.mapstone.services.EmailService;
+import com.mapstone.mapstone.services.RandomPasswordGenerator;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +26,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Controller
 @Validated
@@ -39,7 +48,12 @@ public class UsersController {
     private final BadgesRepository badgeDao;
     private PasswordEncoder passwordEncoder;
 
-    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao, EntriesRepository entryDao, BadgesRepository badgeDao) {
+    private final EmailService emailService;
+
+    private final RandomPasswordGenerator randomPasswordGenerator;
+
+
+    public UsersController(UserRepository userDao, MapRepository mapDao, PasswordEncoder passwordEncoder, CountryRepository countryDao, ImageRepository imageDao, LayerRepository layerDao, CommentRepository commentDao, EntriesRepository entryDao, BadgesRepository badgeDao, EmailService emailService, RandomPasswordGenerator randomPasswordGenerator) {
         this.userDao = userDao;
         this.mapDao = mapDao;
         this.passwordEncoder = passwordEncoder;
@@ -49,6 +63,8 @@ public class UsersController {
         this.commentDao = commentDao;
         this.entryDao = entryDao;
         this.badgeDao = badgeDao;
+        this.emailService = emailService;
+        this.randomPasswordGenerator = randomPasswordGenerator;
     }
 
     @GetMapping("/sign-up")
@@ -85,11 +101,13 @@ public class UsersController {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         //set the hashed password on the user object
         user.setPassword(hashedPassword);
-        user.setAvatar("https://as2.ftcdn.net/v2/jpg/01/86/61/17/1000_F_186611794_cMP2t2Dn7fdJea0R4JAJOi9tNcSJ0i1T.jpg");
+        //set a default avatar for the user using the default avatars api
+        //default avatars will be in image with the users first initial of their first and last name
+        user.setAvatar("https://ui-avatars.com/api/?name="+user.getFirstName()+"+"+user.getLastName()+"&background=0059ff&color=fff");
         //save the user object to the database
         userDao.save(user);
         //create a new map object for the user with default values
-        Map userMap = new Map("#0059ff", "light-v11", "naturalEarth", "1");
+        Map userMap = new Map("#0059ff", "light-v11", "mercator", "2");
         userMap.setUser(user);
         userDao.save(user);
         mapDao.save(userMap);
@@ -99,10 +117,22 @@ public class UsersController {
 
     @GetMapping("/profile")
     public String getProfilePage(Model model) {
+        System.out.println("logged-in");
         //get the logged-in user
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //send the logged-in user to the profile page
-        model.addAttribute("loggedIn",true);
+
+        //if first time logging in, set model attribute to first time and make boolean true
+        //this is how we will know to display the tutorial for the first time the user logs in
+        if (!loggedInUser.isHasLoggedIn()) {
+            model.addAttribute("firstTime", true);
+            User userFromDb = userDao.getOne(loggedInUser.getId());
+            userFromDb.setHasLoggedIn(true);
+            loggedInUser.setHasLoggedIn(true);
+            userDao.save(userFromDb);
+        }
+
+        model.addAttribute("loggedIn", true);
         model.addAttribute("user", userDao.getOne(loggedInUser.getId()));
         //gets all comments made by logged-in user
         List<Comment> commentList = commentDao.findAllByMap_Id(loggedInUser.getMap().getId());
@@ -111,6 +141,8 @@ public class UsersController {
         Map userMap = mapDao.getMapByUserId(loggedInUser.getId());
 
         model.addAttribute("image", new Image());
+
+        model.addAttribute("entry", new Entry());
 
         //send the user's map to the profile page
         model.addAttribute("map", userMap);
@@ -152,52 +184,89 @@ public class UsersController {
         return "redirect:/profile";
     }
 
-//    @GetMapping("/view")
-//    public String viewImages(@RequestParam(name = "viewImage") Model model){
-//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//        String image = imageDao.getImageByUser(loggedInUser).getImageUrl();
-//
-////        List<Country> listOfCountries =
-////        model.addAttribute("image", image);
-//        return "/profile";
-//    }
 
-
-    // method to retrieve user profile for editing
-    @GetMapping("/edit-profile")
-    public String editProfile(Model model) {
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("user", userDao.getOne(loggedInUser.getId()));
-        return "users/edit"; // Return the view for editing the profile
-    }
-
-    // method to update user profile
-    @PostMapping("/edit-profile")
-    public String updateProfile(@ModelAttribute(name = "user") @Valid User updatedUser, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
-            model.addAttribute("user", updatedUser);
-            System.out.println("User password is: " + updatedUser.getPassword());
-            return "redirect:/edit-profile"; // Return to the edit-profile page if errors occur
-        }
-
-        User existingUser = userDao.getOne(updatedUser.getId());
-        existingUser.setUsername(updatedUser.getUsername());
-        existingUser.setFirstName(updatedUser.getFirstName());
-        existingUser.setLastName(updatedUser.getLastName());
-        existingUser.setEmail(updatedUser.getEmail());
-//        existingUser.setPassword(updatedUser.getPassword());
-        userDao.save(existingUser);
-        return "redirect:/profile";
-    }
-
-    // method to delete user profile
     @PostMapping("/delete-profile")
-    public String deleteProfile() {
+    public String performLogout(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        System.out.println("did this work?");
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //delete the user from the database
         userDao.deleteById(loggedInUser.getId());
+        // force logout
+       logoutHandler.logout(request, response, authentication);
         return "redirect:/login";
     }
+
+
+    @GetMapping("/forgot-password")
+    public String displayForgotPasswordForm() {
+        return "users/password-reset";
+    }
+
+    @PostMapping("/password-reset")
+    public String resetPassword(@RequestParam(name = "email") String email, Model model) {
+        //check if the email exists in the database
+        User existingEmail = userDao.findByEmail(email);
+        if (existingEmail == null) {
+            model.addAttribute("emailError", "Email does not exist");
+            //if the email does not exist, send the user back to the login page
+            return "users/password-reset";
+        }
+        //generate a random password
+        String randomPassword = RandomPasswordGenerator.generateRandomPassword();
+
+        //hash the random password
+        String hashedPassword = passwordEncoder.encode(randomPassword);
+
+        //set the hashed password on the user object
+        existingEmail.setPassword(hashedPassword);
+        //save the user object to the database
+        userDao.save(existingEmail);
+        //send the user an email with the new password
+        emailService.prepareAndSend(existingEmail, "Password Reset", "<h5>Hello " + existingEmail.getFirstName() + ",</h5><p>Your temporary password is: " + randomPassword + "</p><p>Please return to the site to change your password or visit this link: <a href='http://localhost:8080/change-password'>Change Password</a></p>");
+
+        //if the above was successful, send this user to the user to the change password page alon with this message
+        model.addAttribute("success", "Check your email to retrieve your temporary password, then return to this page to finish resetting your password.");
+
+        return "users/change-password";
+    }
+
+    @GetMapping("/change-password")
+   public String displayChangePasswordForm() {
+        return "users/change-password";
+    }
+
+    @PostMapping("/change-password")
+    public String setPassword(@RequestParam(name="email") String email, @RequestParam(name="password") String password, @RequestParam(name="tempPassword") String tempPassword, Model model) {
+
+        User existingUser = userDao.findByEmail(email);
+
+        if (existingUser == null) {
+            model.addAttribute("emailError", "Email does not exist.");
+            return "users/change-password";
+        }
+
+        //check if the temp password matches the hash of the password in the database
+        boolean matches = passwordEncoder.matches(tempPassword, existingUser.getPassword());
+
+
+        if (!matches) {
+            model.addAttribute("tempPasswordError", "Invalid temporary password.");
+             return "users/change-password";
+
+        }
+
+        String hashedPassword = passwordEncoder.encode(password);
+
+        existingUser.setPassword(hashedPassword);
+
+        userDao.save(existingUser);
+
+        model.addAttribute("passwordSetSuccess", "Your password has been updated successfully! Please log in!");
+
+        return "users/login";
+    }
+
+
 }
 
