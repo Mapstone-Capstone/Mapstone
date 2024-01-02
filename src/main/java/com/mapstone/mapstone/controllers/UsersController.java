@@ -223,7 +223,7 @@ public class UsersController {
         //save the user object to the database
         userDao.save(existingEmail);
         //send the user an email with the new password
-        emailService.prepareAndSend(existingEmail, "Password Reset", "<h5>Hello " + existingEmail.getFirstName() + ",</h5><p>Your temporary password is: " + randomPassword + "</p><p>Please return to the site to change your password or visit this link: <a href='http://localhost:8080/change-password'>Change Password</a></p>");
+        emailService.prepareAndSend(existingEmail, "Password Reset", "Hello " + existingEmail.getFirstName() + ",\n Your temporary password is: " + randomPassword + " \n Please return to the site to change your password or visit this link: https://map-share.net/change-password");
 
         //if the above was successful, send this user to the user to the change password page alon with this message
         model.addAttribute("success", "Check your email to retrieve your temporary password, then return to this page to finish resetting your password.");
