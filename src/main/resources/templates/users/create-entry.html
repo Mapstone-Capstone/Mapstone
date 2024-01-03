@@ -14,8 +14,8 @@
 			
 			<h1>Create A Journal Entry</h1>
 
-			<!--	hidden field with user map-->
-			<input id="user-map-id" type="hidden" th:value="${map.getId()}" />
+			<!--	hidden field with user map needed in entries.js-->
+			<input id="map-id" type="hidden" th:value="${map.getId()}" />
 			
 			<form th:action="@{/create-entries}" th:method="post" th:object="${entry}">
 				

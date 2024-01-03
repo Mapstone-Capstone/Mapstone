@@ -1,4 +1,4 @@
-import {getAllEntries} from "./mapbox-map-utils.js";
+// import {getAllEntries} from "./mapbox-map-utils.js";
 
 const editJournalBtn = document.getElementById('edit-journal-btn');
 
@@ -26,6 +26,10 @@ const editModalPopup = () => {
             <div>
                 <button id="edit-journal-entry" class="button"> Edit an Entry</button>
             </div>
+            
+<!--            <div>-->
+<!--                <button id="delete-journal-entry" class="button"> Delete an Entry</button>-->
+<!--            </div>-->
         </div>
     </div>
 `
@@ -34,7 +38,7 @@ const editModalPopup = () => {
     const modalBackground = editJournalModal.querySelector(".modal-bg");
     const createEntry = editJournalModal.querySelector("#create-journal-entry");
     const editEntry = editJournalModal.querySelector("#edit-journal-entry");
-    const deleteEntry = editJournalModal.querySelector("#delete-journal-entry");
+    // const deleteEntry = editJournalModal.querySelector("#delete-journal-entry");
 
     //close modal
     modalClose.addEventListener("click", () => {
@@ -54,7 +58,7 @@ const editModalPopup = () => {
         window.location = '/edit-entries';
     });
 
-    //popup delete entry modal
+    // popup delete entry modal
     // deleteEntry.addEventListener("click", () => {
     //
     //     const userId = document.getElementById('all-images');

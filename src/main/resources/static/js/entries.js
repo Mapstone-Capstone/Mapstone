@@ -5,7 +5,7 @@ const inputContainer = document.getElementById('input-container');
 const entryDeleteForm = document.getElementById('delete-entry-form');
 const entryId = document.getElementById('entry-id');
 
-const mapId = document.getElementById('user-map-id').value;
+const mapId = document.getElementById('map-id').value;
 
 const countryId = document.getElementById('country-id');
 const countryEntry = document.querySelectorAll('.country-entry');

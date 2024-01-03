@@ -82,8 +82,12 @@ public class EntriesController {
 
         List<Entry> userEntries = entryDao.getEntriesByUser_Id(loggedInUser.getId());
 
+
+
         //send a new empty user object to the create entry form
         model.addAttribute("entries", userEntries);
+
+        model.addAttribute("map", loggedInUser.getMap());
 
         return "/users/edit-entry";
     }
