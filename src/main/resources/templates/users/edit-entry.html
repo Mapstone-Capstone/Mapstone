@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{partials/fragments :: head(Profile, '/css/create-entry.css')}">
-	<title>Edit Entry</title>
+<head th:replace="~{partials/fragments :: head('Edit Entry', '/css/create-entry.css')}">
 </head>
 <body>
 <div class="page-wrapper">
@@ -53,6 +52,5 @@
 </div>
 <th:block th:replace="~{partials/fragments :: scripts('/js/edit-journal.js')}"></th:block>
 <script src="/js/entries.js"></script>
-<!--<script type="module" src="/js/edit-journal.js"></script>-->
 </body>
 </html>
