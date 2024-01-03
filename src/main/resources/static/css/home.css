@@ -45,12 +45,17 @@ video {
     height: 100%;
     width: 100%;
     z-index: 2;
+
 }
 
 .hero h1 {
     font-family: 'Lilita One', sans-serif;
     font-size: 175px;
     color: whitesmoke;
+
+    @media (max-width: 768px) {
+        font-size: 120px;
+    }
 }
 
 .hero p{
@@ -60,6 +65,9 @@ video {
     letter-spacing: 2px;
     text-shadow: 5px 5px 5px #080063;
 
+    @media (max-width: 768px) {
+        font-size: 20px;
+    }
 }
 
 .hero a {
@@ -75,6 +83,10 @@ video {
     padding: 10px;
     margin: 20px;
     text-shadow: none;
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
 }
 
 .hero a:hover {
@@ -84,7 +96,7 @@ video {
 }
 
 p {
-    font-family: 'Lilita One', sans-serif;
+    font-family: sans-serif;
     font-size: 24px;
 }
 
@@ -110,6 +122,10 @@ a.hero-buttons {
     font-style: normal;
     line-height: normal;
     padding: 20px;
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
 }
 
 .tutorial-examples {
@@ -123,17 +139,21 @@ a.hero-buttons {
 
 .description {
     font-size: 24px;
+    padding: 0 20px;
+
+    & p {
+        padding: 10px;
+    }
 }
 
 /*fragments navbar/footer design*/
 a.nav-link {
-    font-size: 20px;
+    font-size: 18px;
     padding: 10px;
     border-radius: 6px;
     background: whitesmoke;
     color: #080063;
     text-align: center;
-    font-family: Mada sans-serif;
 }
 
 a.nav-link:hover {
@@ -143,14 +163,12 @@ a.nav-link:hover {
 }
 
 button.btn-link.btn {
-    font-size: 20px;
+    font-size: 18px;
     padding: 10px;
     border-radius: 6px;
     background: whitesmoke;
     color: #080063;
     text-align: center;
-    font-family: Mada sans-serif;
     text-decoration: none;
     margin: 0;
-    display: block;
 }

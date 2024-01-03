@@ -39,8 +39,7 @@ a.nav-link, button.btn-link {
     background: #FEFFFF;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
     text-align: center;
-    font-family: Mada, sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -62,7 +61,6 @@ li.meet-us {
     background: #8DE189;
     color: #080063;
     text-align: center;
-    font-family: Mada sans-serif;
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
@@ -74,5 +72,10 @@ li.meet-us {
 .error {
     color: red;
     font-weight: bold;
+}
+
+.navbar-toggler {
+    background-color: white;
+    color: var(--federal-blue);
 }
 

@@ -1,12 +1,11 @@
 /*fragments navbar/footer design*/
 a.nav-link {
-    font-size: 20px;
+    font-size: 18px;
     padding: 10px;
     border-radius: 6px;
     background: white;
     color: #080063;
     text-align: center;
-    font-family: Mada sans-serif;
     font-weight: 700;
 }
 
@@ -17,7 +16,7 @@ a.nav-link:hover {
 }
 
 a.nav-link {
-    font-size: 20px;
+    font-size: 18px;
     padding: 10px;
 }
 /*------*/
@@ -47,7 +46,7 @@ h2 {
 
 p {
     font-size: 24px;
-    text-shadow: 1px 1px 2px #080063;
+
 }
 
 .container.hero p {
@@ -57,13 +56,12 @@ p {
 }
 
 button.btn-link {
-    font-size: 20px;
+    font-size: 18px;
     padding: 10px;
     border-radius: 6px;
     background: white;
     color: #080063;
     text-align: center;
-    font-family: Mada sans-serif;
     font-weight: 700;
     text-decoration: none;
 }
