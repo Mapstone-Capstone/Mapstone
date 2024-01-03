@@ -1,5 +1,5 @@
 import {
-    onMapLoad, openUpdateModal, displayImages, uploadAvatar
+    onMapLoad, openUpdateModal, uploadAvatar
 } from "./mapbox-map-utils.js";
 
 
@@ -15,7 +15,7 @@ await onMapLoad();
 
 uploadAvatar();
 
-displayImages();
+// displayImages();
 
 openUpdateModalButton.addEventListener("click", openUpdateModal);
 
