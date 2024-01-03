@@ -92,5 +92,13 @@ public class ImageController {
 //        return imageDao.getImagesByUser(user);
 //    }
 
+    @PostMapping("/delete-image")
+    public String deleteImageById(@RequestParam (name = "image-id") long id) {
+
+        imageDao.deleteById(id);
+
+        return "redirect:/profile";
+    }
+
 }
 
