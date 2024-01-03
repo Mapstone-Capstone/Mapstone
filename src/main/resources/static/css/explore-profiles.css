@@ -1,12 +1,11 @@
 /*fragments navbar/footer design*/
 a.nav-link {
-    font-size: 20px;
+    font-size: 18px;
     padding: 10px;
     border-radius: 6px;
     background: white;
     color: #080063;
     text-align: center;
-    font-family: Mada sans-serif;
     font-weight: 700;
 }
 
@@ -17,7 +16,7 @@ a.nav-link:hover {
 }
 
 a.nav-link {
-    font-size: 20px;
+    font-size: 18px;
     padding: 10px;
 }
 
@@ -59,13 +58,7 @@ a.nav-link {
     border-radius: 100px;
     padding: unset;
 }
-/*Original search page CSS */
-body{
-    /*!*background-image: url("https://www.wiredrive.com/wp-content/uploads/2016/02/world.gif");*!*/
-    /*background-image: url("https://i.makeagif.com/media/3-16-2018/yIR5RB.gif");*/
-    /*background-repeat: no-repeat;*/
-    /*background-size: cover;*/
-}
+
 
 .user-wrapper{
     opacity: .5;
@@ -207,13 +200,12 @@ body {
 }
 
 button.btn-link {
-    font-size: 20px;
+    font-size: 18px;
     padding: 10px;
     border-radius: 6px;
     background: white;
     color: #080063;
     text-align: center;
-    font-family: Mada sans-serif;
     font-weight: 700;
     text-decoration: none;
 

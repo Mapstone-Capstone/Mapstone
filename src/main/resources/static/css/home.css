@@ -84,7 +84,7 @@ video {
 }
 
 p {
-    font-family: 'Lilita One', sans-serif;
+    font-family: sans-serif;
     font-size: 24px;
 }
 
@@ -123,17 +123,21 @@ a.hero-buttons {
 
 .description {
     font-size: 24px;
+    padding: 0 20px;
+
+    & p {
+        padding: 10px;
+    }
 }
 
 /*fragments navbar/footer design*/
 a.nav-link {
-    font-size: 20px;
+    font-size: 18px;
     padding: 10px;
     border-radius: 6px;
     background: whitesmoke;
     color: #080063;
     text-align: center;
-    font-family: Mada sans-serif;
 }
 
 a.nav-link:hover {
@@ -143,14 +147,12 @@ a.nav-link:hover {
 }
 
 button.btn-link.btn {
-    font-size: 20px;
+    font-size: 18px;
     padding: 10px;
     border-radius: 6px;
     background: whitesmoke;
     color: #080063;
     text-align: center;
-    font-family: Mada sans-serif;
     text-decoration: none;
     margin: 0;
-    display: block;
 }

@@ -67,6 +67,19 @@
             justify-content: center;
             gap: 10px;
 
+            & input {
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid var(--dark-blue);
+                outline: none;
+                transition: all ease 0.3s;
+                width: fit-content;
+
+                &:focus {
+                    border: 1px solid var(--federal-blue);
+                }
+            }
+
             & .modal-buttons {
                 display: flex;
                 justify-content: center;
@@ -89,3 +102,16 @@
     }
 
 }
+
+/*#link {*/
+/*    padding: 10px;*/
+/*    border-radius: 8px;*/
+/*    border: 1px solid var(--dark-blue);*/
+/*    outline: none;*/
+/*    transition: all ease 0.3s;*/
+/*    width: fit-content;*/
+
+/*    &:focus {*/
+/*        border: 1px solid var(--federal-blue);*/
+/*    }*/
+/*}*/

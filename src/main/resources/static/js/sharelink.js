@@ -8,7 +8,7 @@ let facebook = document.getElementById("facebook")
 let linkedin = document.getElementById("linkedin")
 let twiiter = document.getElementById("twitter")
 Sharelink.addEventListener("click", async (event)=>{
-    modal.style.display="block";
+    modal.style.display="flex";
     let link = "https://www.map-share.net/viewprofile/" + id;
     // copies info to the clipboard HOWEVER IT WILL BE A PROMISE
     await navigator.clipboard.writeText(link)
