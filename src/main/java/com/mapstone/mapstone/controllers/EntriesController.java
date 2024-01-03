@@ -39,6 +39,9 @@ public class EntriesController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userDao.getReferenceById(loggedInUser.getId());
 
+        //get the logged in users map
+        Map map = user.getMap();
+
         List<Country> countries = countryDao.getAllByUsers_Id(loggedInUser.getId());
 
         //send a new empty user object to the create entry form
@@ -47,6 +50,8 @@ public class EntriesController {
         model.addAttribute("countries", countries);
 
         model.addAttribute("user", user);
+
+        model.addAttribute("map", map);
 
         return "/users/create-entry";
     }
@@ -77,8 +82,12 @@ public class EntriesController {
 
         List<Entry> userEntries = entryDao.getEntriesByUser_Id(loggedInUser.getId());
 
+
+
         //send a new empty user object to the create entry form
         model.addAttribute("entries", userEntries);
+
+        model.addAttribute("map", loggedInUser.getMap());
 
         return "/users/edit-entry";
     }

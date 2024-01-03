@@ -39,7 +39,7 @@ body {
 
 
 /*DEFAULT PROFILE BUTTONS*/
-button {
+button, .filter-btn {
     display: flex;
     align-items: center;
     justify-content: center;

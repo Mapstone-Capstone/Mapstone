@@ -5,6 +5,7 @@ const inputContainer = document.getElementById('input-container');
 const entryDeleteForm = document.getElementById('delete-entry-form');
 const entryId = document.getElementById('entry-id');
 
+const mapId = document.getElementById('map-id').value;
 
 const countryId = document.getElementById('country-id');
 const countryEntry = document.querySelectorAll('.country-entry');
@@ -62,13 +63,9 @@ countryEntry.forEach((country) => {
        imageContainer.innerHTML = "";
        imageContainer.innerHTML = `<h1>Images of your trip</h1>`;
 
-       getImagesByCountryId(country.value).then((response) => {
-
-           console.log(response)
+       getImagesByCountryAndMapId(country.value, mapId).then((response) => {
 
            response.forEach((imageObject) => {
-
-               console.log(imageObject)
 
                imageContainer.innerHTML += `
                 <img class="country-image" src="${imageObject.imageUrl}" alt="country image">
@@ -87,8 +84,8 @@ countryEntry.forEach((country) => {
 });
 
 
-const getImagesByCountryId = async (id) => {
-    const url = `${urlpattern}/api/image/country/${id}`;
+const getImagesByCountryAndMapId = async (countryId, mapId) => {
+    const url = `${urlpattern}/api/image/country/${countryId}/${mapId}`;
     let options = {
         method: "GET",
         headers: {

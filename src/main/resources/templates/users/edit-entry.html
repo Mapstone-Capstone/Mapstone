@@ -13,6 +13,9 @@
 	
 	<div class="container">
 
+			<!-- hidden map id needed in entries.js-->
+		<input type="hidden" id="map-id" th:value="${map.getId()}">
+
 		<main>
 			<div>
 				<form th:action="@{/delete-entries}" th:method="post" id="delete-entry-form" class="delete-btn-hide">
@@ -48,10 +51,8 @@
 	
 <footer th:replace="~{partials/fragments :: footer} "></footer>
 </div>
-<th:block th:replace="~{partials/fragments :: scripts('/js/main.js')}"></th:block>
-<script src="/js/badges.js"></script>
-<script src="/js/sharelink.js"></script>
+<th:block th:replace="~{partials/fragments :: scripts('/js/edit-journal.js')}"></th:block>
 <script src="/js/entries.js"></script>
-<script src="/js/edit-journal.js"></script>
+<!--<script type="module" src="/js/edit-journal.js"></script>-->
 </body>
 </html>
