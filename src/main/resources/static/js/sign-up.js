@@ -23,6 +23,7 @@ let firstNameValid = false;
 let lastNameValid = false;
 let emailValid = false;
 let passwordValid = false;
+let passwordComplex = false;
 
 //validate thr username as the user types, username must be at least 3 characters long
 username.addEventListener("input", (e) => {
@@ -81,33 +82,39 @@ email.addEventListener("input", (e) => {
     }
 });
 
-//validate the password as the user types, password must be at least 8 characters long, contain one uppercase, one number, and one special character
+//validate that the password meets the regex requirements as the user types AND that the password and password confirm fields match
 password.addEventListener("input", (e) => {
     e.preventDefault();
-    if (password.value.length < 8 || !password.value.match(/[A-Z]/) || !password.value.match(/[0-9]/) || !password.value.match(/[!@#$%^&*]/)) {
+    if (password.value.length < 8 || !regex.test(password.value)) {
         password.classList.add("invalid");
-        passwordValid = false;
+        passwordComplex = false;
         passwordError.innerText = "Password must be at least 8 characters long, contain one uppercase, one number, and one special character.";
     } else {
         password.classList.remove("invalid");
-        passwordValid = true;
+        passwordComplex = true;
         passwordError.innerText = "";
+        checkPassword();
     }
+
+
 });
 
-//validate the password and password confirm fields match
-passwordConfirm.addEventListener("input", (e) => {
-    e.preventDefault();
-    if (passwordConfirm.value !== password.value) {
-        passwordConfirm.classList.add("invalid");
-        passwordValid = false;
-        passwordError.innerText = "Passwords must match.";
-    } else {
-        passwordConfirm.classList.remove("invalid");
-        passwordValid = true;
-        passwordError.innerText = "";
-    }
-});
+const checkPassword = () => {
+    passwordConfirm.addEventListener("input", (e) => {
+        e.preventDefault();
+        if (password.value !== passwordConfirm.value) {
+            passwordConfirm.classList.add("invalid");
+            passwordValid = false;
+            passwordError.innerText = "Passwords must match.";
+        } else {
+            passwordConfirm.classList.remove("invalid");
+            passwordValid = true;
+            passwordError.innerText = "";
+        }
+    });
+}
+
+
 
 
 //validate the form on submit
@@ -115,7 +122,7 @@ registerButton.addEventListener("click", (e) => {
     console.log("click");
 
 //if all fields are valid, submit the form
-    if (usernameValid && firstNameValid && lastNameValid && emailValid && passwordValid) {
+    if (usernameValid && firstNameValid && lastNameValid && emailValid  && passwordComplex && passwordValid) {
         registerForm.submit();
     }
 
