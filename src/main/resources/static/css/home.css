@@ -133,6 +133,13 @@ a.hero-buttons {
     color: #080063;
 }
 
+/*re-styled to prevent images from being squished on smaller screens*/
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
 .carousel-caption {
     font-style: italic;
 }
