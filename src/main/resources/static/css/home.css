@@ -45,12 +45,17 @@ video {
     height: 100%;
     width: 100%;
     z-index: 2;
+
 }
 
 .hero h1 {
     font-family: 'Lilita One', sans-serif;
     font-size: 175px;
     color: whitesmoke;
+
+    @media (max-width: 768px) {
+        font-size: 120px;
+    }
 }
 
 .hero p{
@@ -60,6 +65,9 @@ video {
     letter-spacing: 2px;
     text-shadow: 5px 5px 5px #080063;
 
+    @media (max-width: 768px) {
+        font-size: 20px;
+    }
 }
 
 .hero a {
@@ -75,6 +83,10 @@ video {
     padding: 10px;
     margin: 20px;
     text-shadow: none;
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
 }
 
 .hero a:hover {
@@ -110,6 +122,10 @@ a.hero-buttons {
     font-style: normal;
     line-height: normal;
     padding: 20px;
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
 }
 
 .tutorial-examples {

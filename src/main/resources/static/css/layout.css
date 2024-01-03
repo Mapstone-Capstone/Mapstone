@@ -74,3 +74,8 @@ li.meet-us {
     font-weight: bold;
 }
 
+.navbar-toggler {
+    background-color: white;
+    color: var(--federal-blue);
+}
+
