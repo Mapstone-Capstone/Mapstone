@@ -13,6 +13,9 @@
 		<main>
 			
 			<h1>Create A Journal Entry</h1>
+
+			<!--	hidden field with user map-->
+			<input id="user-map-id" type="hidden" th:value="${map.getId()}" />
 			
 			<form th:action="@{/create-entries}" th:method="post" th:object="${entry}">
 				
@@ -61,8 +64,5 @@
 <footer th:replace="~{partials/fragments :: footer} "></footer>
 </div>
 <th:block th:replace="~{partials/fragments :: scripts('/js/entries.js')}"></th:block>
-<!--<script src="/js/badges.js"></script>-->
-<!--<script src="/js/sharelink.js"></script>-->
-<!--<script src="/js/entries.js"></script>-->
 </body>
 </html>
