@@ -53,7 +53,7 @@ public class EntriesController {
 
         model.addAttribute("map", map);
 
-        return "/users/create-entry";
+        return "users/create-entry";
     }
 
     @PostMapping("/create-entries")
@@ -89,7 +89,7 @@ public class EntriesController {
 
         model.addAttribute("map", loggedInUser.getMap());
 
-        return "/users/edit-entry";
+        return "users/edit-entry";
     }
 
     @PostMapping("/edit-entries")
